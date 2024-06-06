@@ -5,7 +5,7 @@ import StatusField from '@/components/controlled-table/status-field';
 import { Badge, Text, Title, Button, Input } from 'rizzui';
 import { STATUSES } from '@/data/users-data';
 import { rolesList } from '@/data/roles-permissions';
-import ModalButton from '@/app/shared/modal-button';
+import ModalButton from '@/app/shared/commons/modal-button';
 import CreateUser from '@/app/shared/roles-permissions/create-user';
 
 const statusOptions = [

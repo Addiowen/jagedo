@@ -37,7 +37,7 @@ export default function HeaderMenuRight() {
         </ActionIcon>
       </MessagesDropdown>
 
-      {/* <SettingsButton /> */}
+      <SettingsButton />
       <ProfileMenu />
     </div>
   );

@@ -5,7 +5,7 @@ import { getColumns } from '@/app/shared/account-settings/logged-in-devices/colu
 import { useTable } from '@/hooks/use-table';
 import { useColumn } from '@/hooks/use-column';
 import { Button } from 'rizzui';
-import TableFooter from '@/app/shared/table-footer';
+import TableFooter from '@/app/shared/commons/table-footer';
 import ControlledTable from '@/components/controlled-table';
 import { exportToCSV } from '@/utils/export-to-csv';
 

@@ -6,7 +6,7 @@ import { routes } from '@/config/routes';
 import { HeaderCell } from '@/components/ui/table';
 import { Checkbox, Title, Text, Tooltip, ActionIcon } from 'rizzui';
 import PencilIcon from '@/components/icons/pencil';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 type Columns = {
   sortConfig?: any;

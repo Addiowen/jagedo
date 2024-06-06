@@ -1,5 +1,5 @@
 import CreateCategory from '@/app/shared/ecommerce/category/create-category';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
 import Link from 'next/link';

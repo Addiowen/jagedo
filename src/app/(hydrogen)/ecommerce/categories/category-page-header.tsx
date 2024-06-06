@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import { Button, Title, ActionIcon } from 'rizzui';
 import CreateCategory from '@/app/shared/ecommerce/category/create-category';
 import { PiPlusBold, PiXBold } from 'react-icons/pi';

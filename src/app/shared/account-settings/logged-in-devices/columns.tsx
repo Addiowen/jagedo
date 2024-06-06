@@ -5,7 +5,7 @@ import { HeaderCell } from '@/components/ui/table';
 import { Checkbox, Title, Text, Tooltip, ActionIcon, Badge } from 'rizzui';
 import cn from '@/utils/class-names';
 import PencilIcon from '@/components/icons/pencil';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 const statusColors = {
   Offline: '',

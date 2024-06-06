@@ -1,11 +1,11 @@
 import dynamic from 'next/dynamic';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import { routes } from '@/config/routes';
 import FileStats from '@/app/shared/file/manager/file-stats';
 import { metaObject } from '@/config/site.config';
-import UploadButton from '@/app/shared/upload-button';
+import UploadButton from '@/app/shared/commons/upload-button';
 import PageLayout from '@/app/(hydrogen)/file-manager/page-layout';
-const FileUpload = dynamic(() => import('@/app/shared/file-upload'), {
+const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
 });
 

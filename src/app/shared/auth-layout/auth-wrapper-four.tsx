@@ -10,6 +10,7 @@ import { PiArrowLineRight, PiUserCirclePlus } from 'react-icons/pi';
 import { FcGoogle } from 'react-icons/fc';
 import OrSeparation from '@/app/shared/auth-layout/or-separation';
 import { siteConfig } from '@/config/site.config';
+import { BsFacebook } from 'react-icons/bs';
 
 function AuthNavLink({
   href,
@@ -80,6 +81,10 @@ export default function AuthWrapperFour({
                   <FcGoogle className="me-2 h-4 w-4 shrink-0" />
                   <span className="truncate">Signin with Google</span>
                 </Button>
+                <Button variant="outline" className="h-11 w-full">
+                  <BsFacebook className="me-2 h-4 w-4 shrink-0 md:h-5 md:w-5" />
+                  <span className="truncate">Signin with Facebook</span>
+                </Button>
               </div>
               <OrSeparation
                 title={`Or, Sign ${isSignIn ? 'in' : 'up'} with your email`}
@@ -142,12 +147,12 @@ function AuthFooter() {
   return (
     <footer className="flex flex-col-reverse items-center justify-between px-4 py-5 lg:flex-row lg:px-16 lg:py-6 2xl:px-24 2xl:py-10">
       <div className="text-center leading-relaxed text-gray-500 lg:text-start">
-        © Copyright 2024. {' '}
+        © Copyright 2023. Theme by{' '}
         <Link
-          href="https://jagedo.co.ke/"
+          href="https://redq.io/"
           className="font-medium transition-colors hover:text-primary"
         >
-          Jagedo
+          RedQ
         </Link>
         , all rights reserved.
       </div>

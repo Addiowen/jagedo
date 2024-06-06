@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import UploadZone from '@/components/ui/file-upload/upload-zone';
-import FormGroup from '@/app/shared/form-group';
+import FormGroup from '@/app/shared/commons/form-group';
 import cn from '@/utils/class-names';
 
 interface ProductMediaProps {

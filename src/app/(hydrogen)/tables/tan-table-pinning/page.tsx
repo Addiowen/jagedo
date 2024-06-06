@@ -2,8 +2,8 @@
 
 import TableColumnPinning from '@/components/tan-table/column-pinning';
 import TableRowPinning from '@/components/tan-table/row-pinning';
-import ImportButton from '@/app/shared/import-button';
-import PageHeader from '@/app/shared/page-header';
+import ImportButton from '@/app/shared/commons/import-button';
+import PageHeader from '@/app/shared/commons/page-header';
 import { routes } from '@/config/routes';
 
 const pageHeader = {

@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import { Button } from 'rizzui';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import InvoiceTable from '@/app/shared/invoice/invoice-list/table';
 import { PiPlusBold } from 'react-icons/pi';
 import { invoiceData } from '@/data/invoice-data';
-import ExportButton from '@/app/shared/export-button';
+import ExportButton from '@/app/shared/commons/export-button';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {

@@ -1,6 +1,6 @@
 // import ExportButton from '@/app/shared/export-button';
-import ImportButton from '@/app/shared/import-button';
-import PageHeader from '@/app/shared/page-header';
+import ImportButton from '@/app/shared/commons/import-button';
+import PageHeader from '@/app/shared/commons/page-header';
 import TableBasic from '@/components/tan-table/basic';
 import { routes } from '@/config/routes';
 

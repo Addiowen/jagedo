@@ -9,7 +9,7 @@ import { getColumns } from '@/app/shared/file/manager/file-list/columns';
 import FileFilters from '@/app/shared/file/manager/file-filters';
 import ControlledTable from '@/components/controlled-table';
 import { allFilesData } from '@/data/all-files';
-const TableFooter = dynamic(() => import('@/app/shared/table-footer'), {
+const TableFooter = dynamic(() => import('@/app/shared/commons/table-footer'), {
   ssr: false,
 });
 

@@ -1,7 +1,7 @@
 import { routes } from '@/config/routes';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import CreateInvoice from '@/app/shared/invoice/create-invoice';
-import ImportButton from '@/app/shared/import-button';
+import ImportButton from '@/app/shared/commons/import-button';
 import { metaObject } from '@/config/site.config';
 import { Metadata } from 'next';
 

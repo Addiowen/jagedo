@@ -16,7 +16,7 @@ import PencilIcon from '@/components/icons/pencil';
 import AvatarCard from '@/components/ui/avatar-card';
 import { ProductType } from '@/data/products-data';
 import { PiStarFill } from 'react-icons/pi';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 // get status badge
 function getStatusBadge(status: string) {

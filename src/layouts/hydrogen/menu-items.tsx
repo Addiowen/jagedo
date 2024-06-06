@@ -58,32 +58,14 @@ export const menuItems = [
     href: '/',
     icon: <PiFolder />,
   },
-  {
-    name: 'Appointment',
-    href: routes.appointment.dashboard,
-    icon: <PiCalendarDuotone />,
-  },
-  {
-    name: 'Executive',
-    href: routes.executive.dashboard,
-    icon: <PiBriefcaseDuotone />,
-  },
+
   {
     name: 'Job Board',
     href: routes.jobBoard.dashboard,
     icon: <PiShapesDuotone />,
     badge: 'NEW',
   },
-  {
-    name: 'Financial',
-    href: routes.financial.dashboard,
-    icon: <PiCurrencyCircleDollarDuotone />,
-  },
-  {
-    name: 'Logistics',
-    href: routes.logistics.dashboard,
-    icon: <PiPackageDuotone />,
-  },
+
   {
     name: 'E-Commerce',
     href: routes.eCommerce.dashboard,
@@ -94,11 +76,6 @@ export const menuItems = [
     href: routes.analytics,
     icon: <PiChartBarDuotone />,
     badge: '',
-  },
-  {
-    name: 'Support',
-    href: routes.support.dashboard,
-    icon: <PiHeadsetDuotone />,
   },
 
   // label start
@@ -216,62 +193,19 @@ export const menuItems = [
       },
     ],
   },
-  {
-    name: 'Logistics',
-    href: '#',
-    icon: <PiPackageDuotone />,
-    dropdownItems: [
-      {
-        name: 'Shipment List',
-        href: routes.logistics.shipmentList,
-      },
-      {
-        name: 'Shipment Details',
-        href: routes.logistics.shipmentDetails(DUMMY_ID),
-      },
-      {
-        name: 'Create Shipment',
-        href: routes.logistics.createShipment,
-      },
-      {
-        name: 'Edit Shipment',
-        href: routes.logistics.editShipment(DUMMY_ID),
-      },
-      {
-        name: 'Customer Profile',
-        href: routes.logistics.customerProfile,
-      },
-      {
-        name: 'Tracking',
-        href: routes.logistics.tracking(DUMMY_ID),
-      },
-    ],
-  },
-  {
-    name: 'Appointment',
-    href: routes.appointment.appointmentList,
-    icon: <PiCalendarDuotone />,
-  },
-  {
-    name: 'File Manager',
-    href: routes.file.manager,
-    icon: <PiFolder />,
-  },
-  {
-    name: 'Event Calendar',
-    href: routes.eventCalendar,
-    icon: <PiCalendarPlusDuotone />,
-  },
+
+  // {
+  //   name: 'File Manager',
+  //   href: routes.file.manager,
+  //   icon: <PiFolder />,
+  // },
+
   {
     name: 'Roles & Permissions',
     href: routes.rolesPermissions,
     icon: <PiFolderLockDuotone />,
   },
-  {
-    name: 'Point of Sale',
-    href: routes.pos.index,
-    icon: <PiCreditCardDuotone />,
-  },
+
   {
     name: 'Invoice Builder',
     href: routes.invoice.builder,
@@ -279,24 +213,7 @@ export const menuItems = [
     badge: 'NEW',
   },
   // label start
-  {
-    name: 'Search & Filters',
-  },
-  {
-    name: 'Real Estate',
-    href: routes.searchAndFilter.realEstate,
-    icon: <PiHouseLineDuotone />,
-  },
-  {
-    name: 'Flight Booking',
-    href: routes.searchAndFilter.flight,
-    icon: <PiAirplaneTiltDuotone />,
-  },
-  {
-    name: 'NFT',
-    href: routes.searchAndFilter.nft,
-    icon: <PiCoinDuotone />,
-  },
+
   // label end
   // label start
   {
@@ -323,11 +240,7 @@ export const menuItems = [
   //   href: routes.widgets.banners,
   //   icon: <PiImageDuotone />,
   // },
-  {
-    name: 'Maps',
-    href: routes.widgets.maps,
-    icon: <PiMapPinLineDuotone />,
-  },
+
   {
     name: 'Email Templates',
     href: routes.emailTemplates,
@@ -353,11 +266,7 @@ export const menuItems = [
     href: routes.forms.personalInformation,
     icon: <PiUserDuotone />,
   },
-  {
-    name: 'Newsletter',
-    href: routes.forms.newsletter,
-    icon: <PiEnvelopeSimpleOpenDuotone />,
-  },
+
   {
     name: 'Multi Step',
     href: routes.multiStep,
@@ -479,60 +388,7 @@ export const menuItems = [
     name: 'Authentication',
   },
   // label end
-  {
-    name: 'Sign Up',
-    href: '#',
-    icon: <PiUserPlusDuotone />,
-    dropdownItems: [
-      {
-        name: 'Modern Sign up',
-        href: routes.auth.signUp1,
-      },
-      {
-        name: 'Vintage Sign up',
-        href: routes.auth.signUp2,
-      },
-      {
-        name: 'Trendy Sign up',
-        href: routes.auth.signUp3,
-      },
-      {
-        name: 'Elegant Sign up',
-        href: routes.auth.signUp4,
-      },
-      {
-        name: 'Classic Sign up',
-        href: routes.auth.signUp5,
-      },
-    ],
-  },
-  {
-    name: 'Sign In',
-    href: '#',
-    icon: <PiShieldCheckDuotone />,
-    dropdownItems: [
-      {
-        name: 'Modern Sign in',
-        href: routes.auth.signIn1,
-      },
-      {
-        name: 'Vintage Sign in',
-        href: routes.auth.signIn2,
-      },
-      {
-        name: 'Trendy Sign in',
-        href: routes.auth.signIn3,
-      },
-      {
-        name: 'Elegant Sign in',
-        href: routes.auth.signIn4,
-      },
-      {
-        name: 'Classic Sign in',
-        href: routes.auth.signIn5,
-      },
-    ],
-  },
+
   {
     name: 'Forgot Password',
     href: '#',

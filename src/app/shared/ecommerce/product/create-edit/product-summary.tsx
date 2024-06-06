@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Input } from 'rizzui';
 import cn from '@/utils/class-names';
-import FormGroup from '@/app/shared/form-group';
+import FormGroup from '@/app/shared/commons/form-group';
 import {
   categoryOption,
   typeOption,

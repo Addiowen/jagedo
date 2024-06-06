@@ -8,7 +8,7 @@ import EyeIcon from '@/components/icons/eye';
 import PencilIcon from '@/components/icons/pencil';
 import TableAvatar from '@/components/ui/avatar-card';
 import DateCell from '@/components/ui/date-cell';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {

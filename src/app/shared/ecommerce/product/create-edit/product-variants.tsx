@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { Input, Button, ActionIcon } from 'rizzui';
 import cn from '@/utils/class-names';
-import FormGroup from '@/app/shared/form-group';
+import FormGroup from '@/app/shared/commons/form-group';
 import { useCallback } from 'react';
 import {
   variantOption,

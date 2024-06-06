@@ -5,7 +5,7 @@ import { Person } from '@/data/tan-table-data';
 import DateCell from '@/components/ui/date-cell';
 import PencilIcon from '@/components/icons/pencil';
 import AvatarCard from '@/components/ui/avatar-card';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 import { createColumnHelper } from '@tanstack/react-table';
 import { PiCaretDownBold, PiCaretUpBold } from 'react-icons/pi';
 import { ActionIcon, Badge, Checkbox, Text, Tooltip } from 'rizzui';

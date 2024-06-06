@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf -g \"{node_modules,.next,.cache}\"",
-    "dev": "next dev --turbo",
+    "dev": "next dev -p 3001 --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -125,6 +125,15 @@
   },
   "engines": {
     "node": ">=20.11.1"
+  },
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
+  "terminal.integrated.env.windows": {
+    "PATH": "${env:PATH};${workspaceRoot}\\node_modules\\.bin;${env:PNPM_HOME}"
   },
   "readme": "ERROR: No README data found!",
   "_id": "isomorphic-furyroad@0.0.1"

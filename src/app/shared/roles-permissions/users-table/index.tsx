@@ -10,7 +10,7 @@ const FilterElement = dynamic(
   () => import('@/app/shared/roles-permissions/users-table/filter-element'),
   { ssr: false }
 );
-const TableFooter = dynamic(() => import('@/app/shared/table-footer'), {
+const TableFooter = dynamic(() => import('@/app/shared/commons/table-footer'), {
   ssr: false,
 });
 

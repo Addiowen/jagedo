@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { routes } from '@/config/routes';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import { Input, Empty, EmptyProductBoxIcon } from 'rizzui';
 import cn from '@/utils/class-names';
 import SVGLoader from '@/components/svg-loader';

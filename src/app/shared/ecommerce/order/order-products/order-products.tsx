@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Table, { HeaderCell } from '@/components/ui/table';
 import { Checkbox, Loader, Title, Text } from 'rizzui';
 import { useTable } from '@/hooks/use-table';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 const initialData = [
   {

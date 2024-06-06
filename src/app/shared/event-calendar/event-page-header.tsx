@@ -1,8 +1,8 @@
 'use client';
 
-import ExportButton from '@/app/shared/export-button';
-import ModalButton from '@/app/shared/modal-button';
-import PageHeader from '@/app/shared/page-header';
+import ExportButton from '@/app/shared/commons/export-button';
+import ModalButton from '@/app/shared/commons/modal-button';
+import PageHeader from '@/app/shared/commons/page-header';
 import { routes } from '@/config/routes';
 import { eventData } from '@/data/event-data';
 import EventForm from '@/app/shared/event-calendar/event-form';

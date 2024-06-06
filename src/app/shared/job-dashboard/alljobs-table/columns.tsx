@@ -4,7 +4,7 @@ import { HeaderCell } from '@/components/ui/table';
 import { Text, Checkbox, ActionIcon, Tooltip, Select } from 'rizzui';
 import PencilIcon from '@/components/icons/pencil';
 import EyeIcon from '@/components/icons/eye';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 import DateCell from '@/components/ui/date-cell';
 import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';

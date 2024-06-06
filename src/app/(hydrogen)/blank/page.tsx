@@ -1,4 +1,4 @@
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {
