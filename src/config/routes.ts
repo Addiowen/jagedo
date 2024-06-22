@@ -28,7 +28,7 @@ export const routes = {
   },
 
   customers: {
-    dashboard: '/customers',
+    dashboard: '/customers/dashboard',
     generateInvoice: '/customers/generate-invoice',
     invoice: '/customers/invoice',
     jobs: '/customers/jobs',

@@ -142,6 +142,11 @@ export const menuItems = [
     icon: <PiUserDuotone />,
     dropdownItems: [
       {
+        name: 'Dashboard',
+        href: routes.customers.dashboard,
+        badge: '',
+      },
+      {
         name: 'generate invoice',
         href: routes.customers.generateInvoice,
         badge: '',
