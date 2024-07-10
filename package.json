@@ -47,6 +47,7 @@
     "ahooks": "^3.7.11",
     "clsx": "^2.1.1",
     "date-arithmetic": "^4.1.0",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.3",

@@ -50,7 +50,7 @@ const columns = [
     dataIndex: 'total',
     key: 'total',
     width: 200,
-    render: (value: string) => <Text className="font-medium">${value}</Text>,
+    render: (value: string) => <Text className="font-medium">KSH {value}</Text>,
   },
 ];
 
@@ -142,7 +142,7 @@ export default function InvoiceDetails() {
             <Text className="flex items-center justify-between border-b border-muted  lg:pb-5">
               Subtotal:{' '}
               <Text as="span" className="font-semibold">
-                200
+                KSH 200
               </Text>
             </Text>
 
@@ -153,7 +153,7 @@ export default function InvoiceDetails() {
               </Text>
             </Text>
             <Text className="flex items-center justify-between  text-base font-semibold text-gray-900 lg:pt-5">
-              Total: <Text as="span">232</Text>
+              Total: <Text as="span">KSH 232</Text>
             </Text>
           </div>
         </div>

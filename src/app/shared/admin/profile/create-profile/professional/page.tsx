@@ -14,8 +14,11 @@ const GenerateInvoice: React.FC = () => {
   const [description, setDescription] = useState('');
   const [emergency, setEmergency] = useState('');
   const [date, setDate] = useState('');
-  const [skill, setSkill] = useState('');
+  const [requestType, setRequestType] = useState('');
   const [location, setLocation] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [managedBy, setManagedBy] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +34,7 @@ const GenerateInvoice: React.FC = () => {
       description,
       emergency,
       date,
-      skill,
+      
       location,
       file,
     });
@@ -60,7 +63,7 @@ const GenerateInvoice: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label className="block text-sm font-medium text-gray-700">
                 Managed by: You
               </label>
@@ -70,6 +73,26 @@ const GenerateInvoice: React.FC = () => {
                 readOnly
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
+            </div> */}
+            <div className="form-group">
+              <label
+                htmlFor="managedBy"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Managed By
+              </label>
+              <select
+                id="managedBy"
+                value={managedBy}
+                onChange={(e) => setManagedBy(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Manage Type
+                </option>
+                <option value="Skill1">You</option>
+                <option value="Skill2">Jagedo</option>
+              </select>
             </div>
             <div className="form-group">
               <label
@@ -79,17 +102,16 @@ const GenerateInvoice: React.FC = () => {
                 Skill
               </label>
               <select
-                id="skill"
-                value={skill}
-                onChange={(e) => setSkill(e.target.value)}
+                id="requestType"
+                value={requestType}
+                onChange={(e) => setRequestType(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="" disabled>
-                  Select a skill
+                  Select Request Type
                 </option>
-                <option value="Skill1">Skill 1</option>
-                <option value="Skill2">Skill 2</option>
-                <option value="Skill3">Skill 3</option>
+                <option value="Skill1">Standard 1</option>
+                <option value="Skill2">Standard 2</option>
               </select>
             </div>
             <div className="form-group">
@@ -132,15 +154,62 @@ const GenerateInvoice: React.FC = () => {
                 htmlFor="location"
                 className="block text-sm font-medium text-gray-700"
               >
-                Confirm Location
+                Location
               </label>
-              <input
-                type="text"
+              <select
                 id="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+              >
+                <option value="" disabled>
+                  Select Location
+                </option>
+                <option value="Skill1">Nairobi</option>
+                <option value="Skill2">Kisumu</option>
+                <option value="Skill3">Mombasa</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="Skill1">Category 1</option>
+                <option value="Skill2">Category 2</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label
+                htmlFor="subCategory"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Sub Category
+              </label>
+              <select
+                id="subCategory"
+                value={location}
+                onChange={(e) => setSubCategory(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Sub-Category
+                </option>
+                <option value="Skill1">Sub-Category 1</option>
+                <option value="Skill2">Sub-Category 2</option>
+                <option value="Skill3">Sub-Category 3</option>
+              </select>
             </div>
             <div className="form-group">
               <label
@@ -183,42 +252,31 @@ const GenerateInvoice: React.FC = () => {
         </form>
 
         <div className="mt-8">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Packages:
-          </h3>
-          <div className="mt-4 flex space-x-6">
-            <div className="package w-1/3 rounded-lg bg-gray-100 p-4 shadow-md">
-              <h4 className="text-md font-bold">Emergency</h4>
-              <ul className="mt-2 list-inside list-disc text-sm">
-                <li>Standard linkage fee of Ksh 3000 exclusive Materials</li>
-                <li>Response time within 24hrs</li>
-                <li>Fee inclusive of one day payment to Fundi</li>
-              </ul>
-            </div>
-            <div className="package w-1/3 rounded-lg bg-gray-100 p-4 shadow-md">
-              <h4 className="text-md font-bold">
-                Standard Request At least 3 Fundi without quotes
-              </h4>
-              <ul className="mt-2 list-inside list-disc text-sm">
-                <li>Standard linkage fee of Ksh 1000</li>
-                <li>Responds within 4 - 5 days</li>
-                <li>Managed by YOU (Customer)</li>
-                <li>Fee is exclusive of payment to fundi</li>
-              </ul>
-            </div>
-            <div className="package w-1/3 rounded-lg bg-gray-100 p-4 shadow-md">
-              <h4 className="text-md font-bold">
-                Standard Request At least 3 Fundi with quotes
-              </h4>
-              <ul className="mt-2 list-inside list-disc text-sm">
-                <li>Standard linkage fee of Ksh 5000</li>
-                <li>Response within 7 days</li>
-                <li>Managed by YOU (Customer)</li>
-                <li>Fee is exclusive of payment to fundi</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <h3 className="text-lg font-medium leading-6 text-gray-900">
+    Packages:
+  </h3>
+  <div className="mt-4 flex space-x-6">
+    <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
+      <h4 className="text-md font-semi-bold">Standard Request Atleast 3 contractors</h4>
+      <ul className="mt-2 list-inside list-disc text-sm">
+        <li>Standard linkage fee of Ksh 10,000</li>
+        <li>Response time within 4-5 hrs</li>
+        <li>Managed by You</li>
+      </ul>
+    </div>
+
+    <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
+      <h4 className="text-md font-semi-bold">
+        Standard Request Contractor with quotes
+      </h4>
+      <ul className="mt-2 list-inside list-disc text-sm">
+        <li>Response within 4-5 days</li>
+        <li>Managed by Jagedo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
   );
