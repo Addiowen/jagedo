@@ -44,21 +44,19 @@ interface Invoice {
 
 const InvoiceList: React.FC = () => {
   const invoices: Invoice[] = [
-    { jobId: '12345', amount: 5000, status: 'Paid', paidAt: '2024-07-08T12:34:56Z' },
-    { jobId: '12346', amount: 7000, status: 'Pending', paidAt: null },
-    { jobId: '12347', amount: 8000, status: 'Paid', paidAt: '2024-07-08T14:00:00Z' },
+    { jobId: '#J12645', amount: 5000, status: 'Paid', paidAt: '2024-07-08T12:34:56Z' },
+    { jobId: '#J17346', amount: 7000, status: 'Pending', paidAt: null },
+    { jobId: '#J18847', amount: 8000, status: 'Paid', paidAt: '2024-07-08T14:00:00Z' },
     // Add more invoices here
   ];
 
   return (
-    <WidgetCard>
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-semibold mb-4">Invoices</h1>
       {invoices.map((invoice) => (
         <InvoiceCard key={invoice.jobId} {...invoice} />
       ))}
     </div>
-    </WidgetCard>
   );
 };
 

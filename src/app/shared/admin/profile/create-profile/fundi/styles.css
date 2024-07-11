@@ -1,0 +1,74 @@
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  textarea, select, input[type="text"], input[type="date"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .submit-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .packages {
+    margin-top: 40px;
+  }
+  
+  .packages h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .package {
+    background-color: #f0f4f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .package h4 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+  
+  .package ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  

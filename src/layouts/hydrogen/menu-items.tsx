@@ -52,6 +52,12 @@ import {
   PiStar,
   PiProjectorScreenChart,
   PiTrolleyDuotone,
+  PiGarage,
+  PiGear,
+  PiUserCirclePlus,
+  PiLock,
+  PiScrewdriver,
+  PiInfo,
 } from 'react-icons/pi';
 
 interface MenuItem {
@@ -119,7 +125,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: 'Contractor',
-    href: routes.admin.editFundiProfile,
+    href: routes.admin.createContractorProfile,
     badge: '',
     icon: <PiHardHat />,
   },
@@ -174,12 +180,28 @@ export const menuItems: MenuItem[] = [
   {
     name: 'Account Settings',
     href: routes.forms.profileSettings,
-    icon: <PiUserGearDuotone />,
+    icon: <PiGear />,
     dropdownItems: [
       {
-        name: '',
-        href: '',
+        name: 'Profile',
+        href: routes.forms.personalInformation,
         badge: '',
+        icon: <PiUserCirclePlus/>,
+      },
+      {
+        name: 'Help Desk',
+        href: routes.blank,
+        icon: <PiScrewdriver/>,
+      },
+      {
+        name: 'FAQs',
+        href: routes.blank,
+        icon: <PiInfo/>,
+      },
+      {
+        name: 'Logout',
+        href: routes.blank,
+        icon: <PiLock/>,
       },
     ],
   },

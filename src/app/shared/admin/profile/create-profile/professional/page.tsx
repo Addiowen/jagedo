@@ -63,17 +63,7 @@ const GenerateInvoice: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            {/* <div className="form-group">
-              <label className="block text-sm font-medium text-gray-700">
-                Managed by: You
-              </label>
-              <input
-                type="text"
-                value="Managed by: You"
-                readOnly
-                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
-            </div> */}
+            
             <div className="form-group">
               <label
                 htmlFor="managedBy"
@@ -257,7 +247,7 @@ const GenerateInvoice: React.FC = () => {
   </h3>
   <div className="mt-4 flex space-x-6">
     <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
-      <h4 className="text-md font-semi-bold">Standard Request Atleast 3 contractors</h4>
+      <h4 className="text-md font-semi-bold">Standard Request Atleast 3 Professionals</h4>
       <ul className="mt-2 list-inside list-disc text-sm">
         <li>Standard linkage fee of Ksh 10,000</li>
         <li>Response time within 4-5 hrs</li>
@@ -267,7 +257,7 @@ const GenerateInvoice: React.FC = () => {
 
     <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
       <h4 className="text-md font-semi-bold">
-        Standard Request Contractor with quotes
+        Standard Request Professional with quotes
       </h4>
       <ul className="mt-2 list-inside list-disc text-sm">
         <li>Response within 4-5 days</li>

@@ -1,10 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { QRCodeSVG } from 'qrcode.react';
 import { Badge, Title, Text, Button } from 'rizzui';
 import Table from '@/components/ui/table';
 import { siteConfig } from '@/config/site.config';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
+import ToastButton from '../buttons/page';
+import InvoiceBadge from './invoice-list/invoice-badge';
 
 const invoiceItems = [
   {
@@ -68,6 +73,12 @@ function InvoiceDetailsListTable() {
 }
 
 export default function InvoiceDetails() {
+  const [paymentStatus, setPaymentStatus] = useState('Unpaid');
+
+  const handlePayment = () => {
+    setPaymentStatus('Paid');
+  };
+
   return (
     <>
       <div className="w-full rounded-xl border border-muted p-5 text-sm sm:p-6 lg:p-8 2xl:p-10">
@@ -83,11 +94,11 @@ export default function InvoiceDetails() {
           <div className="mb-4 md:mb-0">
             <Badge
               variant="flat"
-              color="danger"
+              color={paymentStatus === 'Unpaid' ? 'danger' : 'success'}
               rounded="md"
               className="mb-3 md:mb-2"
             >
-              Unpaid
+              {paymentStatus}
             </Badge>
             <Title as="h6">INV - #246098</Title>
             <Text className="mt-0.5 text-gray-500">Invoice Number</Text>
@@ -98,11 +109,11 @@ export default function InvoiceDetails() {
           <div className="">
             <div>
               <Text className=" text-sm font-semibold">Invoice Date</Text>
-              <Text className="mb-2">Mar 22, 2013</Text>
+              <Text className="mb-2">July 10, 2024</Text>
             </div>
             <div>
               <Text className="text-sm font-semibold">Due Date</Text>
-              <Text>Mar 22, 2013</Text>
+              <Text>July 11, 2024</Text>
             </div>
           </div>
 
@@ -159,9 +170,16 @@ export default function InvoiceDetails() {
         </div>
       </div>
       <div className="inline-flex justify-center">
-        <Button className="mt-8  rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 ">
-          PAY
-        </Button>
+          <div className="mt-8  rounded-full px-4 py-2 font-bold text-white">
+            <ToastButton
+              title='Pay'
+              message='Payment Successful!'
+              route={routes.customers.active}
+              onSuccess={handlePayment}
+              delay={10000} // 10 seconds delay
+            />
+            {paymentStatus === 'Paid'}
+          </div>
       </div>
     </>
   );

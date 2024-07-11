@@ -1,14 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
-import './CreateForm.css';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import './styles.css';
+import { routes } from '@/config/routes';
+import { DUMMY_ID } from '@/config/constants';
 
-const CreateForm: React.FC = () => {
+const GenerateInvoice: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const metric = searchParams.get('metric') || '';
+
   const [description, setDescription] = useState('');
   const [emergency, setEmergency] = useState('');
   const [date, setDate] = useState('');
-  const [skill, setSkill] = useState('');
+  const [requestType, setRequestType] = useState('');
   const [location, setLocation] = useState('');
+  const [category, setCategory] = useState('');
+  const [subCategory, setSubCategory] = useState('');
+  const [managedBy, setManagedBy] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +34,17 @@ const CreateForm: React.FC = () => {
       description,
       emergency,
       date,
-      skill,
+      
       location,
       file,
     });
+
+    router.push(routes.invoice.details(DUMMY_ID));
   };
 
   return (
     <div className="container mx-auto p-4">
+      <h1>{metric}</h1>
       <div className="w-full rounded-lg bg-white p-6 shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -50,16 +63,26 @@ const CreateForm: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
+            
             <div className="form-group">
-              <label className="block text-sm font-medium text-gray-700">
-                Managed by: You
+              <label
+                htmlFor="managedBy"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Managed By
               </label>
-              <input
-                type="text"
-                value="Managed by: You"
-                readOnly
+              <select
+                id="managedBy"
+                value={managedBy}
+                onChange={(e) => setManagedBy(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+              >
+                <option value="" disabled>
+                  Select Manage Type
+                </option>
+                <option value="Skill1">You</option>
+                <option value="Skill2">Jagedo</option>
+              </select>
             </div>
             <div className="form-group">
               <label
@@ -69,17 +92,16 @@ const CreateForm: React.FC = () => {
                 Skill
               </label>
               <select
-                id="skill"
-                value={skill}
-                onChange={(e) => setSkill(e.target.value)}
+                id="requestType"
+                value={requestType}
+                onChange={(e) => setRequestType(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="" disabled>
-                  Select a skill
+                  Select Request Type
                 </option>
-                <option value="Skill1">Skill 1</option>
-                <option value="Skill2">Skill 2</option>
-                <option value="Skill3">Skill 3</option>
+                <option value="Skill1">Standard 1</option>
+                <option value="Skill2">Standard 2</option>
               </select>
             </div>
             <div className="form-group">
@@ -122,15 +144,62 @@ const CreateForm: React.FC = () => {
                 htmlFor="location"
                 className="block text-sm font-medium text-gray-700"
               >
-                Confirm Location
+                Location
               </label>
-              <input
-                type="text"
+              <select
                 id="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              />
+              >
+                <option value="" disabled>
+                  Select Location
+                </option>
+                <option value="Skill1">Nairobi</option>
+                <option value="Skill2">Kisumu</option>
+                <option value="Skill3">Mombasa</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="Skill1">Category 1</option>
+                <option value="Skill2">Category 2</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label
+                htmlFor="subCategory"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Sub Category
+              </label>
+              <select
+                id="subCategory"
+                value={location}
+                onChange={(e) => setSubCategory(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Sub-Category
+                </option>
+                <option value="Skill1">Sub-Category 1</option>
+                <option value="Skill2">Sub-Category 2</option>
+                <option value="Skill3">Sub-Category 3</option>
+              </select>
             </div>
             <div className="form-group">
               <label
@@ -209,9 +278,10 @@ const CreateForm: React.FC = () => {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
 };
 
-export default CreateForm;
+export default GenerateInvoice;

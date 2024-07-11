@@ -1,5 +1,6 @@
 import AdminDashboard from '@/app/shared/admin/dashboard';
 import CompletedJobsTable from '@/app/shared/completed';
+import CompletedJobDetails from '@/app/shared/completed/view-job-details';
 import CompleteJobsTable from '@/app/shared/tables/complete-jobs';
 import RequisitionsTable from '@/app/shared/tables/requisitions';
 
@@ -11,6 +12,6 @@ export const metadata = {
 
 export default function CompleteJobsPage() {
   return (
-    <CompletedJobsTable className="relative @container  @4xl:col-span-2 @7xl:col-span-12" />
+    <CompletedJobDetails />
   );
 }

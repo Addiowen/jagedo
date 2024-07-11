@@ -41,6 +41,7 @@ export const routes = {
     activeJobDetails: '/customers/jobs/active-job-details',
     ongoing: '/customers/ongoing',
     complete: '/customers/jobs/completed-jobs',
+    completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
   },
 
   eCommerce: {
