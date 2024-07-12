@@ -174,7 +174,7 @@ export default function InvoiceDetails() {
             <ToastButton
               title='Pay'
               message='Payment Successful!'
-              route={routes.customers.active}
+              route={routes.customers.requisitions}
               onSuccess={handlePayment}
               delay={10000} // 10 seconds delay
             />
