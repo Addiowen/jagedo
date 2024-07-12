@@ -71,9 +71,10 @@ export default function ReviewCard({
   date,
   message,
   attachment,
+  className,
 }: ReviewCardProps) {
   return (
-    <div className="py-6 @md:flex @md:items-start">
+    <div className={`py-6 @md:flex @md:items-start ${className}`}>
       <div className="shrink-0 @md:w-40 @md:pe-4">
         <Title
           as="h6"
@@ -87,23 +88,13 @@ export default function ReviewCard({
       </div>
 
       <div className="w-full pt-6 @md:pt-1">
-        {/* <div className="-mx-0.5 mb-2.5 flex">
-          {[...new Array(5)].map((_, index) => {
-            return index < 3 ? (
-              <PiStarFill className="w-4 fill-orange text-orange" key={index} />
-            ) : (
-              <PiStar className="w-4 fill-gray-300 text-gray-500" key={index} />
-            );
-          })}
-        </div> */}
-
         <Slider title="Average" total={5} value={3} />
 
         <Text className="pt-2 leading-[1.85]">{message}</Text>
 
         {attachment && attachment.length > 0 && (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(50px,1fr))] gap-3 pt-2.5">
-            {attachment?.map((item: string, index: number) => (
+            {attachment.map((item: string, index: number) => (
               <div
                 key={`review-key-${index}`}
                 className="relative mx-auto aspect-[4/5] w-full overflow-hidden rounded bg-gray-100"
