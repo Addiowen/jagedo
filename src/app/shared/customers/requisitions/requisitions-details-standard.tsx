@@ -26,7 +26,7 @@ export default function ViewRequisitionStandard() {
             Requsiition type :
           </span>
           <span className="text-base font-semibold text-gray-900">
-            Emergency
+            Managed By Jagedo
           </span>
         </li>
         <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">

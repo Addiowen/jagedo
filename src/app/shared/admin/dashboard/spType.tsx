@@ -64,7 +64,7 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
-    link: `${routes.customers.generateInvoice}?metric=Fundi`, // Link for Fundi card with query parameter
+    link: `${routes.customers.generateInvoiceFundi}?metric=Fundi`, // Link for Fundi card with query parameter
   },
   {
     id: '2',
@@ -77,7 +77,7 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
-    link: `${routes.customers.generateInvoice}?metric=Professional`, // Link for Professional card with query parameter
+    link: `${routes.customers.generateInvoiceProfessional}?metric=Professional`, // Link for Professional card with query parameter
   },
   {
     id: '3',
@@ -90,7 +90,7 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
-    link: `${routes.customers.generateInvoice}?metric=Contractor`, // Link for Contractor card with query parameter
+    link: `${routes.customers.generateInvoiceContractor}?metric=Contractor`, // Link for Contractor card with query parameter
   },
   {
     id: '4',
@@ -101,7 +101,7 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
-    link: `${routes.customers.generateInvoice}?metric=ShopNow`, // Link for Shop Now card with query parameter
+    link: routes.maintenance, // Link for Shop Now card with query parameter
   },
 ];
 

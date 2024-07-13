@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { routes } from '@/config/routes';
 
 const statusOptions = [
-  { label: 'Live', value: 'Live' },
+  { label: 'Pending Approval', value: 'Pending Approval' },
   { label: 'Closed', value: 'Closed' },
 ];
 
@@ -29,7 +29,7 @@ type Columns = {
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'under review':
+    case 'pending approval':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
@@ -81,9 +81,9 @@ export const getColumns = ({
     title: <HeaderCell title="Category" />,
     dataIndex: 'category',
     key: 'category',
-    width: 200,
+    width: 100,
     render: (category: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
         {category}
       </Text>
     ),
@@ -92,9 +92,9 @@ export const getColumns = ({
     title: <HeaderCell title="Sub Category" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
-    width: 200,
+    width: 100,
     render: (subCategory: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
         {subCategory}
       </Text>
     ),
@@ -105,7 +105,7 @@ export const getColumns = ({
     key: 'requestType',
     width: 200,
     render: (requestType: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+      <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
         {requestType}
       </Text>
     ),
@@ -114,9 +114,9 @@ export const getColumns = ({
     title: <HeaderCell title="Description" />,
     dataIndex: 'description',
     key: 'description',
-    width: 200,
+    width: 300,
     render: (description: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
         {description}
       </Text>
     ),
@@ -127,7 +127,7 @@ export const getColumns = ({
     key: 'location',
     width: 200,
     render: (location: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
         {location}
       </Text>
     ),
@@ -146,28 +146,34 @@ export const getColumns = ({
     dataIndex: 'action',
     key: 'action',
     width: 100,
-    render: (_: string, row: any) => (
-      <div className="flex items-center justify-end gap-3 pe-3">
-        <Tooltip size="sm" content={'View'} placement="top" color="invert">
-          <ActionIcon
-            as="span"
-            size="sm"
-            variant="outline"
-            aria-label={'View Appointment'}
-            className="hover:!border-gray-900 hover:text-gray-700"
-          >
-            <Link href={routes.customers.viewRequisition}>
-              <EyeIcon className="h-4 w-4" />
-            </Link>
-          </ActionIcon>
-        </Tooltip>
-        {/* <DeletePopover
-          title={`Remove User`}
-          description={`Are you sure you want to remove this User?`}
-          onDelete={() => onDeleteItem(row.id)}
-        /> */}
-      </div>
-    ),
+    render: (_: any, row: { requestType: string }) => {
+      const requestType = row.requestType.toLowerCase();
+      const queryParams =
+        requestType === 'managed by self'
+          ? '?type=Standard-2 Self'
+          : requestType === 'managed by jagedo'
+            ? '?type=Standard-1 Jagedo'
+            : '';
+
+      return (
+        <div className="flex items-center justify-end gap-3 pe-3">
+          <Tooltip size="sm" content={'View'} placement="top" color="invert">
+            <ActionIcon
+              as="span"
+              size="sm"
+              variant="outline"
+              aria-label={'View Appointment'}
+              className="hover:!border-gray-900 hover:text-gray-700"
+            >
+              <Link href={`${routes.customers.viewRequisition}${queryParams}`}>
+                <EyeIcon className="h-4 w-4" />
+              </Link>
+            </ActionIcon>
+          </Tooltip>
+          {/* DeletePopover code */}
+        </div>
+      );
+    },
   },
 ];
 

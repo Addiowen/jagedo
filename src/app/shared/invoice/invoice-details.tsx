@@ -66,7 +66,7 @@ function InvoiceDetailsListTable() {
       columns={columns}
       variant="minimal"
       rowKey={(record) => record.id}
-      scroll={{ x: 400 }}
+      // scroll={{ x: 400 }}
       className="mb-11"
     />
   );
@@ -170,16 +170,16 @@ export default function InvoiceDetails() {
         </div>
       </div>
       <div className="inline-flex justify-center">
-          <div className="mt-8  rounded-full px-4 py-2 font-bold text-white">
-            <ToastButton
-              title='Pay'
-              message='Payment Successful!'
-              route={routes.customers.requisitions}
-              onSuccess={handlePayment}
-              delay={10000} // 10 seconds delay
-            />
-            {paymentStatus === 'Paid'}
-          </div>
+        <div className="mt-8  rounded-full px-4 py-2 font-bold text-white">
+          <ToastButton
+            title="Pay"
+            message="Payment Successful!"
+            route={routes.customers.requisitions}
+            onSuccess={handlePayment}
+            delay={3000}
+          />
+          {paymentStatus === 'Paid'}
+        </div>
       </div>
     </>
   );

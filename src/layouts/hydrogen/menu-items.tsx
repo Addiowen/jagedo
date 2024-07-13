@@ -58,6 +58,7 @@ import {
   PiLock,
   PiScrewdriver,
   PiInfo,
+  PiHouseDuotone,
 } from 'react-icons/pi';
 
 interface MenuItem {
@@ -67,6 +68,9 @@ interface MenuItem {
   badge?: string;
   dropdownItems?: MenuItem[];
 }
+
+// const userRole = window.sessionStorage.getItem('role')
+// let menuData: MenuItem[] = []
 
 // Note: do not add href in the label object, it is rendering as label
 export const menuItems: MenuItem[] = [
@@ -79,7 +83,7 @@ export const menuItems: MenuItem[] = [
   {
     name: 'Home',
     href: '/',
-    icon: <PiGauge />,
+    icon: <PiHouseDuotone />,
   },
 
   // {
@@ -112,20 +116,20 @@ export const menuItems: MenuItem[] = [
 
   {
     name: 'Fundi ',
-    href: routes.admin.createFundiProfile,
+    href: routes.customers.generateInvoiceFundi,
     badge: '',
     icon: <PiHammer />,
   },
 
   {
     name: 'Professional',
-    href: routes.admin.createProfessionalProfile,
+    href: routes.customers.generateInvoiceProfessional,
     badge: '',
     icon: <PiBriefcase />,
   },
   {
     name: 'Contractor',
-    href: routes.admin.createContractorProfile,
+    href: routes.customers.generateInvoiceContractor,
     badge: '',
     icon: <PiHardHat />,
   },
@@ -144,7 +148,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     name: ' Reviews',
-    href: routes.admin.organization,
+    href: routes.customers.reviews,
     badge: '',
     icon: <PiStar />,
   },
@@ -184,24 +188,24 @@ export const menuItems: MenuItem[] = [
     dropdownItems: [
       {
         name: 'Profile',
-        href: routes.forms.personalInformation,
+        href: routes.admin.createCustomerProfile,
         badge: '',
-        icon: <PiUserCirclePlus/>,
+        icon: <PiUserCirclePlus />,
       },
       {
         name: 'Help Desk',
         href: routes.blank,
-        icon: <PiScrewdriver/>,
+        icon: <PiScrewdriver />,
       },
       {
         name: 'FAQs',
         href: routes.blank,
-        icon: <PiInfo/>,
+        icon: <PiInfo />,
       },
       {
         name: 'Logout',
         href: routes.blank,
-        icon: <PiLock/>,
+        icon: <PiLock />,
       },
     ],
   },
@@ -361,3 +365,5 @@ export const menuItems: MenuItem[] = [
   //   ],
   // },
 ];
+
+// export const menuItems: MenuItem[] = menuData

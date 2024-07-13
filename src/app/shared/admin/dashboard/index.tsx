@@ -14,7 +14,6 @@ import BidsStatus from './pie-chart';
 import InvoiceList from './review-slider';
 
 export default function AdminDashboard() {
-
   // Wallet data
   const balance = 'KSH 1,234.56';
 
@@ -27,7 +26,7 @@ export default function AdminDashboard() {
     <div className="@container">
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <SpType className="py-5 @2xl:grid-cols-3 @3xl:gap-6 @4xl:col-span-2 @4xl:grid-cols-4 @7xl:col-span-8" />
-        <JobSlider/>
+        <JobSlider />
 
         {/* <StatusCard
           className="h-[150px] @sm:h-[320px] @4xl:col-start-2 @7xl:col-span-4 @7xl:col-start-auto @7xl:row-start-auto"
@@ -47,10 +46,14 @@ export default function AdminDashboard() {
         /> */}
         <RequisitionAlerts />
       </div>
-      <div className="pt-10 grid grid-cols-1 gap-6 @4xl:grid-cols-3 @7xl:grid-cols-12 3xl:gap-8">
-        <WalletCard balance={'232,000.00'} /* className="h-[300px] @sm:h-[320px]   @7xl:col-span-4 @7xl:col-start-auto @7xl:row-start-auto" */ />
+      <div className="grid grid-cols-1 gap-6 pt-10 @4xl:grid-cols-3 @7xl:grid-cols-12 3xl:gap-8">
+        <WalletCard
+          balance={
+            '232,000.00'
+          } /* className="h-[300px] @sm:h-[320px]   @7xl:col-span-4 @7xl:col-start-auto @7xl:row-start-auto" */
+        />
         {/* <ReviewSlider /> */}
-        <InvoiceList/>
+        <InvoiceList />
         <Notifications />
         {/* <CustomMessagesList /> */}
       </div>

@@ -7,7 +7,7 @@ import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
 import { FileInput } from 'rizzui';
 
-const GenerateInvoice: React.FC = () => {
+const GenerateInvoiceFundi: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
@@ -44,7 +44,7 @@ const GenerateInvoice: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1>{metric}</h1>
+      <h1>Fundi</h1>
       <div className="w-full rounded-lg bg-white p-6 shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -275,4 +275,4 @@ const GenerateInvoice: React.FC = () => {
   );
 };
 
-export default GenerateInvoice;
+export default GenerateInvoiceFundi;

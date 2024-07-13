@@ -24,7 +24,7 @@ type Columns = {
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'ongoing':
+    case 'pending approval':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
@@ -62,13 +62,13 @@ export const getColumns = ({
     dataIndex: 'id',
     key: 'id',
     width: 90,
-    render: (id: string) => <Text>#JOB{id}</Text>,
+    render: (id: string) => <Text>#QTN{id}</Text>,
   },
   {
     title: <HeaderCell title="Date" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
-    width: 150,
+    width: 100,
     render: (date: Date) => <DateCell date={date} />,
   },
   {
@@ -109,7 +109,7 @@ export const getColumns = ({
     title: <HeaderCell title="Description" />,
     dataIndex: 'description',
     key: 'description',
-    width: 100,
+    width: 200,
     render: (description: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {description}

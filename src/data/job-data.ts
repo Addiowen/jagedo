@@ -31,6 +31,36 @@ export const jobData = [
   },
 ];
 
+export const reviewData = [
+  {
+    id: '1',
+    serviceProvider: 'Hassan Rajab',
+    category: 'Professional',
+    subCategory: 'Architect',
+    status: 'Approved',
+    description: '3No. Bedroom architectural design',
+    rating: 4.5,
+  },
+  {
+    id: '2',
+    serviceProvider: 'Faith wasike',
+    category: 'Fundi',
+    subCategory: 'Plumber',
+    status: 'Approved',
+    description: 'Tank reticulation to water poin',
+    rating: 3.5,
+  },
+  {
+    id: '3',
+    serviceProvider: 'Francis  Owuor',
+    category: 'Contractor',
+    subCategory: 'Plumber',
+    status: 'Unverified',
+    description: 'Tank reticulation to water point',
+    rating: 2,
+  },
+];
+
 export const quotationReportData = [
   {
     id: '3233',
@@ -82,7 +112,7 @@ export const requisitions = [
     date: '2022-11-10T06:22:01.621Z',
     category: 'Professional',
     subCategory: 'Quantity Surveyor',
-    requestType: 'Managed by Jagedo',
+    requestType: 'Managed by Self',
     description: 'Drains construction',
     location: 'Westlands, Nairobi',
     status: 'Pending Approval',
@@ -93,7 +123,7 @@ export const completeJobs = [
   {
     id: '3324',
     completionDate: '2022-11-14T06:22:01.621Z',
-    requestType: 'Managed by Jagedo',
+    requestType: 'Managed by Jagedo (standard 1)',
     description: '3No. Bedroom architectural design',
     category: 'Professional',
     subCategory: 'Architect',
@@ -130,17 +160,27 @@ export const activeJobs = [
     subCategory: 'Mason',
     requestType: '2.0',
     description: 'Boundary wall construction',
-    location: 'reviewed',
-    status: 'ongoing',
+    location: 'Kome,Homabay',
+    status: 'Pending Approval',
   },
   {
     id: '3417',
     date: '2022-11-10T06:22:01.621Z',
+    category: 'Professional',
+    subCategory: 'Architect',
+    requestType: 'Managed by Jagedo',
+    description: '3No. Bedroom architectural design',
+    location: 'Westlands,Reviewed',
+    status: 'Pending Approval',
+  },
+  {
+    id: '3419',
+    date: '2022-11-10T06:22:01.621Z',
     category: 'Fundi',
     subCategory: 'Mason',
-    requestType: 'Emergency',
+    requestType: '2.0',
     description: 'Boundary wall construction',
-    location: 'reviewed',
-    status: 'ongoing',
+    location: 'South C,Nairobi',
+    status: 'Pending Approval',
   },
 ];

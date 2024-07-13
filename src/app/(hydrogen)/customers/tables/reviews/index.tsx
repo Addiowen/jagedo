@@ -4,25 +4,19 @@ import { useCallback, useState, useMemo } from 'react';
 import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
-import { PiMagnifyingGlassBold, PiPlusBold } from 'react-icons/pi'; // Adjust the import as needed
-import { Input, Button } from 'rizzui'; // Assuming Button is available in rizzui
-import { requisitions } from '@/data/job-data';
+import { PiMagnifyingGlassBold } from 'react-icons/pi';
+import { Input } from 'rizzui';
+import { jobData, reviewData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
 
-export default function RequisitionsTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default function ReviewTable({ className }: { className?: string }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -33,6 +27,7 @@ export default function RequisitionsTable({
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -53,12 +48,12 @@ export default function RequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(requisitions, pageSize, filterState);
+  } = useTable(reviewData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: requisitions,
+        data: reviewData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -66,6 +61,7 @@ export default function RequisitionsTable({
         onChecked: handleRowSelect,
         handleSelectAll,
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       selectedRowKeys,
       onHeaderCellClick,
@@ -79,36 +75,32 @@ export default function RequisitionsTable({
 
   const { visibleColumns } = useColumn(columns);
 
-  const router = useRouter();
-
   return (
     <WidgetCard2
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
-      actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto flex justify-between"
-      title="Requisitions"
+      actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
+      title="Reviews Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
-        <div className="flex w-full flex-col-reverse items-center justify-between gap-3 @[42rem]:flex-row @[57rem]:mt-0">
+        <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
           <FilterElement
             isFiltered={isFiltered}
             filters={filters}
             updateFilter={updateFilter}
             handleReset={handleReset}
           />
-          <div className="flex w-full items-center gap-3 @[42rem]:w-auto @[70rem]:w-80">
-            <Input
-              className="w-full @[42rem]:w-auto"
-              type="search"
-              placeholder="Search for user details..."
-              inputClassName="h-9"
-              value={searchTerm}
-              onClear={() => handleSearch('')}
-              onChange={(event) => handleSearch(event.target.value)}
-              clearable
-              prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
-            />
-          </div>
+          <Input
+            className="w-full @[42rem]:w-auto @[70rem]:w-80"
+            type="search"
+            placeholder="Search for user details..."
+            inputClassName="h-9"
+            value={searchTerm}
+            onClear={() => handleSearch('')}
+            onChange={(event) => handleSearch(event.target.value)}
+            clearable
+            prefix={<PiMagnifyingGlassBold className="h-4 w-4" />}
+          />
         </div>
       }
     >

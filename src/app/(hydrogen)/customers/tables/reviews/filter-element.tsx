@@ -5,12 +5,12 @@ import { PiTrashDuotone } from 'react-icons/pi';
 
 const categoryOptions = [
   {
-    label: 'Fundi',
-    value: 'Fundi',
-  },
-  {
     label: 'Professional',
     value: 'Professional',
+  },
+  {
+    label: 'Fundi',
+    value: 'Fundi',
   },
   {
     label: 'Contractor',
@@ -18,29 +18,14 @@ const categoryOptions = [
   },
 ];
 
-const locationOptions = [
-  {
-    label: 'Bamburi, Mombasa',
-    value: 'Bamburi, Mombasa',
-  },
-  {
-    label: 'Kasarani ,Nairobi',
-    value: 'Kasarani ,Nairobi',
-  },
-  {
-    label: 'Westlands, Nairobi',
-    value: 'Westlands, Nairobi',
-  },
-];
-
 const statusOptions = [
   {
-    label: 'Live',
-    value: 'live',
+    label: 'Approved',
+    value: 'Approved',
   },
   {
-    label: 'Closed',
-    value: 'closed',
+    label: 'Unverified',
+    value: 'Unverified',
   },
 ];
 
@@ -64,9 +49,9 @@ export default function FilterElement({
           className="w-full min-w-[158px] @[42rem]:w-auto"
           placeholder="Category"
           options={categoryOptions}
-          value={filters['type']}
+          value={filters['category']}
           onChange={(value: string) => {
-            updateFilter('type', value);
+            updateFilter('category', value);
           }}
           getOptionValue={(option: { value: any }) => option.value}
           displayValue={(selected: string) =>

@@ -82,6 +82,11 @@ export const messages = {
   subCountyIsRequired: 'Sub-County/Area is required',
   estateIsRequired: 'Estate is required',
   accountVerificationIsRequired: 'AccountVerification is required',
+  levelIsRequired: 'Level/Class is required',
+  yearsIsRequired: 'Years of experience required',
+  idPicIsRequired: 'ID Picture / Passport is required',
+  certificatesIsRequired: 'Certificates required',
+  ncaCardIsRequired: 'NCA Registration Card is required',
 
   // customer
   typeIsRequired: 'Type is required',

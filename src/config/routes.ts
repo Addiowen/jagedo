@@ -32,6 +32,9 @@ export const routes = {
     requisitions: '/customers/requisitions',
     viewRequisition: '/customers/requisitions/view-requisition',
     generateInvoice: '/customers/generate-invoice',
+    generateInvoiceProfessional: '/customers/generate-invoice/professional',
+    generateInvoiceContractor: '/customers/generate-invoice/contractor',
+    generateInvoiceFundi: '/customers/generate-invoice/fundi',
     quotations: '/customers/quotations',
     quotationReports: '/customers/quotations/quotation-reports',
     invoice: '/customers/invoice',
@@ -42,6 +45,8 @@ export const routes = {
     ongoing: '/customers/ongoing',
     complete: '/customers/jobs/completed-jobs',
     completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
+
+    reviews: '/customers/reviews',
   },
 
   eCommerce: {
