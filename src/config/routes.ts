@@ -30,7 +30,6 @@ export const routes = {
     customerRequisitions: '/admin/registers/requisitions/customer',
     assignServiceProvider: '/admin/service-providers/assign-service-provider',
     quotations: '/admin/registers/quotations',
-    quotedRequisitions: '/admin/registers/requisitions/quoted-requisitions',
     analyzeQuotations: '/admin/registers/quotations/analyze-quotations',
     evaluate: '/admin/quotations/evaluateQuotations',
     reviews: '/admin/registers/reviews',

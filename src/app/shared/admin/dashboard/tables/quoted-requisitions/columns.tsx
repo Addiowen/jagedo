@@ -167,7 +167,7 @@ export const getColumns = ({
     width: 10,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-        <Link href={routes.admin.rfq}>
+        <Link href={routes.admin.analyzeQuotations}>
           <Button color="primary" rounded="lg">
             Analyse
           </Button>

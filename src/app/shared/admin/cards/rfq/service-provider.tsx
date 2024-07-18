@@ -13,6 +13,7 @@ import ToastButton from '@/components/buttons/toast-button';
 import { routes } from '@/config/routes';
 import { useSearchParams } from 'next/navigation';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import CreateQuoteTable from '../../dashboard/tables/create-quote-table';
 
 const data = [
   {
@@ -44,62 +45,13 @@ export default function RfqStandardOne({ className }: { className?: string }) {
 
   return (
     <>
-      <Accordion className="border-b last-of-type:border-b-0">
+      <Accordion className="-mt-12 border-b last-of-type:border-b-0">
         <Accordion.Header>
           <div
             onClick={handleToggle}
-            className="flex w-full items-center justify-between py-5 text-xl font-semibold"
+            className="flex w-full items-center justify-between py-2 text-xl font-semibold"
           >
-            {'Job Details'}
-            <PiArrowDown
-              className={`flex h-5 w-5 transform  transition-transform duration-300 ${
-                isOpen ? 'rotate-0' : '-rotate-90'
-              }`}
-            />
-          </div>
-        </Accordion.Header>
-
-        <Accordion.Body>
-          <div className="grid items-start rounded-xl border border-gray-300 p-2 @2xl:grid-cols-2 @3xl:grid-cols-3 @3xl:p-5 @5xl:grid-cols-4">
-            <ul className="grid gap-2 @3xl:col-span-full @3xl:mb-2 @5xl:col-span-1 @5xl:mb-0">
-              <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-                <span className="font-semibold text-gray-900">
-                  Name of Service Provider :
-                </span>
-                <span className="text-base text-gray-900"> </span>
-              </li>
-              <li className="flex items-center gap-3 whitespace-nowrap @3xl:justify-between @5xl:justify-start">
-                <span className="font-semibold text-gray-900">
-                  Job Description :
-                </span>
-                Drilling of 4No boreholes
-              </li>
-              <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">
-                <span className="font-semibold text-gray-900">Deadline :</span>
-                3/3/2024
-              </li>
-            </ul>
-            {data.map((item, index) => (
-              <ul key={index} className="ml-auto mt-6 grid gap-2 @5xl:mt-0">
-                {Object.entries(item).map(([key, value]) => (
-                  <li key={key} className="flex items-center space-x-2">
-                    <span className="font-semibold text-gray-900">{key} :</span>
-                    <span>{value}</span>
-                  </li>
-                ))}
-              </ul>
-            ))}
-          </div>
-        </Accordion.Body>
-      </Accordion>
-
-      <Accordion className="border-b last-of-type:border-b-0">
-        <Accordion.Header>
-          <div
-            onClick={handleToggle}
-            className="flex w-full items-center justify-between py-5 text-xl font-semibold"
-          >
-            {'Site Conditions'}
+            {'Project Details'}
             <PiArrowDown
               className={`flex h-5 w-5 transform  transition-transform duration-300 ${
                 isOpen ? 'rotate-0' : '-rotate-90'
@@ -121,37 +73,47 @@ export default function RfqStandardOne({ className }: { className?: string }) {
             <ul className="grid gap-2 @3xl:col-span-full @3xl:mb-2 @5xl:col-span-1 @5xl:mb-0">
               <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
                 <span className="font-semibold text-gray-900">
+                  Job Description:
+                </span>
+                <span className=" text-gray-900">
+                  Drilling and Construction of 4No. boreholes
+                </span>
+              </li>
+              <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
+                <span className="font-semibold text-gray-900">Job No:</span>
+                <span className=" text-gray-900">#A940312</span>
+              </li>
+
+              <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
+                <span className="font-semibold text-gray-900">
+                  Site Conditions:
+                </span>
+                <span className=" text-gray-900">
+                  Plot of land is on a relatively low-lying flat riparian land
+                  with black cotton soil.
+                </span>
+              </li>
+              <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
+                <span className="font-semibold text-gray-900">
                   Specifications:
                 </span>
                 <span className=" text-gray-900">
                   Drilling and Construction of 4No. boreholes
                 </span>
               </li>
-              <ul className="flex flex-col gap-1 whitespace-nowrap @3xl:justify-between @5xl:justify-start">
-                <li className="font-semibold text-gray-900">Scope of works:</li>
-                <li>1. Drilling</li>
-                <li>2. Flush</li>
-                <li>3. Construction and development</li>
-              </ul>
-
-              <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">
-                <span className=" text-gray-900">
-                  Please see an attached hydrogeological report
-                </span>
-              </li>
             </ul>
-            <div className="mb-4 mt-4">
+            {/* <div className="mb-4 mt-4">
               <FileInput label="Add Attachments" />
-            </div>
+            </div> */}
           </div>
         </Accordion.Body>
       </Accordion>
 
-      <Accordion className="border-b last-of-type:border-b-0">
+      <Accordion className="-mt-8 border-b last-of-type:border-b-0">
         <Accordion.Header>
           <div
             onClick={handleToggle}
-            className="flex w-full items-center justify-between py-5 text-xl font-semibold"
+            className="flex w-full items-center justify-between py-2 text-xl font-semibold"
           >
             {'Note'}
             <PiArrowDown
@@ -213,21 +175,13 @@ export default function RfqStandardOne({ className }: { className?: string }) {
         </Accordion.Header>
 
         <Accordion.Body>
-          <div className=" mb-4 mt-4 grid items-start rounded-xl border border-gray-300 p-4">
-            <div className="mb-4">
+          <div className=" ">
+            {/* <div className="mb-4">
               <FileInput label="Bill of Quantity" />
-            </div>
-            <BillofQuotationsTable />
-
-            {/* <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="mx-auto rounded-xl border border-gray-200 bg-white p-10 pb-16 shadow-sm"
-            >         
-              <BillOfQuantityTable />          
-            </form>
-          </FormProvider> */}
+            </div> */}
           </div>
+
+          <CreateQuoteTable />
         </Accordion.Body>
       </Accordion>
 
@@ -320,8 +274,8 @@ export default function RfqStandardOne({ className }: { className?: string }) {
       <div className="mt-6 flex justify-center">
         <ToastButton
           title="Submit"
-          route={routes.admin.addToServiceProviders}
-          message="RFQ generated successfully!"
+          route={routes.admin.generateReport}
+          message="RFQ added to report!"
         />
       </div>
     </>

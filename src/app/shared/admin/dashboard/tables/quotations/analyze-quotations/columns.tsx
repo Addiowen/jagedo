@@ -95,7 +95,7 @@ export const getColumns = ({
     dataIndex: 'id',
     key: 'id',
     width: 20,
-    render: (id: string) => <Text>#{id}</Text>,
+    render: (id: string) => <Text>QTN#{id}</Text>,
   },
 
   {
@@ -162,7 +162,7 @@ export const getColumns = ({
     width: 100,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-        <Link href={routes.admin.generateSingleReport}>
+        <Link href={routes.admin.rfq}>
           <Button size="sm"> Evaluate</Button>
         </Link>
       </div>

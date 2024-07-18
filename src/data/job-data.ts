@@ -9,7 +9,7 @@ export const billofQuantity = [
   {
     billNo: '2',
     works: "Builder's work",
-    amount: '50,000',
+    amount: '-',
   },
   {
     billNo: '3',
@@ -388,6 +388,29 @@ export const reportSummary = [
     tax: '',
     payabletoSP: '10,500',
     comments: '',
+  },
+];
+
+export const createQuote = [
+  {
+    serviceProvider: 'Lead Consultant',
+    name: '',
+    email: '',
+    amount: '',
+    discount: '',
+    id: '',
+    hours: '',
+    rate: '',
+  },
+  {
+    serviceProvider: 'Associate Consultant',
+    name: '',
+    email: '',
+    amount: '',
+    discount: '',
+    id: '',
+    hours: '',
+    rate: '',
   },
 ];
 

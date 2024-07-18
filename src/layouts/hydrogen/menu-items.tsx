@@ -158,6 +158,12 @@ export const menuItems: MenuItem[] = [
   },
 
   {
+    name: 'Generate RFQ',
+    href: routes.admin.rfq,
+    icon: <PiAirplaneTiltDuotone />,
+  },
+
+  {
     name: 'Registers',
     href: routes.admin.dashboard,
     icon: <PiFolderDuotone />,

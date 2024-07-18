@@ -29,7 +29,7 @@ const pageHeader = {
       name: 'All requisitions',
     },
     {
-      name: 'View Requisition',
+      name: 'View Request',
     },
   ],
 };

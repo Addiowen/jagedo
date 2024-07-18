@@ -13,5 +13,15 @@ export function useColumn<T extends Record<string, any>>(columnsData: T[]) {
     [columnsData, checkedColumns]
   );
 
-  return { visibleColumns, checkedColumns, setCheckedColumns };
+  const table2visibleColumns = useMemo(
+    () => filterData(columnsData, checkedColumns),
+    [columnsData, checkedColumns]
+  );
+
+  return {
+    visibleColumns,
+    table2visibleColumns,
+    checkedColumns,
+    setCheckedColumns,
+  };
 }

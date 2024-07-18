@@ -16,12 +16,6 @@ export default function AdminRequisitionsPage() {
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <AnalyzeQuotationsTable className="relative  @4xl:col-span-2 @7xl:col-span-12" />
       </div>
-      <Link
-        href={routes.admin.generateReport}
-        className=" mt-6 grid grid-cols-1 @lg:w-auto"
-      >
-        <ToastButton title="Evaluate" />
-      </Link>
     </div>
   );
 }

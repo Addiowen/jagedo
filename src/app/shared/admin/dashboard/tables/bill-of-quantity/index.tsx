@@ -15,7 +15,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function BillofQuotationsTable({
+export default function BillofQuantitiesTable({
   className,
 }: {
   className?: string;
@@ -83,7 +83,7 @@ export default function BillofQuotationsTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Bill of Quotations"
+      title="Bill of Quantities"
       titleClassName="whitespace-nowrap font-inter"
     >
       <ControlledTable

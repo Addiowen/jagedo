@@ -21,7 +21,7 @@ import { useState } from 'react';
 
 const data = [
   {
-    name: 'Requsitions',
+    name: 'Requests',
     total: 8,
     fill: '#2B7F75',
     link: routes.admin.requisitions,
