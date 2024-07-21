@@ -14,14 +14,14 @@ import { routes } from '@/config/routes';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'pending':
+    case 'unverified':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
+          <Text className="ms-2 font-medium text-red-dark">{status}</Text>
         </div>
       );
-    case 'publish':
+    case 'approved':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />

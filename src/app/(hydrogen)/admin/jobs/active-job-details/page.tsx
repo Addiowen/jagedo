@@ -1,11 +1,12 @@
-import ActiveJobDetailsCard from '@/app/shared/admin/dashboard/jobs/active/active-job-details';
-import ProgressBarActive from '@/app/shared/admin/progress-bar';
+import ActiveJobDetailsCard from '@/app/shared/admin/details/job-details';
+import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
+import CustomProgressBar from '@/app/shared/custom-progress-bar';
 import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import cn from '@/utils/class-names';
 import Link from 'next/link';
 import { PiCheckCircle } from 'react-icons/pi';
-import { Button, Progressbar } from 'rizzui';
+import { Button } from 'rizzui';
 
 export const metadata = {
   ...metaObject('Admin'),
@@ -20,13 +21,7 @@ export default function ActiveJobsPage({ className }: PageProps) {
     <div className={cn('xl:gap-15 grid grid-cols-2 lg:grid-cols-2')}>
       <div>
         <ActiveJobDetailsCard />
-        <Progressbar
-          className="mt-6"
-          value={75}
-          label="75% Ongoing"
-          color="info"
-          size="xl"
-        />
+        <CustomProgressBar />
         <Link href={routes.admin.active}>
           <div className="flex  justify-center">
             <Button className="mt-6">Back</Button>

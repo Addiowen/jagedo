@@ -86,7 +86,7 @@ export default function RequisitionsTable({
       title="Requests"
       titleClassName="whitespace-nowrap font-inter"
       action={
-        <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
+        <div className="mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
           <FilterElement
             isFiltered={isFiltered}
             filters={filters}

@@ -4,12 +4,13 @@ import { PiStar, PiStarFill } from 'react-icons/pi';
 import { Title, Text, Tooltip } from 'rizzui';
 
 type ReviewCardProps = {
-  customer: {
+  reviewer: {
     avatar?: string;
     name: string;
   };
   date: Date;
   message: string;
+  role: string;
   attachment?: string[];
   className?: string;
 };
@@ -68,19 +69,20 @@ function Slider({
 
 // review card
 export default function ReviewCard({
-  customer,
+  reviewer,
   date,
   message,
   attachment,
+  role,
 }: ReviewCardProps) {
   return (
-    <div className="py-6 @md:flex @md:items-start">
+    <div className="border-b py-8 first-of-type:pt-0 last-of-type:border-b-0 last-of-type:pb-0 @md:flex @md:items-start">
       <div className="shrink-0 @md:w-40 @md:pe-4">
         <Title
           as="h6"
           className="pb-1.5 text-base font-semibold text-gray-900 @md:font-medium"
         >
-          {customer.name}
+          {reviewer.name} ({role})
         </Title>
         <Text className="text-xs text-gray-500 @md:text-sm">
           {dayjs(date).format('DD MMM, YYYY')}

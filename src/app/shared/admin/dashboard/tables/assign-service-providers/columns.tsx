@@ -17,8 +17,8 @@ function getStatusBadge(status: string) {
     case 'unverified':
       return (
         <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
+          <Badge color="danger" renderAsDot />
+          <Text className="ms-2 font-medium text-red-dark">{status}</Text>
         </div>
       );
     case 'approved':

@@ -33,7 +33,7 @@ const statData = [
     // icon: <RevenueUpIcon className="h-7 w-7" />,
     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
     graphColor: 'text-green',
-    name: '0249U3424',
+    name: '074933424',
     increased: true,
     percentage: '+32.40',
   },
@@ -46,18 +46,10 @@ const statData = [
     increased: true,
     percentage: '+32.40',
   },
+
   {
     id: '4',
-    title: 'ID number ',
-    graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-green',
-    name: '34345344',
-    increased: true,
-  },
-  {
-    id: '5',
     title: 'Email Address',
-    icon: <ExpressDeliveryIcon className="h-7 w-7" />,
     graphIcon: <TrendingDownIcon className="me-1 h-4 w-4" />,
     graphColor: 'text-red',
     name: 'stiv@gmail.com',

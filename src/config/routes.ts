@@ -10,13 +10,14 @@ export const routes = {
     createFundiProfile: '/admin/profile-page/profile',
     createContractorProfile: '/admin/contractor-profile',
     createProfessionalProfile: '/admin/professional-profile',
+    createOrgCustomerProfile: '/admin/organization-profile',
+    createIndividualProfile: '/admin/individual-profile',
     // editIndividualCustomerProfile:
     //   '/admin/profile/edit-profile/customer-individual',
     // editOrgCustomerProfile: '/admin/profile/edit-profile/customer-organization',
     editFundiProfile: '/admin/profile/edit-profile/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
     editProfessionalProfile: '/admin/profile/edit-profile/professional',
-    addToServiceProviders: '/admin/add-to-service-providers',
     editDetails: '/admin/profile/edit-profile/edit-details',
 
     //Registers
@@ -28,7 +29,7 @@ export const routes = {
     contractor: '/admin/registers/contractor',
     requisitions: '/admin/registers/requisitions',
     customerRequisitions: '/admin/registers/requisitions/customer',
-    assignServiceProvider: '/admin/service-providers/assign-service-provider',
+    assignServiceProvider: '/admin/assign-fundis',
     quotations: '/admin/registers/quotations',
     analyzeQuotations: '/admin/registers/quotations/analyze-quotations',
     evaluate: '/admin/quotations/evaluateQuotations',
@@ -48,6 +49,9 @@ export const routes = {
     //Report
     generateSingleReport: '/admin/single-report',
     generateReport: '/admin/report',
+
+    //Reviews
+    viewReview: '/admin/reviews',
   },
 
   customers: {

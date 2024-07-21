@@ -8,6 +8,9 @@ const data = [
   {
     Location: 'Kome,Homabay',
   },
+  {
+    Specifications: 'Skilled Fundi',
+  },
 ];
 
 export default function JobDetails({ className }: { className?: string }) {
@@ -65,12 +68,6 @@ export default function JobDetails({ className }: { className?: string }) {
           <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">
             <span className="font-semibold text-gray-900">Job Number :</span>
             #A01283DHS
-          </li>
-          <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">
-            <span className="font-semibold text-gray-900">
-              Specifications :
-            </span>
-            Skilled Fundi
           </li>
         </ul>
         {data.map((item, index) => (

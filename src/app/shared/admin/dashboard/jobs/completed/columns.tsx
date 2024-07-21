@@ -58,7 +58,15 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: <HeaderCell title="JOB" />,
+    title: <HeaderCell title="NUMBER" />,
+    dataIndex: 'number',
+    key: 'number',
+    width: 10,
+    render: (number: string) => <Text>{number}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="#" />,
     dataIndex: 'id',
     key: 'id',
     width: 10,
@@ -90,10 +98,8 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" className="uppercase" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 100,
-    render: (requestType: string) => (
-      <Text className="font-semibold">{requestType}</Text>
-    ),
+    width: 400,
+    render: (requestType: string) => <Text>{requestType}</Text>,
   },
 
   {
@@ -123,24 +129,16 @@ export const getColumns = ({
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'id',
     key: 'action',
     width: 50,
-    render: (_: string, row: any) => (
+    render: (id: string, row: any) => (
       <div className="flex items-center ">
-        <Tooltip size="sm" content={'View'} placement="top" color="invert">
-          <ActionIcon
-            as="span"
-            size="sm"
-            variant="outline"
-            aria-label={'View Job'}
-            className="hover:!border-gray-900 hover:text-gray-700"
-          >
-            <Link href={routes.admin.completedJobDetails}>
-              <EyeIcon className="h-4 w-4" />
-            </Link>
-          </ActionIcon>
-        </Tooltip>
+        <Link
+          href={{ pathname: routes.admin.completedJobDetails, query: { id } }}
+        >
+          <Text className="text-sm text-green-600">View</Text>
+        </Link>
       </div>
     ),
   },

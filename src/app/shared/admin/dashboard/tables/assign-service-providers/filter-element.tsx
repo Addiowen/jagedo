@@ -3,33 +3,14 @@ import StatusField from '@/components/controlled-table/status-field';
 import { Button } from 'rizzui';
 import { PiTrashDuotone } from 'react-icons/pi';
 
-const categoryOptions = [
-  {
-    label: 'Designer',
-    value: 'designer',
-  },
-  {
-    label: 'Developer',
-    value: 'developer',
-  },
-  {
-    label: 'Animator',
-    value: 'animator',
-  },
-  {
-    label: 'Artist',
-    value: 'artist',
-  },
-];
-
 const statusOptions = [
   {
-    label: 'Live',
-    value: 'live',
+    label: 'Approved',
+    value: 'Approved',
   },
   {
-    label: 'Closed',
-    value: 'closed',
+    label: 'Unverified',
+    value: 'Unverified',
   },
 ];
 
@@ -48,22 +29,6 @@ export default function FilterElement({
   return (
     <div className="flex w-full flex-col items-center gap-3 @[29rem]:flex-row @[42rem]:w-auto @[57rem]:-ms-4">
       <div className="flex w-full flex-col gap-3 @[22rem]:flex-row @[42rem]:w-auto">
-        <StatusField
-          dropdownClassName="!z-10"
-          className="w-full min-w-[158px] @[42rem]:w-auto"
-          placeholder="Category"
-          options={categoryOptions}
-          value={filters['type']}
-          onChange={(value: string) => {
-            updateFilter('type', value);
-          }}
-          getOptionValue={(option: { value: any }) => option.value}
-          displayValue={(selected: string) =>
-            categoryOptions.find((option) => option.label === selected)
-              ?.label ?? ''
-          }
-          placement="bottom-start"
-        />
         <StatusField
           placeholder="Status"
           dropdownClassName="!z-10"

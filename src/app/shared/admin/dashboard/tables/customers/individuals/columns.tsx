@@ -10,21 +10,16 @@ import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
 
-const statusOptions = [
-  { label: 'Live', value: 'Live' },
-  { label: 'Closed', value: 'Closed' },
-];
-
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'pending':
+    case 'unverified':
       return (
         <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
+          <Badge color="danger" renderAsDot />
+          <Text className="ms-2 font-medium text-red-dark">{status}</Text>
         </div>
       );
-    case 'publish':
+    case 'approved':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -199,17 +194,6 @@ export const getColumns = ({
     width: 180,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-        <Tooltip size="sm" content={'Edit'} placement="top" color="invert">
-          <ActionIcon
-            as="span"
-            size="sm"
-            variant="outline"
-            aria-label={'Edit Appointment'}
-            className="hover:!border-gray-900 hover:text-gray-700"
-          >
-            <PencilIcon className="h-4 w-4" />
-          </ActionIcon>
-        </Tooltip>
         <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
@@ -230,27 +214,6 @@ export const getColumns = ({
     ),
   },
 ];
-
-function StatusSelect({ selectItem }: { selectItem?: string }) {
-  const selectItemValue = statusOptions.find(
-    (option) => option.value === selectItem
-  );
-  const [value, setValue] = useState(selectItemValue);
-  return (
-    <Select
-      dropdownClassName="!z-10"
-      className="min-w-[140px]"
-      inPortal={false}
-      placeholder="Select Role"
-      options={statusOptions}
-      value={value}
-      onChange={setValue}
-      displayValue={(option: { value: any }) =>
-        renderOptionDisplayValue(option.value as string)
-      }
-    />
-  );
-}
 
 function renderOptionDisplayValue(value: string) {
   switch (value) {

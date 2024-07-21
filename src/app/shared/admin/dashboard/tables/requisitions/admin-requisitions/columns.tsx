@@ -59,16 +59,23 @@ export const getColumns = ({
 }: Columns) => [
   {
     title: <HeaderCell title="NUMBER" />,
-    dataIndex: 'id',
-    key: 'id',
-    width: 90,
-    render: (id: string) => <Text>RE#{id}</Text>,
+    dataIndex: 'number',
+    key: 'number',
+    width: 5,
+    render: (number: string) => <Text>{number}</Text>,
   },
   {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
+    title: <HeaderCell title="#" />,
+    dataIndex: 'id',
+    key: 'id',
+    width: 10,
+    render: (id: string) => <Text>REQ#{id}</Text>,
+  },
+  {
+    title: <HeaderCell title="Date" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
-    width: 230,
+    width: 300,
     render: (date: Date) => <DateCell date={date} />,
   },
 
@@ -76,33 +83,23 @@ export const getColumns = ({
     title: <HeaderCell title="Category" />,
     dataIndex: 'category',
     key: 'category',
-    width: 200,
-    render: (category: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {category}
-      </Text>
-    ),
+    width: 20,
+    render: (category: string) => <Text className="w-5">{category}</Text>,
   },
   {
     title: <HeaderCell title="Sub Category" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
-    width: 200,
-    render: (subCategory: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {subCategory}
-      </Text>
-    ),
+    width: 20,
+    render: (subCategory: string) => <Text>{subCategory}</Text>,
   },
   {
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 200,
+    width: 500,
     render: (requestType: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {requestType}
-      </Text>
+      <Text className="font-semibold">{requestType}</Text>
     ),
   },
   {
@@ -110,68 +107,37 @@ export const getColumns = ({
     dataIndex: 'description',
     key: 'description',
     width: 200,
-    render: (description: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {description}
-      </Text>
-    ),
+    render: (description: string) => <Text>{description}</Text>,
   },
   {
     title: <HeaderCell title="Location" />,
     dataIndex: 'location',
     key: 'location',
-    width: 200,
-    render: (location: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {location}
-      </Text>
-    ),
-  },
-
-  {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 230,
-    render: (date: Date) => <DateCell date={date} />,
+    width: 50,
+    render: (location: string) => <Text>{location}</Text>,
   },
 
   {
     title: <HeaderCell title="Status" />,
     dataIndex: 'status',
     key: 'status',
-    width: 120,
+    width: 50,
     render: (value: string) => getStatusBadge(value),
   },
   {
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'id',
     key: 'action',
-    width: 100,
-    render: (_: any, row: { requestType: string }) => {
-      const requestType = row.requestType.toLowerCase();
-      const queryParams =
-        requestType === 'managed by self'
-          ? '?type=self'
-          : requestType === 'managed by jagedo'
-            ? '?type=jagedo'
-            : '';
-
+    width: 20,
+    render: (id: string, row: any) => {
       return (
         <div className="flex items-center justify-end gap-3 pe-3">
-          <Tooltip size="sm" content={'View'} placement="top" color="invert">
-            <ActionIcon
-              as="span"
-              size="sm"
-              variant="outline"
-              aria-label={'View Appointment'}
-              className="hover:!border-gray-900 hover:text-gray-700"
-            >
-              <Link href={`${routes.admin.requisitionDetails}${queryParams}`}>
-                <EyeIcon className="h-4 w-4" />
-              </Link>
-            </ActionIcon>
-          </Tooltip>
+          <Link
+            href={{ pathname: routes.admin.requisitionDetails, query: { id } }}
+          >
+            <EyeIcon className="h-4 w-4" /> .
+          </Link>
+
           {/* DeletePopover code */}
         </div>
       );

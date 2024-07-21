@@ -59,13 +59,7 @@ export default function CustomTextArea({ className }: { className?: string }) {
         {({ control, formState: { errors } }) => {
           return (
             <>
-              <FormGroup
-                title=""
-                description=""
-                className="@3xl:grid-cols-12 "
-              />
-
-              <div className="mb-5 grid gap-3 divide-y divide-dashed divide-gray-200 @2xl:gap-5 @3xl:gap-5">
+              <div className="mb-5  gap-3 divide-y divide-dashed divide-gray-200 @2xl:gap-5 @3xl:gap-5">
                 <FormGroup title="Notes" className="pt-2  @3xl:grid-cols-12 ">
                   <Controller
                     control={control}

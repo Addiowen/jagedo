@@ -83,7 +83,7 @@ export default function JobSlider({ className }: { className?: string }) {
       headerClassName="items-center"
       className={cn(' @container', className)}
     >
-      <div className="-mt-2 mb-2 flex items-center  @lg:mt-1"></div>
+      <div className="mb-2 flex items-center  @lg:mt-1"></div>
       <SimpleBar>
         <div className="-mt-4 h-[17rem] w-full pt-1">
           <ResponsiveContainer width="100%" height="100%">
@@ -105,23 +105,17 @@ export default function JobSlider({ className }: { className?: string }) {
                 tickLine={false}
                 style={{ fontSize: 13, fontWeight: 500 }}
                 width={100}
-                className="rtl:-translate-x-24 [&_.recharts-text]:fill-gray-700"
+                className="rtl:-translate-y-24 [&_.recharts-text]:fill-gray-700"
               />
               <Bar
                 dataKey="total"
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
-                className="cursor-pointer transition-all duration-300"
+                className="cursor-pointer "
               >
                 {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.fill}
-                    className={`${
-                      activeBar === entry.name ? 'origin-center scale-110' : ''
-                    } origin-center transition-transform duration-300`}
-                  />
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
                 <LabelList
                   position="right"

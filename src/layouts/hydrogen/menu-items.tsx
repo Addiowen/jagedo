@@ -111,57 +111,11 @@ export const menuItems: MenuItem[] = [
     icon: <PiMoneyDuotone />,
   },
 
-  {
-    name: 'Profile',
-    href: routes.admin.dashboard,
-    icon: <PiUserCircleDuotone />,
-    dropdownItems: [
-      {
-        name: 'Fundi',
-        href: routes.admin.createFundiProfile,
-      },
-
-      {
-        name: 'Professional',
-        href: routes.admin.createProfessionalProfile,
-      },
-      {
-        name: 'Contractor',
-        href: routes.admin.createContractorProfile,
-      },
-      {
-        name: 'Customer',
-        href: routes.admin.createCustomerProfile,
-      },
-
-      // {
-      //   name: 'Edit Profile',
-      //   href: routes.admin.editFundiProfile,
-      //   badge: '',
-      //   dropdownItems: [
-      //     {
-      //       name: 'Fundi',
-      //       href: routes.admin.editFundiProfile,
-      //     },
-
-      //     {
-      //       name: 'Professional',
-      //       href: routes.admin.editProfessionalProfile,
-      //     },
-      //     {
-      //       name: 'Contractor',
-      //       href: routes.admin.editContractorProfile,
-      //     },
-      //   ],
-      // },
-    ],
-  },
-
-  {
-    name: 'Generate RFQ',
-    href: routes.admin.rfq,
-    icon: <PiAirplaneTiltDuotone />,
-  },
+  // {
+  //   name: 'Generate RFQ',
+  //   href: routes.admin.rfq,
+  //   icon: <PiAirplaneTiltDuotone />,
+  // },
 
   {
     name: 'Registers',

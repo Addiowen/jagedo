@@ -5,20 +5,16 @@ import { PiTrashDuotone } from 'react-icons/pi';
 
 const categoryOptions = [
   {
-    label: 'Designer',
-    value: 'designer',
+    label: 'Fundi',
+    value: 'Fundi',
   },
   {
-    label: 'Developer',
-    value: 'developer',
+    label: 'Professional',
+    value: 'Professional',
   },
   {
-    label: 'Animator',
-    value: 'animator',
-  },
-  {
-    label: 'Artist',
-    value: 'artist',
+    label: 'Contractor',
+    value: 'Contractor',
   },
 ];
 

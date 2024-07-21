@@ -19,6 +19,7 @@ import {
   PiComputerTowerDuotone,
   PiDesktopDuotone,
   PiProjectorScreenChartDuotone,
+  PiCurrencyCircleDollarDuotone,
 } from 'react-icons/pi';
 import { BarChart, Bar, ResponsiveContainer } from 'recharts';
 import CategoriesCard from '@/components/cards/categories-card';
@@ -129,7 +130,7 @@ const eComDashboardStatData = [
   },
   {
     id: '3',
-    icon: <PiMoneyDuotone className="h-6 w-6 text-green-500" />,
+    icon: <PiCurrencyCircleDollarDuotone className="h-6 w-6 text-green-500" />,
     title: 'Sales Dashboard',
     metric: 'Sales',
     increased: true,

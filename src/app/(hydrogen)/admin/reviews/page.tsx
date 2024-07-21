@@ -1,43 +1,31 @@
-import Link from 'next/link';
-import { PiPlusBold } from 'react-icons/pi';
-import { routes } from '@/config/routes';
-import { Button } from 'rizzui';
-import PageHeader from '@/app/shared/commons/page-header';
-import ReviewsTable from '@/app/shared/ecommerce/review/table';
+// import ServiceProviderRequisitionsTable from '@/app/shared/admin/dashboard/tables/service-provider-requisions';
+// import SpRequisitionsTable from '@/app/shared/service-provider/tables/sp-requisitions-table';
+// import ReviewCard from '@/app/shared/custom-reviews/review-card-view';
+// import ContractorReviewsTable from '@/app/shared/service-provider/tables/reviews-table';
+import ReviewCard from '@/components/cards/review-card';
+// import ContractorQuotationsTable from '@/app/shared/service-provider/tables/sp-quotations-table/contractor';
+// import ContractorRequisitionsTable from '@/app/shared/service-provider/tables/sp-requisitions-table/contractor';
 import { metaObject } from '@/config/site.config';
+import { Title } from 'rizzui';
 
 export const metadata = {
-  ...metaObject('Reviews'),
-};
-
-const pageHeader = {
-  title: 'Reviews',
-  breadcrumb: [
-    {
-      href: routes.admin.reviews,
-      name: 'Reviews',
-    },
-    {
-      name: 'List',
-    },
-  ],
+  ...metaObject(),
 };
 
 export default function ReviewsPage() {
   return (
     <>
-      <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
-        <Link
-          href={routes.eCommerce.reviews}
-          className="mt-4 w-full @lg:mt-0 @lg:w-auto"
-        >
-          <Button as="span" className="w-full @lg:w-auto">
-            <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
-            Add Review
-          </Button>
-        </Link>
-      </PageHeader>
-      <ReviewsTable />
+      <Title as="h4" className="mb-3.5 pb-5 font-semibold @2xl:mb-5">
+        Review
+      </Title>
+
+      <div className="@container">
+        <ReviewCard
+          customer={{ name: 'Floyd Wangari' }}
+          message="Did a good job fixing the wiring"
+          date={new Date()}
+        />
+      </div>
     </>
   );
 }

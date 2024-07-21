@@ -1,21 +1,17 @@
-import { PiPlusBold } from 'react-icons/pi';
+'use client';
+
 import { routes } from '@/config/routes';
-import { Button } from 'rizzui';
+import { Button, Textarea } from 'rizzui';
 import PageHeader from '@/app/shared/commons/page-header';
 import { metaObject } from '@/config/site.config';
-import RequisitionDetails from '@/app/shared/admin/dashboard';
-import CustomerDetails from '@/app/shared/admin/dashboard/tables/requisitions/requisition-details/customer-details';
 import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
-import JobDetailsCard from '@/app/shared/logistics/dashboard/job-details';
-import CustomTextArea2 from '@/app/shared/account-settings/custom-text-area2';
-import CustomTextArea from '@/app/shared/account-settings/custom-text-area';
-import JobsWidget from '@/app/shared/ecommerce/dashboard/promotional-sales';
-import JobStats from '@/app/shared/job-dashboard/job-stats';
-import JobDetails from '@/app/shared/admin/dashboard/tables/requisitions/requisition-details/job-details';
 
-export const metadata = {
-  ...metaObject('View Job'),
-};
+import WidgetCard3 from '@/components/cards/widget-card3';
+import ToastButton from '@/components/buttons/toast-button';
+import Link from 'next/link';
+import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import { completeJobDetailsData } from '@/data/job-data';
+import { useSearchParams } from 'next/navigation';
 
 const pageHeader = {
   title: 'View Job',
@@ -35,6 +31,9 @@ const pageHeader = {
 };
 
 export default function RequisitionDetailsPage() {
+  const searchParams = useSearchParams();
+
+  const jobId = searchParams.get('id');
   return (
     <>
       <PageHeader
@@ -44,10 +43,28 @@ export default function RequisitionDetailsPage() {
 
       <CustomerDetailsCard className="mt-2" />
       {/* <JobDetailsCard className="mt-6" /> */}
-      <div className="mt-2 mt-6 flex flex-col gap-y-6 @container sm:gap-y-10">
-        <JobDetails />
+      <div className="mt-4">
+        <ChunkedGrid
+          data={
+            jobId === '3416'
+              ? completeJobDetailsData[0]
+              : completeJobDetailsData[1]
+          }
+          dataChunkSize={4}
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        />
       </div>
-      <CustomTextArea className="mt-6" />
+      <WidgetCard3
+        title="Notes"
+        rounded="lg"
+        className="mt-4"
+        action={<Textarea size="sm" className="ml-12 flex flex-grow" />}
+      ></WidgetCard3>
+      <Link href={routes.admin.assignServiceProvider}>
+        <div className="mt-6">
+          <ToastButton title="Assign Fundis" />
+        </div>
+      </Link>
     </>
   );
 }

@@ -24,7 +24,7 @@ type WidgetCardTypes = {
   className?: string;
 };
 
-function WidgetCard(
+function WidgetCard3(
   {
     title,
     action,
@@ -72,5 +72,5 @@ function WidgetCard(
   );
 }
 
-export default forwardRef(WidgetCard);
-WidgetCard.displayName = 'WidgetCard';
+export default forwardRef(WidgetCard3);
+WidgetCard3.displayName = 'WidgetCard';

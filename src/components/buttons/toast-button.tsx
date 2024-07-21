@@ -10,10 +10,12 @@ export default function ToastButton({
   title,
   message,
   route,
+  AltButton,
 }: {
   title?: string;
   message?: string;
   route?: string;
+  AltButton?: boolean;
 }) {
   const router = useRouter();
 
@@ -28,7 +30,11 @@ export default function ToastButton({
   };
 
   return (
-    <Button className="w-full @lg:w-auto" onClick={handleClick}>
+    <Button
+      variant={AltButton ? 'outline' : 'solid'} // Conditionally set the variant
+      className="w-full @lg:w-auto"
+      onClick={handleClick}
+    >
       {title}
     </Button>
   );
