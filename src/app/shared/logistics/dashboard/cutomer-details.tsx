@@ -4,10 +4,7 @@ import { Text } from 'rizzui';
 import cn from '@/utils/class-names';
 import WidgetCard from '@/components/cards/widget-card';
 import ExpenseIcon from '@/components/icons/expenses';
-import RevenueUpIcon from '@/components/icons/revenue-up';
-import SalesIcon from '@/components/icons/sales';
-import ContainersIcon from '@/components/icons/containers';
-import ExpressDeliveryIcon from '@/components/icons/express-delivery';
+
 import SimpleBar from '@/components/ui/simplebar';
 import DropdownAction from '@/components/charts/dropdown-action';
 import TrendingUpIcon from '@/components/icons/trending-up';

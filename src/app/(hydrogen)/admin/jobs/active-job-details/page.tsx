@@ -18,17 +18,26 @@ type PageProps = {
 export default function ActiveJobsPage({ className }: PageProps) {
   // export default function ActiveJobsPage() {
   return (
-    <div className={cn('xl:gap-15 grid grid-cols-2 lg:grid-cols-2')}>
-      <div>
+    <div className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-3', className)}>
+      <div className="col-span-2">
         <ActiveJobDetailsCard />
         <CustomProgressBar />
-        <Link href={routes.admin.active}>
-          <div className="flex  justify-center">
+
+        {/* <Progressbar
+          className="mt-6"
+          value={75}
+          label="75% Ongoing"
+          color="info"
+          size="xl"
+        /> */}
+
+        <div className="flex  justify-center">
+          <Link href={routes.admin.active}>
             <Button className="mt-6">Back</Button>
-          </div>
-        </Link>
+          </Link>
+        </div>
       </div>
-      <div className="-ml-12">
+      <div className="">
         <ProgressBarActive />
       </div>
     </div>
