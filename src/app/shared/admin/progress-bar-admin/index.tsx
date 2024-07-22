@@ -62,32 +62,73 @@ export default function ProgressBarActive({
   className?: string;
 }) {
   const [modalState, setModalState] = useState(false);
+  const [approveModalState, setApproveModalState] = useState(false);
 
   return (
     <>
-      <div className='ml-14 lg:ml-20'>
+      <div className="ml-14 lg:ml-20">
         <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-            <div className='p-10'>
-                <p className='text-center text-lg font-semibold'>Do you confirm completion of this job?</p>
-                {/* <Button>Yes</Button> */}
+          <div className="p-10">
+            <p className="text-center text-lg font-semibold">
+              Do you confirm completion of this job?
+            </p>
+            {/* <Button>Yes</Button> */}
 
-                <div className='flex justify-center mt-6'>
-                  <Button onClick={() => setModalState(false)} className='w-32'>Yes</Button>
-                  {/* <Link href={routes.serviceProvider.contractor.requisitions}> */}
-                    <Button variant="outline" onClick={() => setModalState(false)} className="w-32 ml-4">
-                        No
-                    </Button>
-                  {/* </Link> */}
-                </div>
+            <div className="mt-6 flex justify-center">
+              <Button onClick={() => setModalState(false)} className="w-32">
+                Yes
+              </Button>
+              {/* <Link href={routes.serviceProvider.contractor.requisitions}> */}
+              <Button
+                variant="outline"
+                onClick={() => setModalState(false)}
+                className="ml-4 w-32"
+              >
+                No
+              </Button>
+              {/* </Link> */}
             </div>
+          </div>
         </Modal>
-        <div className='mb-8'>
-        
-              <Button onClick={() => setModalState(true)}>Complete Job</Button>
-          
+
+        <Modal
+          isOpen={approveModalState}
+          onClose={() => setApproveModalState(false)}
+        >
+          <div className="p-10">
+            <p className="text-center text-lg font-semibold">
+              Do you approve completion of this job?
+            </p>
+            {/* <Button>Yes</Button> */}
+
+            <div className="mt-6 flex justify-center">
+              <Button
+                onClick={() => setApproveModalState(false)}
+                className="w-32"
+              >
+                Yes
+              </Button>
+              {/* <Link href={routes.serviceProvider.contractor.requisitions}> */}
+              <Button
+                variant="outline"
+                onClick={() => setApproveModalState(false)}
+                className="ml-4 w-32"
+              >
+                No
+              </Button>
+              {/* </Link> */}
+            </div>
+          </div>
+        </Modal>
+        <div className="mb-8">
+          <Button className="mr-4" onClick={() => setApproveModalState(true)}>
+            Approve Job
+          </Button>
+
+          <Button onClick={() => setModalState(true)}>Complete Job</Button>
         </div>
 
-        <Timeline data={timelineData} order="desc" />   
+        <Timeline data={timelineData} order="desc" />
       </div>
     </>
   );

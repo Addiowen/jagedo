@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { PiCaretDownBold } from 'react-icons/pi';
 import { Accordion } from 'rizzui';
 import { activeJobDetailsData } from '@/data/job-data';
+import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
 
 // const data = [
 //   {
@@ -98,6 +99,30 @@ export default function ActiveJobDetailsCard() {
         <Accordion.Body>
           <div className="mb-4">
             <CustomerDetailsCard />
+          </div>
+        </Accordion.Body>
+      </Accordion>
+
+      {/* Fundi Job Details */}
+
+      <Accordion className="mb-8 mt-2">
+        <Accordion.Header>
+          <div
+            onClick={handleToggle}
+            className="flex w-full items-center justify-between py-5 text-xl font-semibold text-gray-900"
+          >
+            {'Fundi Details'}
+            <PiCaretDownBold
+              className={`flex h-5 w-5 transform  transition-transform duration-300 ${
+                isOpen ? 'rotate-0' : '-rotate-90'
+              }`}
+            />
+          </div>
+        </Accordion.Header>
+
+        <Accordion.Body>
+          <div className="mb-4">
+            <FundiDetailsCard />
           </div>
         </Accordion.Body>
       </Accordion>

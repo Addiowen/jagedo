@@ -24,12 +24,13 @@ const statData = [
     increased: false,
     percentage: '+4.40',
   },
+
   {
     id: '2',
     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
     graphColor: 'text-green',
-    title: 'Type',
-    name: 'Individual',
+    title: 'Sub Category',
+    name: 'Mason',
     increased: true,
     percentage: '+32.40',
   },
@@ -43,15 +44,14 @@ const statData = [
     increased: true,
     percentage: '+32.40',
   },
-
   {
     id: '4',
+    graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+    graphColor: 'text-green',
     title: 'Email Address',
-    graphIcon: <TrendingDownIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-red',
-    name: 'stiv@gmail.com',
-    decreased: true,
-    percentage: '5.40',
+    name: 'steve@email.com',
+    increased: true,
+    percentage: '+32.40',
   },
 ];
 
@@ -66,7 +66,7 @@ const viewOptions = [
   },
 ];
 
-export default function CustomerDetailsCard({
+export default function FundiDetailsCard({
   className,
 }: {
   className?: string;
@@ -79,7 +79,7 @@ export default function CustomerDetailsCard({
     <WidgetCard
       rounded="lg"
       className={className}
-      title="Customer Details"
+      title="Fundi Details"
       headerClassName="mb-2 "
     >
       <SimpleBar>
