@@ -14,6 +14,7 @@ import ReviewForm from '@/app/shared/custom-reviews/review-form';
 import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
 import { completeJobDetailsData, jobData } from '@/data/job-data';
 import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
+import ChunkedGridActive from '@/app/shared/chunked-grid-active';
 
 // const data = [
 //     {
@@ -115,14 +116,14 @@ export default function FundiCompleteJobDetails() {
       <CustomerDetailsCard />
 
       <div className="mb-4 mt-4">
-        <ChunkedGrid
+        <ChunkedGridActive
           data={
             jobId === '3324'
               ? completeJobDetailsData[0]
               : completeJobDetailsData[1]
           }
-          dataChunkSize={4}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          dataChunkSize={8}
+          // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
       </div>
 

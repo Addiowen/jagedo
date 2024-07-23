@@ -1,4 +1,4 @@
-import ActiveJobDetailsCard from '@/app/shared/admin/details/job-details';
+import ActiveJobDetailsCard from '@/app/shared/admin/details/active-job-details';
 // import SpJobsTable from '@/app/shared/service-provider/tables/sp-jobs-table';
 import { metaObject } from '@/config/site.config';
 import { Button, Progressbar } from 'rizzui';

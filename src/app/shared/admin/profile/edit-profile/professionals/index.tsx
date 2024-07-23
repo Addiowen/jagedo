@@ -22,6 +22,9 @@ import { routes } from '@/config/routes';
 import Link from 'next/link';
 import CustomersTable from '../../../dashboard/tables/customers/organization';
 import ProfessionalHistoryTable from '../../../dashboard/tables/history-tables/professional';
+import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import { completeJobDetailsData } from '@/data/job-data';
+import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
 
 function WidgetCard({
   title,
@@ -117,6 +120,16 @@ export default function EditProfessionalForm() {
                 Contact Details
               </Title>
             </div> */}
+
+            <div className="mb-4 mt-4">
+              <ProfileChunkedGrid
+                data={completeJobDetailsData[1]}
+                dataChunkSize={16}
+                className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1"
+                editMode={false}
+              />
+            </div>
+
             <div className="grid grid-cols-2  rounded-xl border border-muted px-4 py-2 @5xl:gap-7 @5xl:p-7">
               {/* <!-- Column 1 --> */}
               <div className="space-y-4">
@@ -125,6 +138,7 @@ export default function EditProfessionalForm() {
                     Personal Details
                   </h4>
                 </div>
+
                 <div className="flex font-medium">
                   <span className="w-1/2">Skill</span>
                   <span className="w-1/2">Architect</span>

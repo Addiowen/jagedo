@@ -23,6 +23,20 @@ export const billofQuantity = [
   },
 ];
 
+export const Note = [
+  {
+    NOTE: 'Master Fundi required for this job',
+  },
+];
+export const JobDescription = [
+  {
+    'Job Description': 'Repair of faulty wiring system',
+  },
+  {
+    'Job Description': 'Tank reticulation to water point',
+  },
+];
+
 export const completeJobDetailsData = [
   {
     'Request Type': 'Emergency',
@@ -30,7 +44,6 @@ export const completeJobDetailsData = [
     'Request Number': '#JOB0021',
 
     Location: 'Kome,Homabay',
-    'Job description': 'Repair of faulty wiring system',
     Status: 'Reviewed',
 
     Category: 'Fundi',
@@ -50,7 +63,6 @@ export const completeJobDetailsData = [
     'Request Number': '#JOB0020',
 
     Location: 'Kome,Homabay',
-    'Job description': 'Tank reticulation to water point',
     Status: 'Unreviewed',
 
     Category: 'Fundi',

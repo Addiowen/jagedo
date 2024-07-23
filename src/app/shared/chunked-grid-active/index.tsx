@@ -9,7 +9,7 @@ import {
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
-import { JobDescription } from '@/data/job-data';
+import { JobDescription, Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 
 interface Item {
@@ -22,7 +22,11 @@ interface Props {
   dataChunkSize: number;
 }
 
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
+const ChunkedGridActive: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+}) => {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
@@ -106,8 +110,15 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
           </ul>
         ))}
       </div>
+
+      <JobDescriptionChunked
+        className="mt-4"
+        data={Note[0]}
+        dataChunkSize={1}
+        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      />
     </div>
   );
 };
 
-export default ChunkedGrid;
+export default ChunkedGridActive;

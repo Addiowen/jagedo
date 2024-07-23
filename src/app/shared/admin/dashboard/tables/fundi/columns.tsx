@@ -196,10 +196,10 @@ export const getColumns = ({
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'status',
     key: 'action',
     width: 180,
-    render: (_: string, row: any) => (
+    render: (status: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
         <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
@@ -209,7 +209,12 @@ export const getColumns = ({
             aria-label={'View Appointment'}
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-            <Link href={routes.admin.editFundiProfile}>
+            <Link
+              href={{
+                pathname: routes.admin.editFundiProfile,
+                query: { status },
+              }}
+            >
               <EyeIcon className="h-4 w-4" />
             </Link>
           </ActionIcon>

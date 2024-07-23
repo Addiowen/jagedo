@@ -64,9 +64,10 @@ export default function CompletedJobDetails() {
         <div className="p-10">
           {/* <Slider title="Average" total={5} value={3} />  */}
           <ReviewCard
-            customer={{ name: 'Floyd Wangari' }}
+            reviewer={{ name: 'Floyd Wangari' }}
             message="Did a good job fixing the wiring"
             date={new Date()}
+            role="customer"
           />
         </div>
       </Modal>

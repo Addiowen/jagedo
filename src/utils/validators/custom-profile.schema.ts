@@ -9,23 +9,21 @@ export const fundiProfileSchema = baseUserFormSchema.extend({
   // skill: z.string().optional(),
   // level: z.string().optional(),
   // years: z.string().optional(),
-  idPic: z
-    .any()
-    .refine((value) => value !== undefined, {
-      message: messages.idPicIsRequired,
-    }),
-  certificates: z
-    .any()
-    .refine((value) => value !== undefined, {
-      message: messages.certificatesIsRequired,
-    }),
-  ncaCard: z
-    .any()
-    .refine((value) => value !== undefined, {
-      message: messages.ncaCardIsRequired,
-    }),
+  idPic: z.any().refine((value) => value !== undefined, {
+    message: messages.idPicIsRequired,
+  }),
+  certificates: z.any().refine((value) => value !== undefined, {
+    message: messages.certificatesIsRequired,
+  }),
+  ncaCard: z.any().refine((value) => value !== undefined, {
+    message: messages.ncaCardIsRequired,
+  }),
   gender: z.string().min(1, { message: messages.genderIsRequired }),
   resume: z.any().optional(),
+  question1: z.string().min(1, { message: messages.fieldIsRequired }),
+  question2: z.string().min(1, { message: messages.fieldIsRequired }),
+  question3: z.string().min(1, { message: messages.fieldIsRequired }),
+  question4: z.string().min(1, { message: messages.fieldIsRequired }),
 });
 
 // generate form types from zod validation schema

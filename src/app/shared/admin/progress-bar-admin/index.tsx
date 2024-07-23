@@ -37,15 +37,6 @@ const timelineData = [
   //   status: 'ongoing',
   // },
   {
-    title: 'Stop',
-    text: '',
-    hightlightedText: '',
-    date: 'April 16, 2024',
-    time: '05:31 am',
-    icon: '',
-    status: '',
-  },
-  {
     title: 'Start',
     text: '',
     hightlightedText: '',
@@ -53,6 +44,24 @@ const timelineData = [
     time: '05:31 am',
     icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
     status: 'ongoing',
+  },
+  //  {
+  //   title: 'Milestone 1',
+  //   text: 'Wall Escavations',
+  //   hightlightedText: '',
+  //   date: 'May 02, 2023',
+  //   time: '09:00 am',
+  //   icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+  //   status: 'ongoing',
+  // },
+  {
+    title: 'Stop',
+    text: '',
+    hightlightedText: '',
+    date: 'April 16, 2024',
+    time: '05:31 am',
+    icon: '',
+    status: '',
   },
 ];
 
@@ -62,7 +71,6 @@ export default function ProgressBarActive({
   className?: string;
 }) {
   const [modalState, setModalState] = useState(false);
-  const [approveModalState, setApproveModalState] = useState(false);
 
   return (
     <>
@@ -72,13 +80,11 @@ export default function ProgressBarActive({
             <p className="text-center text-lg font-semibold">
               Do you confirm completion of this job?
             </p>
-            {/* <Button>Yes</Button> */}
 
             <div className="mt-6 flex justify-center">
               <Button onClick={() => setModalState(false)} className="w-32">
                 Yes
               </Button>
-              {/* <Link href={routes.serviceProvider.contractor.requisitions}> */}
               <Button
                 variant="outline"
                 onClick={() => setModalState(false)}
@@ -86,49 +92,19 @@ export default function ProgressBarActive({
               >
                 No
               </Button>
-              {/* </Link> */}
             </div>
           </div>
         </Modal>
 
-        <Modal
-          isOpen={approveModalState}
-          onClose={() => setApproveModalState(false)}
-        >
-          <div className="p-10">
-            <p className="text-center text-lg font-semibold">
-              Do you approve completion of this job?
-            </p>
-            {/* <Button>Yes</Button> */}
-
-            <div className="mt-6 flex justify-center">
-              <Button
-                onClick={() => setApproveModalState(false)}
-                className="w-32"
-              >
-                Yes
-              </Button>
-              {/* <Link href={routes.serviceProvider.contractor.requisitions}> */}
-              <Button
-                variant="outline"
-                onClick={() => setApproveModalState(false)}
-                className="ml-4 w-32"
-              >
-                No
-              </Button>
-              {/* </Link> */}
-            </div>
+        <div className="-ml-20 mb-4 mt-12 flex flex-col rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl ">
+          <div className="w-full max-w-screen-lg">
+            <Timeline data={timelineData} order="desc" />
           </div>
-        </Modal>
-        <div className="mb-8">
-          <Button className="mr-4" onClick={() => setApproveModalState(true)}>
-            Approve Job
-          </Button>
 
-          <Button onClick={() => setModalState(true)}>Complete Job</Button>
+          {/* <div className=''>     
+                <Button onClick={() => setModalState(true)}>Complete Job</Button>       
+          </div> */}
         </div>
-
-        <Timeline data={timelineData} order="desc" />
       </div>
     </>
   );

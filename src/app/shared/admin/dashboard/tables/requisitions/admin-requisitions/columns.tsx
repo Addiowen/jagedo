@@ -135,7 +135,7 @@ export const getColumns = ({
           <Link
             href={{ pathname: routes.admin.requisitionDetails, query: { id } }}
           >
-            <EyeIcon className="h-4 w-4" /> .
+            <EyeIcon className="h-4 w-4" />
           </Link>
 
           {/* DeletePopover code */}

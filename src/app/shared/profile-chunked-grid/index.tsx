@@ -7,10 +7,7 @@ import {
   PiWrench,
   PiWrenchBold,
 } from 'react-icons/pi';
-import { Title } from 'rizzui';
-import JobDescriptionChunked from '../job-description-chunked';
-import { JobDescription } from '@/data/job-data';
-import { useSearchParams } from 'next/navigation';
+import { Input, Title } from 'rizzui';
 
 interface Item {
   [key: string]: string;
@@ -20,12 +17,15 @@ interface Props {
   data: Item;
   className?: string;
   dataChunkSize: number;
+  editMode: boolean;
 }
 
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
-  const searchParams = useSearchParams();
-
-  const jobId = searchParams.get('id');
+const ProfileChunkedGrid: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+  editMode,
+}) => {
   // const filteredData =
 
   // Convert the data object to an array of key-value pairs
@@ -45,28 +45,20 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
   const chunkedData = chunkArray(dataArray, dataChunkSize);
 
   return (
-    <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
-      <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
-        Project Details
-      </div>
-
-      <JobDescriptionChunked
-        data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
-        dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+    <div className="rounded-lg bg-gray-0 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl xl:rounded-2xl">
+      {/* {/ <div className="text-gray-900 font-semibold sm:text-lg pb-4">Project Details</div> /} */}
 
       <div
         className={cn(
           !className &&
-            'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2',
+            'grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1',
           className
         )}
       >
         {chunkedData.map((chunk, columnIndex) => (
           <ul
             key={columnIndex}
-            className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md"
+            className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg bg-gray-0"
           >
             {chunk.map(([key, value], itemIndex) => (
               // <li key={itemIndex} className="flex items-start justify-between mb-4 last:mb-0">
@@ -84,16 +76,45 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
             >
               <PiHammerBold className="w-4 h-4" />
             </div> */}
-                <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
-                  <div className="">
-                    <Title
-                      as="h4"
-                      className="mb-1 whitespace-nowrap text-sm font-semibold"
-                    >
-                      {key}
-                    </Title>
-                    <div className="text-gray-500">{value}</div>
-                  </div>
+                <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2">
+                  {editMode ? (
+                    <div>
+                      <Title
+                        as="h4"
+                        className="mb-1 whitespace-nowrap text-sm font-semibold"
+                      >
+                        {key}
+                      </Title>
+                      <Input
+                        placeholder="Gender"
+                        size="md"
+                        inputClassName="text-sm"
+                        defaultValue={value}
+                        // {...register('email')}
+                        // error={errors.email?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+                    </div>
+                  ) : (
+                    <div className="">
+                      <Title
+                        as="h4"
+                        className="mb-1 whitespace-nowrap text-sm font-semibold"
+                      >
+                        {key}
+                      </Title>
+                      <div className="text-gray-500">{value}</div>
+                    </div>
+                  )}
+                  {/* <div className="">
+                <Title as="h4" className="mb-1 text-sm font-semibold whitespace-nowrap">
+                  {key}
+                </Title>
+                <div className="text-gray-500">
+                  {value}
+                </div>
+              </div> */}
+
                   {/* <div
                 as="span"
                 className="font-lexend text-gray-900 dark:text-gray-700"
@@ -110,4 +131,4 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
   );
 };
 
-export default ChunkedGrid;
+export default ProfileChunkedGrid;

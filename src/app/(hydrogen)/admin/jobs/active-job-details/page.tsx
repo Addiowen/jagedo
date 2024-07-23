@@ -1,27 +1,37 @@
-import ActiveJobDetailsCard from '@/app/shared/admin/details/job-details';
-import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
-import CustomProgressBar from '@/app/shared/custom-progress-bar';
-import { routes } from '@/config/routes';
+import ActiveJobDetailsCard from '@/app/shared/admin/details/active-job-details';
+// import SpJobsTable from '@/app/shared/service-provider/tables/sp-jobs-table';
 import { metaObject } from '@/config/site.config';
-import cn from '@/utils/class-names';
+import { Button, Progressbar } from 'rizzui';
 import Link from 'next/link';
-import { PiCheckCircle } from 'react-icons/pi';
-import { Button } from 'rizzui';
+import cn from '@/utils/class-names';
+import { routes } from '@/config/routes';
+import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 
 export const metadata = {
-  ...metaObject('Admin'),
+  ...metaObject(),
 };
 
 type PageProps = {
   className: string;
+  // other props as needed
 };
-export default function ActiveJobsPage({ className }: PageProps) {
-  // export default function ActiveJobsPage() {
+
+export default function JobDetailsPage({ className }: PageProps) {
   return (
-    <div className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-3', className)}>
-      <div className="col-span-2">
+    <>
+      <div className="flex justify-between">
+        <h3 className="mb-4">Job Details</h3>
+        <div className="">
+          <Button>Complete Job</Button>
+        </div>
+      </div>
+
+      <div
+        className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-1', className)}
+      >
+        <ProgressBarActive />
+
         <ActiveJobDetailsCard />
-        <CustomProgressBar />
 
         {/* <Progressbar
           className="mt-6"
@@ -37,9 +47,6 @@ export default function ActiveJobsPage({ className }: PageProps) {
           </Link>
         </div>
       </div>
-      <div className="">
-        <ProgressBarActive />
-      </div>
-    </div>
+    </>
   );
 }

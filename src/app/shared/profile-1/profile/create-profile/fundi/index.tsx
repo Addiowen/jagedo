@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Input, Loader } from 'rizzui';
+import { FileInput } from '@/app/shared/commons/custom-file-input';
 import {
   fundiProfileSchema,
   FundiProfileSchema,
@@ -22,6 +23,7 @@ import {
   years,
   county,
   subCounty,
+  booleanQuestion,
 } from './data';
 import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
@@ -43,9 +45,8 @@ export default function CreateFundiProfileForm() {
   const onSubmit: SubmitHandler<FundiProfileSchema> = (data) => {
     console.log(data);
 
-    window.sessionStorage.setItem('profileCreated', 'true');
-    window.location.reload();
-    // router.push(routes.serviceProvider.fundi.profile)
+    // window.sessionStorage.setItem('profileCreated', 'true');
+    router.push(routes.admin.editFundiProfile);
   };
 
   return (
@@ -345,6 +346,115 @@ export default function CreateFundiProfileForm() {
                   />
                 </div>
                 {/* </div> */}
+              </motion.div>
+            )}
+
+            {/* {/ Step 3 /} */}
+            {currentStep === 2 && (
+              <motion.div
+                initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                {/* {/ Title and description /} */}
+                <div className="col-span-full pb-10 @4xl:col-span-4">
+                  <h4 className="text-base font-medium">Evaluation Form</h4>
+                  <p className="mt-2">Kindly fill in the details below</p>
+                </div>
+
+                {/* {/ Inputs /} */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <Controller
+                    control={control}
+                    name="question1"
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        dropdownClassName="!z-10"
+                        inPortal={false}
+                        placeholder="Yes/No"
+                        label="Have you done any major works in the construction industry?"
+                        size="lg"
+                        selectClassName="font-medium text-sm"
+                        optionClassName=""
+                        options={booleanQuestion}
+                        onChange={onChange}
+                        value={value}
+                        className=""
+                        getOptionValue={(option) => option.value}
+                        displayValue={(selected) =>
+                          booleanQuestion?.find((r) => r.value === selected)
+                            ?.label ?? ''
+                        }
+                        error={errors?.question1?.message as string}
+                      />
+                    )}
+                  />
+
+                  {/* <Textarea
+                      label="Message"
+                      value={'state'}
+                      maxLength={236}
+                      rows={1}
+                      size="lg"
+                      className=""
+                      // onChange={(e) => setState(e.target.value)}
+                      // renderCharacterCount={({ characterCount, maxLength }) => (
+                      //   <div className="text-right text-sm opacity-70 rtl:text-left">
+                      //     {characterCount}/{maxLength}
+                      //   </div>
+                      // )}
+                    /> */}
+
+                  <Input
+                    placeholder="E.g., cement, bricks"
+                    label="State the materials that you have been using mostly for your jobs"
+                    size="lg"
+                    inputClassName="text-sm"
+                    {...register('question2')}
+                    error={errors.question2?.message}
+                    className="[&>label>span]:font-medium"
+                  />
+
+                  <Input
+                    placeholder="E.g., plumb bomb, tape measure"
+                    label="Name essential equipment that you have been using for your job"
+                    size="lg"
+                    inputClassName="text-sm"
+                    {...register('question3')}
+                    error={errors.question3?.message}
+                    className="[&>label>span]:font-medium"
+                  />
+
+                  <Input
+                    placeholder="Answer here"
+                    label="How do you always formulate your quotations?"
+                    size="lg"
+                    inputClassName="text-sm"
+                    {...register('question4')}
+                    error={errors.question4?.message}
+                    className="[&>label>span]:font-medium"
+                  />
+
+                  {/* <div className="flex items-center">
+                      <p className="font-medium py-auto">Please share with us 3 photos of your previous jobs</p>
+                    </div>
+                    <UploadButton modalView={<FileUpload />} /> */}
+
+                  <div className="mt-4">
+                    <p className="mb-1 font-medium">
+                      Please share with us 3 photos of your previous jobs
+                    </p>
+                    <FileInput />
+                    {/* {/ <UploadButtonOutlined modalView={<FileUpload />} /> /} */}
+
+                    {/* <div className="border border-gray-300 border-2 rounded-lg">
+                        <div className="w-40 -pt-4 flex">                    
+                          <UploadButtonOutlined modalView={<FileUpload />} />
+                        </div>
+                      </div> */}
+                  </div>
+                </div>
+                {/* {/ </div> /} */}
               </motion.div>
             )}
           </>

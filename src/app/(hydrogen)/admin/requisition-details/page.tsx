@@ -10,8 +10,9 @@ import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import { completeJobDetailsData } from '@/data/job-data';
+import { completeJobDetailsData, JobDescription } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
+import JobDescriptionChunked from '@/app/shared/job-description-chunked';
 
 const pageHeader = {
   title: 'View Job',
@@ -50,8 +51,8 @@ export default function RequisitionDetailsPage() {
               ? completeJobDetailsData[0]
               : completeJobDetailsData[1]
           }
-          dataChunkSize={4}
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          dataChunkSize={8}
+          // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
       </div>
       <WidgetCard3
@@ -61,7 +62,7 @@ export default function RequisitionDetailsPage() {
         action={<Textarea size="sm" className="ml-12 flex flex-grow" />}
       ></WidgetCard3>
       <Link href={routes.admin.assignServiceProvider}>
-        <div className="mt-6">
+        <div className=" mt-6">
           <ToastButton title="Assign Fundis" />
         </div>
       </Link>

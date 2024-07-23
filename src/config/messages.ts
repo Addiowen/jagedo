@@ -87,6 +87,7 @@ export const messages = {
   idPicIsRequired: 'ID Picture / Passport is required',
   certificatesIsRequired: 'Certificates required',
   ncaCardIsRequired: 'NCA Registration Card is required',
+  fieldIsRequired: 'This field is required',
 
   // customer
   typeIsRequired: 'Type is required',
