@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 
 const data = [
   {
-    name: 'Requisitions',
+    name: 'Requests',
     total: 8,
     fill: '#2B7F75',
     link: routes.customers.requisitions,
@@ -42,6 +42,12 @@ const data = [
     total: 13,
     fill: '#64CCC5',
     link: routes.customers.complete,
+  },
+  {
+    name: 'Reviews',
+    total: 5,
+    fill: '#FFC0CB',
+    link: routes.customers.reviews,
   },
 ];
 

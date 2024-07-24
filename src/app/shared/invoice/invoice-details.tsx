@@ -20,7 +20,7 @@ const invoiceItems = [
     },
     quantity: 2,
     unitPrice: 100,
-    total: 200,
+    total: 1000,
   },
 ];
 
@@ -81,9 +81,9 @@ export default function InvoiceDetails() {
 
   return (
     <>
-      <div className="w-full rounded-xl border border-muted p-5 text-sm sm:p-6 lg:p-8 2xl:p-10">
-        <div className="mb-12 flex flex-col-reverse items-start justify-between md:mb-16 md:flex-row">
-          <div className="h-25 w-20">
+      <div className="w-full rounded-xl border border-muted p-3 text-xs">
+        <div className="mb-6 flex flex-col-reverse items-start justify-between md:mb-8 md:flex-row">
+          <div className="h-16 w-12">
             <Image
               src={siteConfig.logo}
               alt={siteConfig.title}
@@ -91,86 +91,79 @@ export default function InvoiceDetails() {
               priority
             />
           </div>
-          <div className="mb-4 md:mb-0">
+          <div className="mb-3 md:mb-0">
             <Badge
               variant="flat"
               color={paymentStatus === 'Unpaid' ? 'danger' : 'success'}
               rounded="md"
-              className="mb-3 md:mb-2"
+              className="mb-1"
             >
               {paymentStatus}
             </Badge>
-            <Title as="h6">INV - #246098</Title>
-            <Text className="mt-0.5 text-gray-500">Invoice Number</Text>
+            <Title as="h6" className="text-xs">INV - #246098</Title>
+            <Text className="mt-0.5 text-gray-500 text-2xs">Invoice Number</Text>
           </div>
         </div>
 
-        <div className="mb-6 grid gap-4 xs:grid-cols-2 sm:grid-cols-3 sm:grid-rows-1">
-          <div className="">
+        <div className="mb-4 grid gap-2 xs:grid-cols-2 sm:grid-cols-3">
+          <div>
             <div>
-              <Text className=" text-sm font-semibold">Invoice Date</Text>
-              <Text className="mb-2">July 10, 2024</Text>
+              <Text className="text-2xs font-semibold">Invoice Date</Text>
+              <Text className="mb-1 text-2xs">July 10, 2024</Text>
             </div>
             <div>
-              <Text className="text-sm font-semibold">Due Date</Text>
-              <Text>July 11, 2024</Text>
+              <Text className="text-2xs font-semibold">Due Date</Text>
+              <Text className="text-2xs">July 11, 2024</Text>
             </div>
           </div>
 
-          <div className="mt-2 xs:mt-0">
-            <Title as="h6" className="mb-3.5 font-semibold">
-              Invoice To
-            </Title>
-
-            <Text className="mb-1.5">Hassan Rajab</Text>
-            <Text className="mb-1.5">Nairobi,Kenya</Text>
+          <div className="mt-1 xs:mt-0">
+            <Title as="h6" className="mb-2 text-xs font-semibold">Invoice To</Title>
+            <Text className="mb-1 text-2xs">Owen Oscar</Text>
+            <Text className="mb-1 text-2xs">Nairobi, Kenya</Text>
           </div>
 
-          <div className=" flex sm:mt-2 md:mt-0 md:justify-end">
+          <div className="flex sm:mt-1 md:mt-0 md:justify-end">
             <QRCodeSVG
               value="https://reactjs.org/"
-              className="h-28 w-28 lg:h-32 lg:w-32"
+              className="h-20 w-20"
             />
           </div>
         </div>
 
         <InvoiceDetailsListTable />
 
-        <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-2 pt-4 xs:flex-row">
-          <div className="mt-2 max-w-md pe-4 xs:mt-0">
+        <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-1 pt-3 xs:flex-row">
+          <div className="mt-1 max-w-md pe-3 xs:mt-0">
             <Title
               as="h6"
-              className="mb-1 text-xs font-semibold uppercase xs:mb-2 xs:text-sm"
+              className="mb-1 text-2xs font-semibold uppercase"
             >
               Notes
             </Title>
-            <Text className="leading-[1.7]">
+            <Text className="leading-[1.5] text-2xs">
               We appreciate your business. Should you need us to add VAT or
               extra notes let us know!
             </Text>
           </div>
-          <div className=" w-full max-w-sm">
-            <Text className="flex items-center justify-between border-b border-muted  lg:pb-5">
-              Subtotal:{' '}
-              <Text as="span" className="font-semibold">
-                KSH 200
-              </Text>
+          <div className="w-full max-w-xs">
+            <Text className="flex items-center justify-between border-b border-muted pb-1 text-2xs">
+              Subtotal: 
+              <Text as="span" className="font-semibold">KSH 1000</Text>
             </Text>
-
-            <Text className="flex items-center justify-between border-b border-muted  lg:py-5">
+            <Text className="flex items-center justify-between border-b border-muted py-1 text-2xs">
               Taxes:
-              <Text as="span" className="font-semibold">
-                16% VAT
-              </Text>
+              <Text as="span" className="font-semibold">16% VAT</Text>
             </Text>
-            <Text className="flex items-center justify-between  text-base font-semibold text-gray-900 lg:pt-5">
-              Total: <Text as="span">KSH 232</Text>
+            <Text className="flex items-center justify-between text-xs font-semibold text-gray-900 pt-1">
+              Total: 
+              <Text as="span">KSH 1150</Text>
             </Text>
           </div>
         </div>
       </div>
-      <div className="inline-flex justify-center">
-        <div className="mt-8  rounded-full px-4 py-2 font-bold text-white">
+      <div className="inline-flex justify-center mt-4">
+        <div className="rounded-full px-3 py-1 font-bold text-white">
           <ToastButton
             title="Pay"
             message="Payment Successful!"
@@ -178,7 +171,6 @@ export default function InvoiceDetails() {
             onSuccess={handlePayment}
             delay={3000}
           />
-          {paymentStatus === 'Paid'}
         </div>
       </div>
     </>

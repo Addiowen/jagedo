@@ -58,87 +58,127 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: <HeaderCell title="JOB" />,
+    title: <HeaderCell title="No." />,
+    dataIndex: 'number',
+    key: 'number',
+    width: 90,
+    render: (number: string) => <Text>{number}</Text>,
+  },
+  {
+    title: <HeaderCell title="#" />,
     dataIndex: 'id',
     key: 'id',
-    width: 10,
-    render: (id: string) => <Text>JOB0{id}</Text>,
+    width: 90,
+    render: (id: string) => <Text>{id}</Text>,
+  },
+  {
+    title: <HeaderCell title="Date" className="uppercase" />,
+    dataIndex: 'date',
+    key: 'date',
+    width: 230,
+    render: (date: Date) => <DateCell date={date} />,
   },
 
   {
-    title: <HeaderCell title=" Date" className="uppercase" />,
-    dataIndex: 'completionDate',
-    key: 'completionDate',
-    width: 100,
-    render: (completionDate: Date) => <DateCell date={completionDate} />,
-  },
-  {
-    title: <HeaderCell title="Category" className="uppercase" />,
+    title: <HeaderCell title="Category" />,
     dataIndex: 'category',
     key: 'category',
-    width: 50,
-    render: (category: string) => <Text>{category}</Text>,
+    width: 100,
+    render: (category: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {category}
+      </Text>
+    ),
   },
   {
-    title: <HeaderCell title="Sub Category" className="uppercase" />,
+    title: <HeaderCell title="Sub Category" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
-    width: 50,
-    render: (subCategory: string) => <Text>{subCategory}</Text>,
+    width: 100,
+    render: (subCategory: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {subCategory}
+      </Text>
+    ),
   },
   {
-    title: <HeaderCell title="Request Type" className="uppercase" />,
+    title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 100,
-    render: (requestType: string) => <Text>{requestType}</Text>,
+    width: 200,
+    render: (requestType: string) => (
+      <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
+        {requestType}
+      </Text>
+    ),
   },
-
   {
     title: <HeaderCell title="Description" />,
     dataIndex: 'description',
     key: 'description',
-    width: 80,
-    render: (gender: string) => <Text>{gender}</Text>,
+    width: 300,
+    render: (description: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {description}
+      </Text>
+    ),
   },
-
   {
     title: <HeaderCell title="Location" />,
     dataIndex: 'location',
     key: 'location',
-    width: 50,
-    render: (location: string) => <Text>{location}</Text>,
+    width: 200,
+    render: (location: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {location}
+      </Text>
+    ),
   },
 
   {
     title: <HeaderCell title="Status" />,
     dataIndex: 'status',
     key: 'status',
-    width: 50,
+    width: 120,
     render: (value: string) => getStatusBadge(value),
   },
 
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
-    title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    title: <HeaderCell title="Action" />,
+    dataIndex: 'id',
     key: 'action',
-    width: 50,
-    render: (_: string, row: any) => (
-      <div className="flex items-center ">
-        <Tooltip size="sm" content={'View'} placement="top" color="invert">
+    width: 100,
+    render: (id: string, row: any) => (
+      <div className="gap-3 pe-3">
+        
+        <Link
+          href={{ pathname: routes.customers.completedJobDetails, query: { id } }}
+        >
+          <Text className="text-sm text-green-600">View</Text>
+        </Link>
+        
+
+        {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
             size="sm"
             variant="outline"
-            aria-label={'View Job'}
+            aria-label={'View Appointment'}
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-            <Link href={routes.customers.completedJobDetails}>
+            <Link href={routes.serviceProvider.confirmAvailability}>
               <EyeIcon className="h-4 w-4" />
             </Link>
           </ActionIcon>
-        </Tooltip>
+        </Tooltip> */}
+
+
+        {/* <DeletePopover
+          title={`Remove User`}
+          description={`Are you sure you want to remove this User?`}
+          onDelete={() => onDeleteItem(row.id)}
+        /> */}
       </div>
     ),
   },

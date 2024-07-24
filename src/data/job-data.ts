@@ -31,33 +31,176 @@ export const jobData = [
   },
 ];
 
-export const reviewData = [
+export const completedJobsData = [
   {
-    id: '1',
-    serviceProvider: 'Hassan Rajab',
-    category: 'Professional',
-    subCategory: 'Architect',
-    status: 'Approved',
-    description: '3No. Bedroom architectural design',
-    rating: 4.5,
+    number: '1', 
+    id: 'JOB0019',
+    date: '2023-11-12T06:22:01.621Z',
+    category: 'Fundi',
+    subCategory: 'Mason',
+    description: 'Boundary wall construction',
+    location: 'Nyali, Mombasa',
+    requestType: '2.0',
+    status: 'Reviewed'
+  },
+
+  {
+    number: '2',
+    id: 'JOB0022',
+    date: '2023-11-10T06:22:01.621Z',
+    category: 'Fundi',
+    subCategory: 'Mason',
+    description: 'Boundary wall construction',
+    location: 'Kisumu',
+    requestType: 'Emergency',
+    status: 'Unreviewed'
+  }
+];
+
+export const activeJobDetailsData = [
+  {
+    'Request Type': 'Emergency',
+    'Request Date': '12/11/2023',
+    'Request Number': '#JOB0021',
+
+    Location: 'Kome,Homabay',
+    'Job description': 'Repair of faulty wiring system',
+    Status: 'Ongoing',
+
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Deadline for availability': '20/04/2024',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Rate: '1000',
+
+    'Start Date': '13/11/2023',
+    'End Date': '14/11/2023',
   },
   {
-    id: '2',
-    serviceProvider: 'Faith wasike',
+    'Request Type': 'Standard',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+
+    Location: 'Kome,Homabay',
+    'Job description': 'Tank reticulation to water point',
+    Status: 'Ongoing',
+
+    Category: 'Fundi',
+    'Sub-Category': 'Plumber',
+    'Deadline for availability': '20/04/2024',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+  },
+];
+
+
+export const fundiActiveJobsData = [
+  {
+    number: '1',
+    id: 'JOB0021',
+    date: 'November 12, 2023',
+    category: 'Fundi',
+    subCategory: 'Electrician',
+    requestType: 'Emergency: Managed by JaGedo',
+    description: 'Repair of a faulty wiring system',
+    location: 'Transmara, Narok',
+    status: 'Ongoing',
+    requestTypeId: 0,
+  },
+
+  {
+    number: '2',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
     category: 'Fundi',
     subCategory: 'Plumber',
-    status: 'Approved',
-    description: 'Tank reticulation to water poin',
-    rating: 3.5,
+    requestType: 'Standard: Managed by Self',
+    description: 'Tank reticulation to water point',
+    location: 'Transmara, Narok',
+    status: 'Ongoing',
+    requestTypeId: 1,
+  },
+];
+
+export const completeJobDetailsData = 
+[
+  {
+    'Request Type': 'Emergency',
+    'Request Date': '12/11/2023',
+    'Request Number': '#JOB0021',
+    
+      Location: 'Kome,Homabay',
+    'Job description': 'Repair of faulty wiring system',
+    Status: 'Reviewed',
+    
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Deadline for availability': '20/04/2024',    
+  
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    'Rate': '1000',
+
+    'Start Date': '13/11/2023',
+    'End Date': '14/11/2023',
   },
   {
-    id: '3',
-    serviceProvider: 'Francis  Owuor',
-    category: 'Contractor',
+    'Request Type': 'Standard',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    
+      Location: 'Kome,Homabay',
+    'Job description': 'Tank reticulation to water point',
+    Status: 'Unreviewed',
+    
+    Category: 'Fundi',
+    'Sub-Category': 'Plumber',
+    'Deadline for availability': '20/04/2024',    
+  
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    'Rate': '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+  },
+]
+;
+
+export const reviewData = [
+  {
+    number: '1',
+    id: 'JOB0021',
+    date: 'November 12, 2023',
+    category: 'Fundi',
+    subCategory: 'Electrician',
+    requestType: 'Emergency: Managed by JaGedo',
+    description: 'Repair of a faulty wiring system',
+    location: 'Transmara, Narok',
+    status: 'Reviewed',
+    reviewBy: 'John Kamau',
+    requestTypeId: 0,
+  },
+
+  {
+    number: '2',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
+    category: 'Fundi',
     subCategory: 'Plumber',
-    status: 'Unverified',
+    requestType: 'Standard: Managed by Self',
     description: 'Tank reticulation to water point',
-    rating: 2,
+    location: 'Transmara, Narok',
+    status: 'Reviewed',
+    reviewBy: 'Agnes Wanjiku',
+    requestTypeId: 1,
   },
 ];
 
@@ -88,99 +231,123 @@ export const quotationReportData = [
 
 export const requisitions = [
   {
-    id: '3416',
-    date: '2022-11-10T06:22:01.621Z',
+    number: '1',
+    id: 'JOB0021',
+    date: '2024-07-19T06:22:01.621Z',
+    category: 'Fundi',
+    subCategory: 'Electrician',
+    requestType: 'Emergency: Managed by Jagedo',
+    description: 'Repair of a faulty wiring system',
+    location: 'Kasule, Kisumu',
+    status: 'Under Review',
+    requestTypeId: 1,
+  },
+  {
+    number: '2',
+    id: 'JOB0020',
+    date: '2024-07-19',
     category: 'Fundi',
     subCategory: 'Plumber',
-    requestType: '1.0',
+    requestType: 'Standard: Managed by Self',
     description: 'Tank reticulation to water point',
-    location: 'Bamburi, Mombasa',
-    status: 'Pending Approval',
-  },
-  {
-    id: '3419',
-    date: '2022-11-10T06:22:01.621Z',
-    category: 'Professional',
-    subCategory: 'Architect',
-    requestType: 'Managed by Jagedo',
-    description: '3No. Bedroom architectural design',
-    location: 'Kasarani ,Nairobi',
-    status: 'Pending Approval',
-  },
-  {
-    id: '3419',
-    date: '2022-11-10T06:22:01.621Z',
-    category: 'Professional',
-    subCategory: 'Quantity Surveyor',
-    requestType: 'Managed by Self',
-    description: 'Drains construction',
-    location: 'Westlands, Nairobi',
-    status: 'Pending Approval',
+    location: 'Bamburi ,Mombasa',
+    status: 'Under Review',
+    requestTypeId: 0,
   },
 ];
 
 export const completeJobs = [
   {
-    id: '3324',
-    completionDate: '2022-11-14T06:22:01.621Z',
-    requestType: 'Managed by Jagedo (standard 1)',
-    description: '3No. Bedroom architectural design',
-    category: 'Professional',
-    subCategory: 'Architect',
-    location: 'Bamburi,Mombasa',
+    number: '1',
+    id: 'JOB0021',
+    date: '2024-07-19T06:22:01.621Z',
+    category: 'Fundi',
+    subCategory: 'Electrician',
+    requestType: 'Emergency',
+    description: 'Repair of a faulty wiring system',
+    location: 'Kasule, Kisumu',
     status: 'Reviewed',
   },
   {
-    id: '3325',
-    completionDate: '2022-11-14T06:22:01.621Z',
-    requestType: '1.0',
-    description: 'Tank reticulation to water point',
+    number: '2',
+    id: 'JOB0020',
+    date: '2024-07-19',
     category: 'Fundi',
     subCategory: 'Plumber',
-    location: 'Kasarani,Nairobi',
-    status: 'Reviewed',
+    requestType: '1.0',
+    description: 'Tank reticulation to water point',
+    location: 'Bamburi ,Mombasa',
+    status: 'Unreviewed',
   },
   {
-    id: '3325',
-    completionDate: '2022-11-14T06:22:01.621Z',
-    requestType: 'Managed by Jagedo',
-    description: 'Tank reticulation to water point',
-    category: 'Contractor',
-    subCategory: 'Plumber',
-    location: 'Kasarani,Nairobi',
-    status: 'Unreviewed',
+    number: '3',
+    id: 'JOB0019',
+    date: '2024-07-19T06:22:01.621Z',
+    category: 'Fundi',
+    subCategory: 'Mason',
+    requestType: '2.0',
+    description: 'Boundary wall construction',
+    location: 'Nyali, Mombasa',
+    status: 'Reviewed',
   },
 ];
 
 export const activeJobs = [
   {
-    id: '3416',
-    date: '2022-11-10T06:22:01.621Z',
+    number: '3',
+    id: 'JOB0019',
+    date: '2024-07-19T06:22:01.621Z',
     category: 'Fundi',
     subCategory: 'Mason',
-    requestType: '2.0',
-    description: 'Boundary wall construction',
-    location: 'Kome,Homabay',
-    status: 'Pending Approval',
-  },
-  {
-    id: '3417',
-    date: '2022-11-10T06:22:01.621Z',
-    category: 'Professional',
-    subCategory: 'Architect',
     requestType: 'Managed by Jagedo',
-    description: '3No. Bedroom architectural design',
-    location: 'Westlands,Reviewed',
-    status: 'Pending Approval',
-  },
-  {
-    id: '3419',
-    date: '2022-11-10T06:22:01.621Z',
-    category: 'Fundi',
-    subCategory: 'Mason',
-    requestType: '2.0',
     description: 'Boundary wall construction',
-    location: 'South C,Nairobi',
-    status: 'Pending Approval',
+    location: 'Nyali, Mombasa',
+    status: 'Ongoing',
   },
 ];
+
+export const requestDetailsData = [
+  {
+    'Request Type': 'Emergency',
+    'Request Date': '12/11/2023',
+    'Request Number': '#REQ0021',
+    
+      Location: 'Kome,Homabay',
+    'Job description': 'Repair of faulty wiring system',
+    Status: 'Open',
+    
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Deadline for availability': '20/04/2024',    
+  
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    'Rate': '1000',
+  },
+  {
+    'Request Type': 'Standard',
+    'Request Date': '11/11/2023',
+    'Request Number': '#REQ0020',
+    
+      Location: 'Kome,Homabay',
+    'Job description': 'Tank reticulation to water point',
+    Status: 'Open',
+    
+    Category: 'Fundi',
+    'Sub-Category': 'Plumber',
+    'Deadline for availability': '20/04/2024',    
+  
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    'Rate': '1000',
+  },
+];
+  export const JobDescription = [
+    {
+      'Job Description': 'Repair of faulty wiring system',
+    },
+    {
+      'Job Description': 'Tank reticulation to water point',
+    },
+]
+;

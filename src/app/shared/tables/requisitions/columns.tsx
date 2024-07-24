@@ -63,14 +63,21 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: <HeaderCell title="NUMBER" />,
+    title: <HeaderCell title="No." />,
+    dataIndex: 'number',
+    key: 'number',
+    width: 90,
+    render: (number: string) => <Text>{number}</Text>,
+  },
+  {
+    title: <HeaderCell title="#" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
-    render: (id: string) => <Text>RE#{id}</Text>,
+    render: (id: string) => <Text>{id}</Text>,
   },
   {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
+    title: <HeaderCell title="Date" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
     width: 230,
@@ -142,38 +149,48 @@ export const getColumns = ({
   },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
-    title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    title: <HeaderCell title="Action" />,
+    dataIndex: 'id',
     key: 'action',
     width: 100,
-    render: (_: any, row: { requestType: string }) => {
-      const requestType = row.requestType.toLowerCase();
-      const queryParams =
-        requestType === 'managed by self'
-          ? '?type=Standard-2 Self'
-          : requestType === 'managed by jagedo'
-            ? '?type=Standard-1 Jagedo'
-            : '';
+    render: (id: number, row: any) => (
+      <div className="gap-3 pe-3">
+        <Link href={{ pathname: routes.customers.rfq, query: { id } }}
+        >
+            <Text className="text-sm text-green-600">View</Text>
+        </Link>
+        {/* {(requestTypeId === 0) ? (
+          <Link href={routes.serviceProvider.fundi.rfqEmergency}>
+            <Text className="text-sm text-green-600">View</Text>
+        </Link>
+        ) : (
+          <Link href={routes.serviceProvider.fundi.rfqStandardOne}>
+            <Text className="text-sm text-green-600">View</Text>
+          </Link>
+        )} */}
+        
+        {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
+          <ActionIcon
+            as="span"
+            size="sm"
+            variant="outline"
+            aria-label={'View Appointment'}
+            className="hover:!border-gray-900 hover:text-gray-700"
+          >
+            <Link href={routes.serviceProvider.confirmAvailability}>
+              <EyeIcon className="h-4 w-4" />
+            </Link>
+          </ActionIcon>
+        </Tooltip> */}
 
-      return (
-        <div className="flex items-center justify-end gap-3 pe-3">
-          <Tooltip size="sm" content={'View'} placement="top" color="invert">
-            <ActionIcon
-              as="span"
-              size="sm"
-              variant="outline"
-              aria-label={'View Appointment'}
-              className="hover:!border-gray-900 hover:text-gray-700"
-            >
-              <Link href={`${routes.customers.viewRequisition}${queryParams}`}>
-                <EyeIcon className="h-4 w-4" />
-              </Link>
-            </ActionIcon>
-          </Tooltip>
-          {/* DeletePopover code */}
-        </div>
-      );
-    },
+
+        {/* <DeletePopover
+          title={`Remove User`}
+          description={`Are you sure you want to remove this User?`}
+          onDelete={() => onDeleteItem(row.id)}
+        /> */}
+      </div>
+    ),
   },
 ];
 

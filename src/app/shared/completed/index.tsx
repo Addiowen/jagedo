@@ -6,10 +6,11 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input } from 'rizzui';
-import { completeJobs } from '@/data/job-data';
+import { completedJobsData, completeJobs } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import CompleteJobsTable from '../tables/complete-jobs';
 
 const filterState = {
   date: [null, null],
@@ -51,12 +52,12 @@ export default function CompletedJobsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(completeJobs, pageSize, filterState);
+  } = useTable(completedJobsData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: completeJobs,
+        data: completedJobsData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

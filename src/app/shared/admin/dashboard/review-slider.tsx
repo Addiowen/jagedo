@@ -52,7 +52,7 @@ const InvoiceList: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="@container border border-gray-300 p-4 rounded-lg">
       <h1 className="text-2xl font-semibold mb-4">Invoices</h1>
       {invoices.map((invoice) => (
         <InvoiceCard key={invoice.jobId} {...invoice} />

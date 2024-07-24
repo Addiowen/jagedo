@@ -1,17 +1,22 @@
-import AdminDashboard from '@/app/shared/admin/dashboard';
-import CompletedJobsTable from '@/app/shared/completed';
-import CompletedJobDetails from '@/app/shared/completed/view-job-details';
-import CompleteJobsTable from '@/app/shared/tables/complete-jobs';
-import RequisitionsTable from '@/app/shared/tables/requisitions';
-
+// import CompletedJobDetails from '@/app/shared/service-provider/details/complete-job-details';
+import FundiCompleteJobDetails from '@/app/shared/service-provider/details/complete-job-details/fundi';
 import { metaObject } from '@/config/site.config';
+import { Title } from 'rizzui';
 
 export const metadata = {
-  ...metaObject('Admin'),
-};
+    ...metaObject(),
+  };
+  
+  export default function JobsPage() {
+    return (
+        <>
+            <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
+                View Job
+            </Title>
 
-export default function CompleteJobsPage() {
-  return (
-    <CompletedJobDetails />
-  );
-}
+            {/* <div className="@container"> */}
+            <FundiCompleteJobDetails/>
+            {/* </div> */}
+        </>
+    )
+  }

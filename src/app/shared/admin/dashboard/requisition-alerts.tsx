@@ -31,7 +31,7 @@ export default function RequisitionAlerts(
 
         <div className="mb-2 ps-3 pe-3 flex items-center justify-between">
           <Title as="h5" fontWeight="semibold">
-            Status
+            Notifications
           </Title>
           <Link
             href={routes.support.inbox}
