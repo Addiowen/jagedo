@@ -1,9 +1,11 @@
 'use client';
 
-import { Title, Text, Button, Modal, Tab } from 'rizzui';
+import { Title, Text, Button, Modal, Tab, Badge } from 'rizzui';
 // import cn from '@/utils/class-names';
 
 import { useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import EditProfileCard from '@/app/shared/admin/profile/edit-profile/fundi/edit-profile-card';
 import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
@@ -63,6 +65,11 @@ export default function EditProfileContactDetails({ slug }: { slug?: string }) {
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status');
+
+  const [approvalState, setApprovalState] = useState(status === 'Approved');
+
   return (
     <div className="@container">
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
@@ -101,7 +108,26 @@ export default function EditProfileContactDetails({ slug }: { slug?: string }) {
                     editMode={editMode}
                   />
                 </div>
-                <Text>Approval Status</Text> Verified
+
+                <div className="item-center flex justify-between">
+                  <Button
+                    className="mt-4"
+                    onClick={() => setApprovalState(!approvalState)}
+                  >
+                    {approvalState ? 'Unverify' : 'Approve'}
+                  </Button>
+
+                  <Text fontWeight="bold" className="mt-4  text-sm font-bold">
+                    Approval Status:
+                    <Badge
+                      rounded="md"
+                      color={approvalState ? 'success' : 'warning'}
+                      className=""
+                    >
+                      {approvalState ? 'Approved' : 'Unverified'}{' '}
+                    </Badge>
+                  </Text>
+                </div>
               </div>
             </div>
           </Tab.Panel>

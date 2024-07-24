@@ -30,7 +30,7 @@ const reviewsData = [
     reviewer: { name: 'Floyd Wangari' },
     date: new Date(),
     message: 'Did a good job fixing the wiring',
-    role: 'Admin',
+    role: 'Fundi',
   },
   {
     reviewer: { name: 'Joyce Wasike' },
@@ -97,7 +97,7 @@ export default function FundiCompleteJobDetails() {
 
             <AdvancedCheckbox name="user" value="admin">
               <PiUserCircleDuotone className="mb-4 h-8 w-8" />
-              <p className="font-semibold">Admin</p>
+              <p className="font-semibold">Fundi</p>
             </AdvancedCheckbox>
           </div>
           <div className="mt-6 flex justify-center">
