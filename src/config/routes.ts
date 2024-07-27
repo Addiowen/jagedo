@@ -46,6 +46,9 @@ export const routes = {
     requisitionDetails: '/admin/requisition-details',
     createRFQ: '/admin/requisition-details/requisition-for-quotation',
 
+    //Quotations
+    professionalQuotation: '/admin/professional-quotation',
+
     //Report
     generateSingleReport: '/admin/single-report',
     generateReport: '/admin/report',

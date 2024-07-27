@@ -77,7 +77,7 @@ export default function JobDetailsPage({ className }: PageProps) {
           </div>
         </div>
       </Modal>
-      ;
+
       <div className="flex justify-between">
         <h3 className="mb-4">Job Details</h3>
         <div className="">

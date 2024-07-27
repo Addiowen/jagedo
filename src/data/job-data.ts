@@ -118,6 +118,28 @@ export const requisitions = [
     location: 'Kome,Homabay',
     status: 'Open',
   },
+  {
+    number: '3',
+    id: '3419',
+    date: '2022-11-10T06:22:01.621Z',
+    category: 'Professional',
+    subCategory: 'Quantity Surveyor',
+    requestType: 'Standard: Managed by Jagedo',
+    description: 'Tank reticulation to water point',
+    location: 'Kome,Homabay',
+    status: 'Open',
+  },
+  {
+    number: '4',
+    id: '3420',
+    date: '2022-11-10T06:22:01.621Z',
+    category: 'Professional',
+    subCategory: 'Structural Engineer',
+    requestType: 'Standard 2: Managed by Self',
+    description: 'Tank reticulation to water point',
+    location: 'Kome,Homabay',
+    status: 'Open',
+  },
   // {
   //   number: '3',
 
@@ -432,6 +454,48 @@ export const jobData = [
     hired: 3,
     category: ['UI/UX', 'Design', 'Figma', 'Adobe', 'Sketch'],
     status: 'Unverified',
+  },
+];
+
+export const professionalFees = [
+  {
+    expenses: 'Communication',
+    frequency: '',
+    amount: '',
+  },
+  {
+    expenses: 'Other',
+    frequency: '',
+    amount: '',
+  },
+  {
+    expenses: 'Total Expenses',
+    frequency: 'N/A',
+    amount: '0',
+  },
+  {
+    expenses: 'Grand Total',
+    frequency: 'N/A',
+    amount: '0',
+  },
+];
+
+export const quoteData = [
+  {
+    id: '3324',
+    serviceProvider: 'Lead Consultant',
+    name: '',
+    hours: '',
+    rate: '',
+    amount: '',
+  },
+  {
+    id: '3325',
+    serviceProvider: 'Associate Consultant',
+    name: '',
+    hours: '',
+    rate: '',
+    amount: '',
   },
 ];
 export const reviewData = [
