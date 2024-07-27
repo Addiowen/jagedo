@@ -13,6 +13,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { PersonalInfoFormTypes } from '@/utils/validators/personal-info.schema';
 import ToastButton from '@/components/buttons/toast-button';
 import { useSearchParams } from 'next/navigation';
+import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
 
 // export const metadata = {
 //   ...metaObject('Assign Service Providers'),
@@ -38,7 +39,12 @@ export default function AddtoServiceProviders() {
       <PageHeader title={pageHeader.title}></PageHeader>
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-          <AssignServiceProvidersTable className="relative  @4xl:col-span-2 " />
+          {jobId === '3420' ? (
+            <ProfessionalTable className="relative  @4xl:col-span-2 " />
+          ) : (
+            <AssignServiceProvidersTable className="relative  @4xl:col-span-2 " />
+          )}
+
           <ToastButton AltButton={true} title="Back" />
           <ToastButton
             title="Assign"
