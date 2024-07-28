@@ -13,6 +13,8 @@ import Notifications from './notifications';
 import BidsStatus from './pie-chart';
 import InvoiceList from './review-slider';
 
+import walletImage from '../../../../../public/wallets.png';
+
 export default function AdminDashboard() {
   // Wallet data
   const balance = 'KSH 1,234.56';
@@ -31,20 +33,11 @@ export default function AdminDashboard() {
       </div>
       <div className="grid grid-cols-1 gap-6 pt-10 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <WalletCard
-          balance={
-            '232,000.00'
-          }
+          balance="232,000.00"
+          image={walletImage} // Pass the imported image
         />
         <InvoiceList />
       </div>
     </div>
   );
-}
-
-{
-  /* <Link href={routes.eCommerce.createProduct} className="inline-flex">
-            <Button as="span" className="h-[38px] shadow md:h-10">
-              <PiPlusBold className="me-1 h-4 w-4" /> Add Product
-            </Button>
-          </Link> */
 }

@@ -33,7 +33,7 @@ export default function ConfirmAvailability() {
         <UserDetailsCard />
 
         <div className="my-4">
-          <ChunkedGrid data={requestId === 'REQ0021'? requestDetailsData[0] : requestDetailsData[1]} dataChunkSize={4} />
+          <ChunkedGrid data={requestId === 'JOB0021'? requestDetailsData[0] : requestDetailsData[1]} dataChunkSize={8} />
         </div>
 
         {/* <div className="flex rounded-xl border border-gray-300 p-3">

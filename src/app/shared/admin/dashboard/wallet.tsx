@@ -1,20 +1,23 @@
 'use client';
 
 import React from 'react';
-import { FaWallet } from 'react-icons/fa'; // Importing an icon from react-icons library// Adjust the import path as needed
+import { FaWallet } from 'react-icons/fa';
 import WidgetCard4 from '@/components/cards/widget-card4';
+import { StaticImageData } from 'next/image';
 
 interface WalletCardProps {
-  balance: string; // Balance to be displayed on the card
-  className?: string; // Optional additional class names
-  headerClassName?: string; // Optional header class names
-  titleClassName?: string; // Optional title class names
-  actionClassName?: string; // Optional action class names
-  descriptionClassName?: string; // Optional description class names
+  balance: string;
+  image?: string | StaticImageData;
+  className?: string;
+  headerClassName?: string;
+  titleClassName?: string;
+  actionClassName?: string;
+  descriptionClassName?: string;
 }
 
 const WalletCard: React.FC<WalletCardProps> = ({
   balance,
+  image,
   className,
   headerClassName,
   titleClassName,
@@ -35,6 +38,13 @@ const WalletCard: React.FC<WalletCardProps> = ({
       descriptionClassName={descriptionClassName}
     >
       <div className="flex flex-col items-center justify-center h-full">
+        {image && (
+          <img
+            src={typeof image === 'string' ? image : image.src}
+            alt="Wallet"
+            className="w-32 h-32 object-cover rounded-t-lg mb-4"
+          />
+        )}
         <div className="text-lg font-semibold">Balance</div>
         <div className="wallet-card-content text-3xl font-bold text-gray-700 mt-2">
           {balance}

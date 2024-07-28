@@ -16,8 +16,10 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [date, setDate] = useState('');
   const [requestType, setRequestType] = useState('');
   const [location, setLocation] = useState('');
-  const [category, setCategory] = useState('');
-  const [subCategory, setSubCategory] = useState('');
+  const [county, setCounty] = useState('');
+  const [subCounty, setSubCounty] = useState('');
+  const [village, setVillage] = useState('');
+  const [skill, setSkill] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,8 +47,8 @@ const GenerateInvoiceFundi: React.FC = () => {
       <h1>Fundi</h1>
       <div className="w-full rounded-lg bg-white p-4 border border-gray-300">
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
-            <div className="form-group md:col-span-2">
+          <div className="grid grid-cols-1 gap-2">
+            <div className="form-group">
               <textarea
                 id="description"
                 className="mt-1 block h-16 w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -55,7 +57,7 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 md:col-span-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
               <div className="form-group">
                 <select
                   id="requestType"
@@ -66,52 +68,82 @@ const GenerateInvoiceFundi: React.FC = () => {
                   <option value="" disabled>
                     Request
                   </option>
-                  <option value="emergency">Emergency: Managed by Jagedo</option>
-                  <option value="standard">Standard: Managed by Self</option>
+                  <option value="emergency">Emergency</option>
+                  <option value="standard">Standard</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <select
+                  id="managedBy"
+                  value={requestType}
+                
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Managed By
+                  </option>
                 </select>
               </div>
               <div className="form-group">
                 <select
                   id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  value={county}
+                  onChange={(e) => setCounty(e.target.value)}
                   className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
                   <option value="" disabled>
-                    Category
+                    County
                   </option>
-                  <option value="Skill1">Fundi</option>
-                  {/* <option value="Skill2">Category 2</option> */}
+                  <option value="county">Nairobi</option>
+                  <option value="county">Busia</option>
+                  <option value="county">Bungoma</option>
+                  <option value="county">Kakamega</option>
+                  <option value="county">Nandi</option>
                 </select>
               </div>
               <div className="form-group">
                 <select
-                  id="subCategory"
-                  value={subCategory}
-                  onChange={(e) => setSubCategory(e.target.value)}
+                  id="subCounty"
+                  value={subCounty}
+                  onChange={(e) => setSubCounty(e.target.value)}
                   className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
                   <option value="" disabled>
-                    Sub-Category
+                    Sub-County
                   </option>
-                  <option value="Skill1">Electrician</option>
-                  <option value="Skill2">Plumber</option>
-                  <option value="Skill3">Mason</option>
+                  <option value="nambale">Nambale</option>
+                  <option value="lessos">Lessos</option>
+                  <option value="muranga">Muranga</option>
                 </select>
               </div>
               <div className="form-group">
                 <select
-                  id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  id="village"
+                  value={village}
+                  onChange={(e) => setVillage(e.target.value)}
                   className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
                   <option value="" disabled>
-                    Location
+                    Estate/Village
                   </option>
-                  <option value="Skill1">Nairobi</option>
-                  <option value="Skill2">Kisumu</option>
-                  <option value="Skill3">Mombasa</option>
+                  <option value="estate1">Estate 1</option>
+                  <option value="estate2">Estate 2</option>
+                  <option value="estate3">Estate 3</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <select
+                  id="skill"
+                  value={skill}
+                  onChange={(e) => setSkill(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Skill
+                  </option>
+                  <option value="Plumber">Plumber</option>
+                  <option value="Masonry">Mason</option>
+                  <option value="Construction">Construction</option>
                 </select>
               </div>
               <div className="form-group">
@@ -198,6 +230,4 @@ const GenerateInvoiceFundi: React.FC = () => {
     </div>
   );
 }
-
-export default GenerateInvoiceFundi;
-
+  export default GenerateInvoiceFundi;

@@ -63,13 +63,14 @@ export const activeJobDetailsData = [
     'Request Date': '12/11/2023',
     'Request Number': '#JOB0021',
 
-    Location: 'Kome,Homabay',
-    'Job description': 'Repair of faulty wiring system',
     Status: 'Ongoing',
 
     Category: 'Fundi',
-    'Sub-Category': 'Electricity',
-    'Deadline for availability': '20/04/2024',
+    'Managed By': 'Jagedo',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',
 
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
@@ -83,13 +84,14 @@ export const activeJobDetailsData = [
     'Request Date': '11/11/2023',
     'Request Number': '#JOB0020',
 
-    Location: 'Kome,Homabay',
-    'Job description': 'Tank reticulation to water point',
     Status: 'Ongoing',
 
     Category: 'Fundi',
-    'Sub-Category': 'Plumber',
-    'Deadline for availability': '20/04/2024',
+    'Managed By': 'Self',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',
 
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
@@ -136,13 +138,14 @@ export const completeJobDetailsData =
     'Request Date': '12/11/2023',
     'Request Number': '#JOB0021',
     
-      Location: 'Kome,Homabay',
-    'Job description': 'Repair of faulty wiring system',
     Status: 'Reviewed',
     
     Category: 'Fundi',
-    'Sub-Category': 'Electricity',
-    'Deadline for availability': '20/04/2024',    
+    'Managed By': 'Jagedo',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',   
   
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
@@ -156,13 +159,15 @@ export const completeJobDetailsData =
     'Request Date': '11/11/2023',
     'Request Number': '#JOB0020',
     
-      Location: 'Kome,Homabay',
-    'Job description': 'Tank reticulation to water point',
+    Location: 'Kome,Homabay',
     Status: 'Unreviewed',
     
     Category: 'Fundi',
-    'Sub-Category': 'Plumber',
-    'Deadline for availability': '20/04/2024',    
+    'Managed By': 'Self',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',   
   
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
@@ -312,13 +317,14 @@ export const requestDetailsData = [
     'Request Date': '12/11/2023',
     'Request Number': '#REQ0021',
     
-      Location: 'Kome,Homabay',
-    'Job description': 'Repair of faulty wiring system',
     Status: 'Open',
     
     Category: 'Fundi',
-    'Sub-Category': 'Electricity',
-    'Deadline for availability': '20/04/2024',    
+    'Managed By': 'Jagedo',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',    
   
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
@@ -329,13 +335,13 @@ export const requestDetailsData = [
     'Request Date': '11/11/2023',
     'Request Number': '#REQ0020',
     
-      Location: 'Kome,Homabay',
-    'Job description': 'Tank reticulation to water point',
     Status: 'Open',
-    
     Category: 'Fundi',
-    'Sub-Category': 'Plumber',
-    'Deadline for availability': '20/04/2024',    
+    'Managed By': 'Self',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Skill': 'Plumbing',   
   
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
