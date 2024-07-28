@@ -6,7 +6,7 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input } from 'rizzui';
-import { fundiCompletedJobsData } from '@/data/job-data';
+import { completedJobsData } from '@/data/job-data';
 // import FilterElement from './filter-element';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
@@ -48,12 +48,12 @@ export default function FundiCompletedJobsTable({ className }: { className?: str
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(fundiCompletedJobsData, pageSize, filterState);
+  } = useTable(completedJobsData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: fundiCompletedJobsData,
+        data: completedJobsData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

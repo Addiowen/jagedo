@@ -6,7 +6,7 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input } from 'rizzui';
-import { jobsData } from '@/data/job-data';
+import { jobData } from '@/data/job-data';
 // import FilterElement from './filter-element';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
@@ -48,12 +48,12 @@ export default function SpJobsTable({ className }: { className?: string }) {
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(jobsData, pageSize, filterState);
+  } = useTable(jobData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: jobsData,
+        data: jobData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
