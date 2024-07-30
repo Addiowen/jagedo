@@ -1,15 +1,18 @@
 'use client';
 
-import WidgetCard from '@/components/cards/widget-card';
-import { Accordion, Badge, FileInput, Input } from 'rizzui';
-import { Collapse } from 'rizzui';
-import { PiArrowDown, PiArrowDownDuotone } from 'react-icons/pi';
-import cn from '@/utils/class-names';
+import { Accordion, Badge, Button, FileInput, Input, Textarea } from 'rizzui';
 import { useState } from 'react';
 import ToastButton from '@/components/buttons/toast-button';
 import { routes } from '@/config/routes';
 import { useSearchParams } from 'next/navigation';
 import ReportTable from '../dashboard/tables/report-table';
+import AnalyzeQuotationsTable from '../dashboard/tables/quotations/analyze-quotations';
+import WidgetCard3 from '@/components/cards/widget-card3';
+import ProfileChunkedGrid from '../../profile-chunked-grid';
+import ChunkedGrid from '../../custom-chunked-grid';
+import { completeJobDetailsData } from '@/data/job-data';
+import Link from 'next/link';
+import { PiPlusBold } from 'react-icons/pi';
 
 const data = [
   {
@@ -33,87 +36,41 @@ export default function ReportComponent({ className }: { className?: string }) {
 
   return (
     <>
-      <div className="col-span-full grid items-start rounded-xl border border-gray-300 p-4 ">
-        <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-          <span className="mb-2 font-semibold text-gray-900">
-            Site Conditions:
-          </span>
-          <span className="mb-2  text-gray-900">
-            Plot of land is on a relatively low-lying flat riparian land with
-            black cotton soil.
-          </span>
-        </li>
-        <ul className=" grid gap-2 @3xl:col-span-full @3xl:mb-2 @5xl:col-span-1 @5xl:mb-0">
-          <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-            <span className="font-semibold text-gray-900">
-              Deadline for quotation submition:
-            </span>
-            <span className=" text-gray-900">3/4/2024, 7am</span>
-          </li>
-          <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-            <span className="font-semibold text-gray-900">Specifications:</span>
-            <span className=" text-gray-900">
-              Drilling and Construction of 4No. boreholes
-            </span>
-          </li>
-          <ul className="flex flex-col gap-1 whitespace-nowrap @3xl:justify-between @5xl:justify-start">
-            <li className="font-semibold text-gray-900">Scope of works:</li>
-            <li>1. Drilling</li>
-            <li>2. Flush</li>
-            <li>3. Construction and development</li>
-          </ul>
-
-          <li className="flex items-center gap-3 @3xl:justify-between @5xl:justify-start">
-            <span className=" text-gray-900">
-              Please see an attached hydrogeological report
-            </span>
-          </li>
-        </ul>
-        <ReportTable className="col-span-full  border-none" />
-        <div className="flex flex-wrap">
-          <div className="w-full md:w-1/2">
-            <div className="flex border ">
-              <h3 className="w-1/2 bg-gray-200 font-semibold">
-                Recommendation:
-              </h3>
-              <Input
-                type="text"
-                className="w-full rounded border"
-                placeholder="Enter recommendation"
-              />
-            </div>
-          </div>
-          <div className="w-full  md:w-1/2">
-            <div className="flex border ">
-              <h3 className="w-1/2 bg-gray-200 font-semibold">Reason:</h3>
-              <Input
-                type="text"
-                className="w-full rounded border"
-                placeholder="Enter reason"
-              />
-            </div>
-          </div>
+      <div className="col-span-full grid items-start rounded-xl border-none border-gray-300 p-4 ">
+        <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
+          <Link href={routes.admin.professionalQuotation}>
+            <Button as="span" className="">
+              <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
+              Add New Quotation
+            </Button>
+          </Link>
+        </div>
+        <div className="mt-4">
+          <ChunkedGrid
+            data={
+              type === '3416'
+                ? completeJobDetailsData[0]
+                : completeJobDetailsData[2]
+            }
+            dataChunkSize={8}
+            // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          />
         </div>
 
-        <h3 className="mb-2  flex justify-center bg-yellow-200">SUMMARY</h3>
-        <ul className="grid gap-2 @3xl:col-span-full @3xl:mb-2 @5xl:col-span-1 @5xl:mb-0">
-          <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-            <span className="text-gray-900">
-              1. Contractor to be signed within 7 days
-            </span>
-          </li>
-          <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-            <span className="text-gray-900">
-              2. Payment is in advance within 7 days after contract signing
-            </span>
-          </li>
-          <li className="flex items-center gap-2 @3xl:justify-between @5xl:justify-start">
-            <span className="text-gray-900">
-              3. Assignment starts within 7 days after contract signing and
-              immediately after payment
-            </span>
-          </li>
-        </ul>
+        <AnalyzeQuotationsTable className="col-span-full mt-4" />
+        <WidgetCard3
+          title="Recommendation"
+          rounded="lg"
+          className="mt-4"
+          action={<Textarea size="sm" />}
+        ></WidgetCard3>
+
+        <WidgetCard3
+          title="Reason"
+          rounded="lg"
+          className="mb-4 mt-4"
+          action={<Textarea size="sm" />}
+        ></WidgetCard3>
       </div>
 
       {/* 

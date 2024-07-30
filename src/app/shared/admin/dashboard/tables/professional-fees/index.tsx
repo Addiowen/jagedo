@@ -111,6 +111,8 @@ export default function ProfessionalFeesTable({
         columns={visibleColumns}
         className="-mx-5 lg:-mx-5"
       />
+
+      <ProfessionalHistoryTable />
     </WidgetCard2>
   );
 }

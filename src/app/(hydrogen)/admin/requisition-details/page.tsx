@@ -49,7 +49,11 @@ export default function RequisitionDetailsPage() {
           data={
             jobId === '3416'
               ? completeJobDetailsData[0]
-              : completeJobDetailsData[1]
+              : jobId === '3420'
+                ? completeJobDetailsData[2]
+                : jobId === '3419'
+                  ? completeJobDetailsData[1]
+                  : completeJobDetailsData[0]
           }
           dataChunkSize={8}
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
@@ -65,7 +69,7 @@ export default function RequisitionDetailsPage() {
       )}
       <Link href={routes.admin.assignServiceProvider}>
         <div className="mt-6 flex items-center justify-center space-x-6">
-          {jobId === '3420' ? (
+          {jobId === '3420' || jobId === '3419' ? (
             <>
               <Link href={routes.admin.professionalQuotation}>
                 <ToastButton title="Create Quotation" />

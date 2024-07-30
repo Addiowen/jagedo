@@ -6,22 +6,18 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input } from 'rizzui';
-import { jobData } from '@/data/job-data';
+import { requisitions } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import ProfessionalHistoryTable from '../history-tables/professional';
+import { useFormContext } from 'react-hook-form';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-
-export default function ProfessionalTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default function ThirdTableTwo({ className }: { className?: string }) {
+  const { control, register } = useFormContext();
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -53,18 +49,20 @@ export default function ProfessionalTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(jobData, pageSize, filterState);
+  } = useTable([], pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: jobData,
+        data: [],
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
         onDeleteItem,
         onChecked: handleRowSelect,
         handleSelectAll,
+        register,
+        control,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -85,7 +83,7 @@ export default function ProfessionalTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Professional Register"
+      title="Requests"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
@@ -110,19 +108,19 @@ export default function ProfessionalTable({
       }
     >
       <ControlledTable
-        variant="modern"
+        variant="minimal"
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}
         // @ts-ignore
         columns={visibleColumns}
-        // paginatorOptions={{
-        //   pageSize,
-        //   setPageSize,
-        //   total: totalItems,
-        //   current: currentPage,
-        //   onChange: (page: number) => handlePaginate(page),
-        // }}
+        paginatorOptions={{
+          pageSize,
+          setPageSize,
+          total: totalItems,
+          current: currentPage,
+          onChange: (page: number) => handlePaginate(page),
+        }}
         className="-mx-5 lg:-mx-5"
       />
     </WidgetCard2>

@@ -17,6 +17,7 @@ import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional'
 import { useState } from 'react';
 import QuoteTable from '@/app/shared/admin/dashboard/tables/quote-table';
 import ProfessionalFeesTable from '@/app/shared/admin/dashboard/tables/professional-fees';
+import CreateQuotationComponent from '@/app/shared/create-quotation/create-quotation';
 
 // export const metadata = {
 //   ...metaObject('Create Professional Quotation '),
@@ -64,17 +65,7 @@ export default function ProfessionalQuotation() {
           {!isTableVisible && (
             <>
               <div className="relative  @4xl:col-span-2 ">
-                <QuoteTable />
-
-                <ProfessionalFeesTable className="relative  mt-4 @4xl:col-span-2" />
-              </div>
-              <div className="col-span-full flex justify-center">
-                <Link href={routes.admin.dashboard}>
-                  <ToastButton
-                    title="Submit"
-                    message="Quotation assigned successfully"
-                  />
-                </Link>
+                <CreateQuotationComponent />
               </div>
             </>
           )}

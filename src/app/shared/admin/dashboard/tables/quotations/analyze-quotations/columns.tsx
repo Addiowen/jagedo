@@ -161,9 +161,9 @@ export const getColumns = ({
     key: 'action',
     width: 100,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-end gap-3 pe-3">
+      <div className="flex items-center justify-center gap-3 pe-3">
         <Link href={routes.admin.rfq}>
-          <Button size="sm"> Evaluate</Button>
+          <Text className="text-green-500">View</Text>
         </Link>
       </div>
     ),

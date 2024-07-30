@@ -109,7 +109,7 @@ export default function ProfessionalHistoryTable({
       }
     >
       <ControlledTable
-        variant="modern"
+        variant="bordered"
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}

@@ -43,7 +43,10 @@ export const completeJobDetailsData = [
     'Request Date': '12/11/2023',
     'Request Number': '#JOB0021',
 
-    Location: 'Kome,Homabay',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
     Status: 'Reviewed',
 
     Category: 'Fundi',
@@ -56,25 +59,61 @@ export const completeJobDetailsData = [
 
     'Start Date': '13/11/2023',
     'End Date': '14/11/2023',
+    Attachments: [
+      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
   },
   {
-    'Request Type': 'Standard',
+    'Request Type': 'Standard 1: Managed by Jagedo',
     'Request Date': '11/11/2023',
     'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
 
-    Location: 'Kome,Homabay',
     Status: 'Unreviewed',
 
-    Category: 'Fundi',
-    'Sub-Category': 'Plumber',
-    'Deadline for availability': '20/04/2024',
+    Category: 'Professional',
+    Skill: 'Architect',
 
     'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
+    'Payment Status': 'Unpaid',
     Rate: '1000',
 
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
+    'Request Type': 'Standard 2: Managed by Self',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Professional',
+    Skill: 'Architect',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
   },
 ];
 export const disbursement = [

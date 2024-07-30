@@ -100,7 +100,7 @@ export const getColumns = ({
     title: <HeaderCell title="RFQ type" />,
     dataIndex: 'rfqType',
     key: 'rfqType',
-    width: 30,
+    width: 250,
     render: (rfqType: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {rfqType}
@@ -168,9 +168,7 @@ export const getColumns = ({
     render: (_: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
         <Link href={routes.admin.analyzeQuotations}>
-          <Button color="primary" rounded="lg">
-            Analyse
-          </Button>
+          <Text className="text-green-500">Analyse</Text>
         </Link>
       </div>
     ),

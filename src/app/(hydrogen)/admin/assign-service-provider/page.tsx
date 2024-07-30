@@ -46,11 +46,19 @@ export default function AddtoServiceProviders() {
           )}
 
           <ToastButton AltButton={true} title="Back" />
-          <ToastButton
-            title="Assign"
-            route={routes.admin.dashboard}
-            message="Fundis Assigned!"
-          />
+          {jobId === '3420' || jobId === '3419' ? (
+            <ToastButton
+              title="Assign Professionals"
+              route={routes.admin.dashboard}
+              message="Professionals Assigned!"
+            />
+          ) : (
+            <ToastButton
+              title="Assign"
+              route={routes.admin.dashboard}
+              message="Fundis Assigned!"
+            />
+          )}
         </div>
       </div>
     </>

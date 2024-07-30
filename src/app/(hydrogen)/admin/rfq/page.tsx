@@ -3,6 +3,7 @@ import ContactorsTable from '@/app/shared/admin/dashboard/tables/contractor';
 import { metaObject } from '@/config/site.config';
 import RFQServiceProviderCard from '@/app/shared/admin/cards/rfq/service-provider';
 import PageHeader from '@/app/shared/commons/page-header';
+import CreateQuotationComponent from '@/app/shared/create-quotation/create-quotation';
 
 export const metadata = {
   ...metaObject('RFQ '),
@@ -13,7 +14,7 @@ const pageHeader = {
   breadcrumb: [],
 };
 
-export default function RFQPagr() {
+export default function RFQPage() {
   return (
     <>
       {' '}
@@ -24,7 +25,7 @@ export default function RFQPagr() {
       <div className="@container">
         <div className="mt-2 mt-6 flex flex-col gap-y-6 @container sm:gap-y-10">
           {/* <RFQCard className="relative  @4xl:col-span-2 @7xl:col-span-12" /> */}
-          <RFQServiceProviderCard />
+          <CreateQuotationComponent />
         </div>
       </div>
     </>

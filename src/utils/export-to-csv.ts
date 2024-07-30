@@ -10,6 +10,7 @@ export function exportToCSV(data: any[], header: string, fileName: string) {
         return ''; // Return an empty string if row is not an object
       })
       .join('\n');
+
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement('a');
   link.setAttribute('href', encodedUri);

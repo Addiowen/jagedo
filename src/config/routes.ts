@@ -29,7 +29,7 @@ export const routes = {
     contractor: '/admin/registers/contractor',
     requisitions: '/admin/registers/requisitions',
     customerRequisitions: '/admin/registers/requisitions/customer',
-    assignServiceProvider: '/admin/assign-fundis',
+    assignServiceProvider: '/admin/assign-service-provider',
     quotations: '/admin/registers/quotations',
     analyzeQuotations: '/admin/registers/quotations/analyze-quotations',
     evaluate: '/admin/quotations/evaluateQuotations',

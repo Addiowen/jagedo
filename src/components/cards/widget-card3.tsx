@@ -54,7 +54,7 @@ function WidgetCard(
           headerClassName
         )}
       >
-        <div className="flex-grow">
+        <div className="w-1/2 flex-grow">
           <Title
             as="h3"
             className={cn('text-base font-semibold sm:text-lg', titleClassName)}
@@ -65,7 +65,7 @@ function WidgetCard(
             <div className={descriptionClassName}>{description}</div>
           )}
         </div>
-        <div className="flex-grow-[4]">
+        <div className="w-2/3 flex-grow">
           {action && (
             <div className={cn('ps-2', actionClassName)}>{action}</div>
           )}

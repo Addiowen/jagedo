@@ -12,18 +12,11 @@ export const metadata = {
 };
 
 export default function IndividualPage() {
-  const steps = ['Step 1', 'Step 2', 'Step 3', 'Step 4'];
-  const currentStep = 2; // For example, the current step is the third one
-
   return (
     <div className="@container">
-      <StepProgressBar steps={steps} currentStep={1} />
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
-        <Link
-          href={routes.admin.createIndividualProfile}
-          className="mt-4 w-full @lg:mt-0 @lg:w-auto"
-        >
-          <Button as="span" className="w-full @lg:w-auto">
+        <Link href={routes.admin.createIndividualProfile}>
+          <Button as="span" className="">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Customer
           </Button>

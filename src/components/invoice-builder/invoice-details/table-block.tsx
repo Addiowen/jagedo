@@ -33,7 +33,7 @@ export default function TableBlock() {
   return (
     <div className="relative mt-12">
       <div className="grid grid-cols-12 gap-2 rounded-t-md bg-gray-100 p-2 dark:bg-gray-900">
-        <TableHeaderCell className="col-span-4 ps-2">
+        <TableHeaderCell className="col-span-1 ps-2">
           <InvoiceInput
             placeholder="Item Description"
             {...register('invoiceTableHeader.title')}
@@ -67,6 +67,13 @@ export default function TableBlock() {
             {...register('invoiceTableHeader.amount')}
           />
         </TableHeaderCell>
+        <TableHeaderCell className="col-span-2 justify-end">
+          <InvoiceInput
+            placeholder="Rate"
+            inputClassName="[&_input]:text-end"
+            {...register('invoiceTableHeader.extar')}
+          />
+        </TableHeaderCell>
       </div>
       <ul>
         <SortableList items={fields} onChange={handleChange}>
@@ -78,7 +85,7 @@ export default function TableBlock() {
               <Fragment key={`invoice-table-${index}`}>
                 <SortableList.Item id={field.id}>
                   <div className="group grid min-h-10 grid-cols-12 gap-0 border-b border-muted dark:border-muted/20">
-                    <div className="col-span-4 py-2 pe-2">
+                    <div className="col-span-2 py-2 pe-2">
                       <InvoiceTextarea
                         rows={2}
                         className="grow"
@@ -113,6 +120,16 @@ export default function TableBlock() {
                         placeholder="5%"
                         inputClassName="[&_input]:text-end"
                         {...register(`invoiceTable.${index}.tax`, {
+                          valueAsNumber: true,
+                        })}
+                      />
+                    </div>
+                    <div className="col-span-2 p-2">
+                      <InvoiceInput
+                        type="number"
+                        placeholder="120"
+                        inputClassName="[&_input]:text-end"
+                        {...register(`invoiceTable.${index}.extar`, {
                           valueAsNumber: true,
                         })}
                       />

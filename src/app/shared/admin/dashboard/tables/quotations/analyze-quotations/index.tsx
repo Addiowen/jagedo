@@ -109,7 +109,7 @@ export default function AnalyzeQuotationsTable({
       }
     >
       <ControlledTable
-        variant="modern"
+        variant="bordered"
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}
