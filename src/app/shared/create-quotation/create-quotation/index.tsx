@@ -25,6 +25,7 @@ import {
   CreateQuotationType,
   CREATE_QUOTATION_DEFAULT_VALUE,
   createQuotationSchema,
+  CREATE_QUOTATION_VIEW_VALUE,
 } from '@/utils/create-quotation.schema';
 
 import FormFooter from '@/components/custom-form-footer';
@@ -32,6 +33,8 @@ import FormFooter from '@/components/custom-form-footer';
 import AttachmentsBlock from './attachments-block';
 import { usePathname, useRouter } from 'next/navigation';
 // import ThirdTableTwo from './third-table-two';
+
+import { useSearchParams } from 'next/navigation';
 
 // const pageHeader = {
 //   title: 'Invoice Builder',
@@ -51,6 +54,10 @@ import { usePathname, useRouter } from 'next/navigation';
 // };
 
 export default function CreateQuotationComponent() {
+  const searchParams = useSearchParams();
+
+  const jobId = searchParams.get('jobId');
+
   const printRef = useRef(null);
   // const handlePrint = useReactToPrint({
   //   content: () => printRef.current,
@@ -60,9 +67,14 @@ export default function CreateQuotationComponent() {
   const pathname = usePathname();
   const viewQuotation = pathname.includes('quotations');
 
+  const defaultValues =
+    jobId === '3420'
+      ? CREATE_QUOTATION_DEFAULT_VALUE
+      : CREATE_QUOTATION_VIEW_VALUE;
+
   const methods = useForm<CreateQuotationType>({
     mode: 'onChange',
-    defaultValues: CREATE_QUOTATION_DEFAULT_VALUE,
+    defaultValues: defaultValues,
     resolver: zodResolver(createQuotationSchema),
   });
 

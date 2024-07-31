@@ -163,7 +163,7 @@ export const requisitions = [
     date: '2022-11-10T06:22:01.621Z',
     category: 'Professional',
     subCategory: 'Quantity Surveyor',
-    requestType: 'Standard: Managed by Jagedo',
+    requestType: 'Standard 1: Managed by Jagedo',
     description: 'Tank reticulation to water point',
     location: 'Kome,Homabay',
     status: 'Open',
@@ -426,9 +426,11 @@ export const activeJobDetailsData = [
     'Request Date': '12/11/2023',
     'Request Number': '#JOB0021',
 
-    Location: 'Kome,Homabay',
-    'Job description': 'Repair of faulty wiring system',
-    Status: 'Ongoing',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Reviewed',
 
     Category: 'Fundi',
     'Sub-Category': 'Electricity',
@@ -440,26 +442,89 @@ export const activeJobDetailsData = [
 
     'Start Date': '13/11/2023',
     'End Date': '14/11/2023',
+    Attachments: [
+      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
   },
+
   {
     'Request Type': 'Standard',
-    'Request Date': '11/11/2023',
+    'Request Date': '12/11/2023',
     'Request Number': '#JOB0020',
 
-    Location: 'Kome,Homabay',
-    'Job description': 'Tank reticulation to water point',
-    Status: 'Ongoing',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Reviewed',
 
     Category: 'Fundi',
-    'Sub-Category': 'Plumber',
+    'Sub-Category': 'Electricity',
     'Deadline for availability': '20/04/2024',
 
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
     Rate: '1000',
 
+    'Start Date': '13/11/2023',
+    'End Date': '14/11/2023',
+    Attachments: [
+      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
+    'Request Type': 'Standard 1: Managed by Jagedo',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Professional',
+    Skill: 'Architect',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
+    'Request Type': 'Standard 2: Managed by Self',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Professional',
+    Skill: 'Architect',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
   },
 ];
 
@@ -708,6 +773,28 @@ export const activeJobs = [
     category: 'Fundi',
     subCategory: 'Plumber',
     reqType: 'Standard: Managed by Self',
+    location: 'Kome,Homabay',
+    description: 'Design of 4 storey bungalow',
+    status: 'Ongoing',
+  },
+  {
+    no: '3',
+    id: '3325',
+    requisitionDate: '2022-11-02T06:22:01.621Z',
+    category: 'Professional',
+    subCategory: 'Architect',
+    reqType: 'Standard 1: Managed by Jagedo',
+    location: 'Kome,Homabay',
+    description: 'Design of 4 storey bungalow',
+    status: 'Ongoing',
+  },
+  {
+    no: '4',
+    id: '3326',
+    requisitionDate: '2022-11-02T06:22:01.621Z',
+    category: 'Professional',
+    subCategory: 'Quantity Surveyor',
+    reqType: 'Standard 2: Managed by Self',
     location: 'Kome,Homabay',
     description: 'Design of 4 storey bungalow',
     status: 'Ongoing',

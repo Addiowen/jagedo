@@ -18,6 +18,7 @@ import { useState } from 'react';
 import QuoteTable from '@/app/shared/admin/dashboard/tables/quote-table';
 import ProfessionalFeesTable from '@/app/shared/admin/dashboard/tables/professional-fees';
 import CreateQuotationComponent from '@/app/shared/create-quotation/create-quotation';
+import { useSearchParams } from 'next/navigation';
 
 // export const metadata = {
 //   ...metaObject('Create Professional Quotation '),
@@ -41,6 +42,10 @@ const pageHeader = {
 
 export default function ProfessionalQuotation() {
   const [isTableVisible, setIsTableVisible] = useState(true);
+
+  const searchParams = useSearchParams();
+
+  const jobId = searchParams.get('jobId');
 
   const handleToggle = () => {
     setIsTableVisible(!isTableVisible);

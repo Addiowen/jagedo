@@ -2,9 +2,14 @@
 
 import { useRef } from 'react';
 import { Link } from 'react-scroll';
-import { Title, Text } from 'rizzui';
+import { Title, Text, Button } from 'rizzui';
 import cn from '@/utils/class-names';
+import dynamic from 'next/dynamic';
+import { useModal } from '@/app/shared/modal-views/use-modal';
 import { PiArrowDownBold, PiTriangle } from 'react-icons/pi';
+const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
+  ssr: false,
+});
 
 const statusColors: {
   [key: string]: string;
@@ -30,6 +35,8 @@ export default function Timeline({
   function handleScrollPosition(e: any) {
     buttonEl.current.scrollLeft = e.target.offsetLeft - 30;
   }
+
+  const { openModal } = useModal();
 
   return (
     <>
@@ -80,6 +87,38 @@ export default function Timeline({
                     </Text>{' '}
                     {`${timeline.date} ${timeline.time}`}
                   </Text>
+
+                  <span className="flex">
+                    {timeline.upload ? (
+                      <>
+                        {/* <Text className=" text-sm font-normal leading-loose text-gray-500">
+                      Add attachment                   
+                    </Text>
+                    {timeline.upload} */}
+
+                        <Button
+                          variant="text"
+                          // variant='outline'
+                          onClick={() => {
+                            openModal({
+                              view: <FileUpload />,
+                            });
+                          }}
+                          className="-p-4 group -mt-2 text-sm font-bold leading-loose text-gray-500"
+                        >
+                          Add attachment
+                          {timeline.upload}
+                        </Button>
+                      </>
+                    ) : (
+                      // timeline.upload
+
+                      <Text
+                        as="span"
+                        className="block font-medium text-gray-700"
+                      ></Text>
+                    )}
+                  </span>
                 </div>
               </div>
             </div>

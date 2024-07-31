@@ -71,7 +71,12 @@ export default function RequisitionDetailsPage() {
         <div className="mt-6 flex items-center justify-center space-x-6">
           {jobId === '3420' || jobId === '3419' ? (
             <>
-              <Link href={routes.admin.professionalQuotation}>
+              <Link
+                href={{
+                  pathname: routes.admin.professionalQuotation,
+                  query: { jobId },
+                }}
+              >
                 <ToastButton title="Create Quotation" />
               </Link>
               <Link

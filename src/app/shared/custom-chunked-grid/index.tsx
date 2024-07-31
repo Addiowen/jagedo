@@ -32,7 +32,7 @@ interface Item {
   Rate: string;
   'Start Date': string;
   'End Date': string;
-  Attachments: string[];
+  Attachments?: string[];
 }
 
 interface Props {

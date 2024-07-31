@@ -9,6 +9,7 @@ import cn from '@/utils/class-names';
 import { routes } from '@/config/routes';
 import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 // export const metadata = {
 //   ...metaObject(),
@@ -22,6 +23,9 @@ type PageProps = {
 export default function JobDetailsPage({ className }: PageProps) {
   const [modalState, setModalState] = useState(false);
   const [approvalModalState, setApprovalModalState] = useState(false);
+
+  const getparams = useSearchParams();
+  const jobId = getparams.get('id');
 
   return (
     <>

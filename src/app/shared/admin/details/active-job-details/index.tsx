@@ -57,7 +57,11 @@ export default function ActiveJobDetailsCard() {
       <div className="mb-4">
         <ChunkedGridActive
           data={
-            jobId === '3324' ? activeJobDetailsData[0] : activeJobDetailsData[1]
+            jobId === '3324'
+              ? activeJobDetailsData[0]
+              : jobId === '3326'
+                ? activeJobDetailsData[3]
+                : activeJobDetailsData[1]
           }
           dataChunkSize={8}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
