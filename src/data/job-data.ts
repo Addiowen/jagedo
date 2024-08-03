@@ -31,6 +31,30 @@ export const jobData = [
   },
 ];
 
+export const quotedRequisitionsData = [
+  {
+    id: '3324',
+    date: '2022-11-10T06:22:01.621Z',
+    rfqType: 'Standard: Managed by Jagedo',
+    subCategory: 'Quantity Surveyor',
+    location: 'Kome,Homabay',
+    description: '2 Masterfundis',
+    category: 'Professional',
+    status: 'Open',
+  },
+  {
+    id: '3336',
+    date: '2022-11-10T06:22:01.621Z',
+    rfqType: 'Standard 2: Managed by Self',
+    subCategory: 'Structural Engineer',
+    location: 'KE,Rift Valley Narok',
+    description: 'Designing 3 bedroom bungalow',
+    category: 'Professional',
+    status: 'Under Review',
+  },
+];
+
+
 export const completedJobsData = [
   {
     number: '1', 
@@ -54,7 +78,56 @@ export const completedJobsData = [
     location: 'Kisumu',
     requestType: 'Emergency',
     status: 'Unreviewed'
+  },
+  {
+    number: '3',
+    id: 'JOB0022',
+    date: '2023-11-10T06:22:01.621Z',
+    category: 'Profesional',
+    subCategory: 'Architect',
+    description: 'Architect',
+    location: 'Kisumu',
+    requestType: 'Standard 1',
+    status: 'reviewed'
+  },
+  {
+    number: '4',
+    id: 'JOB0022',
+    date: '2023-11-10T06:22:01.621Z',
+    category: 'Profesional',
+    subCategory: 'Architect',
+    description: 'Architect',
+    location: 'Kisumu',
+    requestType: 'Standard 2',
+    status: 'Unreviewed'
   }
+];
+
+export const quotationData = [
+  {
+    id: '3324',
+    date: '2022-11-10T06:22:01.621Z',
+    serviceProvider: 'Owen\u00A0Oscar',
+    phone: '0712345678',
+    email: 'mailto:steve@gmail.com',
+    location: 'Kome,Homabay',
+    amount: 2500,
+    rating: 7,
+    score: 6,
+    status: 'Reviewed',
+  },
+  {
+    id: '3327',
+    date: '2022-11-10T06:22:01.621Z',
+    serviceProvider: 'Phyllis\u00A0Wanjala',
+    phone: '0792345678',
+    gender: 'Male',
+    location: 'Kome,Homabay',
+    amount: 2500,
+    rating: 7,
+    score: 6,
+    status: 'Unreviewed',
+  },
 ];
 
 export const activeJobDetailsData = [
@@ -129,55 +202,79 @@ export const fundiActiveJobsData = [
     status: 'Ongoing',
     requestTypeId: 1,
   },
+  {
+    number: '3',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
+    category: 'Professional',
+    subCategory: 'Architect',
+    requestType: 'Standard 1: Managed by Jagedo',
+    description: 'Architect',
+    location: 'Transmara, Narok',
+    status: 'Ongoing',
+    requestTypeId: 1,
+  },
+  {
+    number: '4',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
+    category: 'Professional',
+    subCategory: 'Architect',
+    requestType: 'Standard 2: Managed by Self',
+    description: 'Architect',
+    location: 'Transmara, Narok',
+    status: 'Ongoing',
+    requestTypeId: 1,
+  },
 ];
 
-export const completeJobDetailsData = 
-[
-  {
-    'Request Type': 'Emergency',
-    'Request Date': '12/11/2023',
-    'Request Number': '#JOB0021',
+// export const completeJobDetailsData = 
+// [
+//   {
+//     'Request Type': 'Emergency',
+//     'Request Date': '12/11/2023',
+//     'Request Number': '#JOB0021',
     
-    Status: 'Reviewed',
+//     Status: 'Reviewed',
     
-    Category: 'Fundi',
-    'Managed By': 'Jagedo',
-    'County': 'Busia',
-    'Sub-County': 'Nambale',
-    'Estate/Village': 'Nambale',
-    'Skill': 'Plumbing',   
+//     Category: 'Fundi',
+//     'Managed By': 'Jagedo',
+//     'County': 'Busia',
+//     'Sub-County': 'Nambale',
+//     'Estate/Village': 'Nambale',
+//     'Skill': 'Plumbing',   
   
-    'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
-    'Rate': '1000',
+//     'Invoice Number': '#3454',
+//     'Payment Status': 'Paid',
+//     'Rate': '1000',
 
-    'Start Date': '13/11/2023',
-    'End Date': '14/11/2023',
-  },
-  {
-    'Request Type': 'Standard',
-    'Request Date': '11/11/2023',
-    'Request Number': '#JOB0020',
+//     'Start Date': '13/11/2023',
+//     'End Date': '14/11/2023',
+//   },
+//   {
+//     'Request Type': 'Standard',
+//     'Request Date': '11/11/2023',
+//     'Request Number': '#JOB0020',
     
-    Location: 'Kome,Homabay',
-    Status: 'Unreviewed',
+//     Location: 'Kome,Homabay',
+//     Status: 'Unreviewed',
     
-    Category: 'Fundi',
-    'Managed By': 'Self',
-    'County': 'Busia',
-    'Sub-County': 'Nambale',
-    'Estate/Village': 'Nambale',
-    'Skill': 'Plumbing',   
+//     Category: 'Fundi',
+//     'Managed By': 'Self',
+//     'County': 'Busia',
+//     'Sub-County': 'Nambale',
+//     'Estate/Village': 'Nambale',
+//     'Skill': 'Plumbing',   
   
-    'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
-    'Rate': '1000',
+//     'Invoice Number': '#3454',
+//     'Payment Status': 'Paid',
+//     'Rate': '1000',
 
-    'Start Date': '12/11/2023',
-    'End Date': '13/11/2023',
-  },
-]
-;
+//     'Start Date': '12/11/2023',
+//     'End Date': '13/11/2023',
+//   },
+// ]
+// ;
 
 export const reviewData = [
   {
@@ -205,6 +302,32 @@ export const reviewData = [
     location: 'Transmara, Narok',
     status: 'Reviewed',
     reviewBy: 'Agnes Wanjiku',
+    requestTypeId: 1,
+  },
+  {
+    number: '3',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
+    category: 'Professional',
+    subCategory: 'Architect',
+    requestType: 'Standard 1: Managed by Jagedo',
+    description: 'Architect',
+    location: 'Transmara, Narok',
+    status: 'Reviewed',
+    reviewBy: 'Wafula Brian',
+    requestTypeId: 1,
+  },
+  {
+    number: '4',
+    id: 'JOB0020',
+    date: 'November 11, 2023',
+    category: 'Professional',
+    subCategory: 'Architect',
+    requestType: 'Standard 2: Managed by Self',
+    description: 'Architect',
+    location: 'Transmara, Narok',
+    status: 'Reviewed',
+    reviewBy: 'Kenson Langat',
     requestTypeId: 1,
   },
 ];
@@ -356,4 +479,84 @@ export const requestDetailsData = [
       'Job Description': 'Tank reticulation to water point',
     },
 ]
+
+export const completeJobDetailsData = [
+  {
+    'Request Type': 'Emergency',
+    'Request Date': '12/11/2023',
+    'Request Number': '#JOB0021',
+
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Reviewed',
+
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Deadline for availability': '20/04/2024',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Rate: '1000',
+
+    'Start Date': '13/11/2023',
+    'End Date': '14/11/2023',
+    Attachments: [
+      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
+    'Request Type': 'Standard 1: Managed by Jagedo',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Professional',
+    Skill: 'Architect',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
+    'Request Type': 'Standard 2: Managed by Self',
+    'Request Date': '11/11/2023',
+    'Request Number': '#JOB0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Professional',
+    Skill: 'Architect',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+];
 ;

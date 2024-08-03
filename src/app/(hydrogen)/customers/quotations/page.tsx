@@ -1,6 +1,7 @@
 import AdminDashboard from '@/app/shared/admin/dashboard';
-import QuotationsTable from '@/app/shared/tables/quotations';
-import QuotationReports from '@/app/shared/tables/quotations';
+import QuotedRequisitionsTable from '@/app/shared/tables/quotations';
+import QuotationsTable from '@/app/shared/tables/quotations-renamed';
+import QuotationReports from '@/app/shared/tables/quotations-renamed';
 import RequisitionsTable from '@/app/shared/tables/requisitions';
 
 import { metaObject } from '@/config/site.config';
@@ -11,6 +12,6 @@ export const metadata = {
 
 export default function Admin() {
   return (
-    <QuotationsTable className="relative @container  @4xl:col-span-2 @7xl:col-span-12" />
+    <QuotedRequisitionsTable className="relative @container  @4xl:col-span-2 @7xl:col-span-12" />
   );
 }

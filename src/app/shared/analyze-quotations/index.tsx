@@ -5,8 +5,8 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Input, Modal } from 'rizzui';
-import { quotedRequisitionsData } from '@/data/job-data';
+import { Button, Input } from 'rizzui';
+import { jobData, quotationData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
@@ -15,14 +15,12 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function QuotedRequisitionsTable({
+export default function AnalyzeQuotationsTable({
   className,
 }: {
   className?: string;
 }) {
   const [pageSize, setPageSize] = useState(7);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -53,21 +51,17 @@ export default function QuotedRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(quotedRequisitionsData, pageSize, filterState);
+  } = useTable(quotationData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: quotedRequisitionsData,
+        data: quotationData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
         onDeleteItem,
-        onChecked: (id: string) => {
-          handleRowSelect(id);
-          setSelectedRow(id);
-          setIsModalOpen(true);
-        },
+        onChecked: handleRowSelect,
         handleSelectAll,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,21 +78,12 @@ export default function QuotedRequisitionsTable({
 
   const { visibleColumns } = useColumn(columns);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedRow(null);
-  };
-
-  const confirmSelection = () => {
-    closeModal();
-  };
-
   return (
     <WidgetCard2
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Quotations"
+      title="Analyze Quotations"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
@@ -108,6 +93,7 @@ export default function QuotedRequisitionsTable({
             updateFilter={updateFilter}
             handleReset={handleReset}
           />
+
           <Input
             className="w-full @[42rem]:w-auto @[70rem]:w-80"
             type="search"
@@ -138,16 +124,6 @@ export default function QuotedRequisitionsTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
-
-      {/* {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div>
-            <p>Are you sure you want to select this item?</p>
-            <button onClick={confirmSelection}>Confirm</button>
-            <button onClick={closeModal}>Cancel</button>
-          </div>
-        </Modal>
-      )} */}
     </WidgetCard2>
   );
 }

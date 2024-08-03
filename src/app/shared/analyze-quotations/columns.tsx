@@ -10,24 +10,26 @@ import {
   Button,
   Badge,
 } from 'rizzui';
-
+import PencilIcon from '@/components/icons/pencil';
 import EyeIcon from '@/components/icons/eye';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 import DateCell from '@/components/ui/date-cell';
 import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
+import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'under review':
+    case 'unreviewed':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
           <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
         </div>
       );
-    case 'open':
+    case 'reviewed':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -37,8 +39,8 @@ function getStatusBadge(status: string) {
     default:
       return (
         <div className="flex items-center">
-          <Badge color="danger" renderAsDot className="bg-gray-400" />
-          <Text className="ms-2 font-medium text-red-600">{status}</Text>
+          <Badge renderAsDot className="bg-gray-400" />
+          <Text className="ms-2 font-medium text-gray-600">{status}</Text>
         </div>
       );
   }
@@ -82,93 +84,86 @@ export const getColumns = ({
         <Checkbox
           aria-label={'ID'}
           className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
+          checked={checkedItems.includes(row.id) || true}
           {...(onChecked && { onChange: () => onChecked(row.id) })}
         />
       </div>
     ),
   },
   {
-    title: <HeaderCell title="JOB NO" />,
+    title: <HeaderCell title="QTN NO." />,
     dataIndex: 'id',
     key: 'id',
-    width: 50,
-    render: (id: string) => <Text>RFQ#{id}</Text>,
+    width: 20,
+    render: (id: string) => <Text>QTN#{id}</Text>,
   },
 
   {
-    title: <HeaderCell title="RFQ type" />,
-    dataIndex: 'rfqType',
-    key: 'rfqType',
-    width: 250,
-    render: (rfqType: string) => (
+    title: <HeaderCell title="Service Provider" />,
+    dataIndex: 'serviceProvider',
+    key: 'serviceProvider',
+    width: 100,
+    render: (serviceProvider: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {rfqType}
+        {serviceProvider}
       </Text>
     ),
-  },
-  {
-    title: <HeaderCell title="Category" />,
-    dataIndex: 'category',
-    key: 'category',
-    width: 50,
-    render: (category: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {category}
-      </Text>
-    ),
-  },
-  {
-    title: <HeaderCell title="Sub Category" />,
-    dataIndex: 'subCategory',
-    key: 'subCategory',
-    width: 50,
-    render: (subCategory: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {subCategory}
-      </Text>
-    ),
-  },
-  {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 150,
-    render: (description: string) => <Text>{description}</Text>,
   },
 
   {
     title: <HeaderCell title="Location" />,
     dataIndex: 'location',
     key: 'location',
-    width: 50,
+    width: 80,
     render: (location: string) => <Text>{location}</Text>,
+  },
+  {
+    title: <HeaderCell title="Amount" />,
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 40,
+    render: (amount: string) => <Text>{amount}</Text>,
   },
 
   {
-    title: <HeaderCell title="Date" className="uppercase" />,
+    title: <HeaderCell title="Qtn Date" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
-    width: 60,
+    width: 100,
     render: (date: Date) => <DateCell date={date} />,
   },
 
   {
+    title: <HeaderCell title="Rating" />,
+    dataIndex: 'rating',
+    key: 'rating',
+    width: 10,
+    render: (rating: string) => <Text>{rating}</Text>,
+  },
+  {
+    title: <HeaderCell title="Score" />,
+    dataIndex: 'score',
+    key: 'score',
+    width: 10,
+    render: (score: string) => <Text>{score}</Text>,
+  },
+  {
     title: <HeaderCell title="Status" />,
     dataIndex: 'status',
     key: 'status',
-    width: 120,
+    width: 50,
     render: (value: string) => getStatusBadge(value),
   },
   {
+    // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
     dataIndex: 'action',
     key: 'action',
-    width: 10,
+    width: 100,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-end gap-3 pe-3">
-        <Link href={'/customers/quotations/analyse-quotations'}>
-          <Text className="text-green-500">Analyse</Text>
+      <div className="flex items-center justify-center gap-3 pe-3">
+        <Link href={routes.customers.createQuotation}>
+          <Text className="text-green-500">View</Text>
         </Link>
       </div>
     ),

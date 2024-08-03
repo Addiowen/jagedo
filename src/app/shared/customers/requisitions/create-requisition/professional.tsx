@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import './styles.css';
 import { routes } from '@/config/routes';
@@ -13,14 +13,26 @@ const GenerateInvoiceProfessional: React.FC = () => {
   const metric = searchParams.get('metric') || '';
 
   const [description, setDescription] = useState('');
-  const [emergency, setEmergency] = useState('');
   const [date, setDate] = useState('');
   const [requestType, setRequestType] = useState('');
   const [location, setLocation] = useState('');
-  const [category, setCategory] = useState('');
-  const [subCategory, setSubCategory] = useState('');
-  const [managedBy, setManagedBy] = useState('');
+  const [county, setCounty] = useState('');
+  const [subCounty, setSubCounty] = useState('');
+  const [village, setVillage] = useState('');
+  const [skill, setSkill] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [managedBy, setManagedBy] = useState('');
+
+  useEffect(() => {
+    // Autofill managedBy based on requestType
+    if (requestType === 'Standard 1') {
+      setManagedBy('Managed by Jagedo');
+    } else if (requestType === 'Standard 2') {
+      setManagedBy('Managed by self');
+    } else {
+      setManagedBy('Managed By');
+    }
+  }, [requestType]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -33,238 +45,196 @@ const GenerateInvoiceProfessional: React.FC = () => {
     // Handle form submission logic
     console.log({
       description,
-      emergency,
       date,
       location,
       file,
     });
 
-    router.push(routes.invoice.details(DUMMY_ID));
+    // Redirect based on the selected request type
+    if (requestType === 'Standard 1') {
+      router.push(routes.customers.requisitions); // Route for Request for Quotation
+    } else if (requestType === 'Standard 2') {
+      router.push(routes.invoice.details(DUMMY_ID)); // Route for Generate Invoice
+    }
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="@container">
       <h1>Professional</h1>
-      <div className="w-full rounded-lg bg-white p-6 shadow-md">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            <div className="form-group md:col-span-2">
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Add description
-              </label>
+      <div className="w-full rounded-lg bg-white p-4 border border-gray-300">
+        <form onSubmit={handleSubmit} className="space-y-2">
+          <div className="grid grid-cols-1 gap-2">
+            <div className="form-group">
               <textarea
                 id="description"
-                className="mt-1 block h-64 w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block h-16 w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Add description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <div className="form-group col-span-2 flex items-center">
-                <input
-                  type="checkbox"
-                  id="agreement"
-                  className="mt-5 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label
-                  htmlFor="agreement"
-                  className="ml-2 mt-6 block text-sm text-gray-900"
-                >
-                  I agree to the{' '}
-                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                    Fundi Agreement
-                  </a>
-                </label>
-              </div>
             </div>
-
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:col-span-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
               <div className="form-group">
-                <label
-                  htmlFor="managedBy"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Managed By
-                </label>
-                <select
-                  id="managedBy"
-                  value={managedBy}
-                  onChange={(e) => setManagedBy(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Select Manage Type
-                  </option>
-                  <option value="Skill1">You</option>
-                  <option value="Skill2">Jagedo</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label
-                  htmlFor="requestType"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Request Type
-                </label>
                 <select
                   id="requestType"
                   value={requestType}
                   onChange={(e) => setRequestType(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
                   <option value="" disabled>
-                    Select Request Type
+                    Request
                   </option>
-                  <option value="Skill1">Standard 1</option>
-                  <option value="Skill2">Standard 2</option>
+                  <option value="Standard 1">Standard 1</option>
+                  <option value="Standard 2">Standard 2</option>
                 </select>
               </div>
+              {/* Other form fields remain the same */}
               <div className="form-group">
-                <label
-                  htmlFor="emergency"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Emergency
-                </label>
+                <input
+                  id="managedBy"
+                  value={managedBy}
+                  readOnly
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div className="form-group">
                 <select
-                  id="emergency"
-                  value={emergency}
-                  onChange={(e) => setEmergency(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  id="category"
+                  value={county}
+                  onChange={(e) => setCounty(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
                   <option value="" disabled>
-                    Select an option
+                    County
                   </option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
+                  <option value="county">Nairobi</option>
+                  <option value="county">Busia</option>
+                  <option value="county">Bungoma</option>
+                  <option value="county">Kakamega</option>
+                  <option value="county">Nandi</option>
                 </select>
               </div>
               <div className="form-group">
-                <label
-                  htmlFor="date"
-                  className="block text-sm font-medium text-gray-700"
+                <select
+                  id="subCounty"
+                  value={subCounty}
+                  onChange={(e) => setSubCounty(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 >
-                  Date
-                </label>
+                  <option value="" disabled>
+                    Sub-County
+                  </option>
+                  <option value="nambale">Nambale</option>
+                  <option value="lessos">Lessos</option>
+                  <option value="muranga">Muranga</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <select
+                  id="village"
+                  value={village}
+                  onChange={(e) => setVillage(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Estate/Village
+                  </option>
+                  <option value="estate1">Estate 1</option>
+                  <option value="estate2">Estate 2</option>
+                  <option value="estate3">Estate 3</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <select
+                  id="skill"
+                  value={skill}
+                  onChange={(e) => setSkill(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                >
+                  <option value="" disabled>
+                    Profession
+                  </option>
+                  <option value="Plumber">Architect</option>
+                  <option value="Masonry">Surveyor</option>
+
+                </select>
+              </div>
+              <div className="form-group">
                 <input
                   type="date"
                   id="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
               <div className="form-group">
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                <select
-                  id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Select Location
-                  </option>
-                  <option value="Skill1">Nairobi</option>
-                  <option value="Skill2">Kisumu</option>
-                  <option value="Skill3">Mombasa</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label
-                  htmlFor="category"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Category
-                </label>
-                <select
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Select Category
-                  </option>
-                  <option value="Skill1">Category 1</option>
-                  <option value="Skill2">Category 2</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label
-                  htmlFor="subCategory"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Sub Category
-                </label>
-                <select
-                  id="subCategory"
-                  value={subCategory}
-                  onChange={(e) => setSubCategory(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Select Sub-Category
-                  </option>
-                  <option value="Skill1">Sub-Category 1</option>
-                  <option value="Skill2">Sub-Category 2</option>
-                  <option value="Skill3">Sub-Category 3</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label
-                  htmlFor="file"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Upload doc e.g jpeg,pdf
-                </label>
                 <input
                   type="file"
                   id="file"
                   onChange={handleFileChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
+              </div>
+              <div className="form-group col-span-2 flex items-center">
+                <input
+                  type="checkbox"
+                  id="agreement"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                />
+                <label
+                  htmlFor="agreement"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  I agree to the{' '}
+                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                    Professional Agreement
+                  </a>
+                </label>
               </div>
             </div>
           </div>
-
           <button
             type="submit"
-            className="w-full rounded-md bg-indigo-600 px-4 py-2 text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="block mx-auto w-full rounded-md bg-indigo-600 px-2 py-1 text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Generate Invoice
+            {requestType === 'Standard 1' ? 'Request for Quotation' : 'Generate Invoice'}
           </button>
         </form>
-
-        <div className="mt-8">
+        <div className="mt-2">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             Packages:
           </h3>
-          <div className="mt-4 flex space-x-6">
-            <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
-              <h4 className="text-md font-semi-bold">
-                Standard Request Atleast 3 Professionals
-              </h4>
-              <ul className="mt-2 list-inside list-disc text-sm">
+          <div className="mt-1 flex space-x-2">
+            <div
+              className={`package w-1/2 rounded-lg p-2 shadow-md ${
+                requestType === "Standard 1"
+                  ? "bg-indigo-600 text-blue"
+                  : "bg-indigo-600"
+              }`}
+            >
+              <h5 className="text-md font-semi-bold">
+                Standard 1: Managed by Jagedo
+              </h5>
+              <ul className="mt-1 list-inside list-disc text-sm">
                 <li>Standard linkage fee of Ksh 10,000</li>
                 <li>Response time within 4-5 hrs</li>
                 <li>Managed by You</li>
               </ul>
             </div>
-
-            <div className="package w-1/2 rounded-lg bg-gray-100 p-4 shadow-md">
-              <h4 className="text-md font-semi-bold">
-                Standard Request Professional with quotes
-              </h4>
-              <ul className="mt-2 list-inside list-disc text-sm">
-                <li>Response within 4-5 days</li>
+            <div
+              className={`package w-1/2 rounded-lg p-2 shadow-md ${
+                requestType === "Standard 2"
+                  ? "bg-indigo-600 text-blue"
+                  : "bg-indigo-600"
+              }`}
+            >
+              <h5 className="text-md font-semi-bold">
+                Standard 2: Managed by Self
+              </h5>
+              <ul className="mt-1 list-inside list-disc text-sm">
+                <li>Standard linkage fee of Ksh 10,000</li>
+                <li>Response time within 3 days</li>
                 <li>Managed by Jagedo</li>
               </ul>
             </div>

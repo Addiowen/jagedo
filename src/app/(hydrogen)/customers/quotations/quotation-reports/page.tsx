@@ -1,4 +1,4 @@
-import QuotationReports from '@/app/shared/tables/quotations/quotation-report';
+import QuotationReports from '@/app/shared/tables/quotations-renamed/quotation-report';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {

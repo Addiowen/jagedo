@@ -36,6 +36,7 @@ export const routes = {
     generateInvoiceContractor: '/customers/generate-invoice/contractor',
     generateInvoiceFundi: '/customers/generate-invoice/fundi',
     quotations: '/customers/quotations',
+    createQuotation: '/customers/quotations/create-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',

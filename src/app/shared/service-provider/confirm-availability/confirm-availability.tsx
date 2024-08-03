@@ -30,7 +30,7 @@ export default function ConfirmAvailability() {
             info="Repairing a faulty wiring system"
         /> */}
 
-        <UserDetailsCard />
+        {/* <UserDetailsCard /> */}
 
         <div className="my-4">
           <ChunkedGrid data={requestId === 'JOB0021'? requestDetailsData[0] : requestDetailsData[1]} dataChunkSize={8} />

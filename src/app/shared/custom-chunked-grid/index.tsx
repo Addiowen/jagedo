@@ -2,6 +2,8 @@ import React from 'react';
 import cn from '@/utils/class-names';
 import {
   PiAcorn,
+  PiAtDuotone,
+  PiDownloadSimple,
   PiHammer,
   PiHammerBold,
   PiWrench,
@@ -13,7 +15,24 @@ import { JobDescription } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 
 interface Item {
-  [key: string]: string;
+  'Request Type': string;
+  'Request Date': string;
+  'Request Number': string;
+  County: string;
+  'Sub County': string;
+  Estate: string;
+  Status: string;
+  Category: string;
+  Profession?: string;
+  Skill?: string;
+  'Sub-Category'?: string;
+  'Deadline for availability'?: string;
+  'Invoice Number': string;
+  'Payment Status': string;
+  Rate: string;
+  'Start Date': string;
+  'End Date': string;
+  Attachments: string[];
 }
 
 interface Props {
@@ -92,7 +111,19 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     >
                       {key}
                     </Title>
-                    <div className="text-gray-500">{value}</div>
+                    {key === 'Attachments' ? (
+                      <div className="flex flex-wrap gap-6 text-gray-500">
+                        {(value as unknown as string[]).map(
+                          (imgSrc, imgIndex) => (
+                            <a key={imgIndex} href={imgSrc} download>
+                              <PiDownloadSimple className="h-5 w-5 text-blue-500" />
+                            </a>
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-gray-500">{value}</div>
+                    )}
                   </div>
                   {/* <div
                 as="span"
