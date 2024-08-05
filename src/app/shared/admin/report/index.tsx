@@ -13,6 +13,7 @@ import ChunkedGrid from '../../custom-chunked-grid';
 import { completeJobDetailsData } from '@/data/job-data';
 import Link from 'next/link';
 import { PiPlusBold } from 'react-icons/pi';
+import ChunkedGridActive from '../../chunked-grid-active';
 
 const data = [
   {
@@ -46,7 +47,7 @@ export default function ReportComponent({ className }: { className?: string }) {
           </Link>
         </div>
         <div className="mt-4">
-          <ChunkedGrid
+          <ChunkedGridActive
             data={
               type === '3416'
                 ? completeJobDetailsData[0]
@@ -58,17 +59,11 @@ export default function ReportComponent({ className }: { className?: string }) {
         </div>
 
         <AnalyzeQuotationsTable className="col-span-full mt-4" />
-        <WidgetCard3
-          title="Recommendation"
-          rounded="lg"
-          className="mt-4"
-          action={<Textarea size="sm" />}
-        ></WidgetCard3>
 
         <WidgetCard3
           title="Reason"
           rounded="lg"
-          className="mb-4 mt-4"
+          className=" mt-4"
           action={<Textarea size="sm" />}
         ></WidgetCard3>
       </div>

@@ -10,9 +10,14 @@ export default function ToastButton({
   title,
   message,
   route,
+  onSuccess,
   AltButton,
+  delay,
 }: {
   title?: string;
+  onSuccess?: () => void;
+  delay?: number;
+
   message?: string;
   route?: string;
   AltButton?: boolean;
@@ -24,8 +29,17 @@ export default function ToastButton({
       toast.success(<Text as="b">{message}</Text>);
     }
 
+    if (onSuccess) {
+      onSuccess();
+    }
+
     if (route) {
       router.push(route);
+      if (delay) {
+        setTimeout(() => {
+          router.push(route);
+        }, delay);
+      }
     }
   };
 

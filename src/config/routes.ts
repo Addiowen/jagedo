@@ -43,7 +43,8 @@ export const routes = {
     completed: '/admin/registers/jobs/completed',
 
     //Requisitions
-    requisitionDetails: '/admin/requisition-details',
+    createRequest: '/admin/requisitions/create-requisition',
+    requisitionDetails: '/admin/requisitions/requisition-details',
     createRFQ: '/admin/requisition-details/requisition-for-quotation',
 
     //Quotations

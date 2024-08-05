@@ -14,6 +14,21 @@ const statusOptions = [
   },
 ];
 
+const locationOptions = [
+  {
+    label: 'Nigeria',
+    value: 'Nigeria',
+  },
+  {
+    label: 'Kenya',
+    value: 'Kenya',
+  },
+  {
+    label: 'Tanzania',
+    value: 'Tanzania',
+  },
+];
+
 type FilterElementProps = {
   isFiltered: boolean;
   filters: { [key: string]: any };
@@ -37,6 +52,20 @@ export default function FilterElement({
           value={filters['status']}
           onChange={(value: string) => {
             updateFilter('status', value);
+          }}
+          getOptionValue={(option) => option.label}
+        />
+      </div>
+
+      <div className="flex w-full flex-col gap-3 @[22rem]:flex-row @[42rem]:w-auto">
+        <StatusField
+          placeholder="Location"
+          dropdownClassName="!z-10"
+          className="w-full min-w-[145px] @[42rem]:w-auto"
+          options={locationOptions}
+          value={filters['location']}
+          onChange={(value: string) => {
+            updateFilter('location', value);
           }}
           getOptionValue={(option) => option.label}
         />

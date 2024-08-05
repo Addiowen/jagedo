@@ -4,8 +4,8 @@ import { routes } from '@/config/routes';
 
 import { metaObject } from '@/config/site.config';
 import Link from 'next/link';
-import { PiPlusBold } from 'react-icons/pi';
-import { Button } from 'rizzui';
+import { PiDownloadBold, PiPlusBold } from 'react-icons/pi';
+import { Button, Dropdown } from 'rizzui';
 
 export const metadata = {
   ...metaObject('Customer Register'),
@@ -16,7 +16,7 @@ export default function IndividualPage() {
     <div className="@container">
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
         <Link href={routes.admin.createIndividualProfile}>
-          <Button as="span" className="">
+          <Button>
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Customer
           </Button>

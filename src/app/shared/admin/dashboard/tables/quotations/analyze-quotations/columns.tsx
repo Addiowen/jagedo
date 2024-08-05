@@ -19,6 +19,7 @@ import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
+import Rate from '@/components/ui/rate';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -138,22 +139,17 @@ export const getColumns = ({
     dataIndex: 'rating',
     key: 'rating',
     width: 10,
-    render: (rating: string) => <Text>{rating}</Text>,
+    render: (rating: number) => (
+      <Rate
+        size="sm"
+        allowHalf={true}
+        defaultValue={rating}
+        disabled={true}
+        tooltips={['terrible', 'bad', 'normal', 'good', 'wonderful']}
+      />
+    ),
   },
-  {
-    title: <HeaderCell title="Score" />,
-    dataIndex: 'score',
-    key: 'score',
-    width: 10,
-    render: (score: string) => <Text>{score}</Text>,
-  },
-  {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 50,
-    render: (value: string) => getStatusBadge(value),
-  },
+
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,

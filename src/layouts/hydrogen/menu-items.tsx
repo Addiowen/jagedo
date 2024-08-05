@@ -53,6 +53,8 @@ import {
   PiHouseDuotone,
   PiDeskDuotone,
   PiDesktopDuotone,
+  PiListChecksDuotone,
+  PiClipboardDuotone,
 } from 'react-icons/pi';
 
 interface MenuItem {
@@ -156,6 +158,25 @@ export const menuItems: MenuItem[] = [
             href: routes.admin.contractor,
           },
         ],
+      },
+    ],
+  },
+
+  {
+    name: 'Jobs',
+    href: routes.admin.dashboard,
+    icon: <PiClipboardDuotone />,
+    dropdownItems: [
+      {
+        name: 'Active Jobs',
+        href: routes.admin.active,
+        badge: '',
+      },
+
+      {
+        name: 'Complete Jobs',
+        href: routes.admin.completed,
+        badge: '',
       },
     ],
   },
