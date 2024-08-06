@@ -124,13 +124,7 @@ export const getColumns = ({
     width: 120,
     render: (email: string) => <Text>{email}</Text>,
   },
-  {
-    title: <HeaderCell title="Gender" />,
-    dataIndex: 'gender',
-    key: 'gender',
-    width: 80,
-    render: (gender: string) => <Text>{gender}</Text>,
-  },
+
   // {
   //   title: <HeaderCell title="Category" />,
   //   dataIndex: 'category',
@@ -156,13 +150,7 @@ export const getColumns = ({
   //     );
   //   },
   // },
-  {
-    title: <HeaderCell title="Age" />,
-    dataIndex: 'age',
-    key: 'age',
-    width: 80,
-    render: (age: string) => <Text>{age}</Text>,
-  },
+
   {
     title: <HeaderCell title="Location" />,
     dataIndex: 'location',

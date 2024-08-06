@@ -97,7 +97,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 500,
+    width: 300,
     render: (requestType: string) => (
       <Text className="font-semibold">{requestType}</Text>
     ),

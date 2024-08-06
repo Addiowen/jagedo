@@ -165,7 +165,7 @@ export const requisitions = [
     subCategory: 'Quantity Surveyor',
     requestType: 'Standard 1: Managed by Jagedo',
     description: 'Tank reticulation to water point',
-    location: 'Kome,Homabay',
+    location: 'Kenya',
     status: 'Open',
   },
   {
@@ -176,21 +176,32 @@ export const requisitions = [
     subCategory: 'Structural Engineer',
     requestType: 'Standard 2: Managed by Self',
     description: 'Tank reticulation to water point',
-    location: 'Kome,Homabay',
+    location: 'Uganda',
     status: 'Open',
   },
-  // {
-  //   number: '3',
 
-  //   id: '3419',
-  //   date: '2022-11-10T06:22:01.621Z',
-  //   category: 'Professional',
-  //   subCategory: 'Engineer',
-  //   requestType: 'Managed by Jagedo',
-  //   description: 'repair faulty wires',
-  //   location: 'Bamburi,Mombasa',
-  //   status: 'Under Review',
-  // },
+  {
+    number: '5',
+    id: '3502',
+    date: '2022-11-10T06:22:01.621Z',
+    category: 'Contractor',
+    subCategory: 'Roads',
+    requestType: 'Standard 1: Managed by Jagedo',
+    description: 'Maintenance',
+    location: 'Tanzania',
+    status: 'Open',
+  },
+  {
+    number: '6',
+    id: '3700',
+    date: '2022-11-10T06:22:01.621Z',
+    category: 'Contractor',
+    subCategory: 'Water',
+    requestType: 'Standard 2: Managed by Self',
+    description: 'Tank reticulation to water point',
+    location: 'Kenya',
+    status: 'Open',
+  },
 ];
 
 export const requisitionAlertData = [

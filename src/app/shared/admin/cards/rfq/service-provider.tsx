@@ -1,6 +1,5 @@
 'use client';
 
-import WidgetCard from '@/components/cards/widget-card';
 import { Accordion, Badge, FileInput } from 'rizzui';
 // import CustomerRequisitionsTable from '../../dashboard/tables/requisitions/customer-requisitions';
 import BillofQuotationsTable from '../../dashboard/tables/bill-of-quantity';

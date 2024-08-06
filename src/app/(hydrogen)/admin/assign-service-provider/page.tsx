@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { PiPlusBold } from 'react-icons/pi';
 import { routes } from '@/config/routes';
-import { Button, Text } from 'rizzui';
+import { Button, Tab, Text } from 'rizzui';
 import PageHeader from '@/app/shared/commons/page-header';
 import { metaObject } from '@/config/site.config';
 import AssignServiceProvidersTable from '@/app/shared/admin/dashboard/tables/assign-service-providers';
@@ -14,6 +14,7 @@ import { PersonalInfoFormTypes } from '@/utils/validators/personal-info.schema';
 import ToastButton from '@/components/buttons/toast-button';
 import { useSearchParams } from 'next/navigation';
 import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
+import ContractorsTable from '@/app/shared/admin/dashboard/tables/contractor';
 
 // export const metadata = {
 //   ...metaObject('Assign Service Providers'),
@@ -32,7 +33,11 @@ export default function AddtoServiceProviders() {
 
   const pageHeader = {
     title:
-      jobId === '3420' ? 'Assign Professionals' : 'Assign Service Providers',
+      jobId === '3420'
+        ? 'Assign Professionals'
+        : jobId === '3700'
+          ? 'Assign Contractors'
+          : 'Assign',
   };
   return (
     <>
@@ -41,8 +46,37 @@ export default function AddtoServiceProviders() {
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           {jobId === '3420' ? (
             <ProfessionalTable className="relative  @4xl:col-span-2 " />
+          ) : jobId === '3700' ? (
+            <>
+              <Tab className="col-span-2">
+                <Tab.List>
+                  <Tab.ListItem>All Contractors</Tab.ListItem>
+                  <Tab.ListItem>Water</Tab.ListItem>
+                  <Tab.ListItem>Roads</Tab.ListItem>
+                  <Tab.ListItem>Energy</Tab.ListItem>
+                  <Tab.ListItem>Housing</Tab.ListItem>
+                </Tab.List>
+                <Tab.Panels>
+                  <Tab.Panel>
+                    <ContractorsTable />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ContractorsTable />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ContractorsTable />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ContractorsTable />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ContractorsTable />
+                  </Tab.Panel>
+                </Tab.Panels>
+              </Tab>
+            </>
           ) : (
-            <AssignServiceProvidersTable className="relative  @4xl:col-span-2 " />
+            <AssignServiceProvidersTable className="relative  @4xl:col-span-2" />
           )}
 
           <ToastButton AltButton={true} title="Back" />

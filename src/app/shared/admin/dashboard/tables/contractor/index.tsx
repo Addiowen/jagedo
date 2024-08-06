@@ -6,7 +6,7 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input } from 'rizzui';
-import { jobData } from '@/data/job-data';
+import { professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
@@ -15,7 +15,11 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContactorsTable({ className }: { className?: string }) {
+export default function ContractorsTable({
+  className,
+}: {
+  className?: string;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -47,12 +51,12 @@ export default function ContactorsTable({ className }: { className?: string }) {
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(jobData, pageSize, filterState);
+  } = useTable(professionalsData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: jobData,
+        data: professionalsData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

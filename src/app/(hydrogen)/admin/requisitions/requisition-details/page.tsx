@@ -59,47 +59,64 @@ export default function RequisitionDetailsPage() {
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
       </div>
-      {jobId !== '3420' && (
-        <WidgetCard3
-          title="Notes"
-          rounded="lg"
-          className="mt-4"
-          action={<Textarea size="sm" className="ml-12 flex flex-grow" />}
-        ></WidgetCard3>
-      )}
-      <Link href={routes.admin.assignServiceProvider}>
-        <div className="mt-6 flex items-center justify-center space-x-6">
-          {jobId === '3420' || jobId === '3419' ? (
-            <>
-              <Link
-                href={{
-                  pathname: routes.admin.professionalQuotation,
-                  query: { jobId },
-                }}
-              >
-                <ToastButton title="Create Quotation" />
-              </Link>
-              <Link
-                href={{
-                  pathname: routes.admin.assignServiceProvider,
-                  query: { jobId },
-                }}
-              >
-                <ToastButton title="Assign Professionals" />
-              </Link>
-            </>
-          ) : (
+
+      <WidgetCard3
+        title="Notes"
+        rounded="lg"
+        className="mt-4"
+        action={<Textarea size="sm" className="ml-12 flex flex-grow" />}
+      ></WidgetCard3>
+
+      <div className="mt-6 flex items-center justify-center space-x-6">
+        {jobId === '3420' || jobId === '3419' ? (
+          <>
+            <Link
+              href={{
+                pathname: routes.admin.professionalQuotation,
+                query: { jobId },
+              }}
+            >
+              <ToastButton title="Create Quotation" />
+            </Link>
             <Link
               href={{
                 pathname: routes.admin.assignServiceProvider,
                 query: { jobId },
               }}
             >
-              <ToastButton title="Assign Fundis" />
+              <ToastButton title="Assign Professionals" />
             </Link>
-          )}
-        </div>
-      </Link>
+          </>
+        ) : jobId === '3502' || jobId === '3700' ? (
+          <>
+            <Link
+              href={{
+                pathname: routes.admin.professionalQuotation,
+                query: { jobId },
+              }}
+            >
+              <ToastButton title="Create Quotation" />
+            </Link>
+            <Link
+              href={{
+                pathname: routes.admin.assignServiceProvider,
+                query: { jobId },
+              }}
+            >
+              <ToastButton title="Assign Contractors" />
+            </Link>
+          </>
+        ) : (
+          <Link
+            href={{
+              pathname: routes.admin.assignServiceProvider,
+              query: { jobId },
+            }}
+          >
+            <ToastButton title="Assign Fundis" />
+          </Link>
+        )}
+      </div>
     </>
   );
 }

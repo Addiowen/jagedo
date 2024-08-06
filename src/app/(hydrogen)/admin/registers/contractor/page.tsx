@@ -1,4 +1,4 @@
-import ContactorsTable from '@/app/shared/admin/dashboard/tables/contractor';
+import ContractorsTable from '@/app/shared/admin/dashboard/tables/contractor';
 import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ export default function ContractorPage() {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-        <ContactorsTable className="relative  @4xl:col-span-2 @7xl:col-span-12" />
+        <ContractorsTable className="relative  @4xl:col-span-2 @7xl:col-span-12" />
       </div>
     </div>
   );
