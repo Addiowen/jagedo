@@ -162,12 +162,14 @@ export const getColumns = ({
   },
   {
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'id',
     key: 'action',
     width: 10,
-    render: (_: string, row: any) => (
+    render: (id: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-        <Link href={routes.admin.analyzeQuotations}>
+        <Link
+          href={{ pathname: routes.admin.analyzeQuotations, query: { id } }}
+        >
           <Text className="text-green-500">Analyse</Text>
         </Link>
       </div>

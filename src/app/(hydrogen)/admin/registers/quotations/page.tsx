@@ -1,5 +1,3 @@
-import QuotationsTable from '@/app/shared/admin/dashboard/tables/quotations';
-import AnalyzeQuotationsTable from '@/app/shared/admin/dashboard/tables/quotations/analyze-quotations';
 import QuotedRequisitionsTable from '@/app/shared/admin/dashboard/tables/quoted-requisitions';
 import { metaObject } from '@/config/site.config';
 

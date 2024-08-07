@@ -10,6 +10,7 @@ import { professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import ListingFilters from '../../../explore-listing/listing-filters';
 
 const filterState = {
   date: [null, null],
@@ -86,13 +87,17 @@ export default function ContractorsTable({
       title="Contractor Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
-        <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
-          <FilterElement
-            isFiltered={isFiltered}
-            filters={filters}
-            updateFilter={updateFilter}
-            handleReset={handleReset}
-          />
+        <div className="flex">
+          <div className=" mt-4 flex w-full flex-col-reverse items-center   gap-3  @[42rem]:flex-row @[57rem]:mt-0">
+            <FilterElement
+              isFiltered={isFiltered}
+              filters={filters}
+              updateFilter={updateFilter}
+              handleReset={handleReset}
+            />
+
+            <ListingFilters />
+          </div>
           <Input
             className="w-full @[42rem]:w-auto @[70rem]:w-80"
             type="search"

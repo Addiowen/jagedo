@@ -20,6 +20,7 @@ import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import Rate from '@/components/ui/rate';
+import { useSearchParams } from 'next/navigation';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -55,6 +56,7 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
+  jobId: string | null;
 };
 
 export const getColumns = ({
@@ -65,6 +67,7 @@ export const getColumns = ({
   onDeleteItem,
   handleSelectAll,
   onHeaderCellClick,
+  jobId,
 }: Columns) => [
   {
     title: (
@@ -158,7 +161,7 @@ export const getColumns = ({
     width: 100,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-center gap-3 pe-3">
-        <Link href={routes.admin.rfq}>
+        <Link href={{ pathname: routes.admin.rfq, query: { jobId } }}>
           <Text className="text-green-500">View</Text>
         </Link>
       </div>

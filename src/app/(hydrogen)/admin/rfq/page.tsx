@@ -1,31 +1,40 @@
-import ContactorsTable from '@/app/shared/admin/dashboard/tables/contractor';
+'use client';
+
 // import RFQCard from '@/app/shared/admin/rfq';
 import { metaObject } from '@/config/site.config';
-import RFQServiceProviderCard from '@/app/shared/admin/cards/rfq/service-provider';
 import PageHeader from '@/app/shared/commons/page-header';
-import CreateQuotationComponent from '@/app/shared/create-quotation/create-quotation';
+import CreateContractorQuotationComponent from '@/app/shared/admin/quotations/contractor';
+import { useSearchParams } from 'next/navigation';
+import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/create-quotation';
 
-export const metadata = {
-  ...metaObject('RFQ '),
-};
+// export const metadata = {
+//   ...metaObject('RFQ '),
+// };
 
 const pageHeader = {
-  title: 'RFQ',
+  title: 'View  Quotation',
   breadcrumb: [],
 };
 
 export default function RFQPage() {
+  const queryId = useSearchParams();
+  const jobId = queryId.get('jobId');
+
   return (
     <>
-      {' '}
       <PageHeader
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
       <div className="@container">
-        <div className="mt-2 mt-6 flex flex-col gap-y-6 @container sm:gap-y-10">
+        <div className="flex flex-col  @container sm:gap-y-10">
           {/* <RFQCard className="relative  @4xl:col-span-2 @7xl:col-span-12" /> */}
-          <CreateQuotationComponent />
+          {jobId === '3401' || jobId === '3400' ? (
+            <CreateContractorQuotationComponent />
+          ) : (
+            <CreateProfessionalQuotationComponent />
+          )}
+          {/* <CreateQuotationComponent /> */}
         </div>
       </div>
     </>

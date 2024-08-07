@@ -19,7 +19,7 @@ const data: Data = {
   'Phone Number': '0739485932',
   'First Name': 'Olive',
   'Last Name': 'Wangari',
-  'Email Address': 'mailto:olivewangari@gmail.com',
+  'Email Address': 'olivewangari@gmail.com',
   County: 'Kisumu',
   'Sub-County': 'Kisumu Central',
   Estate: 'Tom Mboya',

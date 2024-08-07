@@ -1,5 +1,3 @@
-import { Description } from '@headlessui/react/dist/components/description/description';
-
 export const billofQuantity = [
   {
     billNo: '1',
@@ -572,6 +570,57 @@ export const professionalsData = [
   },
 ];
 
+export const contractorData = [
+  {
+    id: '3324',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Steve',
+    lastName: 'Limo',
+    phone: '0712345678',
+    email: 'steve@gmail.com',
+    rating: 3.5,
+    age: '33',
+    location: 'Nigeria',
+    inProcess: 25,
+    hired: 3,
+    contractorClass: ['Water', 'Roads', 'Housing'],
+    level: 1,
+    status: 'Approved',
+  },
+  {
+    id: '3443',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Sheila',
+    lastName: 'Wambua',
+    phone: '0712345678',
+    email: 'sha@gmail.com',
+    rating: 4.0,
+    age: '33',
+    location: 'Kenya',
+    inProcess: 25,
+    hired: 3,
+    contractorClass: ['Water', 'Mechanical', 'NCA'],
+    level: 2,
+    status: 'Unverified',
+  },
+  {
+    id: '3450',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Amos',
+    lastName: 'Wako',
+    phone: '0712345678',
+    email: 'sha@gmail.com',
+    rating: 4.0,
+    age: '33',
+    location: 'Kenya',
+    inProcess: 25,
+    hired: 3,
+    contractorClass: ['Water'],
+    level: 2,
+    status: 'Unverified',
+  },
+];
+
 export const professionalFees = [
   {
     expenses: 'Communication',
@@ -928,7 +977,7 @@ export const quotedRequisitionsData = [
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard: Managed by Jagedo',
     subCategory: 'Quantity Surveyor',
-    location: 'Kome,Homabay',
+    location: 'Kenya',
     description: '2 Masterfundis',
     category: 'Professional',
     status: 'Open',
@@ -938,9 +987,29 @@ export const quotedRequisitionsData = [
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard 2: Managed by Self',
     subCategory: 'Structural Engineer',
-    location: 'KE,Rift Valley Narok',
+    location: 'Rwanda',
     description: 'Designing 3 bedroom bungalow',
     category: 'Professional',
+    status: 'Under Review',
+  },
+  {
+    id: '3400',
+    date: '2022-11-10T06:22:01.621Z',
+    rfqType: 'Standard 1: Managed by Jagedo',
+    subCategory: 'Water',
+    location: 'Kenya',
+    description: 'Water reticulation to water point',
+    category: 'Contractor',
+    status: 'Open',
+  },
+  {
+    id: '3401',
+    date: '2022-11-10T06:22:01.621Z',
+    rfqType: 'Standard 2: Managed by Self',
+    subCategory: 'Roads',
+    location: 'Morocco',
+    description: 'Maintenance',
+    category: 'Contractor',
     status: 'Under Review',
   },
 ];

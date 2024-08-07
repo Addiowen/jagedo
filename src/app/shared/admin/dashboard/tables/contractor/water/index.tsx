@@ -5,24 +5,22 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Button, Input } from 'rizzui';
-import { quotationData } from '@/data/job-data';
+import { Input } from 'rizzui';
+import { contractorData, professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { useSearchParams } from 'next/navigation';
+import ListingFilters from '@/app/shared/admin/explore-listing/listing-filters';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-export default function AnalyzeQuotationsTable({
+export default function WaterContractorsTable({
   className,
 }: {
   className?: string;
 }) {
-  const getparams = useSearchParams();
-  const queryId = getparams.get('id');
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -54,19 +52,18 @@ export default function AnalyzeQuotationsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(quotationData, pageSize, filterState);
+  } = useTable(contractorData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: quotationData,
+        data: contractorData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
         onDeleteItem,
         onChecked: handleRowSelect,
         handleSelectAll,
-        jobId: queryId,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -87,17 +84,20 @@ export default function AnalyzeQuotationsTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Analyze Quotations"
+      title="Contractors Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
-        <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
-          <FilterElement
-            isFiltered={isFiltered}
-            filters={filters}
-            updateFilter={updateFilter}
-            handleReset={handleReset}
-          />
+        <div className="flex">
+          <div className=" mt-4 flex w-full flex-col-reverse items-center   gap-3  @[42rem]:flex-row @[57rem]:mt-0">
+            <FilterElement
+              isFiltered={isFiltered}
+              filters={filters}
+              updateFilter={updateFilter}
+              handleReset={handleReset}
+            />
 
+            {/* <ListingFilters /> */}
+          </div>
           <Input
             className="w-full @[42rem]:w-auto @[70rem]:w-80"
             type="search"
@@ -113,7 +113,7 @@ export default function AnalyzeQuotationsTable({
       }
     >
       <ControlledTable
-        variant="bordered"
+        variant="modern"
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}

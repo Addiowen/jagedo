@@ -53,7 +53,7 @@ import { useSearchParams } from 'next/navigation';
 //   ],
 // };
 
-export default function CreateQuotationComponent() {
+export default function CreateProfessionalQuotationComponent() {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('jobId');
@@ -122,27 +122,14 @@ export default function CreateQuotationComponent() {
             onSubmit={methods.handleSubmit(onSubmit)}
             className="rounded-xl bg-white"
           >
-            {/* <FirstBlock setValue={methods.setValue} /> */}
-            {/* <SecondBlock /> */}
             <FirstTable />
             <SecondTable />
-            {/* <TotalsBlock /> */}
             <ThirdTable />
             <FourthTable />
             <AttachmentsBlock />
-            {/* <ThirdTableTwo /> */}
-            {/* <CalcPayBlock subTotal={subTotal} totalTax={totalTax} /> */}
-            {/* <OthersBlock /> */}
-            {/* <CustomFormFooter
-                // isLoading={isLoading}
-                submitBtnText="Submit"
-              /> */}
+
             {viewQuotation ? (
-              <FormFooter
-                // isLoading={isLoading}
-                submitBtnText="Back"
-                handleSubmitBtn={handleAltBtn}
-              />
+              <FormFooter submitBtnText="Back" handleSubmitBtn={handleAltBtn} />
             ) : (
               <FormFooter
                 // isLoading={isLoading}

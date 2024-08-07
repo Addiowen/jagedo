@@ -15,6 +15,10 @@ import ToastButton from '@/components/buttons/toast-button';
 import { useSearchParams } from 'next/navigation';
 import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
 import ContractorsTable from '@/app/shared/admin/dashboard/tables/contractor';
+import AllContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/all';
+import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
+import RoadsContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/roads';
+import AllContractorsComponent from '@/app/shared/admin/all-contractors-tables';
 
 // export const metadata = {
 //   ...metaObject('Assign Service Providers'),
@@ -35,66 +39,14 @@ export default function AddtoServiceProviders() {
     title:
       jobId === '3420'
         ? 'Assign Professionals'
-        : jobId === '3700'
+        : jobId === '3700' || jobId === '3502'
           ? 'Assign Contractors'
           : 'Assign',
   };
   return (
     <>
       <PageHeader title={pageHeader.title}></PageHeader>
-      <div className="@container">
-        <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-          {jobId === '3420' ? (
-            <ProfessionalTable className="relative  @4xl:col-span-2 " />
-          ) : jobId === '3700' ? (
-            <>
-              <Tab className="col-span-2">
-                <Tab.List>
-                  <Tab.ListItem>All Contractors</Tab.ListItem>
-                  <Tab.ListItem>Water</Tab.ListItem>
-                  <Tab.ListItem>Roads</Tab.ListItem>
-                  <Tab.ListItem>Energy</Tab.ListItem>
-                  <Tab.ListItem>Housing</Tab.ListItem>
-                </Tab.List>
-                <Tab.Panels>
-                  <Tab.Panel>
-                    <ContractorsTable />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <ContractorsTable />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <ContractorsTable />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <ContractorsTable />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <ContractorsTable />
-                  </Tab.Panel>
-                </Tab.Panels>
-              </Tab>
-            </>
-          ) : (
-            <AssignServiceProvidersTable className="relative  @4xl:col-span-2" />
-          )}
-
-          <ToastButton AltButton={true} title="Back" />
-          {jobId === '3420' || jobId === '3419' ? (
-            <ToastButton
-              title="Assign Professionals"
-              route={routes.admin.dashboard}
-              message="Professionals Assigned!"
-            />
-          ) : (
-            <ToastButton
-              title="Assign"
-              route={routes.admin.dashboard}
-              message="Fundis Assigned!"
-            />
-          )}
-        </div>
-      </div>
+      <AllContractorsComponent />
     </>
   );
 }
