@@ -29,7 +29,10 @@ export default function RFQPage() {
       <div className="@container">
         <div className="flex flex-col  @container sm:gap-y-10">
           {/* <RFQCard className="relative  @4xl:col-span-2 @7xl:col-span-12" /> */}
-          {jobId === '3401' || jobId === '3400' ? (
+          {jobId === '3401' ||
+          jobId === '3400' ||
+          jobId === '3324' ||
+          jobId === '3327' ? (
             <CreateContractorQuotationComponent />
           ) : (
             <CreateProfessionalQuotationComponent />

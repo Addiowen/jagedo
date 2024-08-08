@@ -53,7 +53,10 @@ export default function ProfessionalQuotation() {
     title:
       jobId === '3420'
         ? 'Create Professional Quotation '
-        : jobId === '3700' || jobId === '3502'
+        : jobId === '3700' ||
+            jobId === '3502' ||
+            jobId === '3401' ||
+            jobId === '3400'
           ? 'Create Contractor Quotation '
           : 'Assign',
 
@@ -63,7 +66,10 @@ export default function ProfessionalQuotation() {
         name:
           jobId === '3420'
             ? 'Select a Professional to Create a Quotation'
-            : jobId === '3700' || jobId === '3502'
+            : jobId === '3700' ||
+                jobId === '3502' ||
+                jobId === '3401' ||
+                jobId === '3400'
               ? 'Select a Contractor to Create a Quotation'
               : 'Select  a Service Provider to Create a Quotation',
       },
@@ -84,21 +90,27 @@ export default function ProfessionalQuotation() {
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           {isTableVisible && (
             <>
-              {jobId === '3420' && (
-                <div className="relative  @4xl:col-span-2 ">
+              {(jobId === '3419' ||
+                jobId === '3420' ||
+                jobId === '3324' ||
+                jobId === '3336') && (
+                <div className="relative col-span-2 ">
                   {/* Render Prof Table */}
                   <ProfessionalTable />
                 </div>
               )}
-              {jobId === '3502' ||
-                (jobId === '3700' && (
-                  <div className="relative  @4xl:col-span-2 ">
-                    {/* Render Contract Table */}
-                    <AllContractorsComponent />
-                  </div>
-                ))}
+              {(jobId === '3502' ||
+                jobId === '3400' ||
+                jobId === '3401' ||
+                jobId === '3700') && (
+                <div className="relative @4xl:col-span-2 ">
+                  {/* Render Contract Table */}
+                  <AllContractorsComponent />
+                </div>
+              )}
             </>
           )}
+
           {/* <ToastButton AltButton={true} title="Back" /> */}
           {isTableVisible && (
             <Button onClick={handleToggle}>

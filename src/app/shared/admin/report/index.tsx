@@ -29,7 +29,7 @@ const specData = [{}];
 export default function ReportComponent({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const type = searchParams.get('type')?.toLowerCase();
+  const queryId = searchParams.get('id')?.toLowerCase();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -39,7 +39,12 @@ export default function ReportComponent({ className }: { className?: string }) {
     <>
       <div className="col-span-full grid items-start rounded-xl border-none border-gray-300 p-4 ">
         <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
-          <Link href={routes.admin.professionalQuotation}>
+          <Link
+            href={{
+              pathname: routes.admin.professionalQuotation,
+              query: { jobId: queryId },
+            }}
+          >
             <Button as="span" className="">
               <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
               Add New Quotation
@@ -49,7 +54,7 @@ export default function ReportComponent({ className }: { className?: string }) {
         <div className="mt-4">
           <ChunkedGridActive
             data={
-              type === '3416'
+              queryId === '3416'
                 ? completeJobDetailsData[0]
                 : completeJobDetailsData[2]
             }

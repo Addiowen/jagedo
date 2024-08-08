@@ -973,7 +973,7 @@ export const quotationData = [
 
 export const quotedRequisitionsData = [
   {
-    id: '3324',
+    id: '3001',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard: Managed by Jagedo',
     subCategory: 'Quantity Surveyor',
@@ -983,7 +983,7 @@ export const quotedRequisitionsData = [
     status: 'Open',
   },
   {
-    id: '3336',
+    id: '3002',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard 2: Managed by Self',
     subCategory: 'Structural Engineer',

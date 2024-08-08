@@ -37,8 +37,10 @@ export default function CreateContractorQuotationComponent() {
     mode: 'onChange',
     defaultValues:
       jobId === '3400' || jobId === '3401'
-        ? CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE
-        : CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
+        ? CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE
+        : jobId === '3327' || jobId === '3324'
+          ? CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE
+          : CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE,
     resolver: zodResolver(createContractorQuotationSchema),
   });
 
