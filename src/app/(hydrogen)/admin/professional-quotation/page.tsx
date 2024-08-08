@@ -121,15 +121,9 @@ export default function ProfessionalQuotation() {
 
           {!isTableVisible && (
             <>
-              {jobId === '3700' ? (
-                <div className="relative  @4xl:col-span-2 ">
-                  <ProfessionalQuotation />
-                </div>
-              ) : (
-                <div className="relative  @4xl:col-span-2 ">
-                  <CreateContractorQuotationComponent />
-                </div>
-              )}
+              <div className="relative  @4xl:col-span-2 ">
+                <CreateContractorQuotationComponent />
+              </div>
             </>
           )}
         </div>
