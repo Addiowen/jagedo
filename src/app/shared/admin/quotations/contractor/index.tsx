@@ -36,7 +36,7 @@ export default function CreateContractorQuotationComponent() {
   const methods = useForm<CreateContractorQuotationType>({
     mode: 'onChange',
     defaultValues:
-      jobId === '3400' || jobId === '3401' || jobId === '3401'
+      jobId === '3400' || jobId === '3401' || jobId === '3700'
         ? CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE
         : jobId === '3327' || jobId === '3324'
           ? CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE
