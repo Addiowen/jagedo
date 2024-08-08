@@ -48,7 +48,7 @@ export default function AddtoServiceProviders() {
       <PageHeader title={pageHeader.title}></PageHeader>
       <AllContractorsComponent />
       <ToastButton
-        title="Assign Contractors"
+        title="Assign "
         message="Request Assigned!"
         route={routes.admin.dashboard}
       />
