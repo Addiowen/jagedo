@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
+import { useSearchParams } from 'next/navigation';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -52,7 +53,9 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
+  jobId: string | null;
 };
+
 
 export const getColumns = ({
   data,
@@ -62,32 +65,9 @@ export const getColumns = ({
   onDeleteItem,
   handleSelectAll,
   onHeaderCellClick,
+  jobId
 }: Columns) => [
-  {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
-  },
+
   {
     title: <HeaderCell title="JOB NO" />,
     dataIndex: 'id',
@@ -160,16 +140,24 @@ export const getColumns = ({
     width: 120,
     render: (value: string) => getStatusBadge(value),
   },
+
   {
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'id',
     key: 'action',
     width: 10,
-    render: (_: string, row: any) => (
+    render: (id: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-        <Link href={'/customers/quotations/analyse-quotations'}>
-          <Text className="text-green-500">Analyse</Text>
-        </Link>
+          {jobId === '3324' || jobId === '3336' ? (
+              <Link href={{ pathname: routes.customers.contractorQuotation, query: { id } }}>
+                <Text className="text-green-500">View</Text>
+              </Link>
+          ) : (
+              <Link href={{ pathname: routes.customers.analyseQuotations, query: { id } }}>
+                <Text className="text-green-500">View</Text>
+              </Link>
+          )}
+
       </div>
     ),
   },

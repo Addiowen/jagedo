@@ -38,20 +38,6 @@ export const fundiInitialValues: FundiProfileSchema = {
   }
 
 // if there's any 'Select' inputs, specify the values here
-  export const skill = [
-    {
-        label: 'Foreman',
-        value: 'foreman',
-      },
-    {
-      label: 'Welder',
-      value: 'welder',
-    },
-    {
-      label: 'Builder',
-      value: 'builder',
-    },
-  ];
 
   export const gender = [
     {

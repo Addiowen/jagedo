@@ -65,31 +65,31 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
-  {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id) || true}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
-  },
+  // {
+  //   title: (
+  //     <div className="ps-3.5">
+  //       <Checkbox
+  //         title={'Select All'}
+  //         onChange={handleSelectAll}
+  //         checked={checkedItems.length === data.length}
+  //         className="cursor-pointer"
+  //       />
+  //     </div>
+  //   ),
+  //   dataIndex: 'checked',
+  //   key: 'checked',
+  //   width: 30,
+  //   render: (_: any, row: any) => (
+  //     <div className="inline-flex ps-3.5">
+  //       <Checkbox
+  //         aria-label={'ID'}
+  //         className="cursor-pointer"
+  //         checked={checkedItems.includes(row.id) || true}
+  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
+  //       />
+  //     </div>
+  //   ),
+  // },
   {
     title: <HeaderCell title="QTN NO." />,
     dataIndex: 'id',
@@ -140,13 +140,13 @@ export const getColumns = ({
     width: 10,
     render: (rating: string) => <Text>{rating}</Text>,
   },
-  {
-    title: <HeaderCell title="Score" />,
-    dataIndex: 'score',
-    key: 'score',
-    width: 10,
-    render: (score: string) => <Text>{score}</Text>,
-  },
+  // {
+  //   title: <HeaderCell title="Score" />,
+  //   dataIndex: 'score',
+  //   key: 'score',
+  //   width: 10,
+  //   render: (score: string) => <Text>{score}</Text>,
+  // },
   {
     title: <HeaderCell title="Status" />,
     dataIndex: 'status',

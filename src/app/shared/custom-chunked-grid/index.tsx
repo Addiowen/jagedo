@@ -65,9 +65,9 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
 
   return (
     <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
-      <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
+      {/* <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
         Project Details
-      </div>
+      </div> */}
 
       <JobDescriptionChunked
         data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}

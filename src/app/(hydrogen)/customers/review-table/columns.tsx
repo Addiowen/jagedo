@@ -180,7 +180,7 @@ export const getColumns = ({
           onClick={() => setViewReviewsModalState(true)}
           className="cursor-pointer text-sm text-green-600"
         >
-          View Review
+          View
         </Text>
       </div>
     ),

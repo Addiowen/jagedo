@@ -1,26 +1,78 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import './styles.css';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { FileInput } from 'rizzui';
+import { Button, Checkbox, FileInput, Input, Select, Textarea } from 'rizzui';
 
-const GenerateInvoiceFundi: React.FC = () => {
+interface Option {
+  label: string;
+  value: string;
+}
+
+const GenerateInvoiceFundi : React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
 
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
-  const [requestType, setRequestType] = useState('');
-  const [location, setLocation] = useState('');
-  const [county, setCounty] = useState('');
-  const [subCounty, setSubCounty] = useState('');
-  const [village, setVillage] = useState('');
-  const [skill, setSkill] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [value, setValue] = useState<Option | null>(null);
+  const [managed, setManaged] = useState<Option | null>(null);
+  const [county, setCounty] = useState<Option | null>(null);
+  const [subCounty, setSubCounty] = useState<Option | null>(null);
+  const [village, setVillage] = useState<Option | null>(null);
+  const [skill, setSkill] = useState<Option | null>(null);
+  const [state, setState] = useState('Add description');
+  const [buttonText, setButtonText] = useState('Generate Invoice');
+  const [buttonLink, setButtonLink] = useState(routes.invoice.details(DUMMY_ID));
+
+  const reqType = [
+    { label: 'Emergency', value: 'Emergency' },
+    { label: 'Standard', value: 'Standard' },
+  ];
+  const managedBy = [
+    { label: 'Jagedo', value: 'Jagedo' },
+    { label: 'Self', value: 'Self' },
+  ];
+  const County = [
+    { label: 'Nairobi', value: 'Nairobi' },
+    { label: 'Busia', value: 'Busia' },
+    { label: 'Kisumu', value: 'Kisumu' },
+    { label: 'Kakamega', value: 'Kakamega' },
+  ];
+  const SubCounty = [
+    { label: 'Nambale', value: 'Nambale' },
+    { label: 'Muranga', value: 'Muranga' },
+    { label: 'Bondo', value: 'Bondo' },
+    { label: 'Bunyala', value: 'Bunyala' },
+  ];
+  const Village = [
+    { label: 'Nambale', value: 'Nambale' },
+    { label: 'Muranga', value: 'Muranga' },
+    { label: 'Bondo', value: 'Bondo' },
+    { label: 'Bunyala', value: 'Bunyala' },
+  ];
+  const Skill = [
+    { label: 'Plumber', value: 'Plumber' },
+    { label: 'Mason', value: 'Mason' },
+    { label: 'Construction', value: 'Construction' },
+  ];
+
+  useEffect(() => {
+    if (value?.value === 'Emergency') {
+      setManaged({ label: 'Jagedo', value: 'Jagedo' });
+      setButtonText('Generate Invoice');
+      setButtonLink(routes.invoice.details(DUMMY_ID));
+    } else if (value?.value === 'Standard') {
+      setManaged({ label: 'Self', value: 'Self' });
+      setButtonText('Generate Invoice');
+      setButtonLink(routes.invoice.details(DUMMY_ID));
+    }
+  }, [value]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -33,194 +85,121 @@ const GenerateInvoiceFundi: React.FC = () => {
     // Handle form submission logic
     console.log({
       description,
-      // emergency,
       date,
-      location,
+      county,
+      subCounty,
+      village,
+      skill,
       file,
     });
-
-    router.push(routes.invoice.details(DUMMY_ID));
   };
 
   return (
     <div className="@container">
       <h1>Fundi</h1>
-      <div className="w-full rounded-lg bg-white p-4 border border-gray-300">
+      <div className="w-full rounded-lg bg-white p-4">
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="grid grid-cols-1 gap-2">
             <div className="form-group">
-              <textarea
+              <Textarea
                 id="description"
-                className="mt-1 block h-16 w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                clearable
                 placeholder="Add description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={state}
+                onClear={() => setState('')}
+                onChange={(e) => setState(e.target.value)}
+                style={{ height: '60px' }}
               />
             </div>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
               <div className="form-group">
-                <select
-                  id="requestType"
-                  value={requestType}
-                  onChange={(e) => setRequestType(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Request
-                  </option>
-                  <option value="emergency">Emergency</option>
-                  <option value="standard">Standard</option>
-                </select>
+                <Select
+                  placeholder="Request Type"
+                  options={reqType}
+                  value={value}
+                  onChange={(selected) => setValue(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <select
-                  id="managedBy"
-                  value={requestType}
-                
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Managed By
-                  </option>
-                </select>
+                <Select
+                  placeholder="Managed By"
+                  options={managedBy}
+                  value={managed}
+                  onChange={(selected) => setManaged(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <select
-                  id="category"
+                <Select
+                  placeholder="County"
+                  options={County}
                   value={county}
-                  onChange={(e) => setCounty(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    County
-                  </option>
-                  <option value="county">Nairobi</option>
-                  <option value="county">Busia</option>
-                  <option value="county">Bungoma</option>
-                  <option value="county">Kakamega</option>
-                  <option value="county">Nandi</option>
-                </select>
+                  onChange={(selected) => setCounty(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <select
-                  id="subCounty"
+                <Select
+                  placeholder="Sub-County"
+                  options={SubCounty}
                   value={subCounty}
-                  onChange={(e) => setSubCounty(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Sub-County
-                  </option>
-                  <option value="nambale">Nambale</option>
-                  <option value="lessos">Lessos</option>
-                  <option value="muranga">Muranga</option>
-                </select>
+                  onChange={(selected) => setSubCounty(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <select
-                  id="village"
+                <Select
+                  placeholder="Estate/Village"
+                  options={Village}
                   value={village}
-                  onChange={(e) => setVillage(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Estate/Village
-                  </option>
-                  <option value="estate1">Estate 1</option>
-                  <option value="estate2">Estate 2</option>
-                  <option value="estate3">Estate 3</option>
-                </select>
+                  onChange={(selected) => setVillage(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <select
-                  id="skill"
+                <Select
+                  placeholder="Skill"
+                  options={Skill}
                   value={skill}
-                  onChange={(e) => setSkill(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                >
-                  <option value="" disabled>
-                    Skill
-                  </option>
-                  <option value="Plumber">Plumber</option>
-                  <option value="Masonry">Mason</option>
-                  <option value="Construction">Construction</option>
-                </select>
+                  onChange={(selected) => setSkill(selected as Option)}
+                />
               </div>
               <div className="form-group">
-                <input
+                <Input
                   type="date"
                   id="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
               <div className="form-group">
-                <input
-                  type="file"
-                  id="file"
-                  onChange={handleFileChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-1 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
+                <FileInput id="file" multiple onChange={handleFileChange} />
               </div>
               <div className="form-group col-span-2 flex items-center">
-                <input
-                  type="checkbox"
-                  id="agreement"
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label
-                  htmlFor="agreement"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  I agree to the{' '}
-                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                    Fundi Agreement
-                  </a>
-                </label>
+                <Checkbox label="I agree to the Contractor agreement" />
               </div>
             </div>
           </div>
-          <button
+          <Button
             type="submit"
-            className="block mx-auto w-full rounded-md bg-indigo-600 px-2 py-1 text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="block mx-auto w-full rounded-md px-2 py-1 text-white"
+            onClick={() => router.push(buttonLink)}
           >
-            Generate Invoice
-          </button>
+            {buttonText}
+          </Button>
         </form>
         <div className="mt-2">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Packages:
-          </h3>
+          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
           <div className="mt-1 flex space-x-2">
-            <div
-              className={`package w-1/2 rounded-lg p-2 shadow-md ${
-                requestType === "emergency"
-                  ? "bg-purple-500 text-white"
-                  : "bg-gray-100"
-              }`}
-            >
-              <h5 className="text-md font-semi-bold">
-                Emergency request: Managed by Jagedo
-              </h5>
+            <div className="package w-1/2 rounded-lg p-2 shadow-md">
+              <h5 className="text-md font-semi-bold">Standard 1: Managed by Jagedo</h5>
               <ul className="mt-1 list-inside list-disc text-sm">
                 <li>Standard linkage fee of Ksh 10,000</li>
                 <li>Response time within 4-5 hrs</li>
                 <li>Managed by You</li>
               </ul>
             </div>
-            <div
-              className={`package w-1/2 rounded-lg p-2 shadow-md ${
-                requestType === "standard"
-                  ? "bg-purple-500 text-white"
-                  : "bg-gray-100"
-              }`}
-            >
-              <h5 className="text-md font-semi-bold">
-                Standard Request: Managed by Self
-              </h5>
+            <div className="package w-1/2 rounded-lg p-2 shadow-md">
+              <h5 className="text-md font-semi-bold">Standard 2: Managed by Self</h5>
               <ul className="mt-1 list-inside list-disc text-sm">
-                <li>Response within 4-5 days</li>
+                <li>Standard linkage fee of Ksh 10,000</li>
+                <li>Response time within 3 days</li>
                 <li>Managed by Jagedo</li>
               </ul>
             </div>
@@ -229,5 +208,6 @@ const GenerateInvoiceFundi: React.FC = () => {
       </div>
     </div>
   );
-}
-  export default GenerateInvoiceFundi;
+};
+
+export default GenerateInvoiceFundi;

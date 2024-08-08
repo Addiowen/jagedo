@@ -18,9 +18,9 @@ export default function AdminRequisitionsPage() {
       </div>
       <div className="flex justify-center">
         <ToastButton
-          title="Start"
-          route={routes.admin.dashboard}
-          message="Job Successfully Initiated"
+          title="Generate Invoice"
+          route={routes.customers.invoice}
+          message="Processing..."
         />
       </div>
     </div>

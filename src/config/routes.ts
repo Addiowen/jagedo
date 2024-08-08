@@ -37,6 +37,8 @@ export const routes = {
     generateInvoiceFundi: '/customers/generate-invoice/fundi',
     quotations: '/customers/quotations',
     createQuotation: '/customers/quotations/create-quotation',
+    analyseQuotations: '/customers/quotations/analyse-quotations',
+    contractorQuotation: '/customers/contractor-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',

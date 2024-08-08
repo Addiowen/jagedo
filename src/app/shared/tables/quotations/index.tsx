@@ -10,12 +10,14 @@ import { quotedRequisitionsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import { useSearchParams } from 'next/navigation';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
 export default function QuotedRequisitionsTable({
+
   className,
 }: {
   className?: string;
@@ -23,6 +25,8 @@ export default function QuotedRequisitionsTable({
   const [pageSize, setPageSize] = useState(7);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  const queryId = useSearchParams();
+  const jobId = queryId.get('jobId');
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -69,6 +73,7 @@ export default function QuotedRequisitionsTable({
           setIsModalOpen(true);
         },
         handleSelectAll,
+        jobId: jobId
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [

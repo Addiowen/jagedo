@@ -95,14 +95,6 @@ export const getColumns = ({
     ),
   },
 
-  // {
-  //   title: <HeaderCell title="Date" className="uppercase" />,
-  //   dataIndex: 'date',
-  //   key: 'date',
-  //   width: 100,
-  //   render: (date: Date) => <DateCell date={date} />,
-  // },
-
   {
     title: <HeaderCell title="Category" />,
     dataIndex: 'category',
@@ -171,17 +163,6 @@ export const getColumns = ({
     render: (value: string) => getStatusBadge(value),
   },
 
-  // {
-  //   title: <HeaderCell title="Status" />,
-  //   dataIndex: 'status',
-  //   key: 'status',
-  //   width: 80,
-  //   render: (status: number) => <Text>{status}</Text>,
-  // },
-
-
-
-
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Action" />,
@@ -191,31 +172,8 @@ export const getColumns = ({
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
           <Link href={{ pathname: routes.customers.activeJobDetails, query: { id } }}>
-            <Text className="text-sm text-green-600">View Job</Text>
+            <Text className="text-sm text-green-600">View</Text>
         </Link>
-
-        
-
-        {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
-          <ActionIcon
-            as="span"
-            size="sm"
-            variant="outline"
-            aria-label={'View Appointment'}
-            className="hover:!border-gray-900 hover:text-gray-700"
-          >
-            <Link href={routes.serviceProvider.confirmAvailability}>
-              <EyeIcon className="h-4 w-4" />
-            </Link>
-          </ActionIcon>
-        </Tooltip> */}
-
-
-        {/* <DeletePopover
-          title={`Remove User`}
-          description={`Are you sure you want to remove this User?`}
-          onDelete={() => onDeleteItem(row.id)}
-        /> */}
       </div>
     ),
   },

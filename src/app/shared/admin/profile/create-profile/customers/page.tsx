@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { Input, Loader } from 'rizzui';
-
+import { FileInput } from '@/app/shared/commons/custom-file-input';
 import {
-  FundiProfileSchema,
   fundiProfileSchema,
+  FundiProfileSchema,
 } from '@/utils/validators/custom-profile.schema';
 
 import { SubmitHandler, Controller } from 'react-hook-form';
@@ -17,7 +17,6 @@ import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import {
   fundiInitialValues,
   fundiProfileSteps,
-  skill,
   gender,
   level,
   years,
@@ -37,16 +36,15 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateIndividualCustomerProfileForm() {
+export default function CreateFundiProfileForm() {
   const router = useRouter();
 
   // submit handler
   const onSubmit: SubmitHandler<FundiProfileSchema> = (data) => {
     console.log(data);
 
-    window.sessionStorage.setItem('profileCreated', 'true');
-    window.location.reload();
-    // router.push(routes.serviceProvider.fundi.profile)
+    // window.sessionStorage.setItem('profileCreated', 'true');
+    router.push(routes.admin.editFundiProfile);
   };
 
   return (
@@ -66,20 +64,20 @@ export default function CreateIndividualCustomerProfileForm() {
           delta
         ) => (
           <>
-            {/* Step 1 */}
+            
             {currentStep === 0 && (
               <motion.div
                 initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                {/* Title and description */}
+                
                 <div className="col-span-full pb-10 @4xl:col-span-4">
                   <h4 className="text-base font-medium">Personal Details</h4>
                   <p className="mt-2">Provide your personal details.</p>
                 </div>
 
-                {/* Inputs */}
+               
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Input
                     placeholder="First Name"
@@ -211,20 +209,20 @@ export default function CreateIndividualCustomerProfileForm() {
               </motion.div>
             )}
 
-            {/* Step 2 */}
+           {/* Step 2 */}
             {currentStep === 1 && (
               <motion.div
                 initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                {/* Title and description */}
+                
                 <div className="col-span-full pb-10 @4xl:col-span-4">
                   <h4 className="text-base font-medium">Required Details</h4>
                   <p className="mt-2">Please provide required details</p>
                 </div>
 
-                {/* Inputs */}
+                
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Controller
                     control={control}
@@ -300,10 +298,7 @@ export default function CreateIndividualCustomerProfileForm() {
                       />
                     )}
                   />
-                  {/* </div> */}
-
-                  {/* <div className="flex"> */}
-                  {/* <div> */}
+                 
                   <UploadZone
                     label="ID Picture/Passport Front:*"
                     className="flex-grow"
@@ -319,7 +314,7 @@ export default function CreateIndividualCustomerProfileForm() {
                     getValues={getValues}
                     setValue={setValue}
                   />
-                  {/* </div> */}
+                
 
                   <UploadZone
                     label="Certificates*"
@@ -345,9 +340,10 @@ export default function CreateIndividualCustomerProfileForm() {
                     setValue={setValue}
                   />
                 </div>
-                {/* </div> */}
+               
               </motion.div>
             )}
+
           </>
         )}
       </CustomMultiStepForm>
