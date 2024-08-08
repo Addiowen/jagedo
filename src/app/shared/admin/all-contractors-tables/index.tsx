@@ -48,7 +48,7 @@ export default function AllContractorsComponent() {
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           {jobId === '3420' || jobId === '3419' ? (
             <ProfessionalTable className="relative  @4xl:col-span-2 " />
-          ) : jobId === '3700' ? (
+          ) : jobId === '3700' || jobId === '3401' ? (
             <>
               <Tab className="col-span-2">
                 <Tab.List>
