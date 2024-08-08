@@ -53,7 +53,9 @@ export default function RequisitionDetailsPage() {
                 ? completeJobDetailsData[2]
                 : jobId === '3419'
                   ? completeJobDetailsData[1]
-                  : completeJobDetailsData[0]
+                  : jobId === '3700'
+                    ? completeJobDetailsData[3]
+                    : completeJobDetailsData[0]
           }
           dataChunkSize={8}
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"

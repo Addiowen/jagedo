@@ -91,7 +91,7 @@ export const completeJobDetailsData = [
   {
     'Request Type': 'Standard 2: Managed by Self',
     'Request Date': '11/11/2023',
-    'Request Number': '#JOB0020',
+    'Request Number': '#REQ0020',
     County: 'Busia',
     'Sub County': 'Nambale',
     Estate: 'Nambale',
@@ -103,6 +103,58 @@ export const completeJobDetailsData = [
 
     'Invoice Number': '#3454',
     'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+
+  {
+    'Request Type': 'Standard 2: Managed by Self',
+    'Request Date': '11/11/2023',
+    'Request Number': '#REQ0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Contractor',
+    Contractor: 'Water',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Unpaid',
+    Rate: '1000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+
+  {
+    'Request Type': 'Standard 1: Managed by Jagedo',
+    'Request Date': '11/11/2023',
+    'Request Number': '#REQ0020',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
+    Category: 'Contractor',
+    Contractor: 'Energy',
+
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
     Rate: '1000',
 
     'Start Date': '12/11/2023',
