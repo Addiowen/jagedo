@@ -35,7 +35,7 @@ export default function Bill() {
     <>
       <ul>
         <>
-          {jobId !== '3400' && jobId !== '3401' && (
+          {jobId !== '3400' && (
             <div className="mb-6 flex justify-end">
               <Button
                 type="button"
