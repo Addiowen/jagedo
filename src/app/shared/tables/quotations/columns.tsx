@@ -149,7 +149,7 @@ export const getColumns = ({
     render: (id: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
           {jobId === '3324' || jobId === '3336' ? (
-              <Link href={{ pathname: routes.customers.contractorQuotation, query: { id } }}>
+              <Link href={{ pathname: routes.customers.analyseQuotations, query: { id } }}>
                 <Text className="text-green-500">View</Text>
               </Link>
           ) : (
