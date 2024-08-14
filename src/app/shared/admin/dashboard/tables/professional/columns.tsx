@@ -11,7 +11,6 @@ import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
-import Rate from '@/components/ui/rate';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -64,32 +63,15 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
+    title: <HeaderCell title="Number" />,
+    dataIndex: 'no',
+    key: 'no',
+    width: 90,
+    render: (no: number) => <Text>{no}</Text>,
   },
+
   {
-    title: <HeaderCell title="JOB ID" />,
+    title: <HeaderCell title="SP ID" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
@@ -125,20 +107,15 @@ export const getColumns = ({
     width: 80,
     render: (phone: number) => <Text>{phone}</Text>,
   },
+
   {
-    title: <HeaderCell title="Email" />,
-    dataIndex: 'email',
-    key: 'email',
-    width: 120,
-    render: (email: string) => <Text>{email}</Text>,
+    title: <HeaderCell title="Profession" />,
+    dataIndex: 'profession',
+    key: 'profession',
+    width: 80,
+    render: (profession: number) => <Text>{profession}</Text>,
   },
-  // {
-  //   title: <HeaderCell title="Gender" />,
-  //   dataIndex: 'gender',
-  //   key: 'gender',
-  //   width: 80,
-  //   render: (gender: string) => <Text>{gender}</Text>,
-  // },
+
   // {
   //   title: <HeaderCell title="Category" />,
   //   dataIndex: 'category',
@@ -164,47 +141,48 @@ export const getColumns = ({
   //     );
   //   },
   // },
-  // {
-  //   title: <HeaderCell title="Age" />,
-  //   dataIndex: 'age',
-  //   key: 'age',
-  //   width: 80,
-  //   render: (age: string) => <Text>{age}</Text>,
-  // },
+
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 100,
-    render: (location: string) => <Text>{location}</Text>,
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 120,
+    render: (county: string) => <Text>{county}</Text>,
   },
   {
-    title: <HeaderCell title="Rating" />,
-    dataIndex: 'rating',
-    key: 'rating',
-    width: 100,
-    render: (rating: number) => (
-      <Rate
-        size="sm"
-        allowHalf={true}
-        defaultValue={rating}
-        disabled={true}
-        tooltips={['terrible', 'bad', 'normal', 'good', 'wonderful']}
-      />
-    ),
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 120,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'status',
     key: 'action',
     width: 50,
-    render: (_: string, row: any) => (
-      <div className="flex items-center justify-center">
-        <Link href={routes.admin.editProfessionalProfile}>
-          <Text className="text-green-500">View</Text>
-        </Link>
+    render: (status: string, row: any) => (
+      <div className="flex justify-center">
+        <Tooltip size="sm" content={'View'} placement="top" color="invert">
+          <ActionIcon
+            as="span"
+            size="sm"
+            variant="outline"
+            aria-label={'View Appointment'}
+            className="hover:!border-gray-900 hover:text-gray-700"
+          >
+            <Link
+              href={{
+                pathname: routes.admin.editFundiProfile,
+                query: { status },
+              }}
+            >
+              <EyeIcon className="h-4 w-4" />
+            </Link>
+          </ActionIcon>
+        </Tooltip>
       </div>
     ),
   },

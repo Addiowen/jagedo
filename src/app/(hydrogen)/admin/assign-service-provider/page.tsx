@@ -51,6 +51,8 @@ export default function AddtoServiceProviders() {
 
       {jobId === '3502' || (jobId === '3700' && <WaterContractorsTable />)}
 
+      {jobId === '3419' || (jobId === '3420' && <ProfessionalTable />)}
+
       <ToastButton
         title="Assign "
         message="Request Assigned!"

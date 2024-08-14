@@ -686,6 +686,41 @@ export const professionalsData = [
   },
 ];
 
+export const professionalsDataTwo = [
+  {
+    no: 1,
+    id: '3100',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Steve',
+    lastName: 'Limo',
+    phone: '0712345678',
+    profession: 'Architect',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+  {
+    no: 2,
+    id: '3102',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Steve',
+    lastName: 'Limo',
+    phone: '0712345678',
+    profession: 'Architect',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+];
+
 export const contractorData = [
   {
     id: '3324',
