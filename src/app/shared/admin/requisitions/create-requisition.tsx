@@ -14,6 +14,7 @@ import {
   Textarea,
 } from 'rizzui';
 import ActiveJobDetailsAttachments from '../add-attachments';
+import Link from 'next/link';
 
 interface Option {
   label: string;
@@ -205,13 +206,15 @@ const GenerateInvoiceFundi: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    type="submit"
-                    className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
-                    onClick={() => router.push(buttonLink)}
-                  >
-                    {buttonText}
-                  </Button>
+
+                  <Link href={routes.invoice.details(DUMMY_ID)}>
+                    <Button
+                      type="submit"
+                      className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
+                    >
+                      {buttonText}
+                    </Button>
+                  </Link>
                 </form>
                 <div className="mt-4">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -333,13 +336,14 @@ const GenerateInvoiceFundi: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    type="submit"
-                    className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
-                    onClick={() => router.push(buttonLink)}
-                  >
-                    {buttonText}
-                  </Button>
+                  <Link href={routes.invoice.details(DUMMY_ID)}>
+                    <Button
+                      type="submit"
+                      className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
+                    >
+                      {buttonText}
+                    </Button>
+                  </Link>
                 </form>
                 <div className="mt-4">
                   <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -586,13 +590,14 @@ const GenerateInvoiceFundi: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <Button
-                  type="submit"
-                  className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
-                  onClick={() => router.push(buttonLink)}
-                >
-                  {buttonText}
-                </Button>
+                <Link href={routes.invoice.details(DUMMY_ID)}>
+                  <Button
+                    type="submit"
+                    className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
+                  >
+                    {buttonText}
+                  </Button>
+                </Link>
               </form>
               <div className="mt-4">
                 <h3 className="text-lg font-medium leading-6 text-gray-900">
