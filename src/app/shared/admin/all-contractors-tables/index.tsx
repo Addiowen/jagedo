@@ -50,7 +50,7 @@ export default function AllContractorsComponent() {
             <ProfessionalTable className="relative  @4xl:col-span-2 " />
           ) : jobId === '3700' || jobId === '3401' ? (
             <>
-              <Tab className="col-span-2">
+              {/* <Tab className="col-span-2">
                 <Tab.List>
                   <Tab.ListItem>All Contractors</Tab.ListItem>
                   <Tab.ListItem>Water</Tab.ListItem>
@@ -75,7 +75,9 @@ export default function AllContractorsComponent() {
                     <ContractorsTable />
                   </Tab.Panel>
                 </Tab.Panels>
-              </Tab>
+              </Tab> */}
+
+              <WaterContractorsTable className="@4xl:col-span-2" />
             </>
           ) : (
             <AssignServiceProvidersTable className="relative  @4xl:col-span-2" />

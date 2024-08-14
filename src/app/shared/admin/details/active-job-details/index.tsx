@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { PiCaretDownBold } from 'react-icons/pi';
 import { Accordion } from 'rizzui';
-import { activeJobDetailsData } from '@/data/job-data';
+import { activeJobDetailsData, completeJobDetailsData } from '@/data/job-data';
 import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
 import ChunkedGridActive from '@/app/shared/chunked-grid-active';
 
@@ -55,13 +55,13 @@ export default function ActiveJobDetailsCard() {
       </div>
 
       <div className="mb-4">
-        <ChunkedGridActive
+        <ChunkedGrid
           data={
             jobId === '3324'
-              ? activeJobDetailsData[0]
+              ? completeJobDetailsData[0]
               : jobId === '3326'
-                ? activeJobDetailsData[3]
-                : activeJobDetailsData[1]
+                ? completeJobDetailsData[3]
+                : completeJobDetailsData[1]
           }
           dataChunkSize={8}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"

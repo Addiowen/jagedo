@@ -1,3 +1,9 @@
+let counter = 1; // Initialize your counter
+
+function generateNo() {
+  return counter++;
+}
+
 export const billofQuantity = [
   {
     billNo: '1',
@@ -37,23 +43,27 @@ export const JobDescription = [
 
 export const completeJobDetailsData = [
   {
-    'Request Type': 'Emergency',
-    'Request Date': '12/11/2023',
-    'Request Number': '#JOB0021',
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
 
+    'Request Type': 'Package 1',
+    'Managed By': 'Jagedo',
     County: 'Busia',
     'Sub County': 'Nambale',
-    Estate: 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Invoice Number': '#3454',
+    Rate: '5000',
+
+    'Request Number': '#REQ0021',
 
     Status: 'Reviewed',
 
-    Category: 'Fundi',
-    'Sub-Category': 'Electricity',
     'Deadline for availability': '20/04/2024',
 
-    'Invoice Number': '#3454',
     'Payment Status': 'Paid',
-    Rate: '1000',
 
     'Start Date': '13/11/2023',
     'End Date': '14/11/2023',
@@ -64,21 +74,54 @@ export const completeJobDetailsData = [
     ],
   },
   {
-    'Request Type': 'Standard 1: Managed by Jagedo',
-    'Request Date': '11/11/2023',
-    'Request Number': '#JOB0020',
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+
+    'Request Type': 'Package 2',
+    'Managed By': 'Jagedo',
     County: 'Busia',
     'Sub County': 'Nambale',
-    Estate: 'Nambale',
 
-    Status: 'Unreviewed',
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
 
+    Rate: '1000',
+
+    'Request Number': '#REQ0021',
+
+    Status: 'Reviewed',
+
+    'Deadline for availability': '20/04/2024',
+
+    'Payment Status': 'Paid',
+
+    'Start Date': '13/11/2023',
+    'End Date': '14/11/2023',
+    Attachments: [
+      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
+  {
     Category: 'Professional',
     Skill: 'Architect',
 
+    'Request Type': 'Package 1',
+    'Managed By': 'Jagedo',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Request Number': '#REQ0020',
+
+    Status: 'Unreviewed',
+
     'Invoice Number': '#3454',
     'Payment Status': 'Unpaid',
-    Rate: '1000',
+    Rate: '5000',
 
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
@@ -89,21 +132,24 @@ export const completeJobDetailsData = [
     ],
   },
   {
-    'Request Type': 'Standard 2: Managed by Self',
-    'Request Date': '11/11/2023',
-    'Request Number': '#REQ0020',
-    County: 'Busia',
-    'Sub County': 'Nambale',
-    Estate: 'Nambale',
-
-    Status: 'Unreviewed',
-
     Category: 'Professional',
     Skill: 'Architect',
 
+    'Request Type': 'Package 2',
+    'Managed By': 'Self',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Request Number': '#REQ0020',
+
+    Status: 'Unreviewed',
+
     'Invoice Number': '#3454',
     'Payment Status': 'Unpaid',
-    Rate: '1000',
+    Rate: '5000',
 
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
@@ -115,21 +161,25 @@ export const completeJobDetailsData = [
   },
 
   {
-    'Request Type': 'Standard 2: Managed by Self',
-    'Request Date': '11/11/2023',
-    'Request Number': '#REQ0020',
-    County: 'Busia',
-    'Sub County': 'Nambale',
-    Estate: 'Nambale',
-
-    Status: 'Unreviewed',
-
     Category: 'Contractor',
     Contractor: 'Water',
 
+    'Request Type': 'Package 2',
+    'Managed By': 'Self',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Request Number': '#REQ0020',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+
     'Invoice Number': '#3454',
     'Payment Status': 'Unpaid',
-    Rate: '1000',
+    Rate: '5000',
 
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
@@ -141,21 +191,24 @@ export const completeJobDetailsData = [
   },
 
   {
-    'Request Type': 'Standard 1: Managed by Jagedo',
-    'Request Date': '11/11/2023',
-    'Request Number': '#REQ0020',
+    Category: 'Contractor',
+    Contractor: 'Water',
+
+    'Request Type': 'Package 1',
+    'Managed By': 'Jagedo',
     County: 'Busia',
     'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Request Number': '#REQ0020',
     Estate: 'Nambale',
 
     Status: 'Unreviewed',
-
-    Category: 'Contractor',
-    Contractor: 'Energy',
-
     'Invoice Number': '#3454',
     'Payment Status': 'Paid',
-    Rate: '1000',
+    Rate: '5000',
 
     'Start Date': '12/11/2023',
     'End Date': '13/11/2023',
@@ -193,6 +246,9 @@ export const requisitions = [
     requestType: 'Emergency: Managed by Jagedo',
     description: 'Repair of faulty wiring system',
     location: 'Bamburi,Mombasa',
+
+    county: 'Mombasa',
+    subCounty: 'Bamburi',
     status: 'Open',
   },
 
@@ -205,6 +261,8 @@ export const requisitions = [
     requestType: 'Standard: Managed by Self',
     description: 'Tank reticulation to water point',
     location: 'Kome,Homabay',
+    county: 'Homabay',
+    subCounty: 'Kome',
     status: 'Open',
   },
   {
@@ -483,17 +541,21 @@ export const notificationData = [
 
 export const activeJobDetailsData = [
   {
-    'Request Type': 'Emergency',
-    'Request Date': '12/11/2023',
-    'Request Number': '#JOB0021',
+    Category: 'Professional',
+    Skill: 'Architect',
 
+    'Request Type': 'Package 1',
+    'Managed By': 'Jagedo',
     County: 'Busia',
     'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
     Estate: 'Nambale',
 
     Status: 'Reviewed',
 
-    Category: 'Fundi',
     'Sub-Category': 'Electricity',
     'Deadline for availability': '20/04/2024',
 
@@ -625,13 +687,18 @@ export const professionalsData = [
 export const contractorData = [
   {
     id: '3324',
+
     date: '2022-11-10T06:22:01.621Z',
-    firstName: 'Steve',
+    companyName: 'Jagedo',
+    contractorType: 'Water',
     lastName: 'Limo',
     phone: '0712345678',
     email: 'steve@gmail.com',
     rating: 3.5,
     age: '33',
+
+    county: 'Busia',
+    subCounty: 'Nambale',
     location: 'Nigeria',
     inProcess: 25,
     hired: 3,
@@ -642,7 +709,10 @@ export const contractorData = [
   {
     id: '3443',
     date: '2022-11-10T06:22:01.621Z',
-    firstName: 'Sheila',
+    companyName: 'Jagedo',
+    contractorType: 'Roads',
+    county: 'Busia',
+    subCounty: 'Nambale',
     lastName: 'Wambua',
     phone: '0712345678',
     email: 'sha@gmail.com',
@@ -658,7 +728,10 @@ export const contractorData = [
   {
     id: '3450',
     date: '2022-11-10T06:22:01.621Z',
-    firstName: 'Amos',
+    companyName: 'Jagedo',
+    contractorType: 'Housing',
+    county: 'Busia',
+    subCounty: 'Nambale',
     lastName: 'Wako',
     phone: '0712345678',
     email: 'sha@gmail.com',
@@ -998,68 +1071,78 @@ export const singleQuotationReportData = [
 
 export const quotationData = [
   {
+    number: '1',
     id: '3324',
     date: '2022-11-10T06:22:01.621Z',
-    serviceProvider: 'Owen\u00A0Oscar',
+    companyName: 'Jagedo',
     phone: '0712345678',
-    email: 'steve@gmail.com',
-    location: 'Kome,Homabay',
+    county: 'Kakamega',
+    subCounty: 'Butere',
     amount: 2500,
     rating: 3,
     score: 6,
     status: 'Reviewed',
   },
   {
-    id: '3327',
+    number: '2',
+    id: '3324',
     date: '2022-11-10T06:22:01.621Z',
-    serviceProvider: 'Phyllis\u00A0Wanjala',
-    phone: '0792345678',
-    gender: 'Male',
-    location: 'Kome,Homabay',
-    amount: 2500,
-    rating: 4.5,
+    companyName: 'Jagedo',
+    phone: '0712345678',
+    county: 'Nairobi',
+    subCounty: 'Langata',
+    amount: 3500,
+    rating: 3,
     score: 6,
-    status: 'Unreviewed',
+    status: 'Reviewed',
   },
 ];
 
 export const quotedRequisitionsData = [
   {
+    no: generateNo(),
     id: '3001',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard: Managed by Jagedo',
     subCategory: 'Quantity Surveyor',
-    location: 'Kenya',
+    county: 'Busia',
+    subCounty: 'Nambale',
     description: '2 Masterfundis',
     category: 'Professional',
     status: 'Open',
   },
   {
+    no: generateNo(),
     id: '3002',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard 2: Managed by Self',
     subCategory: 'Structural Engineer',
-    location: 'Rwanda',
+    county: 'Busia',
+    subCounty: 'Nambale',
     description: 'Designing 3 bedroom bungalow',
     category: 'Professional',
     status: 'Under Review',
   },
   {
+    no: generateNo(),
     id: '3400',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard 1: Managed by Jagedo',
     subCategory: 'Water',
-    location: 'Kenya',
+    county: 'Busia',
+    subCounty: 'Nambale',
     description: 'Water reticulation to water point',
     category: 'Contractor',
     status: 'Open',
   },
   {
+    no: generateNo(),
     id: '3401',
     date: '2022-11-10T06:22:01.621Z',
     rfqType: 'Standard 2: Managed by Self',
     subCategory: 'Roads',
-    location: 'Morocco',
+    county: 'Busia',
+    subCounty: 'Nambale',
     description: 'Maintenance',
     category: 'Contractor',
     status: 'Under Review',

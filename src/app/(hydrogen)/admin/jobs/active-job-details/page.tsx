@@ -32,7 +32,7 @@ export default function JobDetailsPage({ className }: PageProps) {
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
         <div className="p-10">
           <p className="text-center text-lg font-semibold">
-            Do you confirm completion of this job?
+            Do you confirm completion of this milestone?
           </p>
           {/* {/ <Button>Yes</Button> /} */}
 
@@ -58,7 +58,7 @@ export default function JobDetailsPage({ className }: PageProps) {
       >
         <div className="p-10">
           <p className="text-center text-lg font-semibold">
-            Do you approve completion of this job?
+            Do you approve completion of this milestone?
           </p>
           {/* {/ <Button>Yes</Button> /} */}
 
@@ -86,10 +86,12 @@ export default function JobDetailsPage({ className }: PageProps) {
         <h3 className="mb-4">Job Details</h3>
         <div className="">
           <Button className="mr-4" onClick={() => setApprovalModalState(true)}>
-            Approve Job
+            Approve Completion
           </Button>
 
-          <Button onClick={() => setModalState(true)}>Complete Job</Button>
+          <Button onClick={() => setModalState(true)}>
+            Complete Milestone
+          </Button>
         </div>
       </div>
       <div

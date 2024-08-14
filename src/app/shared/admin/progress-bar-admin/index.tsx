@@ -58,9 +58,6 @@ const timelineData = [
     time: '09:00 am',
     icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
     status: 'ongoing',
-    upload: (
-      <PiCloudArrowUp className="ml-2 h-6 w-6 text-gray-500 group-hover:text-blue-500" />
-    ),
   },
   {
     title: 'Milestone 2',
@@ -70,9 +67,6 @@ const timelineData = [
     time: '11:00 am',
     icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
     status: 'ongoing',
-    upload: (
-      <PiCloudArrowUp className="ml-2 h-6 w-6 text-gray-500 group-hover:text-blue-500" />
-    ),
   },
   // {
   //   title: 'Milestone 3',

@@ -88,7 +88,7 @@ export default function WaterContractorsTable({
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className="flex">
-          <div className=" mt-4 flex w-full flex-col-reverse items-center   gap-3  @[42rem]:flex-row @[57rem]:mt-0">
+          {/* <div className=" mt-4 flex w-full flex-col-reverse items-center   gap-3  @[42rem]:flex-row @[57rem]:mt-0">
             <FilterElement
               isFiltered={isFiltered}
               filters={filters}
@@ -96,10 +96,9 @@ export default function WaterContractorsTable({
               handleReset={handleReset}
             />
 
-            {/* <ListingFilters /> */}
-          </div>
+          </div> */}
           <Input
-            className="w-full @[42rem]:w-auto @[70rem]:w-80"
+            className="w-full justify-end @[42rem]:w-auto @[70rem]:w-80"
             type="search"
             placeholder="Search for user details..."
             inputClassName="h-9"

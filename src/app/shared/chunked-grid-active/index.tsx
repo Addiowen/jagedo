@@ -12,27 +12,7 @@ import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
 import { JobDescription, Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
-
-interface Item {
-  'Request Type': string;
-  'Request Date': string;
-  'Request Number': string;
-  County: string;
-  'Sub County': string;
-  Estate: string;
-  Status: string;
-  Category: string;
-  Profession?: string;
-  Skill?: string;
-  'Sub-Category'?: string;
-  'Deadline for availability'?: string;
-  'Invoice Number': string;
-  'Payment Status': string;
-  Rate: string;
-  'Start Date': string;
-  'End Date': string;
-  Attachments?: string[];
-}
+import { Item } from '../custom-chunked-grid';
 
 interface Props {
   data: Item;

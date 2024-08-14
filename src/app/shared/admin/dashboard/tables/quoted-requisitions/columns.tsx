@@ -64,85 +64,18 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
+    title: <HeaderCell title="NO" />,
+    dataIndex: 'no',
+    key: 'no',
+    width: 50,
+    render: (no: number) => <Text>{no}</Text>,
   },
   {
-    title: <HeaderCell title="JOB NO" />,
+    title: <HeaderCell title="RFQ #" />,
     dataIndex: 'id',
     key: 'id',
     width: 50,
     render: (id: string) => <Text>RFQ#{id}</Text>,
-  },
-
-  {
-    title: <HeaderCell title="RFQ type" />,
-    dataIndex: 'rfqType',
-    key: 'rfqType',
-    width: 250,
-    render: (rfqType: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {rfqType}
-      </Text>
-    ),
-  },
-  {
-    title: <HeaderCell title="Category" />,
-    dataIndex: 'category',
-    key: 'category',
-    width: 50,
-    render: (category: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {category}
-      </Text>
-    ),
-  },
-  {
-    title: <HeaderCell title="Sub Category" />,
-    dataIndex: 'subCategory',
-    key: 'subCategory',
-    width: 50,
-    render: (subCategory: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {subCategory}
-      </Text>
-    ),
-  },
-  {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 150,
-    render: (description: string) => <Text>{description}</Text>,
-  },
-
-  {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 50,
-    render: (location: string) => <Text>{location}</Text>,
   },
 
   {
@@ -151,6 +84,57 @@ export const getColumns = ({
     key: 'date',
     width: 60,
     render: (date: Date) => <DateCell date={date} />,
+  },
+
+  {
+    title: <HeaderCell title="Category" />,
+    dataIndex: 'category',
+    key: 'category',
+    width: 50,
+    render: (category: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {category}
+      </Text>
+    ),
+  },
+
+  {
+    title: <HeaderCell title="Sub Category" />,
+    dataIndex: 'subCategory',
+    key: 'subCategory',
+    width: 150,
+    render: (subCategory: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {subCategory}
+      </Text>
+    ),
+  },
+  {
+    title: <HeaderCell title="Req Type" />,
+    dataIndex: 'rfqType',
+    key: 'rfqType',
+    width: 150,
+    render: (rfqType: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {rfqType}
+      </Text>
+    ),
+  },
+
+  {
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 50,
+    render: (county: string) => <Text>{county}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 50,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
   {

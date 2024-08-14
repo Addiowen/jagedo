@@ -2,7 +2,6 @@ import React from 'react';
 import cn from '@/utils/class-names';
 import {
   PiAcorn,
-  PiAtDuotone,
   PiDownloadSimple,
   PiHammer,
   PiHammerBold,
@@ -10,33 +9,11 @@ import {
   PiWrenchBold,
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
-import JobDescriptionChunked from '../job-description-chunked';
-import { JobDescription } from '@/data/job-data';
+
+import JobDescriptionChunked from '../../job-description-chunked';
+import { JobDescription, Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
-import ActiveJobDetailsAttachments from '../admin/add-attachments';
-
-export interface Item {
-  'Request Type': string;
-  'Request Date': string;
-  'Request Number': string;
-  County: string;
-  'Sub County': string;
-  'Estate/Village': string;
-  Status: string;
-  Category: string;
-  Profession?: string;
-  Skill?: string;
-  Contractor?: string;
-
-  'Sub-Category'?: string;
-  'Deadline for availability'?: string;
-  'Invoice Number'?: string;
-  'Payment Status': string;
-  Rate: string;
-  'Start Date': string;
-  'End Date': string;
-  Attachments?: string[];
-}
+import { Item } from '../../custom-chunked-grid';
 
 interface Props {
   data: Item;
@@ -44,7 +21,11 @@ interface Props {
   dataChunkSize: number;
 }
 
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
+const ChunkedGridTwo: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+}) => {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
@@ -67,11 +48,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
   const chunkedData = chunkArray(dataArray, dataChunkSize);
 
   return (
-    <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
-      <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
-        Project Details
-      </div>
-
+    <div className="rounded-lg border border-none border-gray-300 bg-gray-0 p-3 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
       <JobDescriptionChunked
         data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
         dataChunkSize={1}
@@ -114,19 +91,22 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     >
                       {key}
                     </Title>
-                    {key === 'Attachments' ? (
-                      <div className="flex flex-wrap gap-6 text-gray-500">
-                        {(value as unknown as string[]).map(
-                          (imgSrc, imgIndex) => (
-                            <a key={imgIndex} href={imgSrc} download>
-                              <PiDownloadSimple className="h-5 w-5 text-blue-500" />
-                            </a>
-                          )
-                        )}
-                      </div>
-                    ) : (
-                      <div className="text-gray-500">{value}</div>
-                    )}
+                    <div className="text-gray-500">
+                      {' '}
+                      {key === 'Attachments' ? (
+                        <div className="flex flex-wrap gap-6 text-gray-500">
+                          {(value as unknown as string[]).map(
+                            (imgSrc, imgIndex) => (
+                              <a key={imgIndex} href={imgSrc} download>
+                                <PiDownloadSimple className="h-5 w-5 text-blue-500" />
+                              </a>
+                            )
+                          )}
+                        </div>
+                      ) : (
+                        <div className="text-gray-500">{value}</div>
+                      )}
+                    </div>
                   </div>
                   {/* <div
                 as="span"
@@ -139,12 +119,16 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
             ))}
           </ul>
         ))}
-        <div className="col-span-full">
-          <ActiveJobDetailsAttachments />
-        </div>
       </div>
+
+      <JobDescriptionChunked
+        className="mt-4"
+        data={Note[0]}
+        dataChunkSize={1}
+        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      />
     </div>
   );
 };
 
-export default ChunkedGrid;
+export default ChunkedGridTwo;

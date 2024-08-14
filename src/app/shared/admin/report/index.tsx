@@ -12,8 +12,9 @@ import ProfileChunkedGrid from '../../profile-chunked-grid';
 import ChunkedGrid from '../../custom-chunked-grid';
 import { completeJobDetailsData } from '@/data/job-data';
 import Link from 'next/link';
-import { PiPlusBold } from 'react-icons/pi';
+import { PiArrowDown, PiDownloadDuotone, PiPlusBold } from 'react-icons/pi';
 import ChunkedGridActive from '../../chunked-grid-active';
+import ChunkedGridTwo from '../chunked-grid-two';
 
 const data = [
   {
@@ -52,15 +53,35 @@ export default function ReportComponent({ className }: { className?: string }) {
           </Link>
         </div>
         <div className="mt-4">
-          <ChunkedGridActive
-            data={
-              queryId === '3416'
-                ? completeJobDetailsData[0]
-                : completeJobDetailsData[2]
-            }
-            dataChunkSize={8}
-            // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-          />
+          <Accordion className="rounded-lg border border-gray-300 bg-gray-0 p-2 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-4 xl:rounded-2xl">
+            <Accordion.Header>
+              <div
+                onClick={handleToggle}
+                className="flex w-full items-center justify-between py-2 text-xl font-semibold"
+              >
+                {'Project details'}
+                <PiArrowDown
+                  className={`flex h-5 w-5 transform  transition-transform duration-300 ${
+                    isOpen ? 'rotate-0' : '-rotate-90'
+                  }`}
+                />
+              </div>
+            </Accordion.Header>
+
+            <Accordion.Body>
+              <div className="mt-4">
+                <ChunkedGridTwo
+                  data={
+                    queryId === '3416'
+                      ? completeJobDetailsData[0]
+                      : completeJobDetailsData[2]
+                  }
+                  dataChunkSize={8}
+                  // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                />
+              </div>
+            </Accordion.Body>
+          </Accordion>
         </div>
 
         <AnalyzeQuotationsTable className="col-span-full mt-4" />

@@ -20,12 +20,12 @@ const categoryOptions = [
 
 const locationOptions = [
   {
-    label: 'Kome,Homabay',
-    value: 'Kome,Homabay',
+    label: 'Homabay',
+    value: 'Homabay',
   },
   {
-    label: 'Bamburi,Mombasa',
-    value: 'Bamburi,Mombasa',
+    label: 'Mombasa',
+    value: 'Mombasa',
   },
 ];
 

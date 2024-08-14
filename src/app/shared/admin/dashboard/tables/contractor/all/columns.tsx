@@ -89,7 +89,7 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="JOB ID" />,
+    title: <HeaderCell title="SP ID" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
@@ -97,18 +97,19 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="First Name" />,
-    dataIndex: 'firstName',
-    key: 'firstName',
+    title: <HeaderCell title="Company Name" />,
+    dataIndex: 'companyName',
+    key: 'companyName',
     width: 100,
-    render: (firstName: string) => (
+    render: (companyName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {firstName}
+        {companyName}
       </Text>
     ),
   },
+
   {
-    title: <HeaderCell title="Last Name" />,
+    title: <HeaderCell title="Contact Person" />,
     dataIndex: 'lastName',
     key: 'lastName',
     width: 100,
@@ -120,13 +121,13 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Class" />,
-    dataIndex: 'contractorClass',
-    key: 'contractorClass',
+    title: <HeaderCell title="Contractor Type" />,
+    dataIndex: 'contractorType',
+    key: 'contractorType',
     width: 150,
-    render: (contractorClass: string) => (
+    render: (contractorType: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {contractorClass}
+        {contractorType}
       </Text>
     ),
   },

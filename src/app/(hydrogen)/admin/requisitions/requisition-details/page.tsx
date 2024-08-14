@@ -12,10 +12,10 @@ import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import { completeJobDetailsData, JobDescription } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
-import JobDescriptionChunked from '@/app/shared/job-description-chunked';
+import ActiveJobDetailsAttachments from '@/app/shared/admin/add-attachments';
 
 const pageHeader = {
-  title: 'View Job',
+  title: 'REQ#001',
   breadcrumb: [
     {
       href: routes.admin.dashboard,
@@ -63,7 +63,7 @@ export default function RequisitionDetailsPage() {
       </div>
 
       <WidgetCard3
-        title="Notes"
+        title="NOTES"
         rounded="lg"
         className="mt-4"
         action={<Textarea size="sm" className="ml-12 flex flex-grow" />}

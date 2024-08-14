@@ -46,7 +46,7 @@ export default function AddtoServiceProviders() {
   return (
     <>
       <PageHeader title={pageHeader.title}></PageHeader>
-      <AllContractorsComponent />
+      <WaterContractorsTable />
       <ToastButton
         title="Assign "
         message="Request Assigned!"

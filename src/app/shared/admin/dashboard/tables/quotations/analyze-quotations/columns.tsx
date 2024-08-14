@@ -70,71 +70,62 @@ export const getColumns = ({
   jobId,
 }: Columns) => [
   {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
-  },
-  {
-    title: <HeaderCell title="QTN NO." />,
-    dataIndex: 'id',
-    key: 'id',
+    title: <HeaderCell title="NO." />,
+    dataIndex: 'number',
+    key: 'number',
     width: 20,
-    render: (id: string) => <Text>QTN#{id}</Text>,
+    render: (number: string) => <Text>{number}</Text>,
   },
 
   {
-    title: <HeaderCell title="Service Provider" />,
-    dataIndex: 'serviceProvider',
-    key: 'serviceProvider',
+    title: <HeaderCell title="QTN#." />,
+    dataIndex: 'id',
+    key: 'id',
+    width: 20,
+    render: (id: string) => <Text>#{id}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="Date" className="uppercase" />,
+    dataIndex: 'date',
+    key: 'date',
     width: 100,
-    render: (serviceProvider: string) => (
+    render: (date: Date) => <DateCell date={date} />,
+  },
+
+  {
+    title: <HeaderCell title="Company Name" />,
+    dataIndex: 'companyName',
+    key: 'companyName',
+    width: 100,
+    render: (companyName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {serviceProvider}
+        {companyName}
       </Text>
     ),
   },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
     width: 80,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (county: string) => <Text>{county}</Text>,
   },
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 40,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
+  },
+
   {
     title: <HeaderCell title="Amount" />,
     dataIndex: 'amount',
     key: 'amount',
     width: 40,
     render: (amount: string) => <Text>{amount}</Text>,
-  },
-
-  {
-    title: <HeaderCell title="Qtn Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 100,
-    render: (date: Date) => <DateCell date={date} />,
   },
 
   {

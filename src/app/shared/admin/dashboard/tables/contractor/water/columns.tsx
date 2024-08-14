@@ -89,7 +89,7 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="JOB ID" />,
+    title: <HeaderCell title="SP ID" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
@@ -97,8 +97,8 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="First Name" />,
-    dataIndex: 'firstName',
+    title: <HeaderCell title="Company Name" />,
+    dataIndex: 'companyName',
     key: 'firstName',
     width: 100,
     render: (firstName: string) => (
@@ -108,7 +108,7 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="Last Name" />,
+    title: <HeaderCell title="Contact Person" />,
     dataIndex: 'lastName',
     key: 'lastName',
     width: 100,
@@ -118,7 +118,21 @@ export const getColumns = ({
       </Text>
     ),
   },
+  {
+    title: <HeaderCell title="Phone Number" />,
+    dataIndex: 'phone',
+    key: 'phone',
+    width: 80,
+    render: (phone: number) => <Text>{phone}</Text>,
+  },
 
+  {
+    title: <HeaderCell title="Contractor" />,
+    dataIndex: 'contractorType',
+    key: 'contractorType',
+    width: 80,
+    render: (contractorType: number) => <Text>{contractorType}</Text>,
+  },
   {
     title: <HeaderCell title="Level" />,
     dataIndex: 'level',
@@ -127,13 +141,6 @@ export const getColumns = ({
     render: (level: string) => <Text>{level}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Phone Number" />,
-    dataIndex: 'phone',
-    key: 'phone',
-    width: 80,
-    render: (phone: number) => <Text>{phone}</Text>,
-  },
   {
     title: <HeaderCell title="Email" />,
     dataIndex: 'email',
@@ -169,11 +176,19 @@ export const getColumns = ({
   // },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
     width: 120,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (county: string) => <Text>{county}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 120,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
   {

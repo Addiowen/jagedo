@@ -15,8 +15,8 @@ export default function AdminRequisitionsPage() {
       <div className="mb-6 flex justify-end">
         <DropDownComponent />
       </div>
-      <div className="grid grid-cols-1  @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-        <AdminRequisitionsTable className="relative  @4xl:col-span-2 @7xl:col-span-12" />
+      <div className="grid grid-cols-1  @4xl:grid-cols-2  3xl:gap-8">
+        <AdminRequisitionsTable className="relative  @4xl:col-span-2 " />
       </div>
     </div>
   );

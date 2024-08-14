@@ -61,21 +61,21 @@ export const getColumns = ({
     title: <HeaderCell title="NUMBER" />,
     dataIndex: 'number',
     key: 'number',
-    width: 5,
+    width: 30,
     render: (number: string) => <Text>{number}</Text>,
   },
   {
-    title: <HeaderCell title="#" />,
+    title: <HeaderCell title="REQ NO" />,
     dataIndex: 'id',
     key: 'id',
     width: 10,
     render: (id: string) => <Text>REQ#{id}</Text>,
   },
   {
-    title: <HeaderCell title="Date" className="uppercase" />,
+    title: <HeaderCell title="DATE" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
-    width: 300,
+    width: 150,
     render: (date: Date) => <DateCell date={date} />,
   },
 
@@ -97,24 +97,32 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 300,
+    width: 150,
     render: (requestType: string) => (
       <Text className="font-semibold">{requestType}</Text>
     ),
   },
+  // {
+  //   title: <HeaderCell title="Description" />,
+  //   dataIndex: 'description',
+  //   key: 'description',
+  //   width: 200,
+  //   render: (description: string) => <Text>{description}</Text>,
+  // },
   {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 200,
-    render: (description: string) => <Text>{description}</Text>,
-  },
-  {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
     width: 50,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (county: string) => <Text>{county}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 50,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
   {
@@ -128,10 +136,10 @@ export const getColumns = ({
     title: <HeaderCell title="Actions" />,
     dataIndex: 'id',
     key: 'action',
-    width: 20,
+    width: 50,
     render: (id: string, row: any) => {
       return (
-        <div className="flex items-center justify-end gap-3 pe-3">
+        <div className="flex items-center justify-center gap-3 ">
           <Link
             href={{ pathname: routes.admin.requisitionDetails, query: { id } }}
           >
