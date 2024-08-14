@@ -19,6 +19,7 @@ import AllContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/
 import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
 import RoadsContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/roads';
 import AllContractorsComponent from '@/app/shared/admin/all-contractors-tables';
+import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
 
 // export const metadata = {
 //   ...metaObject('Assign Service Providers'),
@@ -46,7 +47,10 @@ export default function AddtoServiceProviders() {
   return (
     <>
       <PageHeader title={pageHeader.title}></PageHeader>
-      <WaterContractorsTable />
+      {jobId === '3416' || (jobId === '3418' && <FundisTable />)}
+
+      {jobId === '3502' || (jobId === '3700' && <WaterContractorsTable />)}
+
       <ToastButton
         title="Assign "
         message="Request Assigned!"

@@ -134,7 +134,15 @@ const GenerateInvoiceFundi: React.FC = () => {
                     <div className="mt-2 grid grid-cols-1 gap-4  sm:grid-cols-2 md:grid-cols-4">
                       <div className="form-group mt-2">
                         <Select
-                          label="Skill"
+                          label="Request Type"
+                          options={reqType}
+                          value={value}
+                          onChange={(selected) => setValue(selected as Option)}
+                        />
+                      </div>
+                      <div className="form-group mt-2">
+                        <Select
+                          label="Profession"
                           options={Skill}
                           value={skill}
                           onChange={(selected) => setSkill(selected as Option)}
@@ -390,7 +398,7 @@ const GenerateInvoiceFundi: React.FC = () => {
                     <div className="mt-2 grid grid-cols-1 gap-4  sm:grid-cols-2 md:grid-cols-4">
                       <div className="form-group mt-2">
                         <Select
-                          label="Skill"
+                          label="Contractor"
                           options={Skill}
                           value={skill}
                           onChange={(selected) => setSkill(selected as Option)}
