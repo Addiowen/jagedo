@@ -65,31 +65,6 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
-  // {
-  //   title: (
-  //     <div className="ps-3.5">
-  //       <Checkbox
-  //         title={'Select All'}
-  //         onChange={handleSelectAll}
-  //         checked={checkedItems.length === data.length}
-  //         className="cursor-pointer"
-  //       />
-  //     </div>
-  //   ),
-  //   dataIndex: 'checked',
-  //   key: 'checked',
-  //   width: 30,
-  //   render: (_: any, row: any) => (
-  //     <div className="inline-flex ps-3.5">
-  //       <Checkbox
-  //         aria-label={'ID'}
-  //         className="cursor-pointer"
-  //         checked={checkedItems.includes(row.id) || true}
-  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
-  //       />
-  //     </div>
-  //   ),
-  // },
   {
     title: <HeaderCell title="QTN NO." />,
     dataIndex: 'id',
@@ -97,25 +72,45 @@ export const getColumns = ({
     width: 20,
     render: (id: string) => <Text>QTN#{id}</Text>,
   },
-
   {
-    title: <HeaderCell title="Service Provider" />,
-    dataIndex: 'serviceProvider',
-    key: 'serviceProvider',
+    title: <HeaderCell title="Date" className="uppercase" />,
+    dataIndex: 'date',
+    key: 'date',
     width: 100,
-    render: (serviceProvider: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {serviceProvider}
+    render: (date: Date) => <DateCell date={date} />,
+  },
+  {
+    title: <HeaderCell title="CATEGORY" />,
+    dataIndex: 'category',
+    key: 'category',
+    width: 100,
+    render: (category: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {category}
       </Text>
     ),
   },
-
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 80,
-    render: (location: string) => <Text>{location}</Text>,
+    title: <HeaderCell title="SUB-CATEGORY" />,
+    dataIndex: 'subCategory',
+    key: 'subCategory',
+    width: 100,
+    render: (subCategory: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {subCategory}
+      </Text>
+    ),
+  },
+  {
+    title: <HeaderCell title="REQUEST TYPE" />,
+    dataIndex: 'requestType',
+    key: 'requestType',
+    width: 200,
+    render: (requestType: string) => (
+      <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
+        {requestType}
+      </Text>
+    ),
   },
   {
     title: <HeaderCell title="Amount" />,
@@ -126,33 +121,66 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Qtn Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
+    title: <HeaderCell title="Professional name" />,
+    dataIndex: 'professionalName',
+    key: 'professionalName',
     width: 100,
-    render: (date: Date) => <DateCell date={date} />,
+    render: (professionalName: string) => {
+      const maskName = (name: string) => {
+        return name
+          .split(' ')
+          .map((word) => {
+            if (word.length <= 1) return word;
+            return `${word[0]}${'x'.repeat(word.length - 1)}`;
+          })
+          .join(' ');
+      };
+  
+      return (
+        <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+          {maskName(professionalName)}
+        </Text>
+      );
+    },
   },
 
   {
-    title: <HeaderCell title="Rating" />,
-    dataIndex: 'rating',
-    key: 'rating',
-    width: 10,
-    render: (rating: string) => <Text>{rating}</Text>,
+    title: <HeaderCell title="Phone Number" />,
+    dataIndex: 'phoneNumber',
+    key: 'phoneNumber',
+    width: 80,
+    render: (phoneNumber: string) => {
+      const maskNumber = (number: string) => {
+        if (number.length <= 4) return number;
+        return `${number.slice(0, 4)}${'x'.repeat(number.length - 4)}`;
+      };
+  
+      return (
+        <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+          {maskNumber(phoneNumber)}
+        </Text>
+      );
+    },
   },
-  // {
-  //   title: <HeaderCell title="Score" />,
-  //   dataIndex: 'score',
-  //   key: 'score',
-  //   width: 10,
-  //   render: (score: string) => <Text>{score}</Text>,
-  // },
+
   {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 50,
-    render: (value: string) => getStatusBadge(value),
+    title: <HeaderCell title="Email Address" />,
+    dataIndex: 'emailAddress',
+    key: 'emailAddress',
+    width: 10,
+    render: (emailAddress: string) => {
+      const maskEmail = (email: string) => {
+        const [localPart, domain] = email.split('@');
+        if (localPart.length <= 1) return email;
+        return `${localPart[0]}${'x'.repeat(localPart.length - 1)}@${domain}`;
+      };
+  
+      return (
+        <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
+          {maskEmail(emailAddress)}
+        </Text>
+      );
+    },
   },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

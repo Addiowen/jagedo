@@ -25,6 +25,7 @@ import {
 } from './data';
 import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
+import { skill } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {

@@ -67,26 +67,28 @@ export const getColumns = ({
   onHeaderCellClick,
   jobId
 }: Columns) => [
-
   {
-    title: <HeaderCell title="JOB NO" />,
+    title: <HeaderCell title="NO." />,
+    dataIndex: 'number',
+    key: 'number',
+    width: 30,
+    render: (number: string) => <Text>{number}</Text>,
+  },
+  {
+    title: <HeaderCell title="QTN NO" />,
     dataIndex: 'id',
     key: 'id',
     width: 50,
-    render: (id: string) => <Text>RFQ#{id}</Text>,
+    render: (id: string) => <Text>QTN#{id}</Text>,
+  },
+  {
+    title: <HeaderCell title="DATE" className="uppercase" />,
+    dataIndex: 'date',
+    key: 'date',
+    width: 60,
+    render: (date: Date) => <DateCell date={date} />,
   },
 
-  {
-    title: <HeaderCell title="RFQ type" />,
-    dataIndex: 'rfqType',
-    key: 'rfqType',
-    width: 250,
-    render: (rfqType: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {rfqType}
-      </Text>
-    ),
-  },
   {
     title: <HeaderCell title="Category" />,
     dataIndex: 'category',
@@ -109,28 +111,39 @@ export const getColumns = ({
       </Text>
     ),
   },
-  {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 150,
-    render: (description: string) => <Text>{description}</Text>,
-  },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 50,
-    render: (location: string) => <Text>{location}</Text>,
+    title: <HeaderCell title="REQUEST TYPE" />,
+    dataIndex: 'requestType',
+    key: 'requestType',
+    width: 200,
+    render: (requestType: string) => (
+      <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
+        {requestType}
+      </Text>
+    ),
   },
-
   {
-    title: <HeaderCell title="Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 60,
-    render: (date: Date) => <DateCell date={date} />,
+    title: <HeaderCell title="COUNTY" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 100,
+    render: (county: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {county}
+      </Text>
+    ),
+  },
+  {
+    title: <HeaderCell title="SUB-COUNTY" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 100,
+    render: (subCounty: string) => (
+      <Text className="text-sm  text-gray-900 dark:text-gray-700">
+        {subCounty}
+      </Text>
+    ),
   },
 
   {

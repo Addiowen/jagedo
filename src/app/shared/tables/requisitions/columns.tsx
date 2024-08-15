@@ -63,29 +63,29 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
-    title: <HeaderCell title="No." />,
+    title: <HeaderCell title="NO." />,
     dataIndex: 'number',
     key: 'number',
-    width: 90,
+    width: 30,
     render: (number: string) => <Text>{number}</Text>,
   },
   {
-    title: <HeaderCell title="#" />,
+    title: <HeaderCell title="REQ NO" />,
     dataIndex: 'id',
     key: 'id',
-    width: 90,
-    render: (id: string) => <Text>{id}</Text>,
+    width: 50,
+    render: (id: string) => <Text>REQ#{id}</Text>,
   },
   {
-    title: <HeaderCell title="Date" className="uppercase" />,
+    title: <HeaderCell title="DATE" className="uppercase" />,
     dataIndex: 'date',
     key: 'date',
-    width: 230,
+    width: 180,
     render: (date: Date) => <DateCell date={date} />,
   },
 
   {
-    title: <HeaderCell title="Category" />,
+    title: <HeaderCell title="CATEGORY" />,
     dataIndex: 'category',
     key: 'category',
     width: 100,
@@ -96,7 +96,7 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="Sub Category" />,
+    title: <HeaderCell title="SUB-CATEGORY" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
     width: 100,
@@ -107,10 +107,10 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="Request Type" />,
+    title: <HeaderCell title="REQUEST TYPE" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 200,
+    width: 350,
     render: (requestType: string) => (
       <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
         {requestType}
@@ -118,38 +118,38 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 300,
-    render: (description: string) => (
+    title: <HeaderCell title="COUNTY" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 100,
+    render: (county: string) => (
       <Text className="text-sm  text-gray-900 dark:text-gray-700">
-        {description}
+        {county}
       </Text>
     ),
   },
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 200,
-    render: (location: string) => (
+    title: <HeaderCell title="SUB-COUNTY" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 100,
+    render: (subCounty: string) => (
       <Text className="text-sm  text-gray-900 dark:text-gray-700">
-        {location}
+        {subCounty}
       </Text>
     ),
   },
 
   {
-    title: <HeaderCell title="Status" />,
+    title: <HeaderCell title="STATUS" />,
     dataIndex: 'status',
     key: 'status',
-    width: 120,
+    width: 200,
     render: (value: string) => getStatusBadge(value),
   },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
-    title: <HeaderCell title="Action" />,
+    title: <HeaderCell title="ACTION" />,
     dataIndex: 'id',
     key: 'action',
     width: 100,

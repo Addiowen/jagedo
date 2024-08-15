@@ -10,7 +10,7 @@ export default function RFQEmergencyFundiPage() {
   return (
     <>
         <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
-            View Job
+            #JOB0021
         </Title>
     
     <ConfirmAvailability />

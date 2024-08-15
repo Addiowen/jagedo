@@ -65,7 +65,7 @@ export const getColumns = ({
     render: (number: string) => <Text>{number}</Text>,
   },
   {
-    title: <HeaderCell title="#" />,
+    title: <HeaderCell title="JOB ID" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
@@ -113,24 +113,24 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 300,
-    render: (description: string) => (
+    title: <HeaderCell title="COUNTY" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 100,
+    render: (county: string) => (
       <Text className="text-sm  text-gray-900 dark:text-gray-700">
-        {description}
+        {county}
       </Text>
     ),
   },
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 200,
-    render: (location: string) => (
+    title: <HeaderCell title="SUB-COUNTY" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 100,
+    render: (subCounty: string) => (
       <Text className="text-sm  text-gray-900 dark:text-gray-700">
-        {location}
+        {subCounty}
       </Text>
     ),
   },
