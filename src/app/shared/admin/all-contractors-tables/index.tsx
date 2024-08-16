@@ -80,7 +80,7 @@ export default function AllContractorsComponent() {
               <WaterContractorsTable className="@4xl:col-span-2" />
             </>
           ) : (
-            <AssignServiceProvidersTable className="relative  @4xl:col-span-2" />
+            <AllContractorsTable className="relative  @4xl:col-span-2" />
           )}
 
           {/* <ToastButton AltButton={true} title="Back" />

@@ -90,7 +90,9 @@ export default function ProfessionalQuotation() {
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           {isTableVisible && (
             <>
-              {(jobId === '3419' ||
+              {(jobId === '3001' ||
+                jobId === '3002' ||
+                jobId === '3419' ||
                 jobId === '3420' ||
                 jobId === '3324' ||
                 jobId === '3336') && (
