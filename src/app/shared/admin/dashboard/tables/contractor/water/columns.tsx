@@ -131,7 +131,7 @@ export const getColumns = ({
     dataIndex: 'contractorType',
     key: 'contractorType',
     width: 80,
-    render: (contractorType: number) => <Text>{contractorType}</Text>,
+    render: (contractorType: string) => <Text>{contractorType}</Text>,
   },
   {
     title: <HeaderCell title="Level" />,
@@ -141,13 +141,13 @@ export const getColumns = ({
     render: (level: string) => <Text>{level}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Email" />,
-    dataIndex: 'email',
-    key: 'email',
-    width: 120,
-    render: (email: string) => <Text>{email}</Text>,
-  },
+  // {
+  //   title: <HeaderCell title="Email" />,
+  //   dataIndex: 'email',
+  //   key: 'email',
+  //   width: 120,
+  //   render: (email: string) => <Text>{email}</Text>,
+  // },
 
   // {
   //   title: <HeaderCell title="Category" />,

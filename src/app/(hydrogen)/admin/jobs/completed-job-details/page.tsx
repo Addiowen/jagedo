@@ -1,6 +1,6 @@
 'use client';
 
-import { AdvancedCheckbox, Button, Modal, Tooltip } from 'rizzui';
+import { AdvancedCheckbox, Button, Modal, Tab, Tooltip } from 'rizzui';
 import { useState } from 'react';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 import CompletedJobDetails from '@/app/shared/admin/dashboard/jobs/completed/view-job-details';
@@ -12,9 +12,11 @@ import CustomerDetails from '@/app/shared/admin/dashboard/tables/requisitions/re
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import ReviewForm from '@/app/shared/custom-reviews/review-form';
 import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
-import { completeJobDetailsData, jobData } from '@/data/job-data';
+import { completeJobDetailsData } from '@/data/job-data';
 import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
 import ChunkedGridActive from '@/app/shared/chunked-grid-active';
+import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
+import ActiveJobDetailsAttachments from '@/app/shared/admin/add-attachments';
 
 // const data = [
 //     {
@@ -113,52 +115,77 @@ export default function FundiCompleteJobDetails() {
         </div>
       </Modal>
 
-      <CustomerDetailsCard />
+      <Tab>
+        <Tab.List>
+          <Tab.ListItem>Progress Tracker</Tab.ListItem>
+          <Tab.ListItem>Project Details</Tab.ListItem>
+        </Tab.List>
+        <Tab.Panels>
+          <Tab.Panel>
+            <ProgressBarActive />
+            <div className="col-span-full">
+              <ActiveJobDetailsAttachments />
+            </div>
+          </Tab.Panel>
 
-      <div className="mb-4 mt-4">
-        <ChunkedGridActive
-          data={
-            jobId === '3324'
-              ? completeJobDetailsData[0]
-              : completeJobDetailsData[1]
-          }
-          dataChunkSize={8}
-          // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        />
-      </div>
+          <Tab.Panel>
+            <CustomerDetailsCard />
 
-      <FundiDetailsCard />
+            <div className="mb-4 mt-4">
+              <ChunkedGrid
+                data={
+                  jobId === '2000'
+                    ? completeJobDetailsData[0]
+                    : jobId === '2002'
+                      ? completeJobDetailsData[1]
+                      : jobId === '3200'
+                        ? completeJobDetailsData[2]
+                        : jobId === '3250'
+                          ? completeJobDetailsData[3]
+                          : jobId === '3332'
+                            ? completeJobDetailsData[4]
+                            : jobId === '3225'
+                              ? completeJobDetailsData[5]
+                              : completeJobDetailsData[1]
+                }
+                dataChunkSize={8}
+                // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              />
+            </div>
 
-      <div className="mt-6 flex justify-center">
-        <Button className="">Download Report</Button>
+            <FundiDetailsCard />
 
-        <Button onClick={() => setModalState(true)} className="ml-4">
-          Add Review
-        </Button>
+            <div className="mt-6 flex justify-center">
+              <Button onClick={() => setModalState(true)} className="ml-4">
+                Add Review
+              </Button>
 
-        {jobId === '3324' ? (
-          <Button
-            onClick={() => setViewReviewsModalState(true)}
-            className="ml-4"
-          >
-            View Reviews
-          </Button>
-        ) : jobId === '3325' ? (
-          <Button
-            onClick={() => setRequestReviewsModalState(true)}
-            className="ml-4"
-          >
-            Request Review
-          </Button>
-        ) : (
-          <Button
-            onClick={() => setViewReviewsModalState(true)}
-            className="ml-4"
-          >
-            View Reviews
-          </Button>
-        )}
-      </div>
+              {jobId === '3324' ? (
+                <Button
+                  onClick={() => setViewReviewsModalState(true)}
+                  className="ml-4"
+                >
+                  View Reviews
+                </Button>
+              ) : jobId === '3325' ? (
+                <Button
+                  onClick={() => setRequestReviewsModalState(true)}
+                  className="ml-4"
+                >
+                  Request Review
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => setViewReviewsModalState(true)}
+                  className="ml-4"
+                >
+                  View Reviews
+                </Button>
+              )}
+            </div>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab>
     </div>
   );
 }

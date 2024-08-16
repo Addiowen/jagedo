@@ -63,10 +63,35 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
+    title: (
+      <div className="ps-3.5">
+        <Checkbox
+          title={'Select All'}
+          onChange={handleSelectAll}
+          checked={checkedItems.length === data.length}
+          className="cursor-pointer"
+        />
+      </div>
+    ),
+    dataIndex: 'checked',
+    key: 'checked',
+    width: 30,
+    render: (_: any, row: any) => (
+      <div className="inline-flex ps-3.5">
+        <Checkbox
+          aria-label={'ID'}
+          className="cursor-pointer"
+          checked={checkedItems.includes(row.id)}
+          {...(onChecked && { onChange: () => onChecked(row.id) })}
+        />
+      </div>
+    ),
+  },
+  {
     title: <HeaderCell title="Number" />,
     dataIndex: 'no',
     key: 'no',
-    width: 90,
+    width: 50,
     render: (no: number) => <Text>{no}</Text>,
   },
 

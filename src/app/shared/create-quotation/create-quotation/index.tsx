@@ -35,6 +35,7 @@ import { usePathname, useRouter } from 'next/navigation';
 // import ThirdTableTwo from './third-table-two';
 
 import { useSearchParams } from 'next/navigation';
+import ViewAttachmentsBlock from '@/components/view-attachments-block';
 
 // const pageHeader = {
 //   title: 'Invoice Builder',
@@ -126,7 +127,12 @@ export default function CreateProfessionalQuotationComponent() {
             <SecondTable />
             <ThirdTable />
             <FourthTable />
-            <AttachmentsBlock />
+
+            {jobId === '3001' || jobId === '3002' ? (
+              <ViewAttachmentsBlock />
+            ) : (
+              <AttachmentsBlock />
+            )}
 
             {viewQuotation ? (
               <FormFooter submitBtnText="Back" handleSubmitBtn={handleAltBtn} />

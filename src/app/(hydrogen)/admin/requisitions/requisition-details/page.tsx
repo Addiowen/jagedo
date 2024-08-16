@@ -10,31 +10,47 @@ import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import { completeJobDetailsData, JobDescription } from '@/data/job-data';
+import { completeJobDetailsData, requestDetails } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
-import ActiveJobDetailsAttachments from '@/app/shared/admin/add-attachments';
-
-const pageHeader = {
-  title: 'REQ#001',
-  breadcrumb: [
-    {
-      href: routes.admin.dashboard,
-      name: 'Home',
-    },
-    {
-      href: routes.admin.requisitions,
-      name: 'All requisitions',
-    },
-    {
-      name: 'View Request',
-    },
-  ],
-};
 
 export default function RequisitionDetailsPage() {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
+
+  const currentRequest =
+    jobId === '3416'
+      ? requestDetails[0]
+      : jobId === '3418'
+        ? requestDetails[1]
+        : jobId === '3419'
+          ? requestDetails[3]
+          : jobId === '3420'
+            ? requestDetails[4]
+            : jobId === '3502'
+              ? requestDetails[5]
+              : jobId === '3700'
+                ? requestDetails[6]
+                : requestDetails[0];
+
+  const contractor = currentRequest?.Contractor || '';
+
+  const pageHeader = {
+    title: jobId ? `REQ#${jobId}` : 'REQ',
+    breadcrumb: [
+      {
+        href: routes.admin.dashboard,
+        name: 'Home',
+      },
+      {
+        href: routes.admin.requisitions,
+        name: 'All requisitions',
+      },
+      {
+        name: 'View Request',
+      },
+    ],
+  };
   return (
     <>
       <PageHeader
@@ -46,17 +62,7 @@ export default function RequisitionDetailsPage() {
       {/* <JobDetailsCard className="mt-6" /> */}
       <div className="mt-4">
         <ChunkedGrid
-          data={
-            jobId === '3416'
-              ? completeJobDetailsData[0]
-              : jobId === '3420'
-                ? completeJobDetailsData[2]
-                : jobId === '3419'
-                  ? completeJobDetailsData[1]
-                  : jobId === '3700'
-                    ? completeJobDetailsData[3]
-                    : completeJobDetailsData[0]
-          }
+          data={currentRequest}
           dataChunkSize={8}
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
@@ -94,7 +100,7 @@ export default function RequisitionDetailsPage() {
             <Link
               href={{
                 pathname: routes.admin.professionalQuotation,
-                query: { jobId },
+                query: { jobId, contractor },
               }}
             >
               <ToastButton title="Create Quotation" />
@@ -102,7 +108,7 @@ export default function RequisitionDetailsPage() {
             <Link
               href={{
                 pathname: routes.admin.assignServiceProvider,
-                query: { jobId },
+                query: { jobId, contractor },
               }}
             >
               <ToastButton title="Assign Contractors" />

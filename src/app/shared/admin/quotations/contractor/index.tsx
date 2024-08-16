@@ -36,11 +36,14 @@ export default function CreateContractorQuotationComponent() {
   const methods = useForm<CreateContractorQuotationType>({
     mode: 'onChange',
     defaultValues:
-      jobId === '3400' || jobId === '3401' || jobId === '3700'
+      jobId === '3501' || jobId === '3700'
         ? CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE
-        : jobId === '3327' || jobId === '3324'
+        : jobId === '3327' ||
+            jobId === '3324' ||
+            jobId === '3400' ||
+            jobId === '3401'
           ? CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE
-          : CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE,
+          : CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
     resolver: zodResolver(createContractorQuotationSchema),
   });
 
@@ -79,7 +82,7 @@ export default function CreateContractorQuotationComponent() {
                   <BillSummary />
                 </Tab.Panel>
                 <Tab.Panel>
-                  {viewQuotation ? (
+                  {jobId === '3400' || jobId === '3401' ? (
                     <ViewAttachmentsBlock />
                   ) : (
                     <>

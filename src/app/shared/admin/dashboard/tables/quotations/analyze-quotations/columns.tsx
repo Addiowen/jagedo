@@ -70,6 +70,31 @@ export const getColumns = ({
   jobId,
 }: Columns) => [
   {
+    title: (
+      <div className="ps-3.5">
+        <Checkbox
+          title={'Select All'}
+          onChange={handleSelectAll}
+          checked={checkedItems.length === data.length}
+          className="cursor-pointer"
+        />
+      </div>
+    ),
+    dataIndex: 'checked',
+    key: 'checked',
+    width: 30,
+    render: (_: any, row: any) => (
+      <div className="inline-flex ps-3.5">
+        <Checkbox
+          aria-label={'ID'}
+          className="cursor-pointer"
+          checked={checkedItems.includes(row.id)}
+          {...(onChecked && { onChange: () => onChecked(row.id) })}
+        />
+      </div>
+    ),
+  },
+  {
     title: <HeaderCell title="NO." />,
     dataIndex: 'number',
     key: 'number',
@@ -94,13 +119,13 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Company Name" />,
-    dataIndex: 'companyName',
-    key: 'companyName',
+    title: <HeaderCell title="Unique Id" />,
+    dataIndex: 'uniqueId',
+    key: 'uniqueId',
     width: 100,
-    render: (companyName: string) => (
+    render: (uniqueId: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {companyName}
+        {uniqueId}
       </Text>
     ),
   },
@@ -152,7 +177,7 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="flex items-center justify-center gap-3 pe-3">
-        <Link href={{ pathname: routes.admin.rfq, query: { jobId: id } }}>
+        <Link href={{ pathname: routes.admin.rfq, query: { jobId: jobId } }}>
           <Text className="text-green-500">View</Text>
         </Link>
       </div>

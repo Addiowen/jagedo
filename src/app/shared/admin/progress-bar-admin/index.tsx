@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import {
   PiCheckCircle,
   PiCloudArrowUp,
@@ -88,12 +88,37 @@ const timelineData = [
   },
 ];
 
+const fundiTimelineData = [
+  {
+    title: 'Start',
+    text: '',
+    hightlightedText: '',
+    date: 'April 29, 2023',
+    time: '05:31 am',
+    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+    status: 'ongoing',
+  },
+
+  {
+    title: 'Stop',
+    text: '',
+    hightlightedText: '',
+    date: 'May 29, 2023',
+    time: '05:31 am',
+    icon: '',
+    status: '',
+  },
+];
+
 export default function ProgressBarActive({
   className,
 }: {
   className?: string;
 }) {
   const [modalState, setModalState] = useState(false);
+  const searchParams = useSearchParams();
+
+  const jobId = searchParams.get('id');
 
   return (
     <>
@@ -121,7 +146,14 @@ export default function ProgressBarActive({
 
         <div className="-ml-20 mb-4 mt-12 flex flex-col rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl ">
           <div className="w-full max-w-screen-lg">
-            <Timeline data={timelineData} order="desc" />
+            <Timeline
+              data={
+                jobId === '2000' || jobId === '2002'
+                  ? fundiTimelineData
+                  : timelineData
+              }
+              order="desc"
+            />
           </div>
 
           {/* <div className=''>     

@@ -10,15 +10,12 @@ import { activeJobs, completeJobs } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
 export default function ActiveJobsTable({ className }: { className?: string }) {
-  const router = useRouter();
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -52,10 +49,6 @@ export default function ActiveJobsTable({ className }: { className?: string }) {
     handleReset,
   } = useTable(activeJobs, pageSize, filterState);
 
-  const handleStatusClick = (status: string) => {
-    router.push(routes.admin.activeJobDetails);
-  };
-
   const columns = useMemo(
     () =>
       getColumns({
@@ -66,7 +59,6 @@ export default function ActiveJobsTable({ className }: { className?: string }) {
         onDeleteItem,
         onChecked: handleRowSelect,
         handleSelectAll,
-        onStatusClick: handleStatusClick,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
@@ -87,7 +79,7 @@ export default function ActiveJobsTable({ className }: { className?: string }) {
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Active Jobs"
+      title="ACTIVE JOBS"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">

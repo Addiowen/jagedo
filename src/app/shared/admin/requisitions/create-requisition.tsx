@@ -35,6 +35,9 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [subCounty, setSubCounty] = useState<Option | null>(null);
   const [village, setVillage] = useState<Option | null>(null);
   const [skill, setSkill] = useState<Option | null>(null);
+  const [contractor, setContractor] = useState<Option | null>(null);
+  const [profession, setProfession] = useState<Option | null>(null);
+
   const [state, setState] = useState('Add description');
   const [buttonText, setButtonText] = useState('Generate Invoice');
   const [buttonLink, setButtonLink] = useState(
@@ -72,8 +75,19 @@ const GenerateInvoiceFundi: React.FC = () => {
     { label: 'Mason', value: 'Mason' },
     { label: 'Construction', value: 'Construction' },
   ];
+  const Profession = [
+    { label: 'Architect', value: 'Architect' },
+    { label: 'Quantity Surveyor', value: 'Quantity Surveyor' },
+    { label: 'Construction', value: 'Construction' },
+  ];
+  const Contractor = [
+    { label: 'Water', value: 'Water' },
+    { label: 'Roads', value: 'Roads' },
+    { label: 'Housing', value: 'Housing' },
+  ];
 
   useEffect(() => {
+    const invoiceRoute = routes.invoice.details(DUMMY_ID);
     if (value?.value === 'Package 1') {
       setManaged({ label: 'Jagedo', value: 'Jagedo' });
       setButtonText('Generate Invoice');
@@ -84,6 +98,10 @@ const GenerateInvoiceFundi: React.FC = () => {
       setButtonLink(routes.invoice.details(DUMMY_ID));
     }
   }, [value]);
+
+  const handlePackageSelect = (selectedPackage: Option) => {
+    setValue(selectedPackage);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -144,19 +162,14 @@ const GenerateInvoiceFundi: React.FC = () => {
                       <div className="form-group mt-2">
                         <Select
                           label="Profession"
-                          options={Skill}
-                          value={skill}
-                          onChange={(selected) => setSkill(selected as Option)}
+                          options={Profession}
+                          value={profession}
+                          onChange={(selected) =>
+                            setProfession(selected as Option)
+                          }
                         />
                       </div>
-                      <div className="form-group mt-2">
-                        <Select
-                          label="Request Type"
-                          options={reqType}
-                          value={value}
-                          onChange={(selected) => setValue(selected as Option)}
-                        />
-                      </div>
+
                       <div className="form-group mt-2">
                         <Select
                           label="Managed By"
@@ -254,23 +267,61 @@ const GenerateInvoiceFundi: React.FC = () => {
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="@container">
-              <h1 className="pl-4">Fundi</h1>
+            <div className="border-grey-500  rounded-lg border shadow-md @container">
               <div className="w-full rounded-lg bg-white p-4">
+                <h1 className="mb-2">Fundi</h1>
+
+                <div className="mb-4">
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">
+                    Packages:
+                  </h3>
+                  <div className="mt-1 flex space-x-8">
+                    {reqType.map((pkg) => (
+                      <div
+                        key={pkg.value}
+                        className={`package w-1/2 cursor-pointer rounded-lg p-4 shadow-md transition-transform duration-300 ${
+                          value?.value === pkg.value
+                            ? 'translate-y-[-4px] transform border border-blue-500 bg-blue-100'
+                            : 'bg-white'
+                        }`}
+                        onClick={() => handlePackageSelect(pkg)}
+                      >
+                        <h5 className="text-md font-semibold">
+                          {pkg.label}:{' '}
+                          {pkg.label === 'Package 1'
+                            ? 'Managed by Jagedo'
+                            : 'Managed by Self'}
+                        </h5>
+                        <ul className="mt-1 list-inside list-disc text-sm">
+                          {pkg.value === 'Package 1' ? (
+                            <>
+                              <li>
+                                Fee is inclusive of 1 day labour charges and
+                                transport up to a certain radius [15KM from the
+                                county designated town]
+                              </li>
+                              <li>Linkage fee of 3000</li>
+                              <li>Response time within 24 hrs</li>
+                              <li>Fee is exclusive of material charge</li>
+                            </>
+                          ) : (
+                            <>
+                              <li>
+                                Fee is exclusive of labour, transport, and
+                                material
+                              </li>
+                              <li>Linkage fee of 1000</li>
+                              <li>Response time within 3 days</li>
+                            </>
+                          )}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-2">
                   <div className="grid grid-cols-1 gap-2">
-                    <div className="form-group">
-                      <Textarea
-                        id="description"
-                        clearable
-                        placeholder="Add description"
-                        value={state}
-                        onClear={() => setState('')}
-                        onChange={(e) => setState(e.target.value)}
-                        style={{ height: '60px' }}
-                      />
-                    </div>
-                    <div className="mt-2 grid grid-cols-1 gap-4  sm:grid-cols-2 md:grid-cols-4">
+                    <div className="mt-2 grid grid-cols-1 gap-4 p-2 sm:grid-cols-2 md:grid-cols-4">
                       <div className="form-group mt-2">
                         <Select
                           label="Skill"
@@ -327,58 +378,33 @@ const GenerateInvoiceFundi: React.FC = () => {
                           onChange={(e) => setDate(e.target.value)}
                         />
                       </div>
-
+                      <div className="form-group col-span-4">
+                        <Textarea
+                          id="description"
+                          clearable
+                          placeholder="Add description"
+                          value={state}
+                          onClear={() => setState('')}
+                          onChange={(e) => setState(e.target.value)}
+                          style={{ height: '60px' }}
+                        />
+                      </div>
                       <div className="col-span-full">
                         <ActiveJobDetailsAttachments />
                       </div>
-                      <div className="form-group col-span-2  flex items-center">
-                        <Checkbox label="I agree to Fundi agreement" />
+                      <div className="form-group col-span-2 mt-2 flex items-center">
+                        <Checkbox label="I agree to Fundi Agreement" />
                       </div>
                     </div>
                   </div>
-                  <Link href={routes.invoice.details(DUMMY_ID)}>
-                    <Button
-                      type="submit"
-                      className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
-                    >
-                      {buttonText}
-                    </Button>
-                  </Link>
+                  <Button
+                    type="submit"
+                    className="mx-auto mt-8 block w-full rounded-md px-2 py-1 text-white"
+                    onClick={() => router.push(buttonLink)}
+                  >
+                    {buttonText}
+                  </Button>
                 </form>
-                <div className="mt-4">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">
-                    Packages:
-                  </h3>
-                  <div className="mt-1 flex space-x-8">
-                    <div className="package w-1/2 rounded-lg p-2 shadow-md">
-                      <h5 className="text-md font-semi-bold">
-                        PACKAGE 1: Managed by Jagedo
-                      </h5>
-                      <ul className="mt-1 list-inside list-disc text-sm">
-                        <li>
-                          Fee is inclusive of 1 day labour charges and transport
-                          upto a certain radius[15KM from the county designated
-                          town]
-                        </li>
-                        <li>Linkage fee of 3000</li>
-                        <li>Response time within 24 hrs</li>
-                        <li>Fee is exclusive of material charge</li>
-                      </ul>
-                    </div>
-                    <div className="package w-1/2 rounded-lg p-2 shadow-md">
-                      <h5 className="text-md font-semi-bold">
-                        PACKAGE 2: Managed by Self
-                      </h5>
-                      <ul className="mt-1 list-inside list-disc text-sm">
-                        <li>
-                          Fee is exclusive of labour ,transport and material
-                        </li>
-                        <li>Linkage fee of 1000</li>
-                        <li>Response time within 3 days</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </Tab.Panel>
@@ -402,20 +428,23 @@ const GenerateInvoiceFundi: React.FC = () => {
                     <div className="mt-2 grid grid-cols-1 gap-4  sm:grid-cols-2 md:grid-cols-4">
                       <div className="form-group mt-2">
                         <Select
-                          label="Contractor"
-                          options={Skill}
-                          value={skill}
-                          onChange={(selected) => setSkill(selected as Option)}
-                        />
-                      </div>
-                      <div className="form-group mt-2">
-                        <Select
                           label="Request Type"
                           options={reqType}
                           value={value}
                           onChange={(selected) => setValue(selected as Option)}
                         />
                       </div>
+                      <div className="form-group mt-2">
+                        <Select
+                          label="Contractor"
+                          options={Contractor}
+                          value={contractor}
+                          onChange={(selected) =>
+                            setContractor(selected as Option)
+                          }
+                        />
+                      </div>
+
                       <div className="form-group mt-2">
                         <Select
                           label="Managed By"

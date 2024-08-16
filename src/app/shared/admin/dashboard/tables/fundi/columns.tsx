@@ -63,10 +63,35 @@ export const getColumns = ({
   onHeaderCellClick,
 }: Columns) => [
   {
+    title: (
+      <div className="ps-3.5">
+        <Checkbox
+          title={'Select All'}
+          onChange={handleSelectAll}
+          checked={checkedItems.length === data.length}
+          className="cursor-pointer"
+        />
+      </div>
+    ),
+    dataIndex: 'checked',
+    key: 'checked',
+    width: 30,
+    render: (_: any, row: any) => (
+      <div className="inline-flex ps-3.5">
+        <Checkbox
+          aria-label={'ID'}
+          className="cursor-pointer"
+          checked={checkedItems.includes(row.id)}
+          {...(onChecked && { onChange: () => onChecked(row.id) })}
+        />
+      </div>
+    ),
+  },
+  {
     title: <HeaderCell title="Number" />,
     dataIndex: 'no',
     key: 'no',
-    width: 90,
+    width: 50,
     render: (no: number) => <Text>{no}</Text>,
   },
 
@@ -74,7 +99,7 @@ export const getColumns = ({
     title: <HeaderCell title="SP ID" />,
     dataIndex: 'id',
     key: 'id',
-    width: 90,
+    width: 50,
     render: (id: string) => <Text>#{id}</Text>,
   },
 
@@ -112,7 +137,7 @@ export const getColumns = ({
     title: <HeaderCell title="Skill" />,
     dataIndex: 'skill',
     key: 'skill',
-    width: 80,
+    width: 150,
     render: (skill: number) => <Text>{skill}</Text>,
   },
 
@@ -146,14 +171,14 @@ export const getColumns = ({
     title: <HeaderCell title="County" />,
     dataIndex: 'county',
     key: 'county',
-    width: 120,
+    width: 100,
     render: (county: string) => <Text>{county}</Text>,
   },
   {
     title: <HeaderCell title="Sub County" />,
     dataIndex: 'subCounty',
     key: 'subCounty',
-    width: 120,
+    width: 100,
     render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 

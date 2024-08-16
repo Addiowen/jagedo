@@ -29,7 +29,7 @@ export const metaObject = (
     title: title ? `${title} - Jagedo` : siteConfig.title,
     description,
     openGraph: openGraph ?? {
-      title: title ? `${title} - Jagedo` : title,
+      title: title ? `${title} - Jagedos` : title,
       description,
       url: 'https://isomorphic-furyroad.vercel.app',
       siteName: 'Jagedo', // https://developers.google.com/search/docs/appearance/site-names

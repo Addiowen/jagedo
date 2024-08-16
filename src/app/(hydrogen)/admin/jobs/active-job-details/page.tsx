@@ -83,7 +83,7 @@ export default function JobDetailsPage({ className }: PageProps) {
       </Modal>
 
       <div className="flex justify-between">
-        <h3 className="mb-4">Job Details</h3>
+        <h3 className="mb-4">{`JOB #${jobId}`}</h3>
         <div className="">
           <Button className="mr-4" onClick={() => setApprovalModalState(true)}>
             Approve Completion
@@ -97,23 +97,7 @@ export default function JobDetailsPage({ className }: PageProps) {
       <div
         className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-1', className)}
       >
-        <ProgressBarActive />
-
         <ActiveJobDetailsCard />
-
-        {/* <Progressbar
-          className="mt-6"
-          value={75}
-          label="75% Ongoing"
-          color="info"
-          size="xl"
-        /> */}
-
-        <div className="flex  justify-center">
-          <Link href={routes.admin.active}>
-            <Button className="mt-6">Back</Button>
-          </Link>
-        </div>
       </div>
     </>
   );

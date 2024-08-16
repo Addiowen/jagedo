@@ -10,7 +10,7 @@ import {
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
-import { JobDescription, Note } from '@/data/job-data';
+import { Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 import { Item } from '../custom-chunked-grid';
 
@@ -51,12 +51,6 @@ const ChunkedGridActive: React.FC<Props> = ({
       <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
         Project Details
       </div>
-
-      <JobDescriptionChunked
-        data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
-        dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
 
       <div
         className={cn(

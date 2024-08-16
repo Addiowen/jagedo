@@ -92,7 +92,7 @@ export const getColumns = ({
     title: <HeaderCell title="First Name" />,
     dataIndex: 'firstName',
     key: 'firstName',
-    width: 200,
+    width: 100,
     render: (firstName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {firstName}
@@ -103,7 +103,7 @@ export const getColumns = ({
     title: <HeaderCell title="Last Name" />,
     dataIndex: 'lastName',
     key: 'lastName',
-    width: 200,
+    width: 100,
     render: (lastName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {lastName}
@@ -121,65 +121,32 @@ export const getColumns = ({
     title: <HeaderCell title="Email" />,
     dataIndex: 'email',
     key: 'email',
-    width: 120,
+    width: 100,
     render: (email: string) => <Text>{email}</Text>,
   },
 
-  // {
-  //   title: <HeaderCell title="Category" />,
-  //   dataIndex: 'category',
-  //   key: 'category',
-  //   width: 260,
-  //   render: (category: string[]) => {
-  //     let print = category?.slice(0, 2);
-  //     let more = category.length - category.slice(0, 2).length;
-  //     return (
-  //       <div className="flex h-auto flex-wrap gap-2">
-  //         {print.map((item: string, index: number) => (
-  //           <span
-  //             key={index}
-  //             className="rounded-full bg-gray-100 px-2 py-1 text-xs"
-  //           >
-  //             {item}
-  //           </span>
-  //         ))}
-  //         <span className="rounded-full bg-gray-100 px-2 py-1 text-xs">
-  //           +{more}
-  //         </span>
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 50,
+    render: (county: string) => <Text>{county}</Text>,
+  },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
     width: 120,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 230,
-    render: (date: Date) => <DateCell date={date} />,
-  },
-
-  {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (value: string) => getStatusBadge(value),
-  },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
     dataIndex: 'action',
     key: 'action',
-    width: 180,
+    width: 50,
     render: (_: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
         <Tooltip size="sm" content={'View'} placement="top" color="invert">

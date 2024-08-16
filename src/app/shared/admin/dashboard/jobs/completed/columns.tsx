@@ -66,20 +66,13 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="#" />,
+    title: <HeaderCell title="JOB NO" />,
     dataIndex: 'id',
     key: 'id',
     width: 10,
-    render: (id: string) => <Text>JOB0{id}</Text>,
+    render: (id: string) => <Text>#{id}</Text>,
   },
 
-  {
-    title: <HeaderCell title=" Date" className="uppercase" />,
-    dataIndex: 'completionDate',
-    key: 'completionDate',
-    width: 150,
-    render: (completionDate: Date) => <DateCell date={completionDate} />,
-  },
   {
     title: <HeaderCell title="Category" className="uppercase" />,
     dataIndex: 'category',
@@ -98,24 +91,24 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" className="uppercase" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 400,
+    width: 250,
     render: (requestType: string) => <Text>{requestType}</Text>,
   },
 
   {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
-    width: 250,
-    render: (gender: string) => <Text>{gender}</Text>,
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 50,
+    render: (county: string) => <Text>{county}</Text>,
   },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
     width: 50,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
   {

@@ -11,7 +11,7 @@ import {
 import { Title } from 'rizzui';
 
 import JobDescriptionChunked from '../../job-description-chunked';
-import { JobDescription, Note } from '@/data/job-data';
+import { Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 import { Item } from '../../custom-chunked-grid';
 
@@ -49,11 +49,11 @@ const ChunkedGridTwo: React.FC<Props> = ({
 
   return (
     <div className="rounded-lg border border-none border-gray-300 bg-gray-0 p-3 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
-      <JobDescriptionChunked
+      {/* <JobDescriptionChunked
         data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
         dataChunkSize={1}
         // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      /> */}
 
       <div
         className={cn(

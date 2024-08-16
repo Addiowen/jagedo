@@ -14,14 +14,14 @@ import { routes } from '@/config/routes';
 
 function getStatusBadge(review: string) {
   switch (review.toLowerCase()) {
-    case 'ongoing':
+    case 'unreviewed':
       return (
         <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{review}</Text>
+          <Badge color="danger" renderAsDot />
+          <Text className="ms-2 font-medium text-red-dark">{review}</Text>
         </div>
       );
-    case 'complete':
+    case 'reviewed':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -37,6 +37,7 @@ function getStatusBadge(review: string) {
       );
   }
 }
+
 type Columns = {
   data: any[];
   sortConfig?: any;
@@ -45,7 +46,6 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
-  onStatusClick: (status: string) => void;
 };
 
 export const getColumns = ({
@@ -56,90 +56,87 @@ export const getColumns = ({
   onDeleteItem,
   handleSelectAll,
   onHeaderCellClick,
-  onStatusClick,
 }: Columns) => [
   {
-    title: <HeaderCell title="No" />,
-    dataIndex: 'no',
-    key: 'no',
+    title: <HeaderCell title="NUMBER" />,
+    dataIndex: 'number',
+    key: 'number',
     width: 10,
-    render: (no: string) => <Text>{no}</Text>,
-  },
-  {
-    title: <HeaderCell title="JOB ID" />,
-    dataIndex: 'id',
-    key: 'id',
-    width: 10,
-    render: (id: string) => <Text>JOB{id}</Text>,
+    render: (number: string) => <Text>{number}</Text>,
   },
 
   {
-    title: <HeaderCell title="Date" className="uppercase" />,
-    dataIndex: 'requisitionDate',
-    key: 'requisitionDate',
-    width: 100,
-    render: (requisitionDate: Date) => <DateCell date={requisitionDate} />,
+    title: <HeaderCell title="JOB NO" />,
+    dataIndex: 'id',
+    key: 'id',
+    width: 10,
+    render: (id: string) => <Text>JOB#{id}</Text>,
+  },
+
+  {
+    title: <HeaderCell title=" Date" className="uppercase" />,
+    dataIndex: 'completionDate',
+    key: 'completionDate',
+    width: 150,
+    render: (completionDate: Date) => <DateCell date={completionDate} />,
   },
   {
-    title: <HeaderCell title="Category" />,
+    title: <HeaderCell title="Category" className="uppercase" />,
     dataIndex: 'category',
     key: 'category',
     width: 20,
     render: (category: string) => <Text>{category}</Text>,
   },
   {
-    title: <HeaderCell title="Sub Category" />,
+    title: <HeaderCell title="Sub Category" className="uppercase" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
-    width: 80,
-    render: (category: string) => <Text>{category}</Text>,
+    width: 50,
+    render: (subCategory: string) => <Text>{subCategory}</Text>,
   },
   {
-    title: <HeaderCell title="Request Type" />,
-    dataIndex: 'reqType',
-    key: 'reqType',
-    width: 300,
-    render: (reqType: string) => <Text>{reqType}</Text>,
-  },
-  {
-    title: <HeaderCell title="Description" />,
-    dataIndex: 'description',
-    key: 'description',
+    title: <HeaderCell title="Request Type" className="uppercase" />,
+    dataIndex: 'requestType',
+    key: 'requestType',
     width: 200,
-    render: (description: string) => <Text>{description}</Text>,
-  },
-  {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 100,
-    render: (location: string) => <Text>{location}</Text>,
+    render: (requestType: string) => <Text>{requestType}</Text>,
   },
 
   {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (value: string) => getStatusBadge(value),
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 50,
+    render: (county: string) => <Text>{county}</Text>,
   },
+
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 50,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
+  },
+
+  // {
+  //   title: <HeaderCell title="Status" />,
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 50,
+  //   render: (value: string) => getStatusBadge(value),
+  // },
+
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
     dataIndex: 'id',
     key: 'action',
-    width: 10,
+    width: 50,
     render: (id: string, row: any) => (
       <div className="flex items-center ">
         <Link href={{ pathname: routes.admin.activeJobDetails, query: { id } }}>
           <Text className="text-sm text-green-600">View</Text>
         </Link>
-
-        {/* <DeletePopover
-          title={`Remove User`}
-          description={`Are you sure you want to remove this User?`}
-          onDelete={() => onDeleteItem(row.id)}
-        /> */}
       </div>
     ),
   },

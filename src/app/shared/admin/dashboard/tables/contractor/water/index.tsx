@@ -11,6 +11,7 @@ import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
 import ListingFilters from '@/app/shared/admin/explore-listing/listing-filters';
+import { useSearchParams } from 'next/navigation';
 
 const filterState = {
   date: [null, null],
@@ -22,6 +23,9 @@ export default function WaterContractorsTable({
   className?: string;
 }) {
   const [pageSize, setPageSize] = useState(7);
+  const searchParams = useSearchParams();
+  const jobId = searchParams.get('jobId');
+  const contractorType = searchParams.get('contractor');
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -33,6 +37,18 @@ export default function WaterContractorsTable({
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const filterContractorData = (data: any[], jobId: string) => {
+    if (contractorType === 'Roads') {
+      return data.filter((item) => item.contractorType === 'Roads');
+    } else if (contractorType === 'Water') {
+      return data.filter((item) => item.contractorType === 'Water');
+    }
+    return data;
+  };
+
+  const filteredData = filterContractorData(contractorData, jobId || '');
+  console.log(filteredData);
 
   const {
     isLoading,
@@ -52,12 +68,12 @@ export default function WaterContractorsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(contractorData, pageSize, filterState);
+  } = useTable(filteredData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: contractorData,
+        data: filteredData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

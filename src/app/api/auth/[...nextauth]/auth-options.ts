@@ -51,39 +51,16 @@ export const authOptions: NextAuthOptions = {
         // You need to provide your own logic here that takes the credentials
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid
-        // const user = {
-        //   email: 'admin@admin.com',
-        //   password: 'admin',
-        // };
+        const user = {
+          email: 'admin@admin.com',
+          password: 'admin',
+        };
 
-        const users = [
-          { email: 'individual@email.com', password: 'indi' },
-          { email: 'organization@email.com', password: 'org' },
-        ];
-
-        // if (
-        //   isEqual(user, {
-        //     email: credentials?.email,
-        //     password: credentials?.password,
-        //   })
-        // ) {
-        //   return user as any;
-        // }
-        // return null;
-
-        const user = users.find((user) =>
+        if (
           isEqual(user, {
             email: credentials?.email,
             password: credentials?.password,
           })
-        );
-
-        if (
-          // isEqual(user, {
-          //   email: credentials?.email,
-          //   password: credentials?.password,
-          // })
-          user
         ) {
           return user as any;
         }

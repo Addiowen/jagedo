@@ -9,7 +9,7 @@ import { Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { professionalsData } from '@/data/job-data';
+import { individualCustomers, professionalsData } from '@/data/job-data';
 
 const filterState = {
   date: [null, null],
@@ -51,12 +51,12 @@ export default function IndividualsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalsData, pageSize, filterState);
+  } = useTable(individualCustomers, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalsData,
+        data: individualCustomers,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

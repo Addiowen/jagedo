@@ -11,7 +11,6 @@ import {
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
-import { JobDescription } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 import ActiveJobDetailsAttachments from '../admin/add-attachments';
 
@@ -19,10 +18,11 @@ export interface Item {
   'Request Type': string;
   'Request Date': string;
   'Request Number': string;
+  'Job Description'?: string;
   County: string;
   'Sub County': string;
   'Estate/Village': string;
-  Status: string;
+  Status?: string;
   Category: string;
   Profession?: string;
   Skill?: string;
@@ -48,10 +48,11 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
-  // const filteredData =
+
+  const { Attachments, 'Job Description': jobDescription, ...restData } = data;
 
   // Convert the data object to an array of key-value pairs
-  const dataArray = Object.entries(data);
+  const dataArray = Object.entries(restData);
   console.log(dataArray);
 
   // Helper function to chunk the data into subarrays of a specified size
@@ -72,11 +73,14 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         Project Details
       </div>
 
-      <JobDescriptionChunked
-        data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
-        dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      {jobDescription && (
+        <div className="mb-6 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md">
+          <Title as="h4" className="mb-4 text-sm font-semibold text-gray-900">
+            Job Description
+          </Title>
+          <div className="text-gray-500">{jobDescription}</div>
+        </div>
+      )}
 
       <div
         className={cn(
@@ -115,7 +119,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                       {key}
                     </Title>
                     {key === 'Attachments' ? (
-                      <div className="flex flex-wrap gap-6 text-gray-500">
+                      <div className=" flex flex-wrap gap-6 text-gray-500">
                         {(value as unknown as string[]).map(
                           (imgSrc, imgIndex) => (
                             <a key={imgIndex} href={imgSrc} download>
@@ -139,10 +143,22 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
             ))}
           </ul>
         ))}
-        <div className="col-span-full">
-          <ActiveJobDetailsAttachments />
-        </div>
       </div>
+
+      {Attachments && Attachments.length > 0 && (
+        <div className="mb-6 mt-6 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md">
+          <Title as="h4" className="mb-4 text-sm font-semibold text-gray-900">
+            Attachments
+          </Title>
+          <div className="flex flex-wrap gap-6 text-gray-500">
+            {Attachments.map((imgSrc, imgIndex) => (
+              <a key={imgIndex} href={imgSrc} download>
+                <PiDownloadSimple className="h-5 w-5 text-blue-500" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

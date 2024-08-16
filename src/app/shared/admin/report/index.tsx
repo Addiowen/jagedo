@@ -10,7 +10,7 @@ import AnalyzeQuotationsTable from '../dashboard/tables/quotations/analyze-quota
 import WidgetCard3 from '@/components/cards/widget-card3';
 import ProfileChunkedGrid from '../../profile-chunked-grid';
 import ChunkedGrid from '../../custom-chunked-grid';
-import { completeJobDetailsData } from '@/data/job-data';
+import { completeJobDetailsData, requestDetails } from '@/data/job-data';
 import Link from 'next/link';
 import { PiArrowDown, PiDownloadDuotone, PiPlusBold } from 'react-icons/pi';
 import ChunkedGridActive from '../../chunked-grid-active';
@@ -30,7 +30,7 @@ const specData = [{}];
 export default function ReportComponent({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const queryId = searchParams.get('id')?.toLowerCase();
+  const queryId = searchParams.get('id');
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -70,15 +70,23 @@ export default function ReportComponent({ className }: { className?: string }) {
 
             <Accordion.Body>
               <div className="mt-4">
-                <ChunkedGridTwo
-                  data={
-                    queryId === '3416'
-                      ? completeJobDetailsData[0]
-                      : completeJobDetailsData[2]
-                  }
-                  dataChunkSize={8}
-                  // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                />
+                {
+                  <ChunkedGrid
+                    data={
+                      queryId === '3001'
+                        ? requestDetails[3]
+                        : queryId === '3002'
+                          ? requestDetails[4]
+                          : queryId === '3400'
+                            ? requestDetails[5]
+                            : queryId === '3401'
+                              ? requestDetails[6]
+                              : requestDetails[2]
+                    }
+                    dataChunkSize={8}
+                    // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                  />
+                }
               </div>
             </Accordion.Body>
           </Accordion>

@@ -11,14 +11,14 @@ import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/
 //   ...metaObject('RFQ '),
 // };
 
-const pageHeader = {
-  title: 'View  Quotation',
-  breadcrumb: [],
-};
-
 export default function RFQPage() {
   const queryId = useSearchParams();
   const jobId = queryId.get('jobId');
+
+  const pageHeader = {
+    title: jobId ? `QTN#${jobId}` : '',
+    breadcrumb: [],
+  };
 
   return (
     <>
