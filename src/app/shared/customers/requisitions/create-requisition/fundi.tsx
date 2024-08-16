@@ -4,16 +4,15 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, FileInput, Input, Select, Textarea } from 'rizzui';
+import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
 import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
-import Link from 'next/link';
 
 interface Option {
   label: string;
   value: string;
 }
 
-const GenerateInvoiceFundi : React.FC = () => {
+const GenerateInvoiceFundi: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
@@ -35,10 +34,12 @@ const GenerateInvoiceFundi : React.FC = () => {
     { label: 'Package 1', value: 'Package 1' },
     { label: 'Package 2', value: 'Package 2' },
   ];
+
   const managedBy = [
     { label: 'Jagedo', value: 'Jagedo' },
     { label: 'Self', value: 'Self' },
   ];
+
   const County = [
     { label: 'Nairobi', value: 'Nairobi' },
     { label: 'Busia', value: 'Busia' },
@@ -46,12 +47,6 @@ const GenerateInvoiceFundi : React.FC = () => {
     { label: 'Kakamega', value: 'Kakamega' },
   ];
   const SubCounty = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
-  const Village = [
     { label: 'Nambale', value: 'Nambale' },
     { label: 'Muranga', value: 'Muranga' },
     { label: 'Bondo', value: 'Bondo' },
@@ -75,15 +70,20 @@ const GenerateInvoiceFundi : React.FC = () => {
     }
   }, [value]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
+  // Set default selected package
+  useEffect(() => {
+    if (!value) {
+      setValue(reqType[0]);
+      setManaged(managedBy[0]);
     }
+  }, []);
+
+  const handlePackageSelect = (selectedPackage: Option) => {
+    setValue(selectedPackage);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic
     console.log({
       description,
       date,
@@ -99,19 +99,42 @@ const GenerateInvoiceFundi : React.FC = () => {
     <div className="@container">
       <h1>Fundi</h1>
       <div className="w-full rounded-lg bg-white p-4">
+        <div className="mb-4">
+          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
+          <div className="mt-1 flex space-x-8">
+            {reqType.map((pkg) => (
+              <div
+                key={pkg.value}
+                className={`package w-1/2 rounded-lg p-4 shadow-md cursor-pointer transition-transform duration-300 ${
+                  value?.value === pkg.value ? 'bg-blue-100 border border-blue-500 transform translate-y-[-4px]' : 'bg-white'
+                }`}
+                onClick={() => handlePackageSelect(pkg)}
+              >
+                <h5 className="text-md font-semibold">
+                  {pkg.label}: {pkg.label === 'Package 1' ? 'Managed by Jagedo' : 'Managed by Self'}
+                </h5>
+                <ul className="mt-1 ml-4 list-square list-disc text-sm">
+                  {pkg.value === 'Package 1' ? (
+                    <>
+                      <li>Fee is inclusive of 1 day labour charges and transport up to a certain radius [15KM from the county designated town]</li>
+                      <li>Linkage fee of 3000</li>
+                      <li>Response time within 24 hrs</li>
+                      <li>Fee is exclusive of material charge</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>Fee is exclusive of labour, transport, and material</li>
+                      <li>Linkage fee of 1000</li>
+                      <li>Response time within 3 days</li>
+                    </>
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="grid grid-cols-1 gap-2">
-            <div className="form-group">
-              <Textarea
-                id="description"
-                clearable
-                placeholder="Add description"
-                value={state}
-                onClear={() => setState('')}
-                onChange={(e) => setState(e.target.value)}
-                style={{ height: '60px' }}
-              />
-            </div>
             <div className="grid grid-cols-1 mt-2 p-2 gap-4 sm:grid-cols-2 md:grid-cols-4">
               <div className="form-group mt-2">
                 <Select
@@ -168,6 +191,17 @@ const GenerateInvoiceFundi : React.FC = () => {
                   onChange={(e) => setDate(e.target.value)}
                 />
               </div>
+              <div className="form-group col-span-4">
+                <Textarea
+                  id="description"
+                  clearable
+                  placeholder="Add description"
+                  value={state}
+                  onClear={() => setState('')}
+                  onChange={(e) => setState(e.target.value)}
+                  style={{ height: '60px' }}
+                />
+              </div>
               <div className="col-span-full">
                 <ActiveJobDetailsAttachments />
               </div>
@@ -176,8 +210,6 @@ const GenerateInvoiceFundi : React.FC = () => {
               </div>
             </div>
           </div>
-
-          <Link href={routes.invoice.details(DUMMY_ID)}>
           <Button
             type="submit"
             className="block mx-auto mt-8 w-full rounded-md px-2 py-1 text-white"
@@ -185,30 +217,7 @@ const GenerateInvoiceFundi : React.FC = () => {
           >
             {buttonText}
           </Button>
-          </Link>
         </form>
-        <div className="mt-4">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
-          <div className="mt-1 flex space-x-8">
-            <div className="package w-1/2 rounded-lg p-2 shadow-md">
-              <h5 className="text-md font-semi-bold">PACKAGE 1: Managed by Jagedo</h5>
-              <ul className="mt-1 list-inside list-disc text-sm">
-                <li>Fee is inclusive of 1 day labour charges  and transport upto a certain radius[15KM from the county designated town]</li>
-                <li>Linkage fee of 3000</li>
-                <li>Response time within 24 hrs</li>
-                <li>Fee is exclusive of material charge</li>
-              </ul>
-            </div>
-            <div className="package w-1/2 rounded-lg p-2 shadow-md">
-              <h5 className="text-md font-semi-bold">PACKAGE 2: Managed by Self</h5>
-              <ul className="mt-1 list-inside list-disc text-sm">
-                <li>Fee is exclusive of labour ,transport and material</li>
-                <li>Linkage fee of 1000</li>
-                <li>Response time within 3 days</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

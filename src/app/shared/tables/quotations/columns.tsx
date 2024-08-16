@@ -21,11 +21,11 @@ import { useSearchParams } from 'next/navigation';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'under review':
+    case 'recommended':
       return (
         <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
+          <Badge color="success" renderAsDot />
+          <Text className="ms-2 font-medium text-green-dark">{status}</Text>
         </div>
       );
     case 'open':
@@ -38,7 +38,7 @@ function getStatusBadge(status: string) {
     default:
       return (
         <div className="flex items-center">
-          <Badge color="danger" renderAsDot className="bg-gray-400" />
+          <Badge color="success" renderAsDot className="bg-gray-400" />
           <Text className="ms-2 font-medium text-red-600">{status}</Text>
         </div>
       );
@@ -161,12 +161,12 @@ export const getColumns = ({
     width: 10,
     render: (id: string, row: any) => (
       <div className="flex items-center justify-end gap-3 pe-3">
-          {jobId === '3324' || jobId === '3336' ? (
+          {id === '3324' || id === '3336' ? (
               <Link href={{ pathname: routes.customers.analyseQuotations, query: { id } }}>
                 <Text className="text-green-500">View</Text>
               </Link>
           ) : (
-              <Link href={{ pathname: routes.customers.analyseQuotations, query: { id } }}>
+              <Link href={{ pathname: routes.customers.contractorQuotation, query: { id } }}>
                 <Text className="text-green-500">View</Text>
               </Link>
           )}

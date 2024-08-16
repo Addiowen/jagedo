@@ -1,59 +1,25 @@
 'use client';
 
 import { useRef } from 'react';
-import { Text, Checkbox } from 'rizzui';
-// import SimpleBar from 'simplebar-react';
+import { Text, Checkbox, Button } from 'rizzui';
 import { routes } from '@/config/routes';
-// import { useReactToPrint } from 'react-to-print';
-// import PageHeader from '@/app/shared/commons/page-header';
-// import PrintButton from '@/app/shared/commons/print-button';
-// import { PiDownloadSimpleBold } from 'react-icons/pi';
 import FirstTable from './first-table';
-// import CalcPayBlock from './calc-pay-block';
-// import {
-//   InvoiceType,
-//   invoiceBuilderSchema,
-//   INVOICE_BUILDER_DEFAULT_VALUE,
-// } from '@/utils/validators/invoice-builder.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { CREATE_QUOTATION_DEFAULT_VALUE, createQuotationSchema, CreateQuotationType } from '@/utils/create-quotation.schema';
 import SecondTable from './second-table';
-// import TotalsBlock from './totals-block';
 import ThirdTable from './third-table';
 import FourthTable from './fourth-table';
-// import CustomFormFooter from '@/components/custom-form-footer-with-upload';
-// import FormFooter from '@/components/form-footer';
 import AttachmentsBlock from './attachments-block';
 import { usePathname, useRouter } from 'next/navigation';
+import { DUMMY_ID } from '@/config/constants';
 import FormFooter from '@/components/custom-form-footer';
 import Link from 'next/link';
 import ViewAttachmentsBlock from './view-attachments-block';
 
-// import ThirdTableTwo from './third-table-two';
-
-// const pageHeader = {
-//   title: 'Invoice Builder',
-//   breadcrumb: [
-//     {
-//       href: routes.eCommerce.dashboard,
-//       name: 'Home',
-//     },
-//     {
-//       href: routes.invoice.home,
-//       name: 'Invoice',
-//     },
-//     {
-//       name: 'Builder',
-//     },
-//   ],
-// };
 
 export default function CreateQuotationComponent() {
   const printRef = useRef(null);
-  // const handlePrint = useReactToPrint({
-  //   content: () => printRef.current,
-  // });
   const router = useRouter()
 
   const pathname = usePathname()
@@ -79,29 +45,16 @@ export default function CreateQuotationComponent() {
     // router.push(routes.serviceProvider.professional.quotations)
   };
 
-  // let subTotal = methods.watch('invoiceTable').reduce((acc, item) => {
-  //   if (!item.quantity || !item.rate) return acc;
-  //   return acc + item.quantity * item.rate;
-  // }, 0);
-
-  // let totalTax = methods.watch('invoiceTable').reduce((acc, item) => {
-  //   return acc + item.tax;
-  // }, 0);
-
   return (
     <>
       <div className="rounded-2xl @container">
-        {/* <SimpleBar className="w-full"> */}
           <FormProvider {...methods}>
             <form
               onSubmit={methods.handleSubmit(onSubmit)}
               className="rounded-xl bg-white"
             >
-              {/* <FirstBlock setValue={methods.setValue} /> */}
-              {/* <SecondBlock /> */}
               <FirstTable />
               <SecondTable />
-              {/* <TotalsBlock /> */}
               <ThirdTable />
               <FourthTable />
 
@@ -111,50 +64,33 @@ export default function CreateQuotationComponent() {
               ) : (
                 <>
                   <AttachmentsBlock />
-
-                  <div className="col-span-2 flex items-start text-gray-700 mt-3 mb-8 ps-2">
-                    <Checkbox
-                      // {...register('termsAndConditions')}
-                      className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
-                      label={
-                        <Text as="span" className="ps-1 text-gray-500">
-                          I agree to the{' '}
-                          <Link
-                            href="#"
-                            className="font-semibold text-gray-700 transition-colors hover:text-primary"
-                          >
-                            Professional Agreement
-                          </Link>
-                        </Text>
-                      }
-                    />
-                  </div>
                 </>
               )}
+              {/* <div className="rounded-full px-3 py-1 font-bold text-white"> */}
+                <Button
+                  type="submit"
+                  className="block mx-auto mt-8 w-full rounded-md px-2 py-1 text-white"
+                  onClick={() => router.push(routes.invoice.details(DUMMY_ID))}
+                >
+                  Generate Invoice
+                </Button>
+              {/* </div> */}
 
               {viewQuotation? (
-                <FormFooter
-                  // isLoading={isLoading}
+                <FormFooter className='flex justify-start'
                   submitBtnText="Back"
                   handleSubmitBtn={handleAltBtn}
                 />
               ) : (
                 <FormFooter
-                // isLoading={isLoading}
                 altBtnText="Back"
                 handleAltBtn={handleAltBtn}
                 handleSubmitBtn={handleSubmitBtn}
                 submitBtnText="Submit"
               />
               )}
-              {/* <FormFooter
-              //   // isLoading={isLoading}
-                altBtnText="Back"
-                submitBtnText="Submit"
-              /> */}
             </form>
           </FormProvider>
-        {/* </SimpleBar> */}
       </div>
     </>
   );

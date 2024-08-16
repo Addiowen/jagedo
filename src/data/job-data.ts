@@ -43,7 +43,7 @@ export const quotedRequisitionsData = [
     county: 'Busia',
     subCounty: 'Nambale',
     category: 'Professional',
-    status: 'Open',
+    status: 'recommended',
   },
   {
     number: '2',
@@ -54,18 +54,18 @@ export const quotedRequisitionsData = [
     county: 'Busia',
     subCounty: 'Nambale',
     category: 'Professional',
-    status: 'Under Review',
+    status: 'recommended',
   },
   {
     number: '3',
     id: '3350',
     date: '2022-11-10T06:22:01.621Z',
-    requestype: 'Package 1: Managed by Jagedo',
+    requestType: 'Package 1: Managed by Jagedo',
     subCategory: 'Water',
     county: 'Busia',
     subCounty: 'Nambale',
     category: 'Contractor',
-    status: 'Open',
+    status: 'recommended',
   },
   {
     number: '4',
@@ -76,7 +76,7 @@ export const quotedRequisitionsData = [
     county: 'Busia',
     subCounty: 'Nambale',
     category: 'Contractor',
-    status: 'Under Review',
+    status: 'recommended',
   },
 ];
 
@@ -555,6 +555,67 @@ export const requestDetailsData = [
     'Payment Status': 'Paid',
     'Rate': '1000',
   },
+  {
+    Category: 'Professional',
+    'Sub-Category': 'Architect',
+    'Request Type': 'Package 1: Managed by Jagedo',
+    'Managed By': 'Jagedo',
+    'County': 'Busia',
+    'Sub-County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Request Date': '11/11/2023',
+    Status: 'Under Review',
+
+    'Profession': 'Architect',   
+  
+    'Payment Status': 'Pending',
+    'Rate': '1000',
+  },
+  {
+    Category: 'Professional',
+    'Sub-Category': 'Architect',
+    'Request Type': 'Package 2: Managed by Self',
+    'Managed By': 'Self',
+    'County': 'Nandi',
+    'Sub-County': 'Lessos',
+    'Estate/Village': 'Lessos',
+    'Request Date': '11/11/2023',
+    Status: 'Under Review',
+
+    'Profession': 'Architect',   
+
+    'Rate': '1000',
+  },
+  {
+    Category: 'Contractor',
+    'Sub-Category': 'Water',
+    'Request Type': 'Package 1: Managed by Jagedo',
+    'Managed By': 'Jagedo',
+    'County': 'Nandi',
+    'Sub-County': 'Lessos',
+    'Estate/Village': 'Lessos',
+    'Request Date': '11/11/2023',
+    Status: 'Under Review',
+
+    'Contractor': 'Water',   
+
+    'Rate': '1000',
+  },
+  {
+    Category: 'Contractor',
+    'Sub-Category': 'Electricity',
+    'Request Type': 'Package 2: Managed by Self',
+    'Managed By': 'Self',
+    'County': 'Nandi',
+    'Sub-County': 'Lessos',
+    'Estate/Village': 'Lessos',
+    'Request Date': '11/11/2023',
+    Status: 'Under Review',
+
+    'Contractor': 'Electricity',   
+
+    'Rate': '1000',
+  },
 ];
   export const JobDescription = [
     {
@@ -587,11 +648,6 @@ export const completeJobDetailsData = [
 
     'Start Date': '13/11/2023',
     'End Date': '14/11/2023',
-    Attachments: [
-      'C:Users\newtonDownloadsisomorphicisomorphicpublic\fwdhelloJapageo_01.png',
-      '/images/image2.jpg',
-      '/images/image3.jpg',
-    ],
   },
   {
     'Request Type': 'Package 1: Managed by Jagedo',
@@ -611,12 +667,6 @@ export const completeJobDetailsData = [
     Rate: '1000',
 
     'Start Date': '12/11/2023',
-    'End Date': '13/11/2023',
-    Attachments: [
-      '/images/image1.jpg',
-      '/images/image2.jpg',
-      '/images/image3.jpg',
-    ],
   },
   {
     'Request Type': 'Package 2: Managed by Self',
@@ -636,12 +686,6 @@ export const completeJobDetailsData = [
     Rate: '1000',
 
     'Start Date': '12/11/2023',
-    'End Date': '13/11/2023',
-    Attachments: [
-      '/images/image1.jpg',
-      '/images/image2.jpg',
-      '/images/image3.jpg',
-    ],
   },
 ];
 ;

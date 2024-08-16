@@ -10,31 +10,9 @@ export const metadata = {
   ...metaObject('Fundi Profile'),
 };
 
-// const pageHeader = {
-//   title: 'Requisition ',
-//   breadcrumb: [
-//     {
-//       href: routes.admin.dashboard,
-//       name: '',
-//     },
-//     {
-//       href: routes.admin.createFundiProfile,
-//       name: '',
-//     },
-//     {
-//       name: '',
-//     },
-//   ],
-// };
-
 export default function CreateFundiPage() {
   return (
     <>
-      {/* <PageHeader
-        title={pageHeader.title}
-        breadcrumb={pageHeader.breadcrumb}
-      ></PageHeader> */}
-
       <CreateFundiForm />
     </>
   );

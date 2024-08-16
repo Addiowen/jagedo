@@ -3,35 +3,12 @@
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
 import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
-// import UploadZone from '@/components/ui/file-upload/upload-zone';
-// import { routes } from '@/config/routes';
-// import { useRouter } from 'next/navigation';
-// import { PiTrashDuotone, PiUpload } from 'react-icons/pi';
-// import { Badge, Button } from 'rizzui';
 import { activeJobDetailsData } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { PiCaretDownBold } from 'react-icons/pi';
 import { Accordion } from 'rizzui';
 
-
-// const data = [
-//   {
-//     'Requisition Type': 'Standard',
-//     'Requisition Date': '13/04/2024',
-//     'Requisition Number': '#REQ63532',
-//     Location: 'Kome,Homabay',
-//     Status: 'Submitted',
-//     'Job description': 'Repair of faulty wiring system',
-//   },
-//   {
-//     'Invoice Number': '#3454',
-//     'Payment Status': 'Paid',
-//     'Deadline for  availability': '20/04/2024',
-//     'Start Date': '22/04/2024',
-//     'End Date': '30/04/2024',
-//   },
-// ];
 
 export default function ActiveJobDetailsCard() {
   // const router = useRouter();
@@ -50,7 +27,7 @@ export default function ActiveJobDetailsCard() {
 
   return (
     <>
-      <h3 className="mb-4">Job Details</h3>
+      <h3 className="mb-4">{`JOB#${jobId}`}</h3>
           {/* <div className='mb-4'>
             <CustomerDetailsCard />
           </div> */}

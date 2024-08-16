@@ -15,7 +15,7 @@ const invoiceItems = [
   {
     id: '1',
     product: {
-      title: 'Repair of faulty wiring system',
+      title: 'Linkage management & Service provision fee',
       description: '',
     },
     quantity: 2,

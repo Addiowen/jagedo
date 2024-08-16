@@ -38,6 +38,7 @@ export const routes = {
     quotations: '/customers/quotations',
     createQuotation: '/customers/quotations/create-quotation',
     analyseQuotations: '/customers/quotations/analyse-quotations',
+    analyseQuotationsContractor: '/customers/quotations/analyse-quotations-contractor',
     contractorQuotation: '/customers/contractor-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/requisitions/rfqs/emergency',

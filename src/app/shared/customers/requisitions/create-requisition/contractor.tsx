@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, FileInput, Input, Select, Tab, Textarea } from 'rizzui';
+import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
 import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
 
 interface Option {
@@ -12,7 +12,7 @@ interface Option {
   value: string;
 }
 
-const GenerateInvoiceContractor : React.FC = () => {
+const GenerateInvoiceContractor: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
@@ -27,17 +27,19 @@ const GenerateInvoiceContractor : React.FC = () => {
   const [village, setVillage] = useState<Option | null>(null);
   const [contractor, setContractor] = useState<Option | null>(null);
   const [state, setState] = useState('Add description');
-  const [buttonText, setButtonText] = useState('Request for Quotation');
-  const [buttonLink, setButtonLink] = useState(routes.customers.requisitions);
+  const [buttonText, setButtonText] = useState('Generate Invoice');
+  const [buttonLink, setButtonLink] = useState(routes.invoice.details(DUMMY_ID));
 
   const reqType = [
     { label: 'Package 1', value: 'Package 1' },
     { label: 'Package 2', value: 'Package 2' },
   ];
+
   const managedBy = [
     { label: 'Jagedo', value: 'Jagedo' },
     { label: 'Self', value: 'Self' },
   ];
+
   const County = [
     { label: 'Nairobi', value: 'Nairobi' },
     { label: 'Busia', value: 'Busia' },
@@ -75,15 +77,20 @@ const GenerateInvoiceContractor : React.FC = () => {
     }
   }, [value]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
+  // Set default selected package
+  useEffect(() => {
+    if (!value) {
+      setValue(reqType[0]);
+      setManaged(managedBy[0]);
     }
+  }, []);
+
+  const handlePackageSelect = (selectedPackage: Option) => {
+    setValue(selectedPackage);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission logic
     console.log({
       description,
       date,
@@ -96,23 +103,48 @@ const GenerateInvoiceContractor : React.FC = () => {
   };
 
   return (
-    <>
     <div className="@container">
       <h1>Contractor</h1>
       <div className="w-full rounded-lg bg-white p-4">
+        <div className="mb-4">
+          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
+          <div className="mt-1 flex space-x-8">
+            {reqType.map((pkg) => (
+              <div
+                key={pkg.value}
+                className={`package w-1/2 rounded-lg p-4 shadow-md cursor-pointer transition-transform duration-300 ${
+                  value?.value === pkg.value ? 'bg-blue-100 border border-blue-500 transform translate-y-[-4px]' : 'bg-white'
+                }`}
+                onClick={() => handlePackageSelect(pkg)}
+              >
+                <h5 className="text-md font-semibold">
+                  {pkg.label}: {pkg.label === 'Package 1' ? 'Managed by Jagedo' : 'Managed by Self'}
+                </h5>
+                <ul className="mt-1 ml-4 list-square list-disc text-sm">
+                  {pkg.value === 'Package 1' ? (
+                    <>
+                      <li>Management commission is payable by Contractor</li>
+                      <li>Construction Cost is based on Contractor Quotation</li>
+                      <li>Single Sourcing</li>
+                      <li>Response time 7 days</li>
+                      <li>Managed by JaGedo</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>Ksh 10,000 linkage fee is payable by You</li>
+                      <li>Construction Cost is based on Contractor Quotation</li>
+                      <li>Sourcing is through Competitive Bidding</li>
+                      <li>Response time 14 days</li>
+                      <li>Managed by Self</li>
+                    </>
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="grid grid-cols-1 gap-2">
-            <div className="form-group">
-              <Textarea
-                id="description"
-                clearable
-                placeholder="Add description"
-                value={state}
-                onClear={() => setState('')}
-                onChange={(e) => setState(e.target.value)}
-                style={{ height: '60px' }}
-              />
-            </div>
             <div className="grid grid-cols-1 mt-2 p-2 gap-4 sm:grid-cols-2 md:grid-cols-4">
               <div className="form-group mt-2">
                 <Select
@@ -160,59 +192,44 @@ const GenerateInvoiceContractor : React.FC = () => {
                   label="Estate/Village"
                 />
               </div>
-
               <div className="form-group mt-2">
                 <Input
-                  label="Date"
                   type="date"
+                  id="date"
+                  label="Date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
+                />
+              </div>
+              <div className="form-group col-span-4">
+                <Textarea
+                  id="description"
+                  clearable
+                  placeholder="Add description"
+                  value={state}
+                  onClear={() => setState('')}
+                  onChange={(e) => setState(e.target.value)}
+                  style={{ height: '60px' }}
                 />
               </div>
               <div className="col-span-full">
                 <ActiveJobDetailsAttachments />
               </div>
-              <div className="form-group mt-2 ml-2 col-span-2 flex items-center">
+              <div className="form-group col-span-2 mt-2 flex items-center">
                 <Checkbox label="I agree to Contractor Agreement" />
               </div>
             </div>
           </div>
           <Button
             type="submit"
-            className="block mt-8 mx-auto w-full rounded-md px-2 py-1 text-white"
+            className="block mx-auto mt-8 w-full rounded-md px-2 py-1 text-white"
             onClick={() => router.push(buttonLink)}
           >
             {buttonText}
           </Button>
         </form>
-        <div className="mt-4">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
-          <div className="mt-1 flex space-x-8">
-            <div className="package w-1/2 bg-white rounded-lg p-2 shadow-md">
-              <h5 className="text-md font-semi-bold">PACKAGE 1: Managed by Jagedo</h5>
-              <ul className="mt-1 list-inside list-disc text-sm">
-                <li>Management commission is payable by Contractor</li>
-                <li>Construction Cost is based on Contractor Quotation</li>
-                <li>Single Sourcing</li>
-                <li>Response time 7 days</li>
-                <li>Managed by JaGedo</li>
-              </ul>
-            </div>
-            <div className="package w-1/2 bg-white rounded-lg p-2 shadow-md">
-              <h5 className="text-md font-semi-bold">PACKAGE 2: Managed by Self</h5>
-              <ul className="mt-1 list-inside list-disc text-sm">
-                <li>Ksh 10,000 linkage fee is payable by You</li>
-                <li>Construction Cost is based on Contractor Quotation</li>
-                <li>Sourcing is through Competitive Bidding</li>
-                <li>Response time 14 days</li>
-                <li>Managed by Self</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-    </>
   );
 };
 
