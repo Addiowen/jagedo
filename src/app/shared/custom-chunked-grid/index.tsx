@@ -13,6 +13,7 @@ import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
 import { useSearchParams } from 'next/navigation';
 import ActiveJobDetailsAttachments from '../admin/add-attachments';
+import ViewAttachmentsBlock from '@/components/view-attachments-block';
 
 export interface Item {
   'Request Type': string;
@@ -145,7 +146,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         ))}
       </div>
 
-      {Attachments && Attachments.length > 0 && (
+      {/* {Attachments && Attachments.length > 0 && (
         <div className="mb-6 mt-6 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md">
           <Title as="h4" className="mb-4 text-sm font-semibold text-gray-900">
             Attachments
@@ -158,7 +159,9 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
             ))}
           </div>
         </div>
-      )}
+      )} */}
+
+      <ViewAttachmentsBlock />
     </div>
   );
 };
