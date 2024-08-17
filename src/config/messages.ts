@@ -88,6 +88,7 @@ export const messages = {
   certificatesIsRequired: 'Certificates required',
   ncaCardIsRequired: 'NCA Registration Card is required',
   fieldIsRequired: 'This field is required',
+  phoneminLength: 'contact detail must be at leat 10 digits',
 
   // customer
   typeIsRequired: 'Type is required',

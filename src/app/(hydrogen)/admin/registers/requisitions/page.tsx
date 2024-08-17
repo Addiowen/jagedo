@@ -12,9 +12,9 @@ export const metadata = {
 export default function AdminRequisitionsPage() {
   return (
     <div className="@container">
-      <div className="mb-6 flex justify-end">
+      {/* <div className="mb-6 flex justify-end">
         <DropDownComponent />
-      </div>
+      </div> */}
       <div className="grid grid-cols-1  @4xl:grid-cols-2  3xl:gap-8">
         <AdminRequisitionsTable className="relative  @4xl:col-span-2 " />
       </div>

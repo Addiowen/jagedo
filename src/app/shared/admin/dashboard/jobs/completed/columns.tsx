@@ -128,7 +128,10 @@ export const getColumns = ({
     render: (id: string, row: any) => (
       <div className="flex items-center ">
         <Link
-          href={{ pathname: routes.admin.completedJobDetails, query: { id } }}
+          href={{
+            pathname: routes.admin.completedJobDetails,
+            query: { id, status: row.status },
+          }}
         >
           <Text className="text-sm text-green-600">View</Text>
         </Link>

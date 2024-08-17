@@ -55,6 +55,7 @@ import {
   PiDesktopDuotone,
   PiListChecksDuotone,
   PiClipboardDuotone,
+  PiStarDuotone,
 } from 'react-icons/pi';
 
 interface MenuItem {
@@ -179,6 +180,12 @@ export const menuItems: MenuItem[] = [
         badge: '',
       },
     ],
+  },
+
+  {
+    name: 'Reviews',
+    href: routes.admin.reviews,
+    icon: <PiStarDuotone />,
   },
 
   // {

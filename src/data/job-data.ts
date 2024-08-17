@@ -1,3 +1,4 @@
+import { subCounty } from '@/app/shared/profile-1/individual/create-profile/individual/data';
 import { uniqueId } from 'lodash';
 
 let counter = 1; // Initialize your counter
@@ -185,6 +186,34 @@ export const completeJobDetailsData = [
     ],
   },
 
+  {
+    Category: 'Contractor',
+    Contractor: 'Water',
+
+    'Request Type': 'Package 2',
+    'Managed By': 'Self',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+
+    'Estate/Village': 'Nambale',
+    'Request Date': '12/11/2023',
+
+    'Request Number': '#REQ0020',
+    Estate: 'Nambale',
+
+    Status: 'Unreviewed',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Rate: '5000',
+
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    Attachments: [
+      '/images/image1.jpg',
+      '/images/image2.jpg',
+      '/images/image3.jpg',
+    ],
+  },
   {
     Category: 'Contractor',
     Contractor: 'Water',
@@ -911,6 +940,41 @@ export const professionalsData = [
   },
 ];
 
+export const fundisData = [
+  {
+    no: 1,
+    id: '3100',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Ken',
+    lastName: 'Waswa',
+    phone: '0793928324',
+    skill: 'Master Fundi',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+  {
+    no: 2,
+    id: '3102',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Steve',
+    lastName: 'Limo',
+    phone: '0712345678',
+    skill: 'Junior Fundi',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+];
+
 export const professionalsDataTwo = [
   {
     no: 1,
@@ -1056,11 +1120,12 @@ export const reviewData = [
     date: 'November 12, 2023',
     category: 'Fundi',
     subCategory: 'Electrician',
-    requestType: 'Emergency: Managed by JaGedo',
+    requestType: 'Package 2: Managed by JaGedo',
     description: 'Repair of a faulty wiring system',
-    location: 'Transmara, Narok',
+    county: 'Nairobi',
+    subCounty: 'Ngong',
     status: 'Reviewed',
-    reviewBy: 'John Kamau',
+    rating: 2.5,
     requestTypeId: 0,
   },
 
@@ -1070,11 +1135,12 @@ export const reviewData = [
     date: 'November 11, 2023',
     category: 'Fundi',
     subCategory: 'Plumber',
-    requestType: 'Standard: Managed by Self',
+    requestType: 'Package 2: Managed by Self',
     description: 'Tank reticulation to water point',
-    location: 'Transmara, Narok',
+    county: 'Narok',
+    subCounty: 'Transmara',
     status: 'Reviewed',
-    reviewBy: 'Agnes Wanjiku',
+    rating: 3.5,
     requestTypeId: 1,
   },
 ];

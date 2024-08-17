@@ -3,7 +3,7 @@ import ReviewTable from '@/app/shared/admin/dashboard/tables/review-table';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {
-  ...metaObject('Professional Register'),
+  ...metaObject('Reviews'),
 };
 
 export default function ReviewsPage() {

@@ -1,5 +1,19 @@
 import { z } from 'zod';
 
+export type BillTableType = {
+  description: string;
+  quantity: number;
+  units: string;
+  rate: number;
+  amount: number;
+};
+
+export type BillType = {
+  billTableTitle: string;
+  billTable: BillTableType[];
+  subTotal: number;
+};
+
 export const Bill_TABLE_DEFAULT_VALUE = [
   {
     description: 'default description',

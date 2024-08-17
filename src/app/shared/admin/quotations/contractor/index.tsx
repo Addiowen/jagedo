@@ -1,7 +1,7 @@
 'use client';
 
 // import { useRef } from 'react';
-import { Text, Checkbox, Tab } from 'rizzui';
+import { Text, Checkbox, Tab, Modal } from 'rizzui';
 import { routes } from '@/config/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -17,14 +17,18 @@ import {
 } from '@/utils/create-contractor-quotation.schema';
 import Bill from './bill';
 import BillSummary from './bill-summary';
-import AttachmentsBlock from '@/app/shared/create-quotation/create-quotation/attachments-block';
-// import FourthTable from '../fourth-table';
-import ViewAttachmentsBlock from './view-attachment-block';
 
 import MilestonesTable from './milestones-table';
+import CustomMultiStepComponent from '@/app/shared/custom-multi-step-quotation';
+import { contractorCreateQuotationSteps } from '../contractor - create/data';
+import ViewQuotation from '../contractor - create/view/view-quotation';
+import { motion } from 'framer-motion';
+import ContractorAttachments from '../contractor - create/attachments';
+import { useState } from 'react';
 
 export default function CreateContractorQuotationComponent() {
   const router = useRouter();
+  const [modalState, setModalState] = useState(false);
 
   const queryId = useSearchParams();
 
@@ -50,83 +54,132 @@ export default function CreateContractorQuotationComponent() {
   const handleAltBtn: any = () => {
     router.back();
   };
-  const handleSubmitBtn = () => {
-    router.push(routes.admin.quotations);
-  };
 
   const onSubmit: SubmitHandler<CreateContractorQuotationType> = (data) => {
     // router.push(routes.serviceProvider.professional.quotations)
   };
 
+  const handleRedirect = () => router.push(routes.admin.quotations);
+
   return (
     <>
-      <div className="rounded-2xl @container">
-        <FormProvider {...methods}>
-          <form
-            onSubmit={methods.handleSubmit(onSubmit)}
-            className="rounded-xl bg-white"
-          >
-            <Tab>
-              <Tab.List className="sticky top-[4.5rem] z-10 bg-white shadow-sm">
-                <Tab.ListItem>Bills</Tab.ListItem>
-                <Tab.ListItem>Bill Summary</Tab.ListItem>
-                <Tab.ListItem>Attachments</Tab.ListItem>
-                <Tab.ListItem>Milestones</Tab.ListItem>
-              </Tab.List>
+      <CustomMultiStepComponent<CreateContractorQuotationType>
+        validationSchema={createContractorQuotationSchema}
+        onSubmit={onSubmit}
+        useFormProps={{
+          mode: 'onChange',
+          defaultValues: CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
+        }}
+        steps={contractorCreateQuotationSteps}
+        setModalState={setModalState}
+        redirect={handleRedirect}
+        // fieldName='bill'
+      >
+        {(methods, currentStep, delta) => {
+          // let subTotal = methods.watch('bill').reduce((acc, item) => {
+          //   if (!item.quantity || !item.rate) return acc;
+          //   return acc + item.quantity * item.rate;
+          // }, 0);
 
-              <Tab.Panels>
-                <Tab.Panel>
+          // const { fields } = useFieldArray({
+          //   control: methods.control,
+          //   name: 'bill',
+          // });
+
+          // {fields?.map((field: BillType, index: number) => {
+          // setSubTotal(
+          //   methods.watch(`bill.${index}.billTable`).reduce((acc: number, item: BillTableType) => {
+          //   if (!item.quantity || !item.rate) return acc;
+          //   return acc + item.quantity * item.rate;
+          //   }, 0)
+          // )
+
+          // subTotal = methods.watch(`bill.${index}.billTable`).reduce((acc: number, item: BillTableType) => {
+          //     if (!item.quantity || !item.rate) return acc;
+          //     return acc + item.quantity * item.rate;
+          // }, 0);
+          // })}
+
+          return (
+            <>
+              <Modal
+                isOpen={modalState}
+                onClose={() => setModalState(false)}
+                customSize="1080px"
+                // size='xl'
+                // overlayClassName="backdrop-blur"
+                containerClassName="!max-w-4xl !shadow-2xl !max-h-screen !overflow-y-auto"
+              >
+                <ViewQuotation setModalState={setModalState} />
+              </Modal>
+
+              {/* Step 1 */}
+              {currentStep === 0 && (
+                <motion.div
+                  initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  {/* Title and description */}
+                  {/* <div className="col-span-full @4xl:col-span-4">
+                  <h4 className="text-base font-medium">Bills</h4>
+                  <p className="mt-2">Fill in bill details</p>
+                  <h4 className="text-base font-medium">Fill in bill details</h4>
+                </div> */}
+                  {/* <ViewQuotation /> */}
+                  {/* <Button onClick={() => setModalState(true)}>Preview</Button>        */}
+
+                  {/* <Button 
+                  className="w-full @xl:w-auto" 
+                  type="button" 
+                  onClick={() => {
+                    openModal({ view: <ViewQuotation />})
+                  }}
+                >
+                  <span>Submit</span>{' '}
+                </Button>  */}
+
+                  {/* Table */}
                   <Bill />
-                </Tab.Panel>
-                <Tab.Panel>
+                </motion.div>
+              )}
+
+              {/* Step 2 */}
+              {currentStep === 1 && (
+                <motion.div
+                  initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  {/* Title and description */}
+                  {/* <div className="col-span-full @4xl:col-span-4 pb-10">
+                  <h4 className="text-base font-medium">Bill Summary</h4>
+                  <p className="mt-2">Review bill summary</p>
+                </div> */}
+
+                  {/* Table */}
                   <BillSummary />
-                </Tab.Panel>
-                <Tab.Panel>
-                  {jobId === '3400' || jobId === '3401' ? (
-                    <ViewAttachmentsBlock />
-                  ) : (
-                    <>
-                      <AttachmentsBlock />
-                    </>
-                  )}
-                </Tab.Panel>
-                <Tab.Panel>
+                </motion.div>
+              )}
+
+              {/* Step 3 */}
+              {currentStep === 2 && (
+                <motion.div
+                  initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  {/* Title and description */}
+                  {/* <div className="col-span-full @4xl:col-span-4 pb-10">
+                  <h4 className="text-base font-medium">Submissions</h4>
+                  <p className="mt-2">Add attachments and milestones</p>
+                </div> */}
+
+                  {/* View */}
+                  <ContractorAttachments />
                   <MilestonesTable />
-                </Tab.Panel>
-              </Tab.Panels>
-            </Tab>
 
-            {viewQuotation ? (
-              <div></div>
-            ) : (
-              <>
-                <div className="col-span-2 mb-8 mt-3 flex items-start ps-2 text-gray-700">
-                  <Checkbox
-                    // {...register('termsAndConditions')}
-                    className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
-                    label={
-                      <Text as="span" className="ps-1 text-gray-500">
-                        I agree to the{' '}
-                        <Link
-                          href="#"
-                          className="font-semibold text-gray-700 transition-colors hover:text-primary"
-                        >
-                          Contractor Agreement
-                        </Link>
-                      </Text>
-                    }
-                  />
-                </div>
-              </>
-            )}
-
-            {/* {viewQuotation? (
-                <ViewAttachmentsBlock /> 
-              ) : (
-                <>
-                  <AttachmentsBlock />
-
-                  <div className="col-span-2 flex items-start text-gray-700 mt-3 mb-8 ps-2">
+                  <div className="col-span-2 mb-8 mt-3 flex items-start ps-2 text-gray-700">
                     <Checkbox
                       // {...register('termsAndConditions')}
                       className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -143,33 +196,38 @@ export default function CreateContractorQuotationComponent() {
                       }
                     />
                   </div>
-                </>
-              )} */}
+                </motion.div>
+              )}
+            </>
+          );
+        }}
+      </CustomMultiStepComponent>
 
-            {viewQuotation ? (
-              <FormFooter
-                // isLoading={isLoading}
-                submitBtnText="Back"
-                handleSubmitBtn={handleAltBtn}
-              />
-            ) : (
-              <FormFooter
-                // isLoading={isLoading}
+      {/* <div className="rounded-2xl @container">
+          <FormProvider {...methods}>
+            <form
+              onSubmit={methods.handleSubmit(onSubmit)}
+              className="rounded-xl bg-white"
+            >
+              
+
+
+              {viewQuotation? (
+                <FormFooter
+                  submitBtnText="Back"
+                  handleSubmitBtn={handleAltBtn}
+                />
+              ) : (
+                <FormFooter
                 altBtnText="Back"
                 handleAltBtn={handleAltBtn}
                 handleSubmitBtn={handleSubmitBtn}
                 submitBtnText="Submit"
               />
-            )}
-
-            {/* <FormFooter
-              //   // isLoading={isLoading}
-                altBtnText="Back"
-                submitBtnText="Submit"
-              /> */}
-          </form>
-        </FormProvider>
-      </div>
+              )}
+            </form>
+          </FormProvider>
+      </div> */}
     </>
   );
 }

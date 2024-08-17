@@ -138,7 +138,7 @@ export const getColumns = ({
     dataIndex: 'skill',
     key: 'skill',
     width: 150,
-    render: (skill: number) => <Text>{skill}</Text>,
+    render: (skill: string) => <Text>{skill}</Text>,
   },
 
   // {

@@ -7,14 +7,16 @@ export const routes = {
 
     //Profile
     createCustomerProfile: '/admin/profile/create-profile/customers',
+
     createFundiProfile: '/admin/profile-page/profile',
     createContractorProfile: '/admin/contractor-profile',
     createProfessionalProfile: '/admin/professional-profile',
-    createOrgCustomerProfile: '/admin/organization-profile',
-    createIndividualProfile: '/admin/individual-profile',
-    // editIndividualCustomerProfile:
-    //   '/admin/profile/edit-profile/customer-individual',
-    // editOrgCustomerProfile: '/admin/profile/edit-profile/customer-organization',
+    createOrgCustomerProfile: '/admin/profile-page/organization-profile',
+    createIndividualProfile: '/admin/profile-page/individual-profile',
+    editIndividualCustomerProfile:
+      '/admin/profile/edit-profile/customer-individual',
+    editOrgCustomerProfile: '/admin/profile/edit-profile/customer-organization',
+
     editFundiProfile: '/admin/profile/edit-profile/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
     editProfessionalProfile: '/admin/profile/edit-profile/professional',
@@ -55,7 +57,8 @@ export const routes = {
     generateReport: '/admin/report',
 
     //Reviews
-    viewReview: '/admin/reviews',
+    viewReview: '/admin/reviews/view',
+    addReview: '/admin/reviews/add',
   },
 
   customers: {

@@ -11,6 +11,7 @@ import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
+import Rate from '@/components/ui/rate';
 
 // const statusOptions = [
 //   { label: 'Live', value: 'Live' },
@@ -108,7 +109,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 100,
+    width: 200,
     render: (requestType: string) => (
       <Text className="text-sm text-gray-900 dark:text-gray-700">
         {requestType}
@@ -117,46 +118,40 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
     width: 100,
-    render: (location: string) => (
+    render: (county: string) => (
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
+    ),
+  },
+
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 100,
+    render: (subCounty: string) => (
       <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {location}
+        {subCounty}
       </Text>
     ),
   },
 
   {
-    title: <HeaderCell title="Job Description" />,
-    dataIndex: 'description',
-    key: 'description',
+    title: <HeaderCell title="Rating" />,
+    dataIndex: 'rating',
+    key: 'rating',
     width: 100,
-    render: (description: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {description}
-      </Text>
-    ),
-  },
-
-  // {
-  //   title: <HeaderCell title="Status" />,
-  //   dataIndex: 'status',
-  //   key: 'status',
-  //   width: 120,
-  //   render: (value: string) => getStatusBadge(value),
-  // },
-
-  {
-    title: <HeaderCell title="Review By" />,
-    dataIndex: 'reviewBy',
-    key: 'reviewBy',
-    width: 100,
-    render: (reviewBy: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {reviewBy}
-      </Text>
+    render: (rating: number) => (
+      <Rate
+        size="sm"
+        allowHalf={true}
+        defaultValue={rating}
+        disabled={true}
+        tooltips={['terrible', 'bad', 'normal', 'good', 'wonderful']}
+      />
     ),
   },
 
@@ -176,12 +171,9 @@ export const getColumns = ({
     width: 100,
     render: (requestType: string, row: any) => (
       <div className="gap-3 pe-3">
-        <Text
-          onClick={() => setViewReviewsModalState(true)}
-          className="cursor-pointer text-sm text-green-600"
-        >
-          View Review
-        </Text>
+        <Link href={routes.admin.viewReview}>
+          <Text className="cursor-pointer text-sm text-green-600">View</Text>
+        </Link>
       </div>
     ),
   },

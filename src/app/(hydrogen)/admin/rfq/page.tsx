@@ -6,6 +6,7 @@ import PageHeader from '@/app/shared/commons/page-header';
 import CreateContractorQuotationComponent from '@/app/shared/admin/quotations/contractor';
 import { useSearchParams } from 'next/navigation';
 import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/create-quotation';
+import ViewContractorQuotationComponent from '../quotations/view-quotation/contractor';
 
 // export const metadata = {
 //   ...metaObject('RFQ '),
@@ -33,7 +34,7 @@ export default function RFQPage() {
           jobId === '3400' ||
           jobId === '3324' ||
           jobId === '3327' ? (
-            <CreateContractorQuotationComponent />
+            <ViewContractorQuotationComponent />
           ) : (
             <CreateProfessionalQuotationComponent />
           )}

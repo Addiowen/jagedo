@@ -1,37 +1,41 @@
+'use client';
+
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
 import PageHeader from '@/app/shared/commons/page-header';
 import Link from 'next/link';
 import OrderView from '@/app/shared/admin/order/order-view';
-import EditCustomersForm from '@/app/shared/admin/profile/edit-profile/customers-form';
-import EditIndividualCustomerForm from '@/app/shared/admin/profile/edit-profile/customers-form/individual';
+import EditFundiForm from '@/app/shared/admin/profile/edit-profile/fundi/index';
+import { useSearchParams } from 'next/navigation';
+import EditIndividualForm from '@/app/shared/admin/profile/edit-profile/individual';
 
-export default function IndividualPage({ params }: any) {
+export default function OrderDetailsPage() {
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status') || '';
+
   const pageHeader = {
     title: `Profile`,
     breadcrumb: [
       {
         href: routes.admin.dashboard,
-        name: 'Dashboard',
+        name: 'Home',
       },
       {
-        href: routes.admin.dashboard,
-        name: 'Individual Customer',
+        href: routes.admin.editFundiProfile,
+        name: 'Edit Individual Profile',
       },
       {
-        name: params.id,
+        name: status || 'Status',
       },
     ],
   };
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
-        <Link
-          href={routes.eCommerce.editOrder(params.id)}
-          className="mt-4 w-full @lg:mt-0 @lg:w-auto"
-        ></Link>
+        <Link href={'#'} className="mt-4 w-full @lg:mt-0 @lg:w-auto"></Link>
       </PageHeader>
-      <EditIndividualCustomerForm />
+      <EditIndividualForm slug={status} />
     </>
   );
 }

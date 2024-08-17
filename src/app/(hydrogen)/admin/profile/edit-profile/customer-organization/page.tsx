@@ -1,36 +1,41 @@
+'use client';
+
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
 import PageHeader from '@/app/shared/commons/page-header';
 import Link from 'next/link';
-import EditCustomersForm from '@/app/shared/admin/profile/edit-profile/customers-form';
+import OrderView from '@/app/shared/admin/order/order-view';
+import EditFundiForm from '@/app/shared/admin/profile/edit-profile/fundi/index';
+import { useSearchParams } from 'next/navigation';
+import EditOrganizationForm from '@/app/shared/admin/profile/edit-profile/organization';
 
-export default function IndividualPage({ params }: any) {
+export default function OrderDetailsPage() {
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status') || '';
+
   const pageHeader = {
     title: `Profile`,
     breadcrumb: [
       {
         href: routes.admin.dashboard,
-        name: 'Dashboard',
+        name: 'Home',
       },
       {
-        href: routes.admin.dashboard,
-
-        name: 'Individual Customer',
+        href: routes.admin.editFundiProfile,
+        name: 'Edit Organization Profile',
       },
       {
-        name: params.id,
+        name: status || 'Status',
       },
     ],
   };
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
-        <Link
-          href={routes.eCommerce.editOrder(params.id)}
-          className="mt-4 w-full @lg:mt-0 @lg:w-auto"
-        ></Link>
+        <Link href={'#'} className="mt-4 w-full @lg:mt-0 @lg:w-auto"></Link>
       </PageHeader>
-      <EditCustomersForm />
+      <EditOrganizationForm slug={status} />
     </>
   );
 }

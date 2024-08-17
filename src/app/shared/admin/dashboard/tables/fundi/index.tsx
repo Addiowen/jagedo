@@ -9,7 +9,7 @@ import { Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { professionalsData } from '@/data/job-data';
+import { fundisData, professionalsData } from '@/data/job-data';
 
 const filterState = {
   date: [null, null],
@@ -47,12 +47,12 @@ export default function FundisTable({ className }: { className?: string }) {
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalsData, pageSize, filterState);
+  } = useTable(fundisData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalsData,
+        data: fundisData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

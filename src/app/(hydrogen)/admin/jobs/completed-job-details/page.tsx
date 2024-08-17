@@ -5,7 +5,7 @@ import { useState } from 'react';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 import CompletedJobDetails from '@/app/shared/admin/dashboard/jobs/completed/view-job-details';
 import ReviewCard from '@/app/shared/custom-reviews/review-card-view';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { PiUserCircleDuotone } from 'react-icons/pi';
 import ToastButton from '@/components/buttons/toast-button';
 import CustomerDetails from '@/app/shared/admin/dashboard/tables/requisitions/requisition-details/customer-details';
@@ -17,6 +17,9 @@ import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
 import ChunkedGridActive from '@/app/shared/chunked-grid-active';
 import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 import ActiveJobDetailsAttachments from '@/app/shared/admin/add-attachments';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
+import CompleteJobDetailsAttachments from '@/app/shared/completed-attachments';
 
 // const data = [
 //     {
@@ -51,6 +54,10 @@ export default function FundiCompleteJobDetails() {
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
+  const querystatus = searchParams.get('status');
+  const router = useRouter();
+
+  const handleBack = () => router.back();
 
   return (
     <div>
@@ -115,6 +122,8 @@ export default function FundiCompleteJobDetails() {
         </div>
       </Modal>
 
+      <h3>JOB# {jobId}</h3>
+
       <Tab>
         <Tab.List>
           <Tab.ListItem>Progress Tracker</Tab.ListItem>
@@ -124,7 +133,7 @@ export default function FundiCompleteJobDetails() {
           <Tab.Panel>
             <ProgressBarActive />
             <div className="col-span-full">
-              <ActiveJobDetailsAttachments />
+              <CompleteJobDetailsAttachments />
             </div>
           </Tab.Panel>
 
@@ -186,6 +195,20 @@ export default function FundiCompleteJobDetails() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab>
+
+      <div className="flex justify-center">
+        <Button className="px-8" onClick={handleBack} type="submit">
+          Back
+        </Button>
+
+        {querystatus === 'Unreviewed' && (
+          <Link href={routes.admin.addReview}>
+            <Button className="ml-4" type="submit">
+              Add Review
+            </Button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

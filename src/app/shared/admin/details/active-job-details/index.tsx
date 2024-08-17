@@ -89,7 +89,7 @@ export default function ActiveJobDetailsCard() {
                         : jobId === '3034'
                           ? completeJobDetailsData[3]
                           : jobId === '3225'
-                            ? completeJobDetailsData[5]
+                            ? completeJobDetailsData[4]
                             : jobId === '3332'
                               ? completeJobDetailsData[6]
                               : completeJobDetailsData[0]

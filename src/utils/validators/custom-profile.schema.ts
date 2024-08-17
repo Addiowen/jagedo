@@ -26,5 +26,16 @@ export const fundiProfileSchema = baseUserFormSchema.extend({
   question4: z.string().min(1, { message: messages.fieldIsRequired }),
 });
 
+export const individualProfileSchema = baseUserFormSchema.extend({
+  orgName: z.string().min(1, { message: messages.fieldIsRequired }),
+  type: z.string().min(1, { message: messages.fieldIsRequired }),
+  phone: z.string().min(10, { message: messages.phoneminLength }),
+
+  // skill: z.string().optional(),
+  // level: z.string().optional(),
+  // years: z.string().optional(),
+});
+
 // generate form types from zod validation schema
 export type FundiProfileSchema = z.infer<typeof fundiProfileSchema>;
+export type IndividualProfileSchema = z.infer<typeof individualProfileSchema>;

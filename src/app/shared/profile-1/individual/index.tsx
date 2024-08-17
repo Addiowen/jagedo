@@ -18,15 +18,22 @@ import { formatDate } from '@/utils/format-date';
 import usePrice from '@/hooks/use-price';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-import CustomersTable from '../../../dashboard/tables/customers/organization';
+// import CustomersTable from '../../../dashboard/tables/customers/organization';
+import { useRouter } from 'next/navigation';
+
+interface EditFundiFormProps {
+  slug?: string;
+}
 
 function WidgetCard({
   title,
+  slug,
   className,
   children,
   childrenWrapperClass,
 }: {
   title?: string;
+  slug?: string;
   className?: string;
   children: React.ReactNode;
   childrenWrapperClass?: string;
@@ -51,7 +58,9 @@ function WidgetCard({
   );
 }
 
-export default function EditOrganizationCustomersForm() {
+export default function EditFundiForm({ slug }: EditFundiFormProps) {
+  const isApproved = slug === 'approved';
+
   const { items, total, totalItems } = useCart();
   const { price: subtotal } = usePrice(
     items && {
@@ -68,7 +77,7 @@ export default function EditOrganizationCustomersForm() {
         <div className="space-y-7 pt-8 @container @5xl:col-span-4 @5xl:space-y-10 @5xl:pt-0 @6xl:col-span-3">
           <WidgetCard
             className="mb-7.5 @5xl:mb-5"
-            title="Customers Details"
+            title="Fundi Details"
             childrenWrapperClass="py-5 @5xl:py-8 flex"
           >
             <div className="relative aspect-square h-16 w-16 shrink-0 @5xl:h-20 @5xl:w-20">
@@ -89,7 +98,7 @@ export default function EditOrganizationCustomersForm() {
                 Leslie Alexander
               </Title>
               <Text as="p" className="mb-2 break-all last:mb-0">
-                nevaeh.simmons@example.com
+                mailto:nevaeh.simmons@example.com
               </Text>
               <Text as="p" className="mb-2 last:mb-0">
                 (316) 555-0116
@@ -98,7 +107,7 @@ export default function EditOrganizationCustomersForm() {
           </WidgetCard>
 
           <Link
-            href={routes.eCommerce.createProduct}
+            href={''}
             className="inline-flex flex-grow"
           >
             <Button as="span" className="h-[38px] shadow md:h-10">
@@ -107,14 +116,17 @@ export default function EditOrganizationCustomersForm() {
           </Link>
         </div>
 
-        <div className="x space-y-6 @5xl:col-span-8 @5xl:space-y-10 @6xl:col-span-7">
+        <div className="space-y-6 @5xl:col-span-8 @5xl:space-y-10 @6xl:col-span-7">
           <div className="">
             <div className="mb-3.5 @5xl:mb-5">
               <Title as="h3" className="text-base font-semibold @7xl:text-lg">
                 Contact Details
               </Title>
             </div>
-            <div className="-mt-2 space-y-4 rounded-xl border border-muted px-4 py-2 @5xl:space-y-7 @5xl:p-7">
+            <div className=" -mt-2 space-y-2 rounded-xl border border-muted px-4 py-2 @5xl:space-y-7 @5xl:p-7">
+              <div className="flex justify-between font-medium">
+                Skill <span>Architect</span>
+              </div>
               <div className="flex justify-between font-medium">
                 First Name <span>Olive</span>
               </div>
@@ -122,17 +134,23 @@ export default function EditOrganizationCustomersForm() {
                 Last Name <span>Wangari</span>
               </div>
               <div className="flex justify-between font-medium">
-                Email Address <span>Olive@gmail.com</span>
+                Email Address <span>olive@gmail.com</span>
               </div>
               <div className="flex justify-between font-medium">
                 Phone Number <span>0704032343</span>
               </div>
             </div>
           </div>
+          <Button
+            as="span"
+            className="inline-flex h-[38px]  justify-center  shadow md:h-10"
+          >
+            {isApproved ? 'Unverify' : 'Verify'}
+          </Button>
         </div>
       </div>
 
-      <CustomersTable className="mt-6" />
+      {/* <CustomersTable className="mt-6" /> */}
     </div>
   );
 }

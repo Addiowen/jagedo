@@ -61,7 +61,7 @@ const otherDetails = Object.keys(data).reduce((acc, key) => {
   return acc;
 }, {} as Data);
 
-export default function EditProfileContactDetails({ slug }: { slug?: string }) {
+export default function EditFundiForm({ slug }: { slug?: string }) {
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
 

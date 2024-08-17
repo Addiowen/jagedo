@@ -113,7 +113,7 @@ export default function Bill() {
                                     </div> */}
                       </div>
 
-                      <BillTable index={index} />
+                      <BillTable billIndex={index} />
                       {/* <div className="text-lg">Bill table goes here</div> */}
                     </div>
                   </li>

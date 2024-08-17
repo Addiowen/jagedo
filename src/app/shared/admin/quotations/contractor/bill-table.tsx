@@ -15,13 +15,13 @@ import {
 } from 'react-icons/pi';
 
 type Props = {
-  index: number;
+  billIndex: number;
 };
-export default function BillTable({ index }: Props) {
+export default function BillTable({ billIndex }: Props) {
   const { control, register, getValues } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control: control,
-    name: `bill.${index}.billTable`,
+    name: `bill.${billIndex}.billTable`,
   });
 
   //   function handleChange(event: DragEndEvent) {
@@ -32,7 +32,7 @@ export default function BillTable({ index }: Props) {
   //     move(oldIndex, newIndex);
   //   }
 
-  console.log({ billIndexForTable: index });
+  console.log({ billIndexForTable: billIndex });
 
   return (
     <>
@@ -85,9 +85,9 @@ export default function BillTable({ index }: Props) {
         <ul>
           <>
             {fields?.map((field, index) => {
-              let rate = getValues(`bill.${index}.billTable.${index}.rate`);
+              let rate = getValues(`bill.${billIndex}.billTable.${index}.rate`);
               let quantity = getValues(
-                `bill.${index}.billTable.${index}.quantity`
+                `bill.${billIndex}.billTable.${index}.quantity`
               );
               let amount = rate * quantity;
 
@@ -108,7 +108,7 @@ export default function BillTable({ index }: Props) {
                           inputClassName="[&_input]:text-center"
                           placeholder="E.g., Gypsum Board"
                           {...register(
-                            `bill.${index}.billTable.${index}.description`
+                            `bill.${billIndex}.billTable.${index}.description`
                           )}
                         />
                       </div>
@@ -118,7 +118,7 @@ export default function BillTable({ index }: Props) {
                           inputClassName="[&_input]:text-center"
                           placeholder="0"
                           {...register(
-                            `bill.${index}.billTable.${index}.quantity`,
+                            `bill.${billIndex}.billTable.${index}.quantity`,
                             {
                               valueAsNumber: true,
                             }
@@ -130,7 +130,7 @@ export default function BillTable({ index }: Props) {
                           inputClassName="[&_input]:text-center"
                           placeholder="Enter units"
                           {...register(
-                            `bill.${index}.billTable.${index}.units`
+                            `bill.${billIndex}.billTable.${index}.units`
                           )}
                         />
                       </div>
@@ -141,7 +141,7 @@ export default function BillTable({ index }: Props) {
                           placeholder="0"
                           inputClassName="[&_input]:text-center"
                           {...register(
-                            `bill.${index}.billTable.${index}.rate`,
+                            `bill.${billIndex}.billTable.${index}.rate`,
                             {
                               valueAsNumber: true,
                             }
