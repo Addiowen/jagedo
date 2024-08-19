@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid
         const user = {
-          email: 'individualcustomer@gmail.com',
+          email: 'customer@gmail.com',
           password: 'customer',
         };
 

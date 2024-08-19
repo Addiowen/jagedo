@@ -71,7 +71,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
     } else if (value?.value === 'Package 2') {
       setManaged({ label: 'Self', value: 'Self' });
       setButtonText('Generate Invoice');
-      setButtonLink(routes.invoice.details(DUMMY_ID));
+      setButtonLink(routes.customers.details(DUMMY_ID));
     }
   }, [value]);
 

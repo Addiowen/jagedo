@@ -1,25 +1,16 @@
 'use client';
 
-import { useRef } from 'react';
-import { Text, Checkbox, Button } from 'rizzui';
-import { routes } from '@/config/routes';
+import { Button, } from 'rizzui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { CREATE_QUOTATION_DEFAULT_VALUE, createQuotationSchema, CreateQuotationType } from '@/utils/create-quotation.schema';
-import { usePathname, useRouter } from 'next/navigation';
-import { CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE, createContractorQuotationSchema, CreateContractorQuotationType } from '@/utils/create-contractor-quotation.schema';
-import Bill from './bill';
-import BillSummary from './bill-summary';
+import { useRouter } from 'next/navigation';
 import { DUMMY_ID } from '@/config/constants';
-import ViewAttachmentsBlock from '../view-attachments-block';
-import AttachmentsBlock from '../attachments-block';
-import ToastButton from '../../buttons/page';
+import { CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE, createContractorQuotationSchema, CreateContractorQuotationType } from '@/utils/create-contractor-quotation.schema';
+import ViewQuotation from '../../contractor/view/view-quotation';
+import { routes } from '@/config/routes';
 
-export default function CreateContractorQuotationComponent() {
+export default function ViewContractorQuotationComponent() {
   const router = useRouter()
-
-  const pathname = usePathname()
-  const viewQuotation = pathname.includes('quotations')
 
   const methods = useForm<CreateContractorQuotationType>({
     mode: 'onChange',
@@ -27,51 +18,28 @@ export default function CreateContractorQuotationComponent() {
     resolver: zodResolver(createContractorQuotationSchema),
   });
 
-  const handleAltBtn = () => { router.back() }
-  const handleSubmitBtn = () => { 
-    router.push(routes.customers.quotations)
-   }
-
-  const onSubmit: SubmitHandler<CreateContractorQuotationType> = (data) => {
-    // router.push(routes.serviceProvider.professional.quotations)
-  };
+  const handleAltBtn: any = () => { router.back() }
 
 
   return (
     <>
-      <div className="rounded-2xl @container">
-        {/* <SimpleBar className="w-full"> */}
-          <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="rounded-xl bg-white"
-            >
-              
-              <Bill />
-              <BillSummary />
-
-
-              {viewQuotation? (
-                <ViewAttachmentsBlock /> 
-              ) : (
-                <>
-                  <AttachmentsBlock />
-                </>
-              )}
-            </form>
-          </FormProvider>
-        {/* <div className="inline-flex justify-center mt-4"> */}
-          <div className="rounded-full px-3 py-1 font-bold text-white">
-          <Button
-            type="submit"
-            className="block mx-auto mt-8 w-full rounded-md px-2 py-1 text-white"
-            onClick={() => router.push(routes.invoice.details(DUMMY_ID))}
-          >
-            Generate Invoice
-          </Button>
-          </div>
-        {/* </div> */}
-      </div>
+        <div className="rounded-2xl @container">
+            <FormProvider {...methods}>
+                <form
+                    className="rounded-xl bg-white"
+                >
+                    <ViewQuotation />
+                    <div className='sticky bottom-0 left-0 right-0 z-10 mt-8 -mb-8 flex items-center justify-center gap-4 border-t bg-white px-4 py-2 md:px-5 lg:px-6 3xl:px-8 4xl:px-10 dark:bg-gray-50'>
+                      <Button onClick={handleAltBtn}>
+                          Back
+                      </Button>
+                      <Button onClick={() => router.push(routes.invoice.details(DUMMY_ID))}>
+                          Generate Invoice
+                      </Button>
+                    </div>
+                </form>
+            </FormProvider>
+        </div>
     </>
   );
 }

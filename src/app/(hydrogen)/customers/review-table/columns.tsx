@@ -6,6 +6,7 @@ import PencilIcon from '@/components/icons/pencil';
 import EyeIcon from '@/components/icons/eye';
 import DeletePopover from '@/app/shared/commons/delete-popover';
 import DateCell from '@/components/ui/date-cell';
+import Rate from '@/components/ui/rate';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
@@ -64,20 +65,37 @@ export const getColumns = ({
   onHeaderCellClick,
   setViewReviewsModalState,
 }: Columns) => [
-  {
-    title: <HeaderCell title="No" />,
+{
+    title: <HeaderCell title="No." />,
     dataIndex: 'number',
     key: 'number',
-    width: 10,
-    render: (number: string) => <Text>{number}</Text>,
+    width: 50,
+    render: (number: string) => (
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {number}
+      </Text>
+    ),
   },
 
   {
-    title: <HeaderCell title="#" />,
+    title: <HeaderCell title="Job No." />,
     dataIndex: 'id',
     key: 'id',
-    width: 10,
-    render: (id: string) => <Text>{id}</Text>,
+    width: 50,
+    render: (id: string) => (
+    // <Text>#{id}</Text>
+    <Text className="text-sm text-gray-900 dark:text-gray-700">
+      #{id}
+    </Text>
+  ),
+  },
+
+  {
+    title: <HeaderCell title="Date" className="uppercase" />,
+    dataIndex: 'date',
+    key: 'date',
+    width: 100,
+    render: (date: Date) => <DateCell date={date} />,
   },
 
   {
@@ -93,7 +111,7 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Sub-Category" />,
+    title: <HeaderCell title="Sub-category" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
     width: 100,
@@ -108,7 +126,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 100,
+    width: 200,
     render: (requestType: string) => (
       <Text className="text-sm text-gray-900 dark:text-gray-700">
         {requestType}
@@ -117,56 +135,44 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
     width: 100,
-    render: (location: string) => (
+    render: (county: string) => (
       <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {location}
+        {county}
       </Text>
     ),
   },
 
   {
-    title: <HeaderCell title="Job Description" />,
-    dataIndex: 'description',
-    key: 'description',
+    title: <HeaderCell title="Sub-county" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
     width: 100,
-    render: (description: string) => (
+    render: (subCounty: string) => (
       <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {description}
+        {subCounty}
       </Text>
     ),
   },
-
-  // {
-  //   title: <HeaderCell title="Status" />,
-  //   dataIndex: 'status',
-  //   key: 'status',
-  //   width: 120,
-  //   render: (value: string) => getStatusBadge(value),
-  // },
 
   {
-    title: <HeaderCell title="Review By" />,
-    dataIndex: 'reviewBy',
-    key: 'reviewBy',
-    width: 100,
-    render: (reviewBy: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {reviewBy}
-      </Text>
+    title: <HeaderCell title="Rating" className="uppercase" />,
+    dataIndex: 'rating',
+    key: 'rating',
+    width: 150,
+    render: (rating: number) => (
+      <Rate
+        size="sm"
+        allowHalf={true}
+        defaultValue={rating}
+        disabled={true}
+        tooltips={['terrible', 'bad', 'normal', 'good', 'wonderful']}
+      />
     ),
   },
-
-  // {
-  //   title: <HeaderCell title="Status" />,
-  //   dataIndex: 'status',
-  //   key: 'status',
-  //   width: 80,
-  //   render: (status: number) => <Text>{status}</Text>,
-  // },
 
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

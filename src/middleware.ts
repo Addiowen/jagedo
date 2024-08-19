@@ -19,7 +19,7 @@ export const config = {
     '/support/:path*',
     '/file/:path*',
     '/file-manager',
-    '/invoice/:path*',
+    // '/invoice/:path*',
     '/forms/profile-settings/:path*',
   ],
 };

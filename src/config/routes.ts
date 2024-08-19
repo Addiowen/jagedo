@@ -43,6 +43,7 @@ export const routes = {
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',
+    details: (id: string) => `/customers/invoice/${id}`,
 
     //jobs
     active: '/customers/jobs/active-job',

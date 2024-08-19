@@ -14,8 +14,70 @@ import { useState } from 'react';
 import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
 import ActiveJobDetailsViewAttachments from '@/app/shared/view-attachments';
 import ViewAttachmentsBlock from '@/app/shared/create-quotation/view-attachments-block';
+import { PiCheckCircle } from 'react-icons/pi';
+import { useParams, useSearchParams } from 'next/navigation';
+import Timeline from '@/app/shared/service-provider/progress-bar-fundi/timeline';
 
+const timelineData = [
+  {
+    title: 'Start',
+    text: '',
+    hightlightedText: '',
+    date: 'April 29, 2023',
+    time: '05:31 am',
+    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+    status: 'ongoing',
+  },
+  {
+    title: 'Milestone 1',
+    text: 'Wall Escavations',
+    hightlightedText: '',
+    date: 'May 02, 2023',
+    time: '09:00 am',
+    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+    status: 'ongoing',
+  },
+  {
+    title: 'Milestone 2',
+    text: 'Reinforcements',
+    hightlightedText: '',
+    date: 'May 02, 2023',
+    time: '11:00 am',
+    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+    status: 'ongoing',
+  },
+  {
+    title: 'Stop',
+    text: '',
+    hightlightedText: '',
+    date: 'May 29, 2023',
+    time: '05:31 am',
+    icon: '',
+    status: '',
+  },
+];
 
+const fundiTimelineData = [
+  {
+    title: 'Start',
+    text: '',
+    hightlightedText: '',
+    date: 'April 29, 2023',
+    time: '05:31 am',
+    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+    status: 'ongoing',
+  },
+
+  {
+    title: 'Stop',
+    text: '',
+    hightlightedText: '',
+    date: 'May 29, 2023',
+    time: '05:31 am',
+    icon: '',
+    status: '',
+  },
+];
 
   type PageProps = {
     className: string;
@@ -24,6 +86,8 @@ import ViewAttachmentsBlock from '@/app/shared/create-quotation/view-attachments
   
   export default function JobDetailsPage({ className }: PageProps) {
     const [approvalModalState, setApprovalModalState] = useState(false);
+    const searchParams = useSearchParams();
+    const jobId = searchParams.get('id');
 
     return (
       <>
@@ -39,9 +103,20 @@ import ViewAttachmentsBlock from '@/app/shared/create-quotation/view-attachments
                 Confirm Job Completed
               </Button>
             </div>
-            <div className="">
+            {/* <div className="">
               <ProgressBarActive />
+            </div> */}
+            <div className="w-full max-w-screen-lg">
+            <Timeline
+              data={
+                jobId === '0021' || jobId === '0020'
+                  ? fundiTimelineData
+                  : timelineData
+              }
+              order="desc"
+            />
             </div>
+  
             {/* <ActiveJobDetailsViewAttachments /> */}
             <ViewAttachmentsBlock/>
             <Modal isOpen={approvalModalState} onClose={() => setApprovalModalState(false)}>

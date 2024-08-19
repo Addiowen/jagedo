@@ -98,18 +98,16 @@ export default function FundiCompleteJobDetails() {
             </div>
 
             <div className="flex justify-center mt-6">
-                <Button className="">
-                    Download Report
-                </Button>
+               
                 <Button className="ml-4">
-                    Paid Invoice
+                    Download Paid Invoice
                 </Button>
 
                 <Button onClick={() => setModalState(true)} className="ml-4">
                     Add Review
                 </Button>
 
-                {jobId === 'JOB0021'? (
+                {/* {jobId === 'JOB0021'? (
                     <Button onClick={() => setViewReviewsModalState(true)} className="ml-4">
                         View Reviews
                     </Button>
@@ -121,7 +119,7 @@ export default function FundiCompleteJobDetails() {
                     <Button onClick={() => setViewReviewsModalState(true)} className="ml-4">
                         View Reviews
                     </Button>
-                )}
+                )} */}
                 
             </div>
         </div>

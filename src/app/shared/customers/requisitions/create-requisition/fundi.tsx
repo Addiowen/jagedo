@@ -62,11 +62,11 @@ const GenerateInvoiceFundi: React.FC = () => {
     if (value?.value === 'Package 1') {
       setManaged({ label: 'Jagedo', value: 'Jagedo' });
       setButtonText('Generate Invoice');
-      setButtonLink(routes.invoice.details(DUMMY_ID));
+      setButtonLink(routes.customers.details(DUMMY_ID));
     } else if (value?.value === 'Package 2') {
       setManaged({ label: 'Self', value: 'Self' });
       setButtonText('Generate Invoice');
-      setButtonLink(routes.invoice.details(DUMMY_ID));
+      setButtonLink(routes.customers.details(DUMMY_ID));
     }
   }, [value]);
 

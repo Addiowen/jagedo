@@ -19,6 +19,7 @@ import usePrice from '@/hooks/use-price';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 import CustomersTable from '../../../dashboard/tables/customers';
+import { Suspense } from 'react';
 
 function WidgetCard({
   title,

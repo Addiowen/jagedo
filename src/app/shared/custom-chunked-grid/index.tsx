@@ -49,6 +49,8 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
 
   // Convert the data object to an array of key-value pairs
   const dataArray = Object.entries(data);
+  // const dataArray = data ? Object.entries(data) : [];
+
   console.log(dataArray);
 
   // Helper function to chunk the data into subarrays of a specified size
