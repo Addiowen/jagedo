@@ -1,5 +1,3 @@
-import ProfileHeader from '@/app/shared/profile/profile-header';
-import ProfileDetails from '@/app/shared/profile/profile-details';
 import { metaObject } from '@/config/site.config';
 import CreateForm from '@/app/shared/admin/atsali/invoice';
 

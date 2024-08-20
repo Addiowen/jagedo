@@ -1,11 +1,9 @@
 import IndividualsTable from '@/app/shared/admin/dashboard/tables/customers/individuals';
-import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
-import StepProgressBar from '@/components/steps';
 import { routes } from '@/config/routes';
 
 import { metaObject } from '@/config/site.config';
 import Link from 'next/link';
-import { PiDownloadBold, PiPlusBold } from 'react-icons/pi';
+import { PiPlusBold } from 'react-icons/pi';
 import { Button, Dropdown } from 'rizzui';
 
 export const metadata = {

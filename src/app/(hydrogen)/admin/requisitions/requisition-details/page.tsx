@@ -3,14 +3,13 @@
 import { routes } from '@/config/routes';
 import { Button, Textarea } from 'rizzui';
 import PageHeader from '@/app/shared/commons/page-header';
-import { metaObject } from '@/config/site.config';
-import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
+import CustomerDetailsCard from '@/app/shared/admin/dashboard/customer-details';
 
 import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import { completeJobDetailsData, requestDetails } from '@/data/job-data';
+import { requestDetails } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 
 export default function RequisitionDetailsPage() {

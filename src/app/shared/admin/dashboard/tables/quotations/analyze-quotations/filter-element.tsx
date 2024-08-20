@@ -64,17 +64,6 @@ export default function FilterElement({
           }
           placement="bottom-start"
         />
-        <StatusField
-          placeholder="Status"
-          dropdownClassName="!z-10"
-          className="w-full min-w-[145px] @[42rem]:w-auto"
-          options={statusOptions}
-          value={filters['status']}
-          onChange={(value: string) => {
-            updateFilter('status', value);
-          }}
-          getOptionValue={(option) => option.label}
-        />
       </div>
       {isFiltered ? (
         <Button

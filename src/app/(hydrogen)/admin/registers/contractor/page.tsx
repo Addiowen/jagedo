@@ -5,7 +5,6 @@ import AllContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/
 import RoadsContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/roads';
 import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
 import { routes } from '@/config/routes';
-import { metaObject } from '@/config/site.config';
 import Link from 'next/link';
 import { PiPlusBold } from 'react-icons/pi';
 import { Button, Tab } from 'rizzui';

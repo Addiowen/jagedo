@@ -1,5 +1,3 @@
-import ReportTable from '@/app/shared/admin/dashboard/tables/report-table';
-import ReviewTable from '@/app/shared/admin/dashboard/tables/review-table';
 import ReportComponent from '@/app/shared/admin/report';
 import PageHeader from '@/app/shared/commons/page-header';
 

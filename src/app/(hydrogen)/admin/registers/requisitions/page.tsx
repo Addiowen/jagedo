@@ -1,9 +1,5 @@
 import AdminRequisitionsTable from '@/app/shared/admin/dashboard/tables/requisitions/admin-requisitions';
-import FundiReviewsTable from '@/app/shared/admin/dashboard/tables/review-table';
-import DropDownComponent from '@/components/dropdown/dropdown';
 import { metaObject } from '@/config/site.config';
-import { PiDownloadBold } from 'react-icons/pi';
-import { Button, Dropdown } from 'rizzui';
 
 export const metadata = {
   ...metaObject('Admin Req'),

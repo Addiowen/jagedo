@@ -1,5 +1,4 @@
 import OrganizationsTable from '@/app/shared/admin/dashboard/tables/customers/organization';
-import ToastButton from '@/components/buttons/toast-button';
 import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import Link from 'next/link';

@@ -1,6 +1,4 @@
 import ActiveJobsTable from '@/app/shared/admin/dashboard/jobs/active';
-import OngoingJobsTable from '@/app/shared/admin/dashboard/jobs/ongoing';
-import IndividualsTable from '@/app/shared/admin/dashboard/tables/customers/individuals';
 
 import { metaObject } from '@/config/site.config';
 

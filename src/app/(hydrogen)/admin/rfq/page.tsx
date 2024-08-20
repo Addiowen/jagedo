@@ -1,9 +1,7 @@
 'use client';
 
 // import RFQCard from '@/app/shared/admin/rfq';
-import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
-import CreateContractorQuotationComponent from '@/app/shared/admin/quotations/contractor';
 import { useSearchParams } from 'next/navigation';
 import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/create-quotation';
 import ViewContractorQuotationComponent from '../quotations/view-quotation/contractor';

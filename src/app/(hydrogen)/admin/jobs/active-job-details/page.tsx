@@ -2,12 +2,8 @@
 
 import ActiveJobDetailsCard from '@/app/shared/admin/details/active-job-details';
 // import SpJobsTable from '@/app/shared/service-provider/tables/sp-jobs-table';
-import { metaObject } from '@/config/site.config';
 import { Button, Modal, Progressbar } from 'rizzui';
-import Link from 'next/link';
 import cn from '@/utils/class-names';
-import { routes } from '@/config/routes';
-import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 

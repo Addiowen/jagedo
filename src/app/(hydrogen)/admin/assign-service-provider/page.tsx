@@ -11,8 +11,6 @@ import { useSearchParams } from 'next/navigation';
 import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
 
 import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
-import RoadsContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/roads';
-import AllContractorsComponent from '@/app/shared/admin/all-contractors-tables';
 import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
 
 // export const metadata = {

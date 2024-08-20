@@ -10,7 +10,6 @@ import { professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import ProfessionalHistoryTable from '../history-tables/professional';
 
 const filterState = {
   date: [null, null],

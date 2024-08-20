@@ -17,19 +17,17 @@ import FirstTable from './first-table';
 // } from '@/utils/validators/invoice-builder.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { CREATE_QUOTATION_DEFAULT_VALUE, createQuotationSchema, CreateQuotationType } from '@/utils/create-quotation.schema';
-
-
-
+import {
+  CREATE_QUOTATION_DEFAULT_VALUE,
+  createQuotationSchema,
+  CreateQuotationType,
+} from '@/utils/create-quotation.schema';
 
 // import SecondTable from './second-table';
 // import ThirdTable from './third-table';
 // import FourthTable from './fourth-table';
 // import AttachmentsBlock from './attachments-block';
 // import ViewAttachmentsBlock from './view-attachments-block';
-
-
-
 
 import { usePathname, useRouter } from 'next/navigation';
 import FormFooter from '@/components/custom-form-footer';
@@ -59,11 +57,11 @@ export default function CreateQuotationComponent() {
   // const handlePrint = useReactToPrint({
   //   content: () => printRef.current,
   // });
-  const router = useRouter()
+  const router = useRouter();
 
-  const pathname = usePathname()
-  const viewQuotation = pathname.includes('quotations')
-  const contractor = pathname.includes('contractor')
+  const pathname = usePathname();
+  const viewQuotation = pathname.includes('quotations');
+  const contractor = pathname.includes('contractor');
 
   const methods = useForm<CreateQuotationType>({
     mode: 'onChange',
@@ -71,14 +69,16 @@ export default function CreateQuotationComponent() {
     resolver: zodResolver(createQuotationSchema),
   });
 
-  const handleAltBtn = () => { router.back() }
-  const handleSubmitBtn = () => { 
+  const handleAltBtn = () => {
+    router.back();
+  };
+  const handleSubmitBtn = () => {
     if (contractor) {
-      router.push(routes.serviceProvider.contractor.quotations)
+      router.push(routes.admin.quotations);
     } else {
-      router.push(routes.serviceProvider.professional.quotations)
+      router.push(routes.admin.quotations);
     }
-   }
+  };
 
   const onSubmit: SubmitHandler<CreateQuotationType> = (data) => {
     // router.push(routes.serviceProvider.professional.quotations)
@@ -97,21 +97,20 @@ export default function CreateQuotationComponent() {
     <>
       <div className="rounded-2xl @container">
         {/* <SimpleBar className="w-full"> */}
-          <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="rounded-xl bg-white"
-            >
-              {/* <FirstBlock setValue={methods.setValue} /> */}
-              {/* <SecondBlock /> */}
-              <FirstTable />
-              {/* <SecondTable /> */}
-              {/* <TotalsBlock /> */}
-              {/* <ThirdTable />
+        <FormProvider {...methods}>
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            className="rounded-xl bg-white"
+          >
+            {/* <FirstBlock setValue={methods.setValue} /> */}
+            {/* <SecondBlock /> */}
+            <FirstTable />
+            {/* <SecondTable /> */}
+            {/* <TotalsBlock /> */}
+            {/* <ThirdTable />
               <FourthTable /> */}
 
-
-              {/* {viewQuotation? (
+            {/* {viewQuotation? (
                 <ViewAttachmentsBlock />
               ) : (
                 <>
@@ -137,28 +136,28 @@ export default function CreateQuotationComponent() {
                 </>
               )} */}
 
-              {viewQuotation? (
-                <FormFooter
-                  // isLoading={isLoading}
-                  submitBtnText="Back"
-                  handleSubmitBtn={handleAltBtn}
-                />
-              ) : (
-                <FormFooter
+            {viewQuotation ? (
+              <FormFooter
+                // isLoading={isLoading}
+                submitBtnText="Back"
+                handleSubmitBtn={handleAltBtn}
+              />
+            ) : (
+              <FormFooter
                 // isLoading={isLoading}
                 altBtnText="Back"
                 handleAltBtn={handleAltBtn}
                 handleSubmitBtn={handleSubmitBtn}
                 submitBtnText="Submit"
               />
-              )}
-              {/* <FormFooter
+            )}
+            {/* <FormFooter
               //   // isLoading={isLoading}
                 altBtnText="Back"
                 submitBtnText="Submit"
               /> */}
-            </form>
-          </FormProvider>
+          </form>
+        </FormProvider>
         {/* </SimpleBar> */}
       </div>
     </>

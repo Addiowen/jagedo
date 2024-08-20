@@ -9,7 +9,7 @@ import { Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
-import { fundisData, professionalsData } from '@/data/job-data';
+import { fundisData } from '@/data/job-data';
 
 const filterState = {
   date: [null, null],
