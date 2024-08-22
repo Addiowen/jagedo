@@ -69,7 +69,7 @@ export default function CustomMultiStepForm<
   const router = useRouter();
 
   function redirect() {
-    router.push(routes.auth.otp4);
+    router.push(routes.customers.dashboard);
   }
 
   // react hook form

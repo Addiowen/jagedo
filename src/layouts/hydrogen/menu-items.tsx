@@ -188,7 +188,7 @@ export const menuItems: MenuItem[] = [
     dropdownItems: [
       {
         name: 'Profile',
-        href: routes.admin.createCustomerProfile,
+        href: routes.customers.createCustomerProfile,
         badge: '',
         icon: <PiUserCirclePlus />,
       },

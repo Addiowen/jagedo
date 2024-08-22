@@ -3,15 +3,15 @@ export const routes = {
     dashboard: '/admin',
 
     //Profile
-    createCustomerProfile: '/admin/profile/create-profile/customers',
-    createFundiProfile: '/admin/profile/create-profile/fundi',
-    createContractorProfile: '/admin/profile/create-profile/contractor',
-    createProfessionalProfile: '/admin/profile/create-profile/professional',
-    editCustomerProfile: '/admin/profile/create-profile/customers',
-    editFundiProfile: '/admin/profile/edit-profile/fundi',
-    editContractorProfile: '/admin/profile/edit-profile/contractor',
-    editProfessionalProfile: '/admin/profile/edit-profile/professional',
-    addToServiceProviders: '/admin/add-to-service-providers',
+    // createCustomerProfile: '/admin/profile/create-profile/customers',
+    // createFundiProfile: '/admin/profile/create-profile/fundi',
+    // createContractorProfile: '/admin/profile/create-profile/contractor',
+    // createProfessionalProfile: '/admin/profile/create-profile/professional',
+    // editCustomerProfile: '/admin/profile/create-profile/customers',
+    // editFundiProfile: '/admin/profile/edit-profile/fundi',
+    // editContractorProfile: '/admin/profile/edit-profile/contractor',
+    // editProfessionalProfile: '/admin/profile/edit-profile/professional',
+    // addToServiceProviders: '/admin/add-to-service-providers',
 
     //Registers
     registers: '/admin/registers',
@@ -28,7 +28,7 @@ export const routes = {
   },
 
   customers: {
-    dashboard: '/customers',
+    dashboard: '/',
     requisitions: '/customers/requisitions',
     viewRequisition: '/customers/requisitions/view-requisition',
     generateInvoice: '/customers/generate-invoice',
@@ -44,6 +44,17 @@ export const routes = {
     rfq: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',
     details: (id: string) => `/customers/invoice/${id}`,
+
+    //Profile
+    createCustomerProfile: '/customers/profile',
+    createFundiProfile: '/customers/profile/create-profile/fundi',
+    createContractorProfile: '/customers/profile/create-profile/contractor',
+    createProfessionalProfile: '/customers/profile/create-profile/professional',
+    editCustomerProfile: '/customers/profile/create-profile/customers',
+    editFundiProfile: '/customers/profile/edit-profile/fundi',
+    editContractorProfile: '/customers/profile/edit-profile/contractor',
+    editProfessionalProfile: '/customers/profile/edit-profile/professional',
+    addToServiceProviders: '/customers/add-to-service-providers',
 
     //jobs
     active: '/customers/jobs/active-job',

@@ -1,22 +1,22 @@
+
 import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
-import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
-
+import CreateOrganizationProfileForm from '@/app/shared/organization';
 
 export const metadata = {
-  ...metaObject('Fundi Profile'),
+  ...metaObject('Profile'),
 };
 
 const pageHeader = {
-  title: 'Fundi Profile Creation',
+  title: 'Organization Profile Creation',
   breadcrumb: [
     {
       href: '',
-      name: 'Service Providers',
+      name: 'Customers',
     },
     {
       href: '',
-      name: 'Fundi',
+      name: 'Organization',
     },
     {
       name: 'Create profile',
@@ -24,7 +24,7 @@ const pageHeader = {
   ],
 };
 
-export default function FundiCreateProfilePage() {
+export default function OrganizationCreateProfilePage() {
   return (
     <>
       <PageHeader
@@ -32,7 +32,7 @@ export default function FundiCreateProfilePage() {
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
 
-      <CreateFundiProfileForm />
+      <CreateOrganizationProfileForm />
     </>
   );
 }

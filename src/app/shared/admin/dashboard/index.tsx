@@ -15,7 +15,7 @@ import InvoiceList from './review-slider';
 
 import walletImage from '../../../../../public/wallets.png';
 
-export default function AdminDashboard() {
+export default function CustomerDashboard() {
   // Wallet data
   const balance = 'KSH 1,234.56';
 

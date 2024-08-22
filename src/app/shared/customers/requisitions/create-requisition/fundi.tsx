@@ -6,6 +6,7 @@ import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
 import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
 import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
+import Pricing from '@/app/shared/pricing-package/pricing';
 
 interface Option {
   label: string;
@@ -99,7 +100,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     <div className="@container">
       <h1>Fundi</h1>
       <div className="w-full rounded-lg bg-white p-4">
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
           <div className="mt-1 flex space-x-8">
             {reqType.map((pkg) => (
@@ -132,92 +133,93 @@ const GenerateInvoiceFundi: React.FC = () => {
               </div>
             ))}
           </div>
+        </div> */}
+        <div>
+          <Pricing/>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="grid grid-cols-1 gap-2">
-            <div className="grid grid-cols-1 mt-2 p-2 gap-4 sm:grid-cols-2 md:grid-cols-4">
-              <div className="form-group mt-2">
-                <Select
-                  label="Skill"
-                  options={Skill}
-                  value={skill}
-                  onChange={(selected) => setSkill(selected as Option)}
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Select
-                  label="Request Type"
-                  options={reqType}
-                  value={value}
-                  onChange={(selected) => setValue(selected as Option)}
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Select
-                  label="Managed By"
-                  options={managedBy}
-                  value={managed}
-                  onChange={(selected) => setManaged(selected as Option)}
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Select
-                  label="County"
-                  options={County}
-                  value={county}
-                  onChange={(selected) => setCounty(selected as Option)}
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Select
-                  label="Sub-County"
-                  options={SubCounty}
-                  value={subCounty}
-                  onChange={(selected) => setSubCounty(selected as Option)}
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Input
-                  type="text"
-                  label="Estate/Village"
-                />
-              </div>
-              <div className="form-group mt-2">
-                <Input
-                  type="date"
-                  id="date"
-                  label="Date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                />
-              </div>
-              <div className="form-group col-span-4">
-                <Textarea
-                  id="description"
-                  clearable
-                  placeholder="Add description"
-                  value={state}
-                  onClear={() => setState('')}
-                  onChange={(e) => setState(e.target.value)}
-                  style={{ height: '60px' }}
-                />
-              </div>
-              <div className="col-span-full">
-                <ActiveJobDetailsAttachments />
-              </div>
-              <div className="form-group col-span-2 mt-2 flex items-center">
-                <Checkbox label="I agree to Fundi Agreement" />
-              </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 mt-6 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="form-group">
+              <Select
+                label="Skill"
+                options={Skill}
+                value={skill}
+                onChange={(selected) => setSkill(selected as Option)}
+              />
+            </div>
+            <div className="form-group">
+              <Select
+                label="Request Type"
+                options={reqType}
+                value={value}
+                onChange={(selected) => setValue(selected as Option)}
+              />
+            </div>
+            <div className="form-group">
+              <Select
+                label="Managed By"
+                options={managedBy}
+                value={managed}
+                onChange={(selected) => setManaged(selected as Option)}
+              />
+            </div>
+            <div className="form-group">
+              <Select
+                label="County"
+                options={County}
+                value={county}
+                onChange={(selected) => setCounty(selected as Option)}
+              />
+            </div>
+            <div className="form-group">
+              <Select
+                label="Sub-County"
+                options={SubCounty}
+                value={subCounty}
+                onChange={(selected) => setSubCounty(selected as Option)}
+              />
+            </div>
+            <div className="form-group">
+              <Input
+                type="text"
+                label="Estate/Village"
+              />
+            </div>
+            <div className="form-group">
+              <Input
+                type="date"
+                id="date"
+                label="Date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+            <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
+              <Textarea
+                id="description"
+                clearable
+                placeholder="Add description"
+                value={state}
+                onClear={() => setState('')}
+                onChange={(e) => setState(e.target.value)}
+                style={{ height: '60px' }}
+              />
+            </div>
+            <div className="col-span-1 md:col-span-2 lg:col-span-4">
+              <ActiveJobDetailsAttachments />
+            </div>
+            <div className="form-group col-span-1 md:col-span-2 flex items-center">
+              <Checkbox label="I agree to Fundi Agreement" />
             </div>
           </div>
-          <Button
-            type="submit"
-            className="block mx-auto mt-8 w-full rounded-md px-2 py-1 text-white"
-            onClick={() => router.push(buttonLink)}
-          >
-            {buttonText}
-          </Button>
-        </form>
+        <Button
+          type="submit"
+          className="block mx-auto mt-8 w-full rounded-md px-4 py-2 text-white bg-blue-600 hover:bg-blue-700"
+          onClick={() => router.push(buttonLink)}
+         >
+          {buttonText}
+        </Button>
+      </form>
       </div>
     </div>
   );
