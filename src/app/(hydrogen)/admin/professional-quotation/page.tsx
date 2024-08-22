@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import CreateContractorQuotationComponent from '@/app/shared/admin/quotations/contractor';
 import AllContractorsComponent from '@/app/shared/admin/all-contractors-tables';
+import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/create-quotation';
+import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
 
 // export const metadata = {
 //   ...metaObject('Create Professional Quotation '),
@@ -93,7 +95,7 @@ export default function ProfessionalQuotation() {
                 jobId === '3700') && (
                 <div className="relative @4xl:col-span-2 ">
                   {/* Render Contract Table */}
-                  <AllContractorsComponent />
+                  <WaterContractorsTable />
                 </div>
               )}
             </>
@@ -109,8 +111,11 @@ export default function ProfessionalQuotation() {
 
           {!isTableVisible && (
             <>
-              <div className="relative  @4xl:col-span-2 ">
-                <CreateContractorQuotationComponent />
+              <div className="relative @4xl:col-span-2">
+                {jobId === '3001' && <CreateProfessionalQuotationComponent />}
+                {(jobId === '3400' || jobId === '3401') && (
+                  <CreateContractorQuotationComponent />
+                )}
               </div>
             </>
           )}

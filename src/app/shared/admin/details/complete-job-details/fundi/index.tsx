@@ -5,7 +5,7 @@ import { useState } from 'react';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 import ReviewForm from '@/app/shared/custom-reviews/review-form';
 import UserDetailsCard from '@/app/shared/custom-user-details-card';
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
 import { completeJobDetailsData } from '@/data/custom-job-details-data';
 import ReviewCard from '@/app/shared/custom-reviews/review-card-view';
 import { useSearchParams } from 'next/navigation';

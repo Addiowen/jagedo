@@ -7,7 +7,7 @@ import PageHeader from '@/app/shared/commons/page-header';
 // import CreateEditProduct from '@/app/shared/admin/product/create-edit';
 // import CreateCustomerForm from '@/app/shared/admin/profile/create-profile/customers/page';
 // import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
-import EditFundiForm from '@/app/shared/profile-1/profile';
+import EditFundiForm from '@/app/shared/profile/profile';
 export const metadata = {
   ...metaObject('Fundi Profile'),
 };

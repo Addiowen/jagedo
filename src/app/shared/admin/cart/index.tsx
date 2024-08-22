@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import ProductCarousel from '@/components/product-carousel';
 import { routes } from '@/config/routes';
 import { recentlyProducts, recommendationProducts } from '@/data/shop-products';
-import CartProduct from '@/app/shared/ecommerce/cart/cart-product';
+import CartProduct from '@/app/shared/admin/cart/cart-product';
 import { useCart } from '@/store/quick-cart/cart.context';
 import usePrice from '@/hooks/use-price';
 import { Empty, EmptyProductBoxIcon, Title, Text, Input, Button } from 'rizzui';

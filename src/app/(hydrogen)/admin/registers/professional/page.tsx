@@ -1,4 +1,3 @@
-import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
 import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
 import { routes } from '@/config/routes';
 

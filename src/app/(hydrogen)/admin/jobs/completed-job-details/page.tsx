@@ -6,15 +6,15 @@ import { useState } from 'react';
 import ReviewCard from '@/app/shared/custom-reviews/review-card-view';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PiUserCircleDuotone } from 'react-icons/pi';
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
 import ReviewForm from '@/app/shared/custom-reviews/review-form';
-import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
+import CustomerDetailsCard from '@/app/shared/admin/jobs/cutomer-details';
 import { completeJobDetailsData } from '@/data/job-data';
-import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
+import FundiDetailsCard from '@/app/shared/admin/jobs/fundi-details';
 import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
-import CompleteJobDetailsAttachments from '@/app/shared/completed-attachments';
+import CompleteJobDetailsAttachments from '@/app/shared/commons/completed-attachments';
 
 // const data = [
 //     {
@@ -160,10 +160,6 @@ export default function FundiCompleteJobDetails() {
             <FundiDetailsCard />
 
             <div className="mt-6 flex justify-center">
-              <Button onClick={() => setModalState(true)} className="ml-4">
-                Add Review
-              </Button>
-
               {jobId === '3324' ? (
                 <Button
                   onClick={() => setViewReviewsModalState(true)}
@@ -179,12 +175,7 @@ export default function FundiCompleteJobDetails() {
                   Request Review
                 </Button>
               ) : (
-                <Button
-                  onClick={() => setViewReviewsModalState(true)}
-                  className="ml-4"
-                >
-                  View Reviews
-                </Button>
+                <></>
               )}
             </div>
           </Tab.Panel>

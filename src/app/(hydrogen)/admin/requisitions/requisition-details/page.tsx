@@ -8,7 +8,7 @@ import CustomerDetailsCard from '@/app/shared/admin/dashboard/customer-details';
 import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
 import { requestDetails } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
 

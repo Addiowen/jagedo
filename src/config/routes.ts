@@ -8,14 +8,14 @@ export const routes = {
     //Profile
     createCustomerProfile: '/admin/profile/create-profile/customers',
 
-    createFundiProfile: '/admin/profile-page/profile',
-    createContractorProfile: '/admin/contractor-profile',
-    createProfessionalProfile: '/admin/professional-profile',
-    createOrgCustomerProfile: '/admin/profile-page/organization-profile',
-    createIndividualProfile: '/admin/profile-page/individual-profile',
+    createFundiProfile: '/admin/profile/fundi-profile',
+    createContractorProfile: '/admin/profile/contractor-profile',
+    createProfessionalProfile: '/admin/profile/professional-profile',
+    createOrgCustomerProfile: '/admin/profile/organization-profile',
+    createIndividualProfile: '/admin/profile/individual-profile',
     editIndividualCustomerProfile:
       '/admin/profile/edit-profile/customer-individual',
-    editOrgCustomerProfile: '/admin/profile/edit-profile/customer-organization',
+    editOrgCustomerProfile: '/admin/profile/organization-profile',
 
     editFundiProfile: '/admin/profile/edit-profile/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',

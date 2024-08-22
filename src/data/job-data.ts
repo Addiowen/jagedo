@@ -1,4 +1,4 @@
-import { subCounty } from '@/app/shared/profile-1/individual/create-profile/individual/data';
+import { subCounty } from '@/app/shared/profile/individual/create-profile/individual/data';
 import { uniqueId } from 'lodash';
 
 let counter = 1; // Initialize your counter
@@ -6,6 +6,63 @@ let counter = 1; // Initialize your counter
 function generateNo() {
   return counter++;
 }
+
+export const requestDetailsData = [
+  {
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Request Type': 'Package 1',
+    'Managed By': 'JaGedo',
+    County: 'Homabay',
+    'Sub County': 'Kome',
+    'Estate/Village': 'Kome',
+    'Request Date': '12/11/2023',
+
+    Status: 'Open',
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    // 'Request Number': '#REQ0021',
+    Amount: '3000',
+    // 'doc_1': '/images/image1.jpg',
+    // Attachments: [
+    //   '/images/image1.jpg',
+    //   '/images/image2.jpg',
+    //   '/images/image3.jpg',
+    // ],
+
+    // 'Job description': 'Repair of faulty wiring system',
+
+    // 'Deadline for availability': '20/04/2024',
+
+    // 'Rate': '1000',
+  },
+  {
+    Category: 'Fundi',
+    'Sub-Category': 'Electricity',
+    'Request Type': 'Package 2',
+    'Managed By': 'Self',
+    County: 'Homabay',
+    'Sub County': 'Kome',
+    'Estate/Village': 'Kome',
+    'Request Date': '11/11/2023',
+    // 'Request Number': '#REQ0020',
+
+    // 'Job description': 'Tank reticulation to water point',
+    Status: 'Open',
+    'Start Date': '12/11/2023',
+    'End Date': '13/11/2023',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Amount: '1000',
+    // Attachments: [
+    //   '/images/image1.jpg',
+    //   '/images/image2.jpg',
+    //   '/images/image3.jpg',
+    // ],
+  },
+];
 
 export const billofQuantity = [
   {
@@ -905,6 +962,89 @@ export const individualCustomers = [
     hired: 3,
   },
 ];
+
+export const professionalRequestDetailsData = [
+  {
+    Category: 'Professional',
+    Profession: 'Architect',
+    'Request Type': 'Package 1',
+    'Managed By': 'JaGedo',
+    County: 'Narok',
+    'Sub County': 'Transmara',
+    'Estate/Village': 'Transmara',
+    'Request Date': '05/11/2023',
+    // 'Request Number': 'REQ0021',
+
+    Status: 'Open',
+    'Start Date': '12/11/2023',
+    'End Date': '10/12/2023',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Amount: '10000',
+    // Attachments: [
+    //   '/images/image1.jpg',
+    //   '/images/image2.jpg',
+    //   '/images/image3.jpg',
+    // ],
+  },
+  {
+    Category: 'Professional',
+    Profession: 'Architect',
+    'Request Type': 'Package 2',
+    'Managed By': 'Self',
+    County: 'Busia',
+    'Sub County': 'Nambale',
+    'Estate/Village': 'Nambale',
+    'Request Date': '05/11/2023',
+    // 'Request Number': 'REQ0020',
+
+    Status: 'Open',
+    'Start Date': '12/11/2023',
+    'End Date': '10/12/2023',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid',
+    Amount: '10000',
+    // Attachments: [
+    //   '/images/image1.jpg',
+    //   '/images/image2.jpg',
+    //   '/images/image3.jpg',
+    // ],
+  },
+];
+export const jobData = [
+  {
+    no: 1,
+    id: '3100',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Ken',
+    lastName: 'Waswa',
+    phone: '0793928324',
+    profession: 'Architect',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+  {
+    no: 2,
+    id: '3102',
+    date: '2022-11-10T06:22:01.621Z',
+    firstName: 'Steve',
+    lastName: 'Limo',
+    phone: '0712345678',
+    profession: 'Quantity Surveyor',
+    rating: 3.5,
+    age: '33',
+    county: 'Busia',
+    subCounty: 'Nambale',
+    inProcess: 25,
+    hired: 3,
+    status: 'Approved',
+  },
+];
 export const professionalsData = [
   {
     no: 1,
@@ -1426,7 +1566,7 @@ export const quotationData = [
   },
   {
     number: '2',
-    id: '3324',
+    id: '3325',
     uniqueId: '#323784AAD',
 
     date: '2022-11-10T06:22:01.621Z',

@@ -5,8 +5,8 @@ import isEmpty from 'lodash/isEmpty';
 import { toCurrency } from '@/utils/to-currency';
 import { Title, Text } from 'rizzui';
 import { AddToWishList } from '@/components/wishlist-button';
-import RemoveItem from '@/app/shared/ecommerce/cart/remove-item';
-import QuantityInput from '@/app/shared/ecommerce/cart/quantity-input';
+import RemoveItem from '@/app/shared/admin/cart/remove-item';
+import QuantityInput from '@/app/shared/admin/cart/quantity-input';
 import { routes } from '@/config/routes';
 
 export default function CartProduct({ product }: { product: CartItem }) {

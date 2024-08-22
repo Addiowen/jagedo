@@ -1,19 +1,14 @@
 'use client';
 
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import CustomerDetailsCard from '@/app/shared/logistics/dashboard/cutomer-details';
-// import UploadZone from '@/components/ui/file-upload/upload-zone';
-// import { routes } from '@/config/routes';
-// import { useRouter } from 'next/navigation';
-// import { PiTrashDuotone, PiUpload } from 'react-icons/pi';
-// import { Badge, Button } from 'rizzui';
+import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
+import CustomerDetailsCard from '../../jobs/cutomer-details';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { PiCaretDownBold } from 'react-icons/pi';
 import { Accordion, Button, Tab } from 'rizzui';
 import { activeJobDetailsData, completeJobDetailsData } from '@/data/job-data';
-import FundiDetailsCard from '@/app/shared/logistics/dashboard/fundi-details';
-import ChunkedGridActive from '@/app/shared/chunked-grid-active';
+import FundiDetailsCard from '../../jobs/fundi-details';
+import ChunkedGridActive from '@/app/shared/commons/chunked-grid-active';
 import ActiveJobDetailsAttachments from '../../add-attachments';
 import ProgressBarActive from '../../progress-bar-admin';
 import Link from 'next/link';

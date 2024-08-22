@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import isEmpty from 'lodash/isEmpty';
-import OrderProducts from '@/app/shared/ecommerce/checkout/order-products';
+import OrderProducts from '@/app/shared/admin/checkout/order-products';
 import { toCurrency } from '@/utils/to-currency';
 import { Title, Text, Button, EmptyProductBoxIcon } from 'rizzui';
 import cn from '@/utils/class-names';

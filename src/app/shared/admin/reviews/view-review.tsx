@@ -15,7 +15,7 @@ import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import { usePathname, useRouter } from 'next/navigation';
-import JobDescriptionChunked from '@/app/shared/job-description-chunked';
+import JobDescriptionChunked from '@/app/shared/job-description-chunked/job-description-chunked';
 // import { useFieldArray, useFormContext } from 'react-hook-form';
 // import { BillTableType } from './view-bill';
 

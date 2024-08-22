@@ -5,16 +5,12 @@ import { useState } from 'react';
 import ToastButton from '@/components/buttons/toast-button';
 import { routes } from '@/config/routes';
 import { useSearchParams } from 'next/navigation';
-import ReportTable from '../dashboard/tables/report-table';
 import AnalyzeQuotationsTable from '../dashboard/tables/quotations/analyze-quotations';
 import WidgetCard3 from '@/components/cards/widget-card3';
-import ProfileChunkedGrid from '../../profile-chunked-grid';
-import ChunkedGrid from '../../custom-chunked-grid';
-import { completeJobDetailsData, requestDetails } from '@/data/job-data';
+import ChunkedGrid from '../../commons/custom-chunked-grid';
+import { requestDetails } from '@/data/job-data';
 import Link from 'next/link';
 import { PiArrowDown, PiDownloadDuotone, PiPlusBold } from 'react-icons/pi';
-import ChunkedGridActive from '../../chunked-grid-active';
-import ChunkedGridTwo from '../chunked-grid-two';
 
 const data = [
   {

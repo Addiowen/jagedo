@@ -1,6 +1,6 @@
 import { routes } from '@/config/routes';
 import PageHeader from '@/app/shared/commons/page-header';
-import FundiEditProfileNav from '@/app/shared/profile-1/profile/edit-profile/navigation';
+import FundiEditProfileNav from '@/app/shared/profile/profile/edit-profile/navigation';
 // import ProfileSettingsNav from '@/app/shared/account-settings/navigation';
 
 const pageHeader = {

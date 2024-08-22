@@ -10,10 +10,10 @@ import {
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
 
-import JobDescriptionChunked from '../../job-description-chunked';
+import JobDescriptionChunked from '../../commons/job-description-chunked';
 import { Note } from '@/data/job-data';
 import { useSearchParams } from 'next/navigation';
-import { Item } from '../../custom-chunked-grid';
+import { Item } from '../../commons/custom-chunked-grid';
 
 interface Props {
   data: Item;
