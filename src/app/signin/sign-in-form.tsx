@@ -34,13 +34,15 @@ export default function SignInForm() {
       window.sessionStorage.setItem('role', 'professional');
     } else if (data.email === 'contractor@email.com') {
       window.sessionStorage.setItem('role', 'contractor');
+    } else if (data.email === 'admin@admin.com') {
+      window.sessionStorage.setItem('role', 'admin');
     }
 
-    if (data.email === 'organization@email.com') {
-      window.sessionStorage.setItem('role', 'organization');
-    } else if (data.email === 'individual@email.com') {
-      window.sessionStorage.setItem('role', 'individual');
-    }
+    // if (data.email === 'organization@email.com') {
+    //   window.sessionStorage.setItem('role', 'organization');
+    // } else if (data.email === 'individual@email.com') {
+    //   window.sessionStorage.setItem('role', 'individual');
+    // }
   };
 
   return (

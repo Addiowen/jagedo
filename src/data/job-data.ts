@@ -1637,18 +1637,20 @@ export const requisitionData = [
   {
     id: 'BT000FF',
     date: '2023-11-12T06:22:01.621Z',
-    jobDetails: 'Project type: Housing, Description: Repair of faulty wiring system',
+    jobDetails:
+      'Project type: Housing, Description: Repair of faulty wiring system',
     requestType: 'Package 1',
-    status: 'Pending'
+    status: 'Pending',
   },
 
   {
     id: 'BT0F0G',
     date: '2023-11-10T06:22:01.621Z',
-    jobDetails: 'Project type: Housing, Description: Repair of sockets, Request Type: Package 2',
+    jobDetails:
+      'Project type: Housing, Description: Repair of sockets, Request Type: Package 2',
     requestType: '2.0',
-    status: 'Pending'
-  }
+    status: 'Pending',
+  },
 ];
 
 export const fundiRequisitionData = [
@@ -1789,20 +1791,22 @@ export const contractorRequisitionData = [
   // },
 ];
 
-export const quotationData = [
+export const quotationDataDetails = [
   {
     id: 'JB000FFF',
     date: '2022-11-10T06:22:01.621Z',
-    jobDetails: 'Project type: Housing, Description: Repair of faulty wiring system, Request type: Package 1',
-    status: 'Under Review'
+    jobDetails:
+      'Project type: Housing, Description: Repair of faulty wiring system, Request type: Package 1',
+    status: 'Under Review',
   },
 
   {
     id: 'JB00DINT',
     date: '2023-11-10T06:22:01.621Z',
-    jobDetails: 'Project type: Housing, Description: Repair of sockets, Request Type: Package 2',
-    status: 'Under Review'
-  }
+    jobDetails:
+      'Project type: Housing, Description: Repair of sockets, Request Type: Package 2',
+    status: 'Under Review',
+  },
 ];
 
 export const professionalQuotationData = [
@@ -1874,7 +1878,7 @@ export const jobsData = [
     description: 'Boundary wall construction',
     location: 'Nyali, Mombasa',
     requestType: '2.0',
-    status: 'Ongoing'
+    status: 'Ongoing',
   },
 
   {
@@ -1885,8 +1889,8 @@ export const jobsData = [
     description: 'Boundary wall construction',
     location: 'Kisumu',
     requestType: 'Package 1',
-    status: 'Completed'
-  }
+    status: 'Completed',
+  },
 ];
 
 export const activeJobsData = [
@@ -1898,7 +1902,7 @@ export const activeJobsData = [
     description: 'Boundary wall construction',
     location: 'Nyali, Mombasa',
     requestType: '2.0',
-    status: 'Ongoing'
+    status: 'Ongoing',
   },
 
   {
@@ -1909,8 +1913,8 @@ export const activeJobsData = [
     description: 'Boundary wall construction',
     location: 'Kisumu',
     requestType: 'Package 1',
-    status: 'Ongoing'
-  }
+    status: 'Ongoing',
+  },
 ];
 
 export const fundiActiveJobsData = [
@@ -2012,7 +2016,7 @@ export const completedJobsData = [
     description: 'Boundary wall construction',
     location: 'Nyali, Mombasa',
     requestType: '2.0',
-    status: 'Reviewed'
+    status: 'Reviewed',
   },
 
   {
@@ -2023,8 +2027,8 @@ export const completedJobsData = [
     description: 'Boundary wall construction',
     location: 'Kisumu',
     requestType: 'Package 1',
-    status: 'Unreviewed'
-  }
+    status: 'Unreviewed',
+  },
 ];
 
 export const fundiCompletedJobsData = [
@@ -2339,5 +2343,3 @@ export const professionalReviewsData = [
 //     requestTypeId: 2,
 //   },
 // ]
-
-

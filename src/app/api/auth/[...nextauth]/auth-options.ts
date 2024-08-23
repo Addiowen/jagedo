@@ -61,7 +61,6 @@ export const authOptions: NextAuthOptions = {
           { email: 'professional@email.com', password: 'professional' },
           { email: 'contractor@email.com', password: 'contractor' },
           { email: 'admin@admin.com', password: 'admin' },
-          { email: 'admin@admin.com', password: 'admin' },
           { email: 'organization@email.com', password: 'organization' },
         ];
 
