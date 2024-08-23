@@ -1,5 +1,6 @@
 import ReportComponent from './analyse-quotation';
 import ToastButton from '@/components/buttons/toast-button';
+import { DUMMY_ID } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import Link from 'next/link';
@@ -19,7 +20,7 @@ export default function AdminRequisitionsPage() {
       <div className="flex justify-center">
         <ToastButton
           title="Generate Invoice"
-          route={routes.customers.invoice}
+          route={routes.customers.details(DUMMY_ID)}
           message="Processing..."
         />
       </div>

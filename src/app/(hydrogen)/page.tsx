@@ -1,5 +1,5 @@
 import { metaObject } from '@/config/site.config';
-import CustomerDashboard from '../shared/admin/dashboard';
+import CustomerDashboard from '../shared/customers/dashboard';
 
 export const metadata = {
   ...metaObject(),

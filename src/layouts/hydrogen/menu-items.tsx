@@ -60,6 +60,7 @@ import {
   PiInfo,
   PiHouseDuotone,
 } from 'react-icons/pi';
+import { FaViacoin } from 'react-icons/fa';
 
 interface MenuItem {
   name: string;
@@ -201,11 +202,6 @@ export const menuItems: MenuItem[] = [
         name: 'FAQs',
         href: routes.blank,
         icon: <PiInfo />,
-      },
-      {
-        name: 'Logout',
-        href: routes.blank,
-        icon: <PiLock />,
       },
     ],
   },
