@@ -9,11 +9,8 @@ export const metadata = {
 export default function SignInPage() {
   return (
     <AuthWrapperFour
-      title={
-        <>
-          Welcome Back! <br /> Sign in with your credentials.
-        </>
-      }
+      className="max-h-screen"
+      title={<>Sign in with your credentials.</>}
       isSignIn
       isSocialLoginActive={true}
     >

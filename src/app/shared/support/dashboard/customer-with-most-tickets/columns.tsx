@@ -9,7 +9,7 @@ import { StatusType } from '@/data/customer-with-most-tickets';
 import PencilIcon from '@/components/icons/pencil';
 import EyeIcon from '@/components/icons/eye';
 import AvatarCard from '@/components/ui/avatar-card';
-import DeletePopover from '@/app/shared/delete-popover';
+import DeletePopover from '@/app/shared/commons/delete-popover';
 
 function chartColor(value: number) {
   if (value > 70) return '#16a679';

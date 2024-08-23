@@ -25,6 +25,12 @@ export default function SignInForm() {
     signIn('credentials', {
       ...data,
     });
+
+    if (data.email === 'organization@email.com') {
+      window.sessionStorage.setItem('role', 'organization');
+    } else if (data.email === 'individual@email.com') {
+      window.sessionStorage.setItem('role', 'individual');
+    }
   };
 
   return (
@@ -81,7 +87,7 @@ export default function SignInForm() {
       <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
         Don’t have an account?{' '}
         <Link
-          href={routes.auth.signUp1}
+          href={routes.auth.signUp4}
           className="font-semibold text-gray-700 transition-colors hover:text-blue"
         >
           Sign Up

@@ -132,14 +132,14 @@ export default function UploadZone({
         <div
           {...getRootProps()}
           className={cn(
-            'flex cursor-pointer items-center gap-4 px-6 py-5 transition-all duration-300',
+            'flex cursor-pointer items-center gap-4 px-6 py-2 transition-all duration-300',
             isEmpty(files)
               ? 'justify-center'
               : 'flex-grow justify-center @xl:justify-start'
           )}
         >
           <input {...getInputProps()} />
-          <UploadIcon className="h-12 w-12" />
+          <UploadIcon className="h-6 w-6" />
           <Text className="text-base font-medium">Drop or select file</Text>
         </div>
 

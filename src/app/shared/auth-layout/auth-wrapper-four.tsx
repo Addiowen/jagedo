@@ -59,24 +59,27 @@ export default function AuthWrapperFour({
       <div className="flex w-full flex-col justify-center px-5">
         <div
           className={cn(
-            'mx-auto w-full max-w-md py-12 md:max-w-lg lg:max-w-xl 2xl:pb-8 2xl:pt-2',
+            'mx-auto w-full max-w-md py-6 md:max-w-lg lg:max-w-xl 2xl:pb-8 2xl:pt-2',
             className
           )}
         >
           <div className="flex flex-col items-center">
-            <Link href={'/'} className="mb-7 inline-block max-w-[64px] lg:mb-9">
-              <Image src={siteConfig.icon} alt={siteConfig.title} />
+            <Link href={'/'} className=" inline-block max-w-[64px] lg:mb-4">
+              <div className=" -mb-20  -ml-20 h-40  w-40  items-center">
+                <Image src={siteConfig.icon} alt={siteConfig.title} />
+              </div>
             </Link>
+
             <Title
               as="h2"
-              className="mb-7 text-center text-[28px] font-bold leading-snug md:text-3xl md:!leading-normal lg:mb-10 lg:text-4xl"
+              className="mb-5 text-center text-[28px] font-bold leading-snug md:text-3xl md:!leading-normal lg:mb-10 lg:text-4xl"
             >
               {title}
             </Title>
           </div>
           {isSocialLoginActive && (
             <>
-              <div className="flex flex-col gap-4 pb-6 md:flex-row md:gap-6 xl:pb-7">
+              <div className="flex flex-col gap-4 pb-4 md:flex-row md:gap-6 xl:pb-7">
                 <Button variant="outline" className="h-11 w-full">
                   <FcGoogle className="me-2 h-4 w-4 shrink-0" />
                   <span className="truncate">Signin with Google</span>
@@ -107,22 +110,24 @@ function AuthHeader() {
   return (
     <header className="flex items-center justify-between p-4 lg:px-16 lg:py-6 2xl:px-24">
       <Link href={'/'}>
-        <Image
-          src={siteConfig.logo}
-          alt={siteConfig.title}
-          className="dark:invert"
-          priority
-        />
+        <div className="h-10 w-10">
+          <Image
+            src={siteConfig.logo}
+            alt={siteConfig.title}
+            className="dark:invert"
+            priority
+          />
+        </div>
       </Link>
       <div className="flex items-center space-x-2 md:space-x-4">
         <AuthNavLink href={routes.auth.signIn4}>
           <PiArrowLineRight className="h-4 w-4" />
           <span>Login</span>
         </AuthNavLink>
-        <AuthNavLink href={routes.auth.signUp4}>
+        {/* <AuthNavLink href={routes.auth.signUp4}>
           <PiUserCirclePlus className="h-4 w-4" />
           <span>Sign Up</span>
-        </AuthNavLink>
+        </AuthNavLink> */}
       </div>
     </header>
   );
@@ -147,14 +152,13 @@ function AuthFooter() {
   return (
     <footer className="flex flex-col-reverse items-center justify-between px-4 py-5 lg:flex-row lg:px-16 lg:py-6 2xl:px-24 2xl:py-10">
       <div className="text-center leading-relaxed text-gray-500 lg:text-start">
-        © Copyright 2023. Theme by{' '}
+        © Copyright 2024
         <Link
-          href="https://redq.io/"
+          href="#"
           className="font-medium transition-colors hover:text-primary"
         >
-          RedQ
+          Jagedo
         </Link>
-        , all rights reserved.
       </div>
       <div className="-mx-2.5 flex items-center justify-end pb-3 font-medium text-gray-700 lg:w-1/2 lg:pb-0">
         {footerMenu.map((item) => (

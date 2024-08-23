@@ -1,6 +1,5 @@
 import { routes } from '@/config/routes';
 import { orderData } from '@/data/order-data';
-import { getWidgetColumns } from '@/app/shared/ecommerce/order/order-list/columns';
 import BasicTableWidget from '@/components/controlled-table/basic-table-widget';
 import TableLayout from '@/app/(hydrogen)/tables/table-layout';
 import { metaObject } from '@/config/site.config';

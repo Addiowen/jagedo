@@ -22,7 +22,7 @@ const classes = {
   thead:
     '[&_thead]:text-left [&_thead]:rtl:text-right [&_th.rc-table-cell]:uppercase [&_th.rc-table-cell]:text-xs [&_th.rc-table-cell]:font-semibold [&_th.rc-table-cell]:tracking-wider [&_th.rc-table-cell]:text-gray-500',
   tCell:
-    '[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-3 [&_td.rc-table-cell]:py-4',
+    '[&_.rc-table-cell]:px-3 [&_th.rc-table-cell]:py-2 [&_td.rc-table-cell]:py-2',
   variants: {
     classic:
       '[&_thead]:bg-gray-100 [&_.rc-table-container]:border-x [&_.rc-table-container]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70 [&_thead]:border-y [&_thead]:border-muted/70',
@@ -34,6 +34,8 @@ const classes = {
       '[&_thead]:border-y [&_thead]:border-muted/70 [&_td.rc-table-cell]:border-b [&_td.rc-table-cell]:border-muted/70',
     retro:
       '[&_thead]:border-y [&_thead]:border-muted/70 [&_tbody_tr:last-child_td.rc-table-cell]:border-b [&_tbody_tr:last-child_td.rc-table-cell]:border-muted/70',
+    bordered:
+      '[&_thead_th]:bg-gray-100 [&_tbody]:border [&_tbody]:border-gray-300 [&_td.rc-table-cell]:border [&_td.rc-table-cell]:border-gray-300 [&_th.rc-table-cell]:border [&_th.rc-table-cell]:border-gray-300',
   },
   striped:
     '[&_.rc-table-row:nth-child(2n)_.rc-table-cell]:bg-gray-100/50 [&_.rc-table-row:hover]:bg-transparent',

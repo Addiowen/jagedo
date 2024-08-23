@@ -43,6 +43,7 @@ export const INVOICE_BUILDER_DEFAULT_VALUE = {
     rate: 'Rate',
     tax: 'Tax',
     amount: 'Amount',
+    extar: 'this',
   },
   invoiceTable: INVOICE_TABLE_DEFAULT_DATA,
   payments: {
@@ -104,6 +105,7 @@ export const invoiceBuilderSchema = z.object({
     rate: z.string().optional(),
     tax: z.string().optional(),
     amount: z.string().optional(),
+    extar: z.string().optional(),
   }),
   invoiceTable: z.array(
     z.object({

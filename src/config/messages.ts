@@ -12,6 +12,7 @@ export const messages = {
   nameIsRequired: 'Name is required',
   firstNameRequired: 'First name is required',
   phoneNumberIsRequired: 'Phone Number is required',
+  phoneminLength: 'Phone Number must contain at least 10 digits',
   customerNameIsRequired: 'Customer name is required',
   lastNameRequired: 'Last name is required',
   streetIsRequired: 'Street Address is required',
@@ -71,4 +72,31 @@ export const messages = {
   roleNameLengthMin: 'Role name must be at least 3 letters',
   errorSendingEmail: 'Error sending email',
   emailSentSuccessfully: 'Your email has been sent successfully.',
+
+  // added these
+  // service provider
+  idNoIsRequired: 'ID/Passport Number is required',
+  skillIsRequired: 'Skill is required',
+  genderIsRequired: 'Gender is required',
+  dobIsRequired: 'Date of Birth is required',
+  countyIsRequired: 'County is required',
+  subCountyIsRequired: 'Sub-County/Area is required',
+  estateIsRequired: 'Estate is required',
+  accountVerificationIsRequired: 'AccountVerification is required',
+  levelIsRequired: 'Level/Class is required',
+  yearsIsRequired: 'Years of experience required',
+  idPicIsRequired: 'ID Picture / Passport is required',
+  certificatesIsRequired: 'Certificates required',
+  ncaCardIsRequired: 'NCA Registration Card is required',
+  professionIsRequired: 'Profession is required',
+  categoryIsRequired: 'Category is required',
+  fieldIsRequired: 'This field is required',
+  companyNameIsRequired: 'Company name is required',
+  companyNumberIsRequired: 'Company number is required',
+  registrationNumberIsRequired: 'Registration number is required',
+  classIsRequired: 'Class is required',
+
+  // customer
+  typeIsRequired: 'Type is required',
+  organizationIsRequired: 'Organization is required',
 };

@@ -2,9 +2,15 @@ export const orderData = [
   {
     id: '3413',
     name: 'Dr. Ernest Fritsch-Shanahan',
-    email: 'August17@hotmail.com',
+    firstName: 'Ernest',
+    lastName: 'Shanahan',
+    gender: 'male',
+    age: '24',
+    phone: '0701111123',
+    location: 'Kome,Homabay',
+    email: 'tylerschmellvins@com',
     avatar:
-      'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-15.webp',
+      'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-15.webp',
     items: 83,
     price: '457.00',
     status: 'Cancelled',
@@ -43,6 +49,12 @@ export const orderData = [
   {
     id: '9192',
     name: 'Mr. Gregory Medhurst-Lubowitz',
+    firstName: 'Gregory',
+    lastName: 'Lubowitz',
+    gender: 'male',
+    age: '73',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'General.Bergstrom@yahoo.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-14.webp',
@@ -75,6 +87,12 @@ export const orderData = [
   {
     id: '4983',
     name: 'Becky Goodwin',
+    firstName: 'Becky',
+    lastName: 'Goodwin',
+    gender: 'female',
+    age: '33',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'Daniella_Littel@gmail.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-13.webp',
@@ -98,6 +116,12 @@ export const orderData = [
   {
     id: '9114',
     name: 'Mrs. Ann Leuschke Jr.',
+    firstName: 'Ann',
+    lastName: 'Leuschke',
+    gender: 'female',
+    age: '33',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'Favian49@yahoo.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-12.webp',
@@ -139,6 +163,12 @@ export const orderData = [
   {
     id: '4849',
     name: 'Elmer Heathcote',
+    firstName: 'Elmer',
+    lastName: 'Heathcote',
+    gender: 'male',
+    age: '33',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'Efren.Wehner@gmail.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-11.webp',
@@ -162,6 +192,12 @@ export const orderData = [
   {
     id: '8540',
     name: 'Ida McKenzie',
+    firstName: 'Ida',
+    lastName: 'McKenzie',
+    gender: 'male',
+    age: '63',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'Waino_Bosco@hotmail.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-10.webp',
@@ -194,6 +230,12 @@ export const orderData = [
   {
     id: '3114',
     name: 'Randal Dare',
+    firstName: 'Randal',
+    lastName: 'Dare',
+    gender: 'female',
+    age: '43',
+    phone: '0783111123',
+    location: 'Kome,Homabay',
     email: 'Morton_Lubowitz@hotmail.com',
     avatar:
       'https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-09.webp',

@@ -1,4 +1,77 @@
+import { requisitions } from '@/data/job-data';
+
 export const routes = {
+  admin: {
+    dashboard: '/admin',
+    rfq: '/admin/rfq',
+
+    //Profile
+    createCustomerProfile: '/admin/profile/create-profile/customers',
+
+    createFundiProfile: '/admin/profile/fundi-profile',
+    createContractorProfile: '/admin/profile/contractor-profile',
+    createProfessionalProfile: '/admin/profile/professional-profile',
+    createOrgCustomerProfile: '/admin/profile/organization-profile',
+    createIndividualProfile: '/admin/profile/individual-profile',
+    editIndividualCustomerProfile:
+      '/admin/profile/edit-profile/customer-individual',
+    editOrgCustomerProfile: '/admin/profile/organization-profile',
+
+    editFundiProfile: '/admin/profile/edit-profile/fundi',
+    editContractorProfile: '/admin/profile/edit-profile/contractor',
+    editProfessionalProfile: '/admin/profile/edit-profile/professional',
+    editDetails: '/admin/profile/edit-profile/edit-details',
+
+    //Registers
+    customers: '/admin/registers/customer',
+    individual: '/admin/registers/customer/individual',
+    organization: '/admin/registers/customer/organization',
+    fundi: '/admin/registers/fundi',
+    professional: '/admin/registers/professional',
+    contractor: '/admin/registers/contractor',
+    requisitions: '/admin/registers/requisitions',
+    customerRequisitions: '/admin/registers/requisitions/customer',
+    assignServiceProvider: '/admin/assign-service-provider',
+    quotations: '/admin/registers/quotations',
+    analyzeQuotations: '/admin/registers/quotations/analyze-quotations',
+    evaluate: '/admin/quotations/evaluateQuotations',
+    reviews: '/admin/registers/reviews',
+
+    //Jobs
+    active: '/admin/registers/jobs/active',
+    activeJobDetails: '/admin/jobs/active-job-details',
+    completedJobDetails: '/admin/jobs/completed-job-details',
+    ongoing: '/admin/registers/jobs/ongoing',
+    completed: '/admin/registers/jobs/completed',
+
+    //Requisitions
+    createRequest: '/admin/requisitions/create-requisition',
+    requisitionDetails: '/admin/requisitions/requisition-details',
+    createRFQ: '/admin/requisition-details/requisition-for-quotation',
+
+    //Quotations
+    professionalQuotation: '/admin/professional-quotation',
+
+    //Report
+    generateSingleReport: '/admin/single-report',
+    generateReport: '/admin/report',
+
+    //Reviews
+    viewReview: '/admin/reviews/view',
+    addReview: '/admin/reviews/add',
+  },
+
+  customers: {
+    dashboard: '/customers',
+    generateInvoice: '/customers/generate-invoice',
+    invoice: '/customers/invoice',
+    jobs: '/customers/jobs',
+
+    //Registers
+    requisitions: '/customers/registers/requisitions',
+    requisitionDetails: '/customers/registers/requisitions/view-requisition',
+  },
+
   eCommerce: {
     dashboard: '/ecommerce',
     products: '/ecommerce/products',
@@ -107,19 +180,15 @@ export const routes = {
     newsletter: '/forms/newsletter',
   },
   emailTemplates: '/email-templates',
-  profile: '/profile',
-  welcome: '/welcome',
-  comingSoon: '/coming-soon',
-  accessDenied: '/access-denied',
+  profile: '/redirects/profile',
+  welcome: '/redirects/welcome',
+  comingSoon: '/redirects/coming-soon',
+  accessDenied: '/redirects/access-denied',
   notFound: '/not-found',
-  maintenance: '/maintenance',
-  blank: '/blank',
+  maintenance: '/redirects/maintenance',
+  blank: '/redirects/blank',
   auth: {
-    signUp1: '/auth/sign-up-1',
-    signUp2: '/auth/sign-up-2',
-    signUp3: '/auth/sign-up-3',
     signUp4: '/auth/sign-up-4',
-    signUp5: '/auth/sign-up-5',
     // sign in
     signIn1: '/auth/sign-in-1',
     signIn2: '/auth/sign-in-2',

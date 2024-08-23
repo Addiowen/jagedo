@@ -543,24 +543,8 @@ export const berylliumMenuItems: MenuItemsType[] = [
         description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
         subMenuItems: [
           {
-            name: 'Modern Sign Up',
-            href: routes.auth.signUp1,
-          },
-          {
-            name: 'Vintage Sign Up',
-            href: routes.auth.signUp2,
-          },
-          {
-            name: 'Trendy Sign Up',
-            href: routes.auth.signUp3,
-          },
-          {
             name: 'Elegant Sign Up',
             href: routes.auth.signUp4,
-          },
-          {
-            name: 'Classic Sign Up',
-            href: routes.auth.signUp5,
           },
         ],
       },

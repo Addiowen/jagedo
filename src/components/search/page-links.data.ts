@@ -258,26 +258,12 @@ export const pageLinks = [
     name: 'Authentication',
   },
   // label end
-  {
-    name: 'Modern Sign Up',
-    href: routes.auth.signUp1,
-  },
-  {
-    name: 'Vintage Sign Up',
-    href: routes.auth.signUp2,
-  },
-  {
-    name: 'Trendy Sign Up',
-    href: routes.auth.signUp3,
-  },
+
   {
     name: 'Elegant Sign Up',
     href: routes.auth.signUp4,
   },
-  {
-    name: 'Classic Sign Up',
-    href: routes.auth.signUp5,
-  },
+
   {
     name: 'Modern Sign In',
     href: routes.auth.signIn1,

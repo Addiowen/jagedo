@@ -479,24 +479,8 @@ export const menuItems = [
     icon: <PiUserPlus />,
     dropdownItems: [
       {
-        name: 'Modern Sign up',
-        href: routes.auth.signUp1,
-      },
-      {
-        name: 'Vintage Sign up',
-        href: routes.auth.signUp2,
-      },
-      {
-        name: 'Trendy Sign up',
-        href: routes.auth.signUp3,
-      },
-      {
         name: 'Elegant Sign up',
         href: routes.auth.signUp4,
-      },
-      {
-        name: 'Classic Sign up',
-        href: routes.auth.signUp5,
       },
     ],
   },

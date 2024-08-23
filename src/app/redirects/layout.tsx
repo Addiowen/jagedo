@@ -30,12 +30,14 @@ export default function OtherPagesLayout({
           )}
         >
           <Link href={'/'}>
-            <Image
-              src={siteConfig.logo}
-              alt={siteConfig.title}
-              className="dark:invert"
-              priority
-            />
+            <div className="h-10 w-10">
+              <Image
+                src={''}
+                alt={siteConfig.title}
+                className="h-10 w-10 dark:invert"
+                priority
+              />
+            </div>
           </Link>
           {notIn && (
             <Button

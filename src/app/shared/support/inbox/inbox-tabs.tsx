@@ -16,24 +16,19 @@ import { messages } from '@/data/support-inbox';
 
 export const supportNavItems = [
   {
-    value: 'unassigned',
-    label: 'Unassigned',
+    value: 'job-alerts',
+    label: 'Job alerts',
     count: 88,
   },
   {
-    value: 'assigned-to-me',
-    label: 'Assigned to me',
+    value: 'feedback',
+    label: 'Feedback',
     count: 1515,
   },
   {
-    value: 'all-open',
-    label: 'All open',
+    value: 'all',
+    label: 'All ',
     count: 1603,
-  },
-  {
-    value: 'chat',
-    label: 'Chat',
-    count: 991,
   },
 ];
 

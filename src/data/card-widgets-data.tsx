@@ -65,6 +65,16 @@ export const widgetData = [
   },
 ];
 
+export const systemSummary = [
+  {
+    name: 'Profit',
+    color: '#10b981',
+    statTitle: 'Profit',
+    statMetric: '$2780.00',
+    stat: widgetCardStat,
+  },
+];
+
 export const chartData = [
   {
     day: 'Mon',

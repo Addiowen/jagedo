@@ -16,11 +16,11 @@ export default function Sidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        'fixed bottom-0 start-0 z-50 h-full w-[270px] border-e-2 border-gray-100 bg-white 2xl:w-72 dark:bg-gray-100/50',
+        'fixed bottom-0 start-0 z-50 h-full w-[270px] border-e-2 border-gray-100 bg-white dark:bg-gray-100/50 2xl:w-72',
         className
       )}
     >
-      <div className="sticky top-0 z-40 bg-gray-0/10 px-6 pb-5 pt-5 2xl:px-8 2xl:pt-6 dark:bg-gray-100/5">
+      <div className="sticky top-0 z-40 bg-gray-0/10 px-6 pb-5 pt-5 dark:bg-gray-100/5 2xl:px-8 2xl:pt-6">
         <Link
           href={'/'}
           aria-label="Site Logo"
@@ -152,7 +152,7 @@ export default function Sidebar({ className }: { className?: string }) {
                   <Title
                     as="h6"
                     className={cn(
-                      'mb-2 truncate px-6 text-xs font-medium uppercase tracking-widest text-gray-500 2xl:px-8 dark:text-gray-500',
+                      'mb-2 truncate px-6 text-xs font-medium uppercase tracking-widest text-gray-500 dark:text-gray-500 2xl:px-8',
                       index !== 0 && 'mt-6 3xl:mt-7'
                     )}
                   >

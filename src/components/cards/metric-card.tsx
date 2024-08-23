@@ -14,8 +14,8 @@ const metricCardClasses = {
 };
 
 type MetricCardTypes = {
-  title: string;
-  metric: React.ReactNode;
+  title?: string;
+  metric?: React.ReactNode;
   icon?: React.ReactNode;
   iconClassName?: string;
   contentClassName?: string;
@@ -70,7 +70,7 @@ export default function MetricCard({
             </Text>
             <Text
               className={cn(
-                'font-lexend text-lg font-semibold text-gray-900 2xl:xl:text-xl dark:text-gray-700',
+                'font-lexend text-lg font-semibold text-gray-900 dark:text-gray-700 2xl:xl:text-xl',
                 metricClassName
               )}
             >

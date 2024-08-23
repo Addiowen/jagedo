@@ -14,20 +14,12 @@ export default function ComingSoonPage() {
           as="h1"
           className="mb-3 text-2xl font-bold text-gray-1000 md:mb-5 md:text-3xl md:leading-snug xl:text-4xl xl:leading-normal 2xl:text-5xl 2xl:leading-normal"
         >
-          Our website is developing. Keep{' '}
-          <br className="hidden sm:inline-block" /> patience, we are coming soon
+          Under development. <br className="hidden sm:inline-block" /> Thank you
+          for your patience, we are coming soon
         </Title>
-        <p className="mb-6 text-sm leading-loose text-gray-500 md:mb-8 xl:mb-10 xl:text-base xl:leading-loose">
-          We have been spending long hours in order to launch our new website.
-          Join our <br className="hidden sm:inline-block" /> mailing list or
-          follow us on Facebook for get latest update.
-        </p>
         <div className="flex justify-center lg:justify-start">
           <CountdownTimer />
         </div>
-        <p className="mb-4 mt-8 text-sm font-semibold leading-normal text-gray-800 md:mt-10 xl:mb-6 xl:mt-12 xl:text-base">
-          Don’t want to miss update? Subscribe now
-        </p>
         <SubscriptionForm />
       </div>
 
@@ -40,7 +32,7 @@ export default function ComingSoonPage() {
         <Image
           src={ComingSoonImg}
           alt="coming-soon"
-          className="aspect-[531/721] max-w-[194px] md:max-w-[256px] lg:max-w-sm xl:max-w-[400px] 3xl:max-w-[531px]"
+          className="hidden aspect-[531/721] max-w-[194px] md:max-w-[256px] lg:max-w-sm xl:max-w-[400px] 3xl:max-w-[531px]"
         />
       </div>
 

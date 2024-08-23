@@ -1,7 +1,7 @@
 import { PiChartLineUp } from 'react-icons/pi';
 import { routes } from '@/config/routes';
 import { Button } from 'rizzui';
-import PageHeader from '@/app/shared/page-header';
+import PageHeader from '@/app/shared/commons/page-header';
 import SnippetsTable from '@/app/shared/support/snippets/table';
 import HeaderAction from '../header-action';
 import { metaObject } from '@/config/site.config';

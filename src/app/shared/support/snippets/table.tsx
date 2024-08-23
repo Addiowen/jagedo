@@ -8,7 +8,7 @@ import { Button } from 'rizzui';
 import ControlledTable from '@/components/controlled-table';
 import { snippetsAndTemplates } from '@/data/snippets-and-templates';
 import { getColumns } from './columns';
-const TableFooter = dynamic(() => import('@/app/shared/table-footer'), {
+const TableFooter = dynamic(() => import('@/app/shared/commons/table-footer'), {
   ssr: false,
 });
 

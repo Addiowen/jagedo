@@ -51,15 +51,15 @@ export default function BasicTableWidget({
   title,
   data = [],
   getColumns,
-  pageSize = 7,
+  pageSize = 5,
   setPageSize,
   enablePagination,
-  variant = 'modern',
+  variant = 'elegant',
   enableSearch = true,
   paginatorClassName,
   noGutter,
   sticky,
-  scroll = { x: 1300 },
+  scroll = { x: 700 },
   className,
   searchPlaceholder = 'Search...',
 }: BasicTableWidgetProps) {
@@ -118,7 +118,7 @@ export default function BasicTableWidget({
     <WidgetCard
       title={title}
       className={cn('flex flex-col', className)}
-      headerClassName="widget-card-header flex-col sm:flex-row [&>.ps-2]:ps-0 [&>.ps-2]:w-full sm:[&>.ps-2]:w-auto [&>.ps-2]:mt-3 sm:[&>.ps-2]:mt-0"
+      headerClassName="widget-card-header flex-col sm:flex-row [&>.ps-2]:ps-0 [&>.ps-2]:w-full sm:[&>.ps-2]:w-auto [&>.ps-2]:mt-2 sm:[&>.ps-2]:mt-0"
       {...(enableSearch && {
         action: (
           <Input
@@ -143,7 +143,7 @@ export default function BasicTableWidget({
           scroll={scroll}
           sticky={sticky}
           variant={variant}
-          className="mt-4"
+          className="mt-2"
           {...(enablePagination && {
             paginatorOptions: {
               pageSize,
@@ -153,7 +153,7 @@ export default function BasicTableWidget({
               onChange: (page: number) => handlePaginate(page),
             },
             paginatorClassName: cn(
-              'mt-4 lg:mt-5',
+              'mt-2 lg:mt-2',
               noGutter && 'px-5 lg:px-7',
               paginatorClassName
             ),
