@@ -80,9 +80,33 @@ export const routes = {
     invoice: '/customers/invoice',
     jobs: '/customers/jobs',
 
+
+    //invoice
+    details: (id: string) => `/customers/invoice/${id}`,
+
+
     //Registers
-    requisitions: '/customers/registers/requisitions',
     requisitionDetails: '/customers/registers/requisitions/view-requisition',
+
+    //Profile
+    createCustomerProfile: '/customers/profile',
+    createFundiProfile: '/customers/profile/create-profile/fundi',
+    createContractorProfile: '/customers/profile/create-profile/contractor',
+    createProfessionalProfile: '/customers/profile/create-profile/professional',
+    editCustomerProfile: '/customers/profile/create-profile/customers',
+    editFundiProfile: '/customers/profile/edit-profile/fundi',
+    editContractorProfile: '/customers/profile/edit-profile/contractor',
+    editProfessionalProfile: '/customers/profile/edit-profile/professional',
+    addToServiceProviders: '/customers/add-to-service-providers',
+
+    //jobs
+    active: '/customers/jobs/active-job',
+    activeJobDetails: '/customers/jobs/active-job-details',
+    ongoing: '/customers/ongoing',
+    complete: '/customers/jobs/completed-jobs',
+    completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
+
+    reviews: '/customers/reviews',
   },
 
   serviceProvider: {

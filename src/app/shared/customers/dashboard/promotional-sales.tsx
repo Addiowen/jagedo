@@ -11,27 +11,27 @@ import {
 } from 'recharts';
 import cn from '@/utils/class-names';
 import { useMedia } from '@/hooks/use-media';
-import Link from 'next/link';
-import { routes } from '@/config/routes';
 
 const data = [
   {
-    name: 'Requisitions',
-    sales: 31,
+    name: 'Youtube',
+    sales: 31.47,
     fill: '#FF0000',
-    link: routes.admin.requisitions, // Add links for each segment
   },
   {
-    name: 'Quotations',
-    sales: 26,
+    name: 'Instagram',
+    sales: 26.69,
     fill: '#E1306C',
-    link: routes.admin.quotations,
   },
   {
-    name: 'Completed Jobs',
-    sales: 15,
+    name: 'Twitter',
+    sales: 15.69,
     fill: '#1DA1F2',
-    link: routes.admin.quotations,
+  },
+  {
+    name: 'Facebook',
+    sales: 8.22,
+    fill: '#4267B2',
   },
 ];
 
@@ -40,12 +40,11 @@ export default function PromotionalSales({
 }: {
   className?: string;
 }) {
-  const isMobile = useMedia('(max-width: 300px)', true);
+  const isMobile = useMedia('(max-width: 480px)', false);
   const [startDate, setStartDate] = useState<Date>(new Date());
-
   return (
     <WidgetCard
-      title={'Jobs'}
+      title={'Promotional Sales'}
       action={
         <DatePicker
           selected={startDate}
@@ -63,7 +62,7 @@ export default function PromotionalSales({
       }
       className={cn('@container', className)}
     >
-      <div className="-mt-20 h-96 w-full  pb-4 @sm:h-96 @xl:pb-0">
+      <div className="h-96 w-full pb-4 pt-4 @sm:h-96 @xl:pb-0">
         <ResponsiveContainer
           width="100%"
           height="100%"
@@ -71,7 +70,7 @@ export default function PromotionalSales({
         >
           <RadialBarChart
             innerRadius="20%"
-            outerRadius="80%"
+            outerRadius="110%"
             barSize={isMobile ? 16 : 24}
             data={data}
             className="rtl:[&_.recharts-legend-item>svg]:ml-1"
@@ -82,19 +81,7 @@ export default function PromotionalSales({
               dataKey="sales"
               className="[&_.recharts-radial-bar-background-sector]:fill-gray-100"
             />
-            <Legend iconSize={10} layout="vertical" verticalAlign="top" />
-            {data.map((entry, index) => (
-              <Link key={index} href={entry.link}>
-                <a>
-                  <RadialBar
-                    dataKey="sales"
-                    startAngle={90 + index * 120}
-                    endAngle={90 + (index + 1) * 120}
-                    fill={entry.fill}
-                  />
-                </a>
-              </Link>
-            ))}
+            <Legend iconSize={10} layout="vertical" verticalAlign="middle" />
           </RadialBarChart>
         </ResponsiveContainer>
       </div>

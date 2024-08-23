@@ -13,6 +13,15 @@ import {
   PiStarDuotone,
   PiToolboxDuotone,
   PiGearDuotone,
+  PiHammer,
+  PiBriefcase,
+  PiGear,
+  PiHardHat,
+  PiInfo,
+  PiProjectorScreenChart,
+  PiScrewdriver,
+  PiStar,
+  PiUserCirclePlus,
 } from 'react-icons/pi';
 import { FaViacoin } from 'react-icons/fa';
 
@@ -130,6 +139,116 @@ const adminMenu: MenuItem[] = [
     name: 'Reviews',
     href: routes.admin.reviews,
     icon: <PiStarDuotone />,
+  },
+];
+
+const customerMenu: MenuItem[] = [
+  // label start
+  {
+    name: 'Jagedo',
+    href: '#',
+  },
+  //label end
+  {
+    name: 'Home',
+    href: '/',
+    icon: <PiHouseDuotone />,
+  },
+
+  // {
+  //   name: 'Job Board',
+  //   href: routes.jobBoard.dashboard,
+  //   icon: <PiShapesDuotone />,
+  //   badge: 'NEW',
+  // },
+
+  // {
+  //   name: 'Customer ',
+  //   href: routes.admin.dashboard,
+  //   icon: <PiBriefcaseDuotone />,
+  //   dropdownItems: [
+  //     {
+  //       name: 'Dashboard',
+  //       href: routes.admin.dashboard,
+  //       badge: '',
+  //     },
+
+  //     // {
+  //     //   name: 'Individual register',
+  //     //   href: routes.admin.individual,
+  //     //   badge: '',
+  //     // },
+
+  //   ],
+
+  // },
+
+  {
+    name: 'Fundi ',
+    href: routes.customers.generateInvoiceFundi,
+    badge: '',
+    icon: <PiHammer />,
+  },
+
+  {
+    name: 'Professional',
+    href: routes.customers.generateInvoiceProfessional,
+    badge: '',
+    icon: <PiBriefcase />,
+  },
+  {
+    name: 'Contractor',
+    href: routes.customers.generateInvoiceContractor,
+    badge: '',
+    icon: <PiHardHat />,
+  },
+  {
+    name: 'Shop App',
+    href: routes.comingSoon,
+    badge: '',
+    icon: <PiTrolleyDuotone />,
+  },
+
+  {
+    name: 'My Projects',
+    href: routes.admin.customers,
+    badge: '',
+    icon: <PiProjectorScreenChart />,
+  },
+  {
+    name: ' Reviews',
+    href: routes.customers.reviews,
+    badge: '',
+    icon: <PiStar />,
+  },
+
+  {
+    name: 'Settings',
+    href: '#',
+  },
+  // // label end
+  {
+    name: 'Account Settings',
+    href: routes.forms.profileSettings,
+    icon: <PiGear />,
+    dropdownItems: [
+      {
+        name: 'Profile',
+        href: routes.customers.createCustomerProfile,
+        badge: '',
+        icon: <PiUserCirclePlus />,
+      },
+      {
+        name: 'Help Desk',
+        href: routes.blank,
+        icon: <PiScrewdriver />,
+      },
+      {
+        name: 'FAQs',
+        href: routes.blank,
+        icon: <PiInfo />,
+      },
+    ],
   },
 ];
 
@@ -365,6 +484,10 @@ switch (userRole) {
     menuItems = adminMenu;
     break;
 
+  case 'customer':
+    menuItems = customerMenu;
+    break;
+
   default:
     menuItems = [
       {
@@ -423,59 +546,6 @@ switch (userRole) {
         href: routes.serviceProvider.contractor.profile,
         icon: <PiUserCircleDuotone />,
       },
-
-      // {
-      //   name: 'Requisitions',
-      //   href: routes.serviceProvider.fundi.requisitions,
-      //   icon: <PiClipboardDuotone />,
-      // },
-
-      // {
-      //   name: 'Quotations',
-      //   href: routes.serviceProvider.fundi.quotations,
-      //   icon: <PiNoteDuotone />,
-      // },
-
-      // {
-      //   name: 'Jobs',
-      //   href: routes.serviceProvider.fundi.quotations,
-      //   icon: <PiToolboxDuotone/>,
-      //   dropdownItems: [
-      //     {
-      //       name: 'Active',
-      //       href: routes.serviceProvider.fundi.activeJobs,
-      //       badge: '',
-      //     },
-      //     {
-      //       name: 'Completed',
-      //       href: routes.serviceProvider.fundi.completedJobs,
-      //       badge: '',
-      //     },
-      //     {
-      //       name: 'All Jobs',
-      //       href: routes.serviceProvider.fundi.jobs,
-      //       badge: '',
-      //     },
-      //   ]
-      // },
-
-      // {
-      //   name: 'Profile',
-      //   href: routes.serviceProvider.fundi.quotations,
-      //   icon: <PiUserCircleDuotone />,
-      //   dropdownItems: [
-      //     {
-      //       name: 'Create Profile',
-      //       href: routes.serviceProvider.fundi.createProfile,
-      //       badge: '',
-      //     },
-      //     {
-      //       name: 'Edit Profile',
-      //       href: routes.serviceProvider.fundi.editProfile,
-      //       badge: '',
-      //     },
-      //   ]
-      // },
     ];
 }
 interface MenuItem {

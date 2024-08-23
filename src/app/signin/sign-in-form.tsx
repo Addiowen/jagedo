@@ -36,6 +36,8 @@ export default function SignInForm() {
       window.sessionStorage.setItem('role', 'contractor');
     } else if (data.email === 'admin@admin.com') {
       window.sessionStorage.setItem('role', 'admin');
+    } else if (data.email === 'customer@gmail.com') {
+      window.sessionStorage.setItem('role', 'customer');
     }
 
     // if (data.email === 'organization@email.com') {

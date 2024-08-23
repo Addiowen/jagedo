@@ -6,6 +6,7 @@ import { metaObject } from '@/config/site.config';
 // import FundiDashboard from './service-provider/fundi/dashboard/page';
 import ServiceProviderDashboardPage from './service-provider/dashboard/fundi/page';
 import AdminDashboard from '@/app/shared/admin/dashboard';
+import CustomerDashboard from '../shared/customers/dashboard';
 
 // export const metadata = {
 //   ...metaObject(),
@@ -16,6 +17,8 @@ const userRole = window.sessionStorage.getItem('role');
 export default function FileDashboardPage() {
   return userRole === 'admin' ? (
     <AdminDashboard />
+  ) : userRole === 'customer' ? (
+    <CustomerDashboard />
   ) : (
     <ServiceProviderDashboardPage />
   );

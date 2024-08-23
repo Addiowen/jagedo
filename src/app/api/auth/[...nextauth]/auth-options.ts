@@ -62,6 +62,7 @@ export const authOptions: NextAuthOptions = {
           { email: 'contractor@email.com', password: 'contractor' },
           { email: 'admin@admin.com', password: 'admin' },
           { email: 'organization@email.com', password: 'organization' },
+          { email: 'customer@gmail.com', password: 'customer' },
         ];
 
         const user = users.find((user) =>

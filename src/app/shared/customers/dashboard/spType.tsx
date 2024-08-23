@@ -4,25 +4,13 @@ import MetricCard from '@/components/cards/metric-card';
 import { Text } from 'rizzui';
 import cn from '@/utils/class-names';
 import {
-  PiCaretDoubleUpDuotone,
-  PiCaretDoubleDownDuotone,
-  PiGiftDuotone,
-  PiBankDuotone,
-  PiChartPieSliceDuotone,
-  PiEnvelopeDuotone,
-  PiBasketDuotone,
-  PiShoppingBagDuotone,
-  PiWrenchDuotone,
-  PiFolderDuotone,
+  PiHammer,
+  PiBriefcase,
+  PiHardHat,
+  PiStorefront,
   PiTrolleyDuotone,
-  PiMoneyDuotone,
-  PiUserSquareDuotone,
-  PiUserCircleDuotone,
-  PiBriefcaseDuotone,
 } from 'react-icons/pi';
-import { BarChart, Bar, ResponsiveContainer } from 'recharts';
 import CategoriesCard from '@/components/cards/categories-card';
-import { title } from 'process';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 
@@ -64,48 +52,10 @@ const orderData = [
   },
 ];
 
-const revenueData = [
-  {
-    day: 'Sunday',
-    sale: 2000,
-    cost: 2400,
-  },
-  {
-    day: 'Monday',
-    sale: 2800,
-    cost: 1398,
-  },
-  {
-    day: 'Tuesday',
-    sale: 3500,
-    cost: 9800,
-  },
-  {
-    day: 'Wednesday',
-    sale: 2780,
-    cost: 3908,
-  },
-  {
-    day: 'Thursday',
-    sale: 1890,
-    cost: 4800,
-  },
-  {
-    day: 'Friday',
-    sale: 2390,
-    cost: 3800,
-  },
-  {
-    day: 'Saturday',
-    sale: 3490,
-    cost: 4300,
-  },
-];
-
 const eComDashboardStatData = [
   {
     id: '1',
-    icon: <PiWrenchDuotone className="h-6 w-6" />,
+    icon: <PiHammer className="h-6 w-6 text-purple-500" />,
     title: 'Fundi card',
     metric: 'Fundi',
     increased: true,
@@ -114,10 +64,11 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
+    link: `${routes.customers.generateInvoiceFundi}?metric=Fundi`, // Link for Fundi card with query parameter
   },
   {
     id: '2',
-    icon: <PiUserCircleDuotone className="h-6 w-6" />,
+    icon: <PiBriefcase className="h-6 w-6 " />,
     title: 'Professional card',
     metric: 'Professional',
     increased: true,
@@ -126,10 +77,11 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
+    link: `${routes.customers.generateInvoiceProfessional}?metric=Professional`, // Link for Professional card with query parameter
   },
   {
     id: '3',
-    icon: <PiBriefcaseDuotone className="h-6 w-6" />,
+    icon: <PiHardHat className="h-6 w-6 text-red-500" />,
     title: 'Contractor card',
     metric: 'Contractor',
     increased: true,
@@ -138,16 +90,18 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
+    link: `${routes.customers.generateInvoiceContractor}?metric=Contractor`, // Link for Contractor card with query parameter
   },
   {
     id: '4',
-    icon: <PiTrolleyDuotone className="h-6 w-6" />,
+    icon: <PiTrolleyDuotone className="h-6 w-6 text-yellow-500" />,
     title: 'Shop now card',
-    metric: 'Shop Now',
+    metric: 'Shop App',
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
+    link: routes.maintenance, // Link for Shop Now card with query parameter
   },
 ];
 
@@ -160,7 +114,7 @@ export default function SpType({ className }: { className?: string }) {
       )}
     >
       {eComDashboardStatData.map((stat) => (
-        <Link key={stat.title + stat.id} href={routes.eCommerce.createProduct}>
+        <Link key={stat.title + stat.id} href={stat.link}>
           <CategoriesCard
             metric={stat.metric}
             metricClassName="lg:text-[18px] text-sm" // Adjust metric text size
