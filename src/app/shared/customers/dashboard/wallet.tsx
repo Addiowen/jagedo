@@ -34,9 +34,9 @@ const WalletCard: React.FC<WalletCardProps> = ({
       actionClassName={actionClassName}
       descriptionClassName={descriptionClassName}
     >
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex h-full flex-col items-center justify-center">
         <div className="text-lg font-semibold">Balance</div>
-        <div className="wallet-card-content text-3xl font-bold text-gray-700 mt-2">
+        <div className="wallet-card-content mt-2 text-3xl font-bold text-gray-700">
           {balance}
         </div>
       </div>

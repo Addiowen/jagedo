@@ -24,8 +24,6 @@
 // import BillOfQuantityTable from '@/app/shared/service-provider/tables/bill-of-quantity';
 // import DisbursementTable from '@/app/shared/service-provider/tables/disbursements';
 
-
-
 // const data = [
 //   {
 //     'Job No': '#A940312',
@@ -108,7 +106,7 @@
 //             </ul>
 //           ))}
 //         </div>
-         
+
 //         </Accordion.Body>
 //       </Accordion>
 
@@ -163,10 +161,9 @@
 //             <FileInput label="Add Attachments" />
 //           </div>
 //         </div>
-         
+
 //         </Accordion.Body>
 //       </Accordion>
-
 
 //       <Accordion
 //         className='border-b last-of-type:border-b-0'
@@ -216,10 +213,9 @@
 //             </li>
 //           </ul>
 //         </div>
-         
+
 //         </Accordion.Body>
 //       </Accordion>
-
 
 //       <Accordion
 //         className='border-b last-of-type:border-b-0'
@@ -239,7 +235,6 @@
 //         </Accordion.Header>
 
 //         <Accordion.Body>
-        
 
 //         <div className=" grid items-start rounded-xl border border-gray-300 p-4 mt-4 mb-4">
 //           <div className="mb-4">
@@ -252,18 +247,14 @@
 //             <form
 //               onSubmit={methods.handleSubmit(onSubmit)}
 //               className="mx-auto rounded-xl border border-gray-200 bg-white p-10 pb-16 shadow-sm"
-//             >         
-//               <BillOfQuantityTable />          
+//             >
+//               <BillOfQuantityTable />
 //             </form>
 //           </FormProvider> */}
 //         </div>
-         
+
 //         </Accordion.Body>
 //       </Accordion>
-
-
-
-      
 
 //       <Accordion
 //         className='border-b last-of-type:border-b-0'
@@ -284,7 +275,7 @@
 
 //         <Accordion.Body>
 //           <DisbursementTable />
-         
+
 //         </Accordion.Body>
 //       </Accordion>
 
@@ -292,8 +283,8 @@
 //           <form
 //             onSubmit={methods.handleSubmit(onSubmit)}
 //             className="mx-auto rounded-xl border border-gray-200 bg-white p-10 pb-16 shadow-sm"
-//           >         
-//             <Disbursements />          
+//           >
+//             <Disbursements />
 //           </form>
 //         </FormProvider> */}
 

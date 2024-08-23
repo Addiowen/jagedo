@@ -161,17 +161,17 @@ export default function ProfileSettingsView() {
                 </FormGroup>
 
                 <FormGroup
-                  title="Alternative contact email"
+                  title="Phone Number"
                   className="pt-7 @2xl:pt-9 @3xl:grid-cols-12 @3xl:pt-11"
-                  description="Enter an alternative email if you’d like to be contacted via a different email."
+                  description="Enter an phone number if you’d like to be contacted ."
                 >
                   <Input
                     prefix={
                       <PiEnvelopeSimple className="h-6 w-6 text-gray-500" />
                     }
-                    type="email"
+                    type="number"
                     className="col-span-full"
-                    placeholder="georgia.young@example.com"
+                    placeholder="0763546253"
                     {...register('email')}
                     error={errors.email?.message}
                   />
@@ -225,7 +225,7 @@ export function ProfileHeader({
       <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-wrap items-end justify-start gap-6 border-b border-dashed border-muted pb-10">
         <div className="relative -top-1/3 aspect-square w-[110px] overflow-hidden rounded-full border-[6px] border-white bg-gray-100 shadow-profilePic @2xl:w-[130px] @5xl:-top-2/3 @5xl:w-[150px] dark:border-gray-50 3xl:w-[200px]">
           <Image
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/profile-image.webp"
+            src="/#"
             alt="profile-pic"
             fill
             sizes="(max-width: 768px) 100vw"

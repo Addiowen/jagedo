@@ -10,15 +10,14 @@ export const metadata = {
 export default function SignUpPage() {
   return (
     <>
-    {/* Remember to click back into AuthWrapperFour and chang children back to not optional, and comment back in the footer
-    */}
-    <AuthWrapperFour
-      title="Join us today! Get special benefits and stay up-to-date."
-      isSocialLoginActive={false}
-    >
-      <AccountType />
-    </AuthWrapperFour>
-    
+      {/* Remember to click back into AuthWrapperFour and chang children back to not optional, and comment back in the footer
+       */}
+      <AuthWrapperFour
+        title="Join us today! Get special benefits and stay up-to-date."
+        isSocialLoginActive={false}
+      >
+        <AccountType />
+      </AuthWrapperFour>
     </>
   );
 }

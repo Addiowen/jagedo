@@ -62,8 +62,21 @@ export const routes = {
   },
 
   customers: {
-    dashboard: '/customers',
+    dashboard: '/',
+    requisitions: '/customers/requisitions',
+    viewRequisition: '/customers/requisitions/view-requisition',
     generateInvoice: '/customers/generate-invoice',
+    generateInvoiceProfessional: '/customers/generate-invoice/professional',
+    generateInvoiceContractor: '/customers/generate-invoice/contractor',
+    generateInvoiceFundi: '/customers/generate-invoice/fundi',
+    quotations: '/customers/quotations',
+    createQuotation: '/customers/quotations/create-quotation',
+    analyseQuotations: '/customers/quotations/analyse-quotations',
+    analyseQuotationsContractor:
+      '/customers/quotations/analyse-quotations-contractor',
+    contractorQuotation: '/customers/contractor-quotation',
+    quotationReports: '/customers/quotations/quotation-reports',
+    rfq: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',
     jobs: '/customers/jobs',
 
@@ -84,7 +97,7 @@ export const routes = {
       // quotations
       // makeQuotation: '/service-provider/fundi/make-quotation',
       // quotations: '/service-provider/quotations/fundi',
-      quotationDetails: '/service-provider/quotations/quotation-details/fundi',   
+      quotationDetails: '/service-provider/quotations/quotation-details/fundi',
 
       // jobs
       jobs: '/service-provider/fundi/jobs',
@@ -98,14 +111,13 @@ export const routes = {
       viewReview: '/service-provider/fundi/reviews/view',
       addReview: '/service-provider/fundi/reviews/add',
 
-
-      
       // profile
       profile: '/service-provider/fundi/profile',
 
       // create profile
       createProfile: '/service-provider/profile/create/fundi',
-      requiredDetails: '/service-provider/profile/create/fundi/required-details',
+      requiredDetails:
+        '/service-provider/profile/create/fundi/required-details',
 
       // edit profile
       editProfile: '/service-provider/profile/edit',
@@ -113,7 +125,6 @@ export const routes = {
       uploads: '/service-provider/profile/uploads',
       evaluationForm: '/service-provider/profile/evaluation-form',
       // contactDetails: '/service-provider/profile/edit/fundi/contact-details',
-
     },
 
     professional: {
@@ -122,20 +133,24 @@ export const routes = {
       // requisitions
       requisitions: '/service-provider/professional/requisitions',
       requisitionDetails: '/service-provider/professional/requisitions/details',
-      rfqStandardOne: '/service-provider/professional/requisitions/rfqs/standard-one',
-      rfqStandardTWo: '/service-provider/professional/requisitions/rfqs/standard-two',
-      rfqStandardTWoMakeQuotation: '/service-provider/professional/requisitions/rfqs/standard-two/make-quotation',
+      rfqStandardOne:
+        '/service-provider/professional/requisitions/rfqs/standard-one',
+      rfqStandardTWo:
+        '/service-provider/professional/requisitions/rfqs/standard-two',
+      rfqStandardTWoMakeQuotation:
+        '/service-provider/professional/requisitions/rfqs/standard-two/make-quotation',
       // rfqStandardOneMakeQuotation: '/service-provider/professional/requisitions/rfqs/standard-one/make-quotation',
 
       // quotations
       quotations: '/service-provider/professional/quotations',
-      quotationDetails: '/service-provider/professional/quotations/details',   
+      quotationDetails: '/service-provider/professional/quotations/details',
 
       // jobs
       activeJobs: '/service-provider/professional/jobs/active',
       completedJobs: '/service-provider/professional/jobs/completed',
       jobDetails: '/service-provider/professional/jobs/active/details',
-      completeJobDetails: '/service-provider/professional/jobs/completed/report',
+      completeJobDetails:
+        '/service-provider/professional/jobs/completed/report',
 
       reviews: '/service-provider/professional/reviews',
       viewReview: '/service-provider/professional/reviews/view',
@@ -143,7 +158,7 @@ export const routes = {
 
       profile: '/service-provider/professional/profile',
       accountDetails: '/service-provider/professional/profile/account-details',
-      uploads: '/service-provider/professional/profile/uploads'
+      uploads: '/service-provider/professional/profile/uploads',
     },
 
     contractor: {
@@ -152,12 +167,14 @@ export const routes = {
       // requisitions
       requisitions: '/service-provider/contractor/requisitions',
       requisitionDetails: '/service-provider/contractor/requisitions/details',
-      rfqStandardOne: '/service-provider/contractor/requisitions/rfqs/standard-one',
-      rfqStandardTWo: '/service-provider/contractor/requisitions/rfqs/standard-two',
+      rfqStandardOne:
+        '/service-provider/contractor/requisitions/rfqs/standard-one',
+      rfqStandardTWo:
+        '/service-provider/contractor/requisitions/rfqs/standard-two',
 
       // quotations
       quotations: '/service-provider/contractor/quotations',
-      quotationDetails: '/service-provider/contractor/quotations/details',   
+      quotationDetails: '/service-provider/contractor/quotations/details',
 
       // jobs
       activeJobs: '/service-provider/contractor/jobs/active',
@@ -172,13 +189,8 @@ export const routes = {
       profile: '/service-provider/contractor/profile',
       accountDetails: '/service-provider/contractor/profile/account-details',
       uploads: '/service-provider/contractor/profile/uploads',
-
-    }
+    },
   },
-
-
-
-
 
   eCommerce: {
     dashboard: '/ecommerce',
@@ -252,6 +264,7 @@ export const routes = {
   },
   eventCalendar: '/event-calendar',
   rolesPermissions: '/roles-permissions',
+
   invoice: {
     home: '/invoice',
     create: '/invoice/create',
@@ -296,6 +309,7 @@ export const routes = {
   maintenance: '/redirects/maintenance',
   blank: '/redirects/blank',
   auth: {
+    signup: '/signup',
     signUp4: '/auth/sign-up-4',
     // sign in
     signIn1: '/auth/sign-in-1',

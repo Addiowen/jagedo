@@ -15,7 +15,11 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ProfessionalQuotationTable({ className }: { className?: string }) {
+export default function ProfessionalQuotationTable({
+  className,
+}: {
+  className?: string;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({

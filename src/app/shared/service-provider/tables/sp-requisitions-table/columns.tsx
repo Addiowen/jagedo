@@ -118,9 +118,6 @@ export const getColumns = ({
   //   render: (status: number) => <Text>{status}</Text>,
   // },
 
-
-
-
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
@@ -129,16 +126,15 @@ export const getColumns = ({
     width: 100,
     render: (requestType: string, row: any) => (
       <div className="gap-3 pe-3">
-        {(requestType === 'Emergency') ? (
+        {requestType === 'Emergency' ? (
           <Link href={'#'}>
             <Text className="text-sm text-green-600">View RFQ</Text>
-        </Link>
+          </Link>
         ) : (
           <Link href={'#'}>
             <Text className="text-sm text-green-600">View RFQ</Text>
           </Link>
         )}
-        
 
         {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
@@ -154,7 +150,6 @@ export const getColumns = ({
           </ActionIcon>
         </Tooltip> */}
 
-
         {/* <DeletePopover
           title={`Remove User`}
           description={`Are you sure you want to remove this User?`}
@@ -163,8 +158,6 @@ export const getColumns = ({
       </div>
     ),
   },
-
-
 
   // {
   //   // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

@@ -4,8 +4,8 @@ export const roles = [
     value: 'product_designer',
   },
   {
-    label: 'Software Engineer',
-    value: 'software_engineer',
+    label: 'Civil Engineer',
+    value: 'Fundi',
   },
 ];
 export const countries = [

@@ -1,23 +1,21 @@
+'use client';
+import React, { useState } from 'react';
 
-'use client'
-import React, { useState } from 'react'
-
-
-import { zodResolver } from '@hookform/resolvers/zod'
+import { zodResolver } from '@hookform/resolvers/zod';
 // import { useForm, SubmitHandler } from 'react-hook-form'
 import {
   useForm,
   SubmitHandler,
   UseFormReturn,
   UseFormProps,
-  FieldValues, 
+  FieldValues,
   Path,
   FormProvider,
 } from 'react-hook-form';
 import type { Schema } from 'zod';
 
 // import { signUpFormSchema, SignUpFormSchema } from '@/utils/validators/custom-signup.schema'
-import { MultiStepFormSteps } from '@/types/custom-types'
+import { MultiStepFormSteps } from '@/types/custom-types';
 import { Button, Stepper } from 'rizzui';
 // import { PiArrowRightBold, PiArrowLeftBold } from 'react-icons/pi';
 // import { useRouter } from 'next/navigation';
@@ -38,7 +36,11 @@ import { Button, Stepper } from 'rizzui';
 
 type FormProps<TFormValues extends FieldValues> = {
   onSubmit: SubmitHandler<TFormValues>;
-  children: (methods: UseFormReturn<TFormValues>, currentStep: number, delta: number) => React.ReactNode;
+  children: (
+    methods: UseFormReturn<TFormValues>,
+    currentStep: number,
+    delta: number
+  ) => React.ReactNode;
   useFormProps?: UseFormProps<TFormValues>;
   validationSchema?: Schema<TFormValues>;
   // fieldErrors?: any[] | null;
@@ -49,21 +51,18 @@ type FormProps<TFormValues extends FieldValues> = {
   // className?: string;
 };
 
-
 export default function CustomMultiStepForm<
-TFormValues extends Record<string, any> = Record<string, any>,
->(
-  { onSubmit,
-    children,
-    useFormProps,
-    validationSchema,
-    steps,
-   }: FormProps<TFormValues>
-) {
-
-  const [previousStep, setPreviousStep] = useState(0)
-  const [currentStep, setCurrentStep] = useState(0)
-  const delta = currentStep - previousStep
+  TFormValues extends Record<string, any> = Record<string, any>,
+>({
+  onSubmit,
+  children,
+  useFormProps,
+  validationSchema,
+  steps,
+}: FormProps<TFormValues>) {
+  const [previousStep, setPreviousStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const delta = currentStep - previousStep;
 
   // const router = useRouter()
 
@@ -87,7 +86,7 @@ TFormValues extends Record<string, any> = Record<string, any>,
   const methods = useForm<TFormValues>({
     ...useFormProps,
     ...(validationSchema && { resolver: zodResolver(validationSchema) }),
-  })
+  });
 
   // form submit handler
   // const handleFormSubmit: SubmitHandler<TFormValues> = data => {
@@ -99,9 +98,9 @@ TFormValues extends Record<string, any> = Record<string, any>,
 
   // step functions
   const next = async () => {
-    const fields = steps[currentStep].fields as Path<TFormValues>[]
-    const output = await methods.trigger(fields, { shouldFocus: true })
-    
+    const fields = steps[currentStep].fields as Path<TFormValues>[];
+    const output = await methods.trigger(fields, { shouldFocus: true });
+
     // console.log('before output')
     // console.log(`Output: ${output}`)
     // console.log(`Fields: ${fields}`)
@@ -109,59 +108,61 @@ TFormValues extends Record<string, any> = Record<string, any>,
     // run the console.log below to check the errors if the stepper is not working
     // console.log(methods.formState.errors)
 
-    if (!output) return
+    if (!output) return;
 
     // console.log('after output')
 
     if (currentStep < steps.length - 1) {
-
       // if (currentStep === steps.length - 2) {
       //   await methods.handleSubmit(onSubmit)()
       // }
 
-      setPreviousStep(currentStep)
-      setCurrentStep(step => step + 1)
+      setPreviousStep(currentStep);
+      setCurrentStep((step) => step + 1);
     }
-  }
+  };
 
   const prev = () => {
     if (currentStep > 0) {
-      setPreviousStep(currentStep)
-      setCurrentStep(step => step - 1)
+      setPreviousStep(currentStep);
+      setCurrentStep((step) => step - 1);
     }
-  }
+  };
 
   return (
-    <section className='inset-0 flex flex-col justify-between'>
+    <section className="inset-0 flex flex-col justify-between">
       {/* steps */}
-      <nav aria-label='Progress' className="relative">
-      {/* <div className="-ml-20 w-full"> */}
+      <nav aria-label="Progress" className="relative">
+        {/* <div className="-ml-20 w-full"> */}
         {/* <ol role='list' className='space-y-4 md:flex md:space-x-8 md:space-y-0'> */}
         <Stepper currentIndex={currentStep}>
           {steps.map((step, index) => (
-            
-              
-                <Stepper.Step key={step.name} title={step.id} description={step.name} />
-            //     <li key={step.name} className='md:flex-1'> 
+            <Stepper.Step
+              key={step.name}
+              title={step.id}
+              description={step.name}
+            />
+            //     <li key={step.name} className='md:flex-1'>
             // </li>
           ))}
-          </Stepper>
+        </Stepper>
         {/* </ol> */}
         {/* </div> */}
       </nav>
-      
+
       <FormProvider {...methods}>
         {/* Form */}
-        <form className='mt-8 py-3' /*onSubmit={methods.handleSubmit(onSubmit)}*/>
-            {children(methods, currentStep, delta)}
-          
+        <form
+          className="mt-8 py-3" /*onSubmit={methods.handleSubmit(onSubmit)}*/
+        >
+          {children(methods, currentStep, delta)}
 
           {/* Navigation */}
-          <div className='mt-16 pt-5'>
-            <div className='flex justify-between'>
-              <Button 
-                className="w-32" 
-                type="button" 
+          <div className="mt-16 pt-5">
+            <div className="flex justify-between">
+              <Button
+                className="w-32"
+                type="button"
                 size="lg"
                 onClick={prev}
                 disabled={currentStep === 0}
@@ -171,23 +172,23 @@ TFormValues extends Record<string, any> = Record<string, any>,
               </Button>
 
               {currentStep === steps.length - 1 ? (
-                <Button 
-                className="w-32" 
-                type="button" 
-                size="lg"   
-                onClick={() => {
-                  methods.handleSubmit(onSubmit)()
-                  // console.log('Clicked')
-                }}
-                // disabled={currentStep === steps.length - 1}
+                <Button
+                  className="w-32"
+                  type="button"
+                  size="lg"
+                  onClick={() => {
+                    methods.handleSubmit(onSubmit)();
+                    // console.log('Clicked')
+                  }}
+                  // disabled={currentStep === steps.length - 1}
                 >
                   <span>Submit</span>{' '}
                   {/* <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" /> */}
-                </Button> 
+                </Button>
               ) : (
-                <Button 
-                  className="w-32" 
-                  type="button" 
+                <Button
+                  className="w-32"
+                  type="button"
                   size="lg"
                   onClick={next}
                   // disabled={currentStep === steps.length - 1}
@@ -195,12 +196,11 @@ TFormValues extends Record<string, any> = Record<string, any>,
                   <span>Next</span>{' '}
                   {/* <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" /> */}
                 </Button>
-              )}  
+              )}
             </div>
-            
           </div>
         </form>
       </FormProvider>
     </section>
-  )
+  );
 }

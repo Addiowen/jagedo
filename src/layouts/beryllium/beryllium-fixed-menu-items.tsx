@@ -87,7 +87,7 @@ export const berylliumMenuItems: MenuItemsType[] = [
     icon: PiHouse,
     menuItems: [
       {
-        name: 'File Manager',
+        name: 'Home',
         href: '/',
         icon: PiFolder,
       },

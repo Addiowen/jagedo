@@ -42,7 +42,7 @@ const statData = [
     // icon: <RevenueUpIcon className="h-7 w-7" />,
     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
     graphColor: 'text-green',
-    name: '0249U3424',
+    name: '0745367287',
     increased: true,
     percentage: '+32.40',
   },
@@ -115,7 +115,13 @@ export default function UserDetailsCard({
               contentClassName="ps-5"
               iconClassName={cn('@5xl:w-20 @5xl:h-20 h-16 w-16')}
               chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
+<<<<<<<< HEAD:src/app/shared/custom-user-details-card/index.tsx
             ></UserDetails>
+========
+            >
+
+            </UserDetails>
+>>>>>>>> customerportal:src/app/shared/logistics/dashboard/cutomer-details.tsx
           ))}
         </div>
       </SimpleBar>

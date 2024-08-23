@@ -104,18 +104,18 @@ const revenueData = [
 
 const eComDashboardStatData = [
   {
-      id: '1',
-      icon: <PiUserCircleDuotone className="h-6 w-6" />,
-      title: 'Customer card',
-      metric: 'Customer',
-      increased: true,
-      decreased: false,
-      percentage: '+32.40',
-      style: 'text-[#3872FA]',
-      fill: '#3872FA',
-      chart: orderData,
-      link: '/signup/customer',
-      },
+    id: '1',
+    icon: <PiUserCircleDuotone className="h-6 w-6" />,
+    title: 'Customer card',
+    metric: 'Customer',
+    increased: true,
+    decreased: false,
+    percentage: '+32.40',
+    style: 'text-[#3872FA]',
+    fill: '#3872FA',
+    chart: orderData,
+    link: '/signup/customer',
+  },
   {
     id: '2',
     icon: <PiWrenchDuotone className="h-6 w-6" />,
@@ -155,16 +155,16 @@ const eComDashboardStatData = [
     chart: orderData,
     link: '/signup/contractor',
   },
-//   {
-//     id: '4',
-//     icon: <PiTrolleyDuotone className="h-6 w-6" />,
-//     title: 'Shop now card',
-//     metric: 'Shop Now',
-//     percentage: '+32.40',
-//     style: 'text-[#3872FA]',
-//     fill: '#3872FA',
-//     chart: orderData,
-//   },
+  //   {
+  //     id: '4',
+  //     icon: <PiTrolleyDuotone className="h-6 w-6" />,
+  //     title: 'Shop now card',
+  //     metric: 'Shop Now',
+  //     percentage: '+32.40',
+  //     style: 'text-[#3872FA]',
+  //     fill: '#3872FA',
+  //     chart: orderData,
+  //   },
 ];
 
 export default function AccountType({ className }: { className?: string }) {

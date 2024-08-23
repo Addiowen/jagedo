@@ -1,4 +1,7 @@
-import { FundiProfileSchema, ContractorProfileSchema } from "@/utils/validators/custom-profile.schema";
+import {
+  FundiProfileSchema,
+  ContractorProfileSchema,
+} from '@/utils/validators/custom-profile.schema';
 
 // here's where you specify the steps
 // note: if the fields don't match the inputs that you have in the steps file,
@@ -6,22 +9,41 @@ import { FundiProfileSchema, ContractorProfileSchema } from "@/utils/validators/
 // and it won't take you to the next step
 
 export const contractorProfileSteps = [
-    {
-      id: 'Step 1',
-      name: 'Personal Details',
-      fields: ['companyName', 'firstName', 'lastName', 'email', 'phoneNo', 'companyNumber', 'registrationNumber', 'county', 'subCounty', 'estate']
-    },
-    {
-      id: 'Step 2',
-      name: 'Required Details',
-      fields: ['category', 'subCategory', 'pinCertificate', 'companyProfile', 'businessRegistration', 'portfolio', 'ncaCard']
-    },
-    {
-      id: 'Step 3',
-      name: 'NCA Category',
-      fields: ['category', 'subCategory', 'ncaCard']
-    },
-]
+  {
+    id: 'Step 1',
+    name: 'Personal Details',
+    fields: [
+      'companyName',
+      'firstName',
+      'lastName',
+      'email',
+      'phoneNo',
+      'companyNumber',
+      'registrationNumber',
+      'county',
+      'subCounty',
+      'estate',
+    ],
+  },
+  {
+    id: 'Step 2',
+    name: 'Required Details',
+    fields: [
+      'category',
+      'subCategory',
+      'pinCertificate',
+      'companyProfile',
+      'businessRegistration',
+      'portfolio',
+      'ncaCard',
+    ],
+  },
+  {
+    id: 'Step 3',
+    name: 'NCA Category',
+    fields: ['category', 'subCategory', 'ncaCard'],
+  },
+];
 
 // set initial values for the form fields here
 const CATEGORIES_TABLE_DEFAULT_VALUE = [
@@ -33,22 +55,22 @@ const CATEGORIES_TABLE_DEFAULT_VALUE = [
 ];
 
 export const contractorInitialValues: ContractorProfileSchema = {
-    companyName: 'Company A',  
-    firstName: 'Olive',
-    lastName: 'Wangari',
-    email: 'olivewangari@gmail.com',
-    phoneNo: '0734932467',
-    companyNumber: '07438298934',
-    registrationNumber: '54635',
-    county: 'kisumu',
-    subCounty: 'kisumu central',
-    estate: 'Tom Mboya',
-    portfolio: '',
-    pinCertificate: '',
-    companyProfile: '',
-    businessRegistration: '',
-    categoriesTable: CATEGORIES_TABLE_DEFAULT_VALUE,
-  }
+  companyName: 'Company A',
+  firstName: 'Olive',
+  lastName: 'Wangari',
+  email: 'olivewangari@gmail.com',
+  phoneNo: '0734932467',
+  companyNumber: '07438298934',
+  registrationNumber: '54635',
+  county: 'kisumu',
+  subCounty: 'kisumu central',
+  estate: 'Tom Mboya',
+  portfolio: '',
+  pinCertificate: '',
+  companyProfile: '',
+  businessRegistration: '',
+  categoriesTable: CATEGORIES_TABLE_DEFAULT_VALUE,
+};
 
 // if there's any 'Select' inputs, specify the values here
 export const category = [
@@ -76,7 +98,7 @@ export const category = [
     label: 'NCA',
     value: 'nca',
   },
-];  
+];
 
 export const subCategory = [
   {
@@ -114,64 +136,64 @@ export const subCategory = [
 ];
 
 export const skill = [
-    {
-        label: 'Foreman',
-        value: 'foreman',
-      },
-    {
-      label: 'Welder',
-      value: 'welder',
-    },
-    {
-      label: 'Builder',
-      value: 'builder',
-    },
-  ];
+  {
+    label: 'Foreman',
+    value: 'foreman',
+  },
+  {
+    label: 'Welder',
+    value: 'welder',
+  },
+  {
+    label: 'Builder',
+    value: 'builder',
+  },
+];
 
-  export const gender = [
-    {
-      label: 'Male',
-      value: 'male',
-    },
-    {
-      label: 'Female',
-      value: 'female',
-    },
-  ];
+export const gender = [
+  {
+    label: 'Male',
+    value: 'male',
+  },
+  {
+    label: 'Female',
+    value: 'female',
+  },
+];
 
-  export const county = [
-    {
-      label: 'Kisumu',
-      value: 'kisumu',
-    },
-    {
-      label: 'Nairobi',
-      value: 'nairobi',
-    },
-  ];
+export const county = [
+  {
+    label: 'Kisumu',
+    value: 'kisumu',
+  },
+  {
+    label: 'Nairobi',
+    value: 'nairobi',
+  },
+];
 
-  export const subCounty = [
-    {
-      label: 'Kisumu Central',
-      value: 'kisumu central',
-    },
-    {
-      label: 'Kisumu East',
-      value: 'kisumu east',
-    },
-  ];
+export const subCounty = [
+  {
+    label: 'Kisumu Central',
+    value: 'kisumu central',
+  },
+  {
+    label: 'Kisumu East',
+    value: 'kisumu east',
+  },
+];
 
-  export const years = [
-    {
-        label: '8',
-        value: '8',
-    },
-    {
-      label: '5',
-      value: '5',
-    },
-    {
-      label: '2',
-      value: '2',
-    },
-  ];
+export const years = [
+  {
+    label: '8',
+    value: '8',
+  },
+  {
+    label: '5',
+    value: '5',
+  },
+  {
+    label: '2',
+    value: '2',
+  },
+];

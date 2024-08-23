@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { QRCodeSVG } from 'qrcode.react';
+import { Badge, Title, Text, Button } from 'rizzui';
 import { Badge, Title, Text, Button } from 'rizzui';
 import Table from '@/components/ui/table';
 import { siteConfig } from '@/config/site.config';
@@ -21,6 +23,7 @@ const invoiceItems = [
     quantity: 2,
     unitPrice: 100,
     total: 1000,
+    total: 1000,
   },
 ];
 
@@ -32,6 +35,7 @@ const columns = [
     width: 50,
   },
   {
+    title: 'Description',
     title: 'Description',
     dataIndex: 'product',
     key: 'product',
@@ -56,6 +60,7 @@ const columns = [
     key: 'total',
     width: 200,
     render: (value: string) => <Text className="font-medium">KSH {value}</Text>,
+    render: (value: string) => <Text className="font-medium">KSH {value}</Text>,
   },
 ];
 
@@ -67,12 +72,19 @@ function InvoiceDetailsListTable() {
       variant="minimal"
       rowKey={(record) => record.id}
       // scroll={{ x: 400 }}
+      // scroll={{ x: 400 }}
       className="mb-11"
     />
   );
 }
 
 export default function InvoiceDetails() {
+  const [paymentStatus, setPaymentStatus] = useState('Unpaid');
+
+  const handlePayment = () => {
+    setPaymentStatus('Paid');
+  };
+
   const [paymentStatus, setPaymentStatus] = useState('Unpaid');
 
   const handlePayment = () => {
@@ -110,59 +122,62 @@ export default function InvoiceDetails() {
         </div>
 
         <div className="mb-4 grid gap-2 xs:grid-cols-2 sm:grid-cols-3">
-          <div>
+          <div className="mb-4 grid gap-2 xs:grid-cols-2 sm:grid-cols-3">
             <div>
-              <Text className="text-2xs font-semibold">Invoice Date</Text>
-              <Text className="text-2xs mb-1">July 10, 2024</Text>
+              <div>
+                <Text className="text-2xs font-semibold">Invoice Date</Text>
+                <Text className="text-2xs mb-1">July 10, 2024</Text>
+              </div>
+              <div>
+                <Text className="text-2xs font-semibold">Due Date</Text>
+                <Text className="text-2xs">July 11, 2024</Text>
+              </div>
             </div>
-            <div>
-              <Text className="text-2xs font-semibold">Due Date</Text>
-              <Text className="text-2xs">July 11, 2024</Text>
+
+            <div className="mt-1 xs:mt-0">
+              <Title as="h6" className="mb-2 text-xs font-semibold">
+                Invoice To
+              </Title>
+              <Text className="text-2xs mb-1">Owen Oscar</Text>
+              <Text className="text-2xs mb-1">Nairobi, Kenya</Text>
+            </div>
+
+            <div className="flex sm:mt-1 md:mt-0 md:justify-end">
+              <QRCodeSVG value="https://reactjs.org/" className="h-20 w-20" />
             </div>
           </div>
 
-          <div className="mt-1 xs:mt-0">
-            <Title as="h6" className="mb-2 text-xs font-semibold">
-              Invoice To
-            </Title>
-            <Text className="text-2xs mb-1">Owen Oscar</Text>
-            <Text className="text-2xs mb-1">Nairobi, Kenya</Text>
-          </div>
+          <InvoiceDetailsListTable />
+          <InvoiceDetailsListTable />
 
-          <div className="flex sm:mt-1 md:mt-0 md:justify-end">
-            <QRCodeSVG value="https://reactjs.org/" className="h-20 w-20" />
-          </div>
-        </div>
-
-        <InvoiceDetailsListTable />
-
-        <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-1 pt-3 xs:flex-row">
-          <div className="mt-1 max-w-md pe-3 xs:mt-0">
-            <Title as="h6" className="text-2xs mb-1 font-semibold uppercase">
-              Notes
-            </Title>
-            <Text className="text-2xs leading-[1.5]">
-              We appreciate your business. Should you need us to add VAT or
-              extra notes let us know!
-            </Text>
-          </div>
-          <div className="w-full max-w-xs">
-            <Text className="text-2xs flex items-center justify-between border-b border-muted pb-1">
-              Subtotal:
-              <Text as="span" className="font-semibold">
-                KSH 1000
+          <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-1 pt-3 xs:flex-row">
+            <div className="mt-1 max-w-md pe-3 xs:mt-0">
+              <Title as="h6" className="text-2xs mb-1 font-semibold uppercase">
+                Notes
+              </Title>
+              <Text className="text-2xs leading-[1.5]">
+                We appreciate your business. Should you need us to add VAT or
+                extra notes let us know!
               </Text>
-            </Text>
-            <Text className="text-2xs flex items-center justify-between border-b border-muted py-1">
-              Taxes:
-              <Text as="span" className="font-semibold">
-                16% VAT
+            </div>
+            <div className="w-full max-w-xs">
+              <Text className="text-2xs flex items-center justify-between border-b border-muted pb-1">
+                Subtotal:
+                <Text as="span" className="font-semibold">
+                  KSH 1000
+                </Text>
               </Text>
-            </Text>
-            <Text className="flex items-center justify-between pt-1 text-xs font-semibold text-gray-900">
-              Total:
-              <Text as="span">KSH 1150</Text>
-            </Text>
+              <Text className="text-2xs flex items-center justify-between border-b border-muted py-1">
+                Taxes:
+                <Text as="span" className="font-semibold">
+                  16% VAT
+                </Text>
+              </Text>
+              <Text className="flex items-center justify-between pt-1 text-xs font-semibold text-gray-900">
+                Total:
+                <Text as="span">KSH 1150</Text>
+              </Text>
+            </div>
           </div>
         </div>
       </div>

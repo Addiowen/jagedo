@@ -119,7 +119,7 @@ export default function PasswordSettingsView({
           );
         }}
       </Form>
-      <LoggedDevices className="mt-10" />
+      {/* <LoggedDevices className="mt-10" /> */}
     </>
   );
 }

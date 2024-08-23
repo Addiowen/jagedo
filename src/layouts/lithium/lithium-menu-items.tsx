@@ -28,7 +28,7 @@ export const lithiumMenuItems: LithiumMenuItem = {
     type: 'link',
     dropdownItems: [
       {
-        name: 'File Manager',
+        name: ' HO',
         href: '/',
         icon: 'FilesIcon',
       },

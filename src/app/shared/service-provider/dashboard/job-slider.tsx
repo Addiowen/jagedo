@@ -18,7 +18,7 @@ import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
 // import { checkRole } from '@/utils/custom-check-role';
 
-const userRole = window.sessionStorage.getItem('role')
+const userRole = window.sessionStorage.getItem('role');
 
 // function to get the link based on userRole
 // function getLinkByRole(userRole: string, key: string) {
@@ -35,13 +35,13 @@ const userRole = window.sessionStorage.getItem('role')
 // }
 
 type JobSliderData = {
-  name: string
-  total: number
-  fill: string
-  link: string
-}
+  name: string;
+  total: number;
+  fill: string;
+  link: string;
+};
 
-let data: JobSliderData[] = []
+let data: JobSliderData[] = [];
 
 switch (userRole) {
   case 'fundi':
@@ -78,7 +78,7 @@ switch (userRole) {
       },
     ];
     break;
-  
+
   case 'professional':
     data = [
       {
@@ -293,7 +293,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
-                className='cursor-pointer'
+                className="cursor-pointer"
               >
                 <LabelList
                   position="right"

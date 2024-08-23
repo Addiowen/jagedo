@@ -16,7 +16,11 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContractorActiveJobsTable({ className }: { className?: string }) {
+export default function ContractorActiveJobsTable({
+  className,
+}: {
+  className?: string;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({

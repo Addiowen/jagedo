@@ -39,7 +39,7 @@ function getStatusBadge(status: string) {
     case 'reviewed':
       return (
         <div className="flex items-center">
-          <Badge color='success' renderAsDot />
+          <Badge color="success" renderAsDot />
           <Text className="ms-2 font-medium text-green-dark">{status}</Text>
         </div>
       );
@@ -62,16 +62,13 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
-
   {
     title: <HeaderCell title="No." />,
     dataIndex: 'number',
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {number}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
     ),
   },
 
@@ -81,11 +78,9 @@ export const getColumns = ({
     key: 'id',
     width: 50,
     render: (id: string) => (
-    // <Text>#{id}</Text>
-    <Text className="text-sm text-gray-900 dark:text-gray-700">
-      #{id}
-    </Text>
-  ),
+      // <Text>#{id}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
+    ),
   },
 
   {
@@ -138,9 +133,7 @@ export const getColumns = ({
     key: 'county',
     width: 100,
     render: (county: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {county}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
     ),
   },
 
@@ -171,15 +164,18 @@ export const getColumns = ({
     key: 'action',
     width: 100,
     render: (id: string, row: any) => (
-      <div className="gap-3 pe-3">        
-        <Link href={{ pathname: routes.serviceProvider.professional.completeJobDetails, query: { id } }}>
+      <div className="gap-3 pe-3">
+        <Link
+          href={{
+            pathname: routes.serviceProvider.professional.completeJobDetails,
+            query: { id },
+          }}
+        >
           <Text className="text-sm text-green-600">View</Text>
         </Link>
       </div>
     ),
   },
-
-
 
   // {
   //   // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

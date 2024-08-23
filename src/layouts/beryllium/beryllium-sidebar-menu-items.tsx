@@ -35,7 +35,7 @@ import {
   PiChatCenteredDots,
   PiCurrencyCircleDollar,
   PiFolder,
-  PiHouseLine,
+  PiHouseLine,  
   PiAirplaneTilt,
   PiPokerChip,
   PiBriefcase,
@@ -43,6 +43,7 @@ import {
   PiShapes,
   PiNewspaperClippingDuotone,
   PiTableDuotone,
+  PiGauge 
 } from 'react-icons/pi';
 
 // Note: do not add href in the label object, it is rendering as label
@@ -53,9 +54,9 @@ export const berylliumSidebarMenuItems = [
   },
   // label end
   {
-    name: 'File Manager',
+    name: 'Home ',
     href: '/',
-    icon: <PiFolder />,
+    icon: <PiGauge />,
   },
   {
     name: 'Appointment',
@@ -100,9 +101,9 @@ export const berylliumSidebarMenuItems = [
   },
 
   // label start
-  {
-    name: 'Apps Kit',
-  },
+  // {
+  //   name: 'Apps Kit',
+  // },
   // label end
   {
     name: 'E-Commerce',
