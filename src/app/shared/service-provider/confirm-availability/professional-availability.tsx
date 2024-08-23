@@ -4,8 +4,8 @@
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 import { Button, Checkbox, Textarea } from 'rizzui';
-import ChunkedGrid from '../../commons/custom-chunked-grid';
-import { professionalRequestDetailsData } from '@/data/job-data';
+import ChunkedGrid from '../../custom-chunked-grid';
+import { professionalRequestDetailsData } from '@/data/custom-job-details-data';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // const data = [

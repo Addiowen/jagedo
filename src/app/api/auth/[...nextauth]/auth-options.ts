@@ -4,7 +4,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
 import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
-
 export const authOptions: NextAuthOptions = {
   // debug: true,
   pages: {
@@ -51,16 +50,31 @@ export const authOptions: NextAuthOptions = {
         // You need to provide your own logic here that takes the credentials
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid
-        const user = {
-          email: 'admin@admin.com',
-          password: 'admin',
-        };
+        
+        // const user = {
+        //   email: 'admin@admin.com',
+        //   password: 'admin',
+        // };
 
-        if (
+        const users = [
+          { email: 'fundi@email.com', password: 'fundi' },
+          { email: 'professional@email.com', password: 'professional' },
+          { email: 'contractor@email.com', password: 'contractor' },
+        ];
+
+        const user = users.find(user => 
           isEqual(user, {
             email: credentials?.email,
             password: credentials?.password,
           })
+        );
+
+        if (
+          // isEqual(user, {
+          //   email: credentials?.email,
+          //   password: credentials?.password,
+          // })
+          user
         ) {
           return user as any;
         }

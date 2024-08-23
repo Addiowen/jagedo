@@ -11,8 +11,8 @@ import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 
 const initialValues: LoginSchema = {
-  email: 'admin@admin.com',
-  password: 'admin',
+  email: 'contractor@email.com',
+  password: 'contractor',
   rememberMe: true,
 };
 
@@ -22,9 +22,19 @@ export default function SignInForm() {
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     console.log(data);
+    console.log(JSON.stringify(data));
+
     signIn('credentials', {
       ...data,
     });
+
+    if (data.email === 'fundi@email.com') {
+      window.sessionStorage.setItem('role', 'fundi');
+    } else if (data.email === 'professional@email.com') {
+      window.sessionStorage.setItem('role', 'professional');
+    } else if (data.email === 'contractor@email.com') {
+      window.sessionStorage.setItem('role', 'contractor');
+    }
 
     if (data.email === 'organization@email.com') {
       window.sessionStorage.setItem('role', 'organization');
@@ -87,7 +97,8 @@ export default function SignInForm() {
       <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
         Don’t have an account?{' '}
         <Link
-          href={routes.auth.signUp4}
+          // href={routes.auth.signUp4}
+          href={'/signup'}
           className="font-semibold text-gray-700 transition-colors hover:text-blue"
         >
           Sign Up

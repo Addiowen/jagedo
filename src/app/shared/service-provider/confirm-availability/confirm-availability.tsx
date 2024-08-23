@@ -1,11 +1,11 @@
 'use client';
 
+import MetricCard from '@/components/cards/metric-card';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 import { Button, Checkbox } from 'rizzui';
-import { requestDetailsData } from '@/data/job-data';
-
-import ChunkedGrid from '../../commons/custom-chunked-grid';
+import { requestDetailsData } from '@/data/custom-job-details-data';
+import ChunkedGrid from '../../custom-chunked-grid';
 // import UserDetailsCard from "../../custom-user-details-card";
 import { usePathname, useSearchParams } from 'next/navigation';
 

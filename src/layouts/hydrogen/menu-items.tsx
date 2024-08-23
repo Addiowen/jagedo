@@ -1,3 +1,5 @@
+'use client'
+
 'use client';
 
 import { routes } from '@/config/routes';
@@ -56,8 +58,441 @@ import {
   PiListChecksDuotone,
   PiClipboardDuotone,
   PiStarDuotone,
+  PiClipboardDuotone,
+  PiNoteDuotone,
+  PiNotePencilDuotone,
+  PiHouseDuotone,
+  PiToolboxDuotone,
+  PiDesktopDuotone,
+  PiTrolleyDuotone,
+  PiMoneyDuotone,
+  PiGearDuotone,
+  PiStarDuotone,
 } from 'react-icons/pi';
+// import { checkRole } from '@/utils/custom-check-role';
 
+interface MenuItem {
+
+  name: string;
+  href: string;
+  icon?: React.ReactNode;
+  badge?: string;
+  dropdownItems?: MenuItem[];
+
+}
+
+const userRole = window.sessionStorage.getItem('role')
+let menuData: MenuItem[] = []
+
+switch(userRole) {
+  case 'fundi':
+    menuData = [
+      {
+        name: 'Home',
+        href: routes.serviceProvider.fundi.dashboard,
+        icon: <PiHouseDuotone />
+      },
+    
+      {
+        name: 'My Workspace',
+        href: '#',
+        icon: <PiDesktopDuotone />,
+      },
+    
+      {
+        name: 'Shop App',
+        href: '#',
+        icon: <PiTrolleyDuotone />,
+      },
+      {
+        name: 'My Projects',
+        href: '#',
+        icon: <PiBriefcaseDuotone />,
+      },
+      {
+        name: 'Sales',
+        href: '#',
+        icon: <PiMoneyDuotone />,
+      },
+          
+      {
+        name: 'Jobs',
+        href: '#',
+        icon: <PiToolboxDuotone/>,
+        dropdownItems: [
+          {
+            name: 'Active',
+            href: routes.serviceProvider.fundi.activeJobs,
+            badge: '',
+          },
+          {
+            name: 'Completed',
+            href: routes.serviceProvider.fundi.completedJobs,
+            badge: '',
+          },
+          // {
+          //   name: 'All Jobs',
+          //   href: routes.serviceProvider.fundi.jobs,
+          //   badge: '',
+          // },
+        ]
+      },
+
+      {
+        name: 'Reviews',
+        href: routes.serviceProvider.fundi.reviews,
+        icon: <PiStarDuotone />,
+      },
+
+      {
+        name: 'Settings',
+        href: '#',
+        icon: <PiGearDuotone />,
+        dropdownItems: [
+          {
+            name: 'Profile',
+            href: routes.serviceProvider.fundi.profile,
+            icon: <PiUserCircleDuotone />,
+          },
+          {
+            name: 'Customer Mode',
+            href: '#',
+            badge: '',
+          },
+          // {
+          //   name: 'Change Password',
+          //   href: '#',
+          //   badge: '',
+          // },
+        ]
+      },
+    
+      // {
+      //   name: 'Profile',
+      //   href: routes.serviceProvider.fundi.profile,
+      //   icon: <PiUserCircleDuotone />,
+      //   // dropdownItems: [
+      //   //   {
+      //   //     name: 'Create Profile',
+      //   //     href: routes.serviceProvider.fundi.createProfile,
+      //   //     badge: '',
+      //   //   },
+      //   //   {
+      //   //     name: 'Edit Profile',
+      //   //     href: routes.serviceProvider.fundi.editProfile,
+      //   //     badge: '',
+      //   //   },
+      //   // ]
+      // },
+    ];
+    break;
+
+  case 'professional':
+    menuData = [
+      {
+        name: 'Home',
+        href: routes.serviceProvider.fundi.dashboard,
+        icon: <PiHouseDuotone />
+      },
+
+      {
+        name: 'My Workspace',
+        href: '#',
+        icon: <PiDesktopDuotone />,
+      },
+    
+      {
+        name: 'Shop App',
+        href: '#',
+        icon: <PiTrolleyDuotone />,
+      },
+      {
+        name: 'My Projects',
+        href: '#',
+        icon: <PiBriefcaseDuotone />,
+      },
+      {
+        name: 'Sales',
+        href: '#',
+        icon: <PiMoneyDuotone />,
+      },
+
+      // {
+      //   name: 'Requisitions',
+      //   href: routes.serviceProvider.fundi.requisitions,
+      //   icon: <PiClipboardDuotone />,
+      // },
+    
+      // {
+      //   name: 'Quotations',
+      //   href: routes.serviceProvider.fundi.quotations,
+      //   icon: <PiNoteDuotone />,
+      // },
+    
+      {
+        name: 'Jobs',
+        href: '#',
+        icon: <PiToolboxDuotone/>,
+        dropdownItems: [
+          {
+            name: 'Active',
+            href: routes.serviceProvider.professional.activeJobs,
+            badge: '',
+          },
+          {
+            name: 'Completed',
+            href: routes.serviceProvider.professional.completedJobs,
+            badge: '',
+          },
+          // {
+          //   name: 'All Jobs',
+          //   href: routes.serviceProvider.fundi.jobs,
+          //   badge: '',
+          // },
+        ]
+      },
+
+      {
+        name: 'Reviews',
+        href: routes.serviceProvider.professional.reviews,
+        icon: <PiStarDuotone />,
+      },
+
+      {
+        name: 'Settings',
+        href: '#',
+        icon: <PiGearDuotone />,
+        dropdownItems: [
+          {
+            name: 'Profile',
+            href: routes.serviceProvider.professional.profile,
+            icon: <PiUserCircleDuotone />,
+          },
+          {
+            name: 'Customer Mode',
+            href: '#',
+            badge: '',
+          },
+          // {
+          //   name: 'Change Password',
+          //   href: '#',
+          //   badge: '',
+          // },
+        ]
+      },
+    
+      // {
+      //   name: 'Profile',
+      //   href: routes.serviceProvider.professional.profile,
+      //   icon: <PiUserCircleDuotone />,
+      // },
+    ];
+    break;
+
+  case 'contractor':
+    menuData = [
+      {
+        name: 'Home',
+        href: routes.serviceProvider.fundi.dashboard,
+        icon: <PiHouseDuotone />
+      },
+
+      {
+        name: 'My Workspace',
+        href: '#',
+        icon: <PiDesktopDuotone />,
+      },
+    
+      {
+        name: 'Shop App',
+        href: '#',
+        icon: <PiTrolleyDuotone />,
+      },
+      {
+        name: 'My Projects',
+        href: '#',
+        icon: <PiBriefcaseDuotone />,
+      },
+      {
+        name: 'Sales',
+        href: '#',
+        icon: <PiMoneyDuotone />,
+      },
+    
+      {
+        name: 'Jobs',
+        href: '#',
+        icon: <PiToolboxDuotone/>,
+        dropdownItems: [
+          {
+            name: 'Active',
+            href: routes.serviceProvider.contractor.activeJobs,
+            badge: '',
+          },
+          {
+            name: 'Completed',
+            href: routes.serviceProvider.contractor.completedJobs,
+            badge: '',
+          },
+          // {
+          //   name: 'All Jobs',
+          //   href: routes.serviceProvider.contractor.jobs,
+          //   badge: '',
+          // },
+        ]
+      },
+
+      {
+        name: 'Reviews',
+        href: routes.serviceProvider.contractor.reviews,
+        icon: <PiStarDuotone />,
+      },
+
+      {
+        name: 'Settings',
+        href: '#',
+        icon: <PiGearDuotone />,
+        dropdownItems: [
+          {
+            name: 'Profile',
+            href: routes.serviceProvider.contractor.profile,
+            icon: <PiUserCircleDuotone />,
+          },
+          {
+            name: 'Customer Mode',
+            href: '#',
+            badge: '',
+          },
+          // {
+          //   name: 'Change Password',
+          //   href: '#',
+          //   badge: '',
+          // },
+        ]
+      },
+    
+      // {
+      //   name: 'Profile',
+      //   href: routes.serviceProvider.contractor.profile,
+      //   icon: <PiUserCircleDuotone />,
+      // },
+    ];
+    break;
+
+  default:
+    menuData = [
+      {
+        name: 'Default Home',
+        href: routes.serviceProvider.fundi.dashboard,
+        icon: <PiHouseDuotone />
+      },
+
+      {
+        name: 'My Workspace',
+        href: '#',
+        icon: <PiDesktopDuotone />,
+      },
+    
+      {
+        name: 'Shop App',
+        href: '#',
+        icon: <PiTrolleyDuotone />,
+      },
+      {
+        name: 'My Projects',
+        href: '#',
+        icon: <PiBriefcaseDuotone />,
+      },
+      {
+        name: 'Sales',
+        href: '#',
+        icon: <PiMoneyDuotone />,
+      },
+    
+      // {
+      //   name: 'Jobs',
+      //   href: routes.serviceProvider.fundi.quotations,
+      //   icon: <PiToolboxDuotone/>,
+      //   dropdownItems: [
+      //     {
+      //       name: 'Active',
+      //       href: routes.serviceProvider.contractor.activeJobs,
+      //       badge: '',
+      //     },
+      //     {
+      //       name: 'Completed',
+      //       href: routes.serviceProvider.contractor.completedJobs,
+      //       badge: '',
+      //     },
+      //     // {
+      //     //   name: 'All Jobs',
+      //     //   href: routes.serviceProvider.contractor.jobs,
+      //     //   badge: '',
+      //     // },
+      //   ]
+      // },
+    
+      {
+        name: 'Profile',
+        href: routes.serviceProvider.contractor.profile,
+        icon: <PiUserCircleDuotone />,
+      },
+    
+      // {
+      //   name: 'Requisitions',
+      //   href: routes.serviceProvider.fundi.requisitions,
+      //   icon: <PiClipboardDuotone />,
+      // },
+    
+      // {
+      //   name: 'Quotations',
+      //   href: routes.serviceProvider.fundi.quotations,
+      //   icon: <PiNoteDuotone />,
+      // },
+    
+      // {
+      //   name: 'Jobs',
+      //   href: routes.serviceProvider.fundi.quotations,
+      //   icon: <PiToolboxDuotone/>,
+      //   dropdownItems: [
+      //     {
+      //       name: 'Active',
+      //       href: routes.serviceProvider.fundi.activeJobs,
+      //       badge: '',
+      //     },
+      //     {
+      //       name: 'Completed',
+      //       href: routes.serviceProvider.fundi.completedJobs,
+      //       badge: '',
+      //     },
+      //     {
+      //       name: 'All Jobs',
+      //       href: routes.serviceProvider.fundi.jobs,
+      //       badge: '',
+      //     },
+      //   ]
+      // },
+    
+      // {
+      //   name: 'Profile',
+      //   href: routes.serviceProvider.fundi.quotations,
+      //   icon: <PiUserCircleDuotone />,
+      //   dropdownItems: [
+      //     {
+      //       name: 'Create Profile',
+      //       href: routes.serviceProvider.fundi.createProfile,
+      //       badge: '',
+      //     },
+      //     {
+      //       name: 'Edit Profile',
+      //       href: routes.serviceProvider.fundi.editProfile,
+      //       badge: '',
+      //     },
+      //   ]
+      // },
+    ];
+
+}
 interface MenuItem {
   name: string;
   href: string;
@@ -67,7 +502,7 @@ interface MenuItem {
 }
 
 // Note: do not add href in the label object, it is rendering as label
-export const menuItems: MenuItem[] = [
+export const menuItems = [
   // label start
   // {
   //   name: 'Overview',
@@ -87,209 +522,57 @@ export const menuItems: MenuItem[] = [
   // },
 
   {
-    name: 'Home',
+    name: 'Admin',
     href: routes.admin.dashboard,
-    icon: <PiHouseDuotone />,
-  },
-  {
-    name: 'Shop App',
-    href: routes.comingSoon,
-    icon: <PiTrolleyDuotone />,
-  },
-
-  {
-    name: 'My Workspace',
-    href: routes.comingSoon,
-    icon: <PiDesktopDuotone />,
-  },
-  {
-    name: 'My Projects',
-    href: routes.comingSoon,
     icon: <PiBriefcaseDuotone />,
-  },
-
-  {
-    name: 'Sales',
-    href: routes.comingSoon,
-    icon: <PiMoneyDuotone />,
-  },
-
-  // {
-  //   name: 'Generate RFQ',
-  //   href: routes.admin.rfq,
-  //   icon: <PiAirplaneTiltDuotone />,
-  // },
-
-  {
-    name: 'Registers',
-    href: routes.admin.dashboard,
-    icon: <PiFolderDuotone />,
     dropdownItems: [
       {
-        name: 'Customers Register',
-        href: routes.admin.customers,
-        badge: '',
-        dropdownItems: [
-          {
-            name: 'Individual',
-            href: routes.admin.individual,
-          },
-          {
-            name: 'Organization',
-            href: routes.admin.organization,
-          },
-        ],
-      },
-
-      {
-        name: 'Service  Provider Registers',
-        href: routes.admin.customers,
-        badge: '',
-        dropdownItems: [
-          {
-            name: 'Fundi',
-            href: routes.admin.fundi,
-          },
-          {
-            name: 'Professional',
-            href: routes.admin.professional,
-          },
-          {
-            name: 'Contractor',
-            href: routes.admin.contractor,
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    name: 'Jobs',
-    href: routes.admin.dashboard,
-    icon: <PiClipboardDuotone />,
-    dropdownItems: [
-      {
-        name: 'Active Jobs',
-        href: routes.admin.active,
+        name: 'Dashboard',
+        href: routes.admin.dashboard,
         badge: '',
       },
-
       {
-        name: 'Complete Jobs',
-        href: routes.admin.completed,
+        name: 'Profile Creation',
+        href: routes.admin.profileCreation,
+        badge: '',
+      },
+      {
+        name: 'Customer register',
+        href: routes.admin.customer,
+        badge: '',
+      },
+      // {
+      //   name: 'Individual register',
+      //   href: routes.admin.individual,
+      //   badge: '',
+      // },
+      {
+        name: 'Service provider register',
+        href: routes.admin.serviceProvider,
+        badge: '',
+      },
+      {
+        name: ' Organization register',
+        href: routes.admin.organization,
+        badge: '',
+      },
+      {
+        name: 'Requisitions',
+        href: routes.admin.requisitions,
+        badge: '',
+      },
+      {
+        name: 'Requisition details',
+        href: routes.admin.assignServiceProvider,
+        badge: '',
+      },
+      {
+        name: 'Assign Service Providers',
+        href: routes.admin.addToServiceProviders,
         badge: '',
       },
     ],
   },
-
-  {
-    name: 'Reviews',
-    href: routes.admin.reviews,
-    icon: <PiStarDuotone />,
-  },
-
-  // {
-  //   name: 'Admin',
-  //   href: routes.admin.dashboard,
-  //   icon: <PiBriefcaseDuotone />,
-  //   dropdownItems: [
-  //     // {
-  //     //   name: 'Dashboard',
-  //     //   href: routes.admin.dashboard,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Fundi Profile Creation',
-  //     //   href: routes.admin.createFundiProfile,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Edit Profile Creation',
-  //     //   href: routes.admin.editFundiProfile,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Customer register',
-  //     //   href: routes.admin.customers,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Individual register',
-  //     //   href: routes.admin.individual,
-  //     //   badge: '',
-  //     // },
-  //     // // {
-  //     // //   name: 'Individual register',
-  //     // //   href: routes.admin.individual,
-  //     // //   badge: '',
-  //     // // },
-  //     // {
-  //     //   name: 'Service provider register',
-  //     //   href: routes.admin.serviceProvider,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: ' Organization register',
-  //     //   href: routes.admin.organization,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Admin Requisitions',
-  //     //   href: routes.admin.requisitions,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Requisitions with Quotations',
-  //     //   href: routes.admin.quotedRequisitions,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Analyse Quotations',
-  //     //   href: routes.admin.analyzeQuotations,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Requisition details',
-  //     //   href: routes.admin.requisitionDetails,
-  //     //   badge: '',
-  //     // },
-  //     // {
-  //     //   name: 'Assign Service Providers',
-  //     //   href: routes.admin.addToServiceProviders,
-  //     //   badge: '',
-  //     // },
-
-  //   ],
-  // },
-
-  // {
-  //   name: 'Customers',
-  //   href: routes.admin.dashboard,
-  //   icon: <PiUserDuotone />,
-  //   dropdownItems: [
-  //     {
-  //       name: 'generate invoice',
-  //       href: routes.customers.generateInvoice,
-  //       badge: '',
-  //     },
-  //     {
-  //       name: 'invoice',
-  //       href: routes.customers.invoice,
-  //       badge: '',
-  //     },
-  //     {
-  //       name: 'Requisition Details',
-  //       href: routes.customers.requisitionDetails,
-  //       badge: '',
-  //     },
-  //     {
-  //       name: 'Requisitions',
-  //       href: routes.customers.requisitions,
-  //       badge: '',
-  //     },
-  //   ],
-  // },
-  // },
   // {
   //   name: 'E-Commerce',
   //   href: routes.eCommerce.dashboard,
@@ -635,4 +918,9 @@ export const menuItems: MenuItem[] = [
   //     },
   //   ],
   // },
-];
+
+
+
+
+
+// ];

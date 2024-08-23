@@ -3,7 +3,7 @@ import logoImg from '@public/logo.svg';
 import { LAYOUT_OPTIONS } from '@/config/enums';
 import logoIconImg from '@public/logo-short.svg';
 import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types';
-import Japageo_01 from '@public/fwdhello/Japageo_01.png';
+import Japageologo from '@public/Japageologo.png';
 
 enum MODE {
   DARK = 'dark',
@@ -11,10 +11,10 @@ enum MODE {
 }
 
 export const siteConfig = {
-  title: 'Jagedo',
-  description: ``,
-  logo: '',
-  icon: Japageo_01,
+  title: 'JaGedo',
+  description: `Jagedo Platform`,
+  logo: Japageologo,
+  icon: Japageologo,
   mode: MODE.LIGHT,
   layout: LAYOUT_OPTIONS.HYDROGEN,
   // TODO: favicon
@@ -26,10 +26,10 @@ export const metaObject = (
   description: string = siteConfig.description
 ): Metadata => {
   return {
-    title: title ? `${title} - Jagedo` : siteConfig.title,
+    title: title ? `${title}` : siteConfig.title,
     description,
     openGraph: openGraph ?? {
-      title: title ? `${title} - Jagedos` : title,
+      title: title ? `${title}` : title,
       description,
       url: 'https://isomorphic-furyroad.vercel.app',
       siteName: 'Jagedo', // https://developers.google.com/search/docs/appearance/site-names

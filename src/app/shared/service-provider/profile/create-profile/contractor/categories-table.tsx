@@ -20,7 +20,7 @@ import {
 } from '@/app/shared/service-provider/profile/create-profile/contractor/data';
 // import { ContractorProfileSchema } from '@/utils/validators/custom-profile.schema';
 // import UploadZone from '@/components/ui/file-upload/upload-zone';
-import CustomUploadZone from '@/components/custom-upload-zone';
+import CustomUploadZone from '@/components/ui/file-upload/custom-upload-zone';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
