@@ -69,11 +69,9 @@ export const professionalProfileSchema = baseUserFormSchema.extend({
   field: z.string().min(1, { message: 'Field is required' }),
   level: z.string().min(1, { message: messages.levelIsRequired }),
   years: z.string().min(1, { message: messages.yearsIsRequired }),
-  idPic: z
-    .any()
-    .refine((value) => value !== undefined, {
-      message: messages.idPicIsRequired,
-    }),
+  idPic: z.any().refine((value) => value !== undefined, {
+    message: messages.idPicIsRequired,
+  }),
   kcse: z.any().optional(),
   degree: z.any().optional(),
   registrationCertificate: z.any().optional(),
@@ -83,11 +81,11 @@ export const professionalProfileSchema = baseUserFormSchema.extend({
   taxCompliance: z.any().optional(),
 });
 
-
-
 // generate form types from zod validation schema
 export type FundiProfileSchema = z.infer<typeof fundiProfileSchema>;
-export type OrganizationProfileSchema = z.infer<typeof organizationProfileSchema>;
+export type OrganizationProfileSchema = z.infer<
+  typeof organizationProfileSchema
+>;
 export type ContractorProfileSchema = z.infer<typeof contractorProfileSchema>;
 export type ProfessionalProfileSchema = z.infer<
   typeof professionalProfileSchema

@@ -119,8 +119,8 @@ function AuthHeader() {
           />
         </div>
       </Link>
-      <div className="flex items-center space-x-2 md:space-x-4">
-        <AuthNavLink href={routes.auth.signIn4}>
+      <div className="-mt-16 flex items-center space-x-2 md:space-x-4">
+        <AuthNavLink href={'/signin'}>
           <PiArrowLineRight className="h-4 w-4" />
           <span>Login</span>
         </AuthNavLink>

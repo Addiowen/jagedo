@@ -13,8 +13,7 @@ import {
 } from 'react-icons/pi';
 import { ActionIcon, Title, Text, Button } from 'rizzui';
 import cn from '@/utils/class-names';
-// import Upload from '@/components/ui/custom-upload';
-import Upload from '@/app/shared/commons/custom-upload';
+import Upload from '@/components/ui/custom-upload';
 import { useModal } from '@/app/shared/modal-views/use-modal';
 import SimpleBar from '@/components/ui/simplebar';
 import { toast } from 'react-hot-toast';

@@ -3,14 +3,17 @@
 import { PinCode, Button } from 'rizzui';
 import { Form } from '@/components/ui/form';
 import { SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 type FormValues = {
   otp: string;
 };
 
 export default function OtpForm() {
+  const router = useRouter()
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
+    router.push('/signin')
   };
   return (
     <Form<FormValues> onSubmit={onSubmit}>

@@ -3,7 +3,7 @@ import cn from '@/utils/class-names';
 import { ForwardedRef, forwardRef } from 'react';
 
 const widgetCardClasses = {
-  base: 'border border-muted bg-gray-0 p-4 dark:bg-gray-50 lg:p-4',
+  base: 'border border-muted bg-gray-0 p-5 dark:bg-gray-50 lg:p-7',
   rounded: {
     sm: 'rounded-sm',
     DEFAULT: 'rounded-lg',
@@ -24,58 +24,63 @@ type WidgetCardTypes = {
   className?: string;
 };
 
-function WidgetCard(
-  {
-    title,
-    action,
-    description,
-    rounded = 'DEFAULT',
-    className,
-    headerClassName,
-    actionClassName,
-    titleClassName,
-    descriptionClassName,
-    children,
-  }: React.PropsWithChildren<WidgetCardTypes>,
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  return (
-    <div
-      className={cn(
-        widgetCardClasses.base,
-        widgetCardClasses.rounded[rounded],
-        className
-      )}
-      ref={ref}
-    >
+const WidgetCard3 = forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<WidgetCardTypes>
+>(
+  (
+    {
+      title,
+      action,
+      description,
+      rounded = 'DEFAULT',
+      className,
+      headerClassName,
+      actionClassName,
+      titleClassName,
+      descriptionClassName,
+      children,
+    },
+    ref
+  ) => {
+    return (
       <div
         className={cn(
-          action && 'flex items-start justify-between space-x-4',
-          headerClassName
+          widgetCardClasses.base,
+          widgetCardClasses.rounded[rounded],
+          className
         )}
+        ref={ref}
       >
-        <div className="w-1/2 flex-grow">
-          <Title
-            as="h3"
-            className={cn('text-base font-semibold sm:text-lg', titleClassName)}
-          >
-            {title}
-          </Title>
-          {description && (
-            <div className={descriptionClassName}>{description}</div>
+        <div
+          className={cn(
+            action && 'flex items-start justify-between',
+            headerClassName
           )}
-        </div>
-        <div className="w-2/3 flex-grow">
+        >
+          <div>
+            <Title
+              as="h3"
+              className={cn(
+                'text-base font-semibold sm:text-lg',
+                titleClassName
+              )}
+            >
+              {title}
+            </Title>
+            {description && (
+              <div className={descriptionClassName}>{description}</div>
+            )}
+          </div>
           {action && (
             <div className={cn('ps-2', actionClassName)}>{action}</div>
           )}
         </div>
+        {children}
       </div>
+    );
+  }
+);
 
-      {children}
-    </div>
-  );
-}
-
-export default forwardRef(WidgetCard);
-WidgetCard.displayName = 'WidgetCard';
+export default WidgetCard3;
+WidgetCard3.displayName = 'WidgetCard';
