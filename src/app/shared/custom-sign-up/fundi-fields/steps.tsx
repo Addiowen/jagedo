@@ -33,6 +33,7 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
+import axios, { BASE_URL } from '@/lib/axios';
 // import { routes } from '@/config/routes';
 
 // export type MultiStepFormProps = {
@@ -60,6 +61,7 @@ export default function FundiSteps() {
 
   const containsProfessional = pathname.includes('professional');
   const containsContractor = pathname.includes('contractor');
+  const containsFundi = pathname.includes('fundi');
 
   // function to get schema
   // const getSignUpSchema = (pathname) => {
@@ -73,10 +75,38 @@ export default function FundiSteps() {
   // };
 
   // submit handler
-  const onSubmit: SubmitHandler<RefinedSpSignUpFormSchema> = (data, e) => {
+  const onSubmit: SubmitHandler<RefinedSpSignUpFormSchema> = async (
+    data,
+    e
+  ) => {
     e?.preventDefault();
     // console.log(e)
-    // console.log(data);
+
+    let filteredData = { ...data };
+
+    if (containsProfessional) {
+      const { skill, category, ...rest } = filteredData;
+      filteredData = rest;
+    } else if (containsContractor) {
+      const { profession, skill, ...rest } = filteredData;
+      filteredData = rest;
+    } else if (containsFundi) {
+      const { category, profession, ...rest } = filteredData;
+      filteredData = rest;
+    }
+    console.log(filteredData);
+
+    try {
+      // Send POST request to the API with form data
+      const response = await axios.post(`${BASE_URL}/user`, data);
+
+      console.log(response.data, 'Response from API');
+
+      // router.push(routes.auth.otp4);
+    } catch (error) {
+      // Handle error (e.g., showing an error message)
+      console.error('Error submitting form:', error);
+    }
 
     router.push(routes.auth.otp4);
   };

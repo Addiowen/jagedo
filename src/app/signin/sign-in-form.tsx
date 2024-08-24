@@ -11,7 +11,7 @@ import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 
 const initialValues: LoginSchema = {
-  email: 'contractor@email.com',
+  username: 'contractor@email.com',
   password: 'contractor',
   rememberMe: true,
 };
@@ -27,24 +27,6 @@ export default function SignInForm() {
     signIn('credentials', {
       ...data,
     });
-
-    if (data.email === 'fundi@email.com') {
-      window.sessionStorage.setItem('role', 'fundi');
-    } else if (data.email === 'professional@email.com') {
-      window.sessionStorage.setItem('role', 'professional');
-    } else if (data.email === 'contractor@email.com') {
-      window.sessionStorage.setItem('role', 'contractor');
-    } else if (data.email === 'admin@admin.com') {
-      window.sessionStorage.setItem('role', 'admin');
-    } else if (data.email === 'customer@gmail.com') {
-      window.sessionStorage.setItem('role', 'customer');
-    }
-
-    // if (data.email === 'organization@email.com') {
-    //   window.sessionStorage.setItem('role', 'organization');
-    // } else if (data.email === 'individual@email.com') {
-    //   window.sessionStorage.setItem('role', 'individual');
-    // }
   };
 
   return (
@@ -66,8 +48,8 @@ export default function SignInForm() {
               placeholder="Enter your email"
               className="[&>label>span]:font-medium"
               inputClassName="text-sm"
-              {...register('email')}
-              error={errors.email?.message}
+              {...register('username')}
+              error={errors.username?.message}
             />
             <Password
               label="Password"

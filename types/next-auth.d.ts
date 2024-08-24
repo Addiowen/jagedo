@@ -5,6 +5,8 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
+      accessToken?: string | null;
+
       // currentTeamId: string | null;
     } & DefaultSession['user'];
   }

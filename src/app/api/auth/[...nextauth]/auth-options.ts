@@ -4,6 +4,8 @@ import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
 import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
+import axios from 'axios';
+
 export const authOptions: NextAuthOptions = {
   // debug: true,
   pages: {
@@ -14,19 +16,26 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
+    // async session({ session, token }) {
+    //   return {
+    //     ...session,
+    //     user: {
+    //       ...session.user,
+    //       id: token.idToken as string,
+    //     },
+    //   };
+    // },
+
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.idToken as string,
-        },
-      };
+      session.user = token as any;
+      return session;
     },
     async jwt({ token, user }) {
       if (user) {
         // return user as JWT
-        token.user = user;
+        // token.user = user;
+
+        return { ...token, ...user };
       }
       return token;
     },
@@ -46,41 +55,27 @@ export const authOptions: NextAuthOptions = {
       id: 'credentials',
       name: 'Credentials',
       credentials: {},
-      async authorize(credentials: any) {
+      async authorize(credentials: any, req) {
         // You need to provide your own logic here that takes the credentials
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid
 
-        // const user = {
-        //   email: 'admin@admin.com',
-        //   password: 'admin',
-        // };
-
-        const users = [
-          { email: 'fundi@email.com', password: 'fundi' },
-          { email: 'professional@email.com', password: 'professional' },
-          { email: 'contractor@email.com', password: 'contractor' },
-          { email: 'admin@admin.com', password: 'admin' },
-          { email: 'organization@email.com', password: 'organization' },
-          { email: 'customer@gmail.com', password: 'customer' },
-        ];
-
-        const user = users.find((user) =>
-          isEqual(user, {
-            email: credentials?.email,
+        try {
+          const res = await axios.post('http://localhost:9001/user', {
+            username: credentials?.username,
             password: credentials?.password,
-          })
-        );
+          });
 
-        if (
-          // isEqual(user, {
-          //   email: credentials?.email,
-          //   password: credentials?.password,
-          // })
-          user
-        ) {
-          return user as any;
+          const user = res.data;
+          console.log(user, 'this');
+
+          if (user) {
+            return user as any;
+          }
+        } catch (error) {
+          console.log(error);
         }
+
         return null;
       },
     }),

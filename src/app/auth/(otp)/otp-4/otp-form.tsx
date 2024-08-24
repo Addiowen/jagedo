@@ -4,7 +4,8 @@ import { PinCode, Button } from 'rizzui';
 import { Form } from '@/components/ui/form';
 import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import axios, { BASE_URL, submitFormData } from '@/lib/axios';
+import { routes } from '@/config/routes';
 
 type FormValues = {
   otp: string;
@@ -12,9 +13,12 @@ type FormValues = {
 
 export default function OtpForm() {
   const router = useRouter();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
-    router.push('/signin');
+
+    await submitFormData(data, `${BASE_URL}/user`);
+
+    router.push(routes.signIn);
   };
   return (
     <Form<FormValues> onSubmit={onSubmit}>
@@ -29,7 +33,7 @@ export default function OtpForm() {
 
           <Button
             className="w-full text-base font-medium"
-            type="submit"
+            type="button"
             size="xl"
             variant="outline"
             rounded="lg"
