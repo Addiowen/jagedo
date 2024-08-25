@@ -68,7 +68,9 @@ export const getColumns = ({
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {number}
+      </Text>
     ),
   },
 
@@ -78,9 +80,11 @@ export const getColumns = ({
     key: 'id',
     width: 10,
     render: (id: string) => (
-      // <Text>#{id}</Text>
-      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
-    ),
+    // <Text>#{id}</Text>
+    <Text className="text-sm text-gray-900 dark:text-gray-700">
+      #{id}
+    </Text>
+  ),
   },
 
   {
@@ -89,7 +93,9 @@ export const getColumns = ({
     key: 'date',
     width: 100,
     render: (date: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{date}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {date}
+      </Text>
     ),
   },
 
@@ -135,7 +141,9 @@ export const getColumns = ({
     key: 'county',
     width: 100,
     render: (county: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {county}
+      </Text>
     ),
   },
 
@@ -167,14 +175,10 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
-        <Link
-          href={{
-            pathname: routes.serviceProvider.professional.requisitionDetails,
-            query: { id },
-          }}
-        >
+        <Link href={{ pathname: routes.serviceProvider.professional.requisitionDetails, query: { id } }}>
           <Text className="text-sm text-green-600">View</Text>
         </Link>
+
 
         {/* {(requestTypeId === 1) ? (
           <Link href={routes.serviceProvider.professional.requisitionDetails}>
@@ -185,6 +189,7 @@ export const getColumns = ({
             <Text className="text-sm text-green-600">View</Text>
           </Link>
         )} */}
+        
 
         {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
@@ -200,6 +205,7 @@ export const getColumns = ({
           </ActionIcon>
         </Tooltip> */}
 
+
         {/* <DeletePopover
           title={`Remove User`}
           description={`Are you sure you want to remove this User?`}
@@ -208,6 +214,8 @@ export const getColumns = ({
       </div>
     ),
   },
+
+
 
   // {
   //   // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

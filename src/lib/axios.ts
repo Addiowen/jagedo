@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-import { routes } from '@/config/routes';
-import { NextRouter } from 'next/router';
-
-export const BASE_URL = 'http://localhost:9001';
+export const BASE_URL = 'http://107.21.161.222:4100';
 
 export default axios.create({
   baseURL: BASE_URL,
@@ -15,11 +12,9 @@ export const axiosAuth = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-export const submitFormData = async (
-  data: any,
-  route: string,
-  router?: NextRouter
-) => {
+export const createUsersAuth = axios.create({});
+
+export const submitFormData = async (data: any, route: string) => {
   try {
     const response = await axios.post(route, data);
     console.log(response.data, 'Response from API');

@@ -33,7 +33,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
-, "src/middlewarewtt.ts/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000&error=CredentialsSignin"  ],
+    ".next/types/**/*.ts",
+    "src/middlewarewtt.ts/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000&error=CredentialsSignin"
+  ],
   "exclude": ["node_modules"]
 }

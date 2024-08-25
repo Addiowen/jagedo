@@ -68,7 +68,9 @@ export const getColumns = ({
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {number}
+      </Text>
     ),
   },
 
@@ -78,9 +80,11 @@ export const getColumns = ({
     key: 'id',
     width: 10,
     render: (id: string) => (
-      // <Text>#{id}</Text>
-      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
-    ),
+    // <Text>#{id}</Text>
+    <Text className="text-sm text-gray-900 dark:text-gray-700">
+      #{id}
+    </Text>
+  ),
   },
 
   {
@@ -88,7 +92,9 @@ export const getColumns = ({
     dataIndex: 'date',
     key: 'date',
     width: 100,
-    render: (date: Date) => <DateCell date={date} />,
+    render: (date: Date) => (
+      <DateCell date={date} />
+    ),
   },
 
   {
@@ -133,7 +139,9 @@ export const getColumns = ({
     key: 'county',
     width: 100,
     render: (county: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {county}
+      </Text>
     ),
   },
 
@@ -157,6 +165,8 @@ export const getColumns = ({
     render: (value: string) => getStatusBadge(value),
   },
 
+
+
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Action" />,
@@ -165,13 +175,9 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
-        <Link
-          href={{
-            pathname: routes.serviceProvider.contractor.jobDetails,
-            query: { id },
-          }}
-        >
-          <Text className="text-sm text-green-600">View</Text>
+
+        <Link href={{ pathname: routes.serviceProvider.contractor.jobDetails, query: { id } }}>
+            <Text className="text-sm text-green-600">View</Text>
         </Link>
       </div>
     ),

@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import { AdvancedCheckbox, Button, Modal, Tooltip, Tab } from 'rizzui';
+import { AdvancedCheckbox, Button, Modal, Tooltip, Tab } from "rizzui";
 // import { useState } from 'react';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 // import ReviewForm from "@/app/shared/custom-reviews/review-form";
 // import UserDetailsCard from "@/app/shared/custom-user-details-card";
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import { completeJobDetailsData } from '@/data/custom-job-details-data';
+import ChunkedGrid from "@/app/shared/custom-chunked-grid";
+import { completeJobDetailsData } from "@/data/custom-job-details-data";
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { routes } from '@/config/routes';
-import ProgressBarActive from '../../../progress-bar-fundi';
-import FundiCompleteJobDetailsAttachments from '../fundi-attachments';
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { routes } from "@/config/routes";
+import ProgressBarActive from "../../../progress-bar-fundi";
+import FundiCompleteJobDetailsAttachments from "../fundi-attachments";
 // import { PiUserCircleDuotone } from "react-icons/pi";
 // import ToastButton from "@/components/buttons/toast-button";
 
@@ -39,28 +39,28 @@ import FundiCompleteJobDetailsAttachments from '../fundi-attachments';
 //         role: 'Customer',
 //     },
 // ]
-
+  
 export default function FundiCompleteJobDetails() {
-  // const [modalState, setModalState] = useState(false);
-  // const [viewReviewsModalState, setViewReviewsModalState] = useState(false)
-  // const [requestReviewsModalState, setRequestReviewsModalState] = useState(false)
+    // const [modalState, setModalState] = useState(false);
+    // const [viewReviewsModalState, setViewReviewsModalState] = useState(false)
+    // const [requestReviewsModalState, setRequestReviewsModalState] = useState(false)
 
-  const router = useRouter();
+    const router = useRouter()
 
-  const searchParams = useSearchParams();
-  const handleBack = () => router.back();
+    const searchParams = useSearchParams()
+    const handleBack = () => router.back()
 
-  const jobId = searchParams.get('id');
+    const jobId = searchParams.get('id')
 
-  return (
-    <div>
-      {/* <Modal isOpen={modalState} onClose={() => setModalState(false)}>
+    return (
+        <div>
+            {/* <Modal isOpen={modalState} onClose={() => setModalState(false)}>
                 <div className='p-10'>
                     <ReviewForm />
                 </div>
             </Modal> */}
 
-      {/* <Modal isOpen={viewReviewsModalState} onClose={() => setViewReviewsModalState(false)}>
+            {/* <Modal isOpen={viewReviewsModalState} onClose={() => setViewReviewsModalState(false)}>
                 <div className='p-10'>
                     {reviewsData.map((review, index) => (
                         <ReviewCard
@@ -75,7 +75,7 @@ export default function FundiCompleteJobDetails() {
                 </div>
             </Modal> */}
 
-      {/* <Modal isOpen={requestReviewsModalState} onClose={() => setRequestReviewsModalState(false)}>
+            {/* <Modal isOpen={requestReviewsModalState} onClose={() => setRequestReviewsModalState(false)}>
                 <div className='p-10'>
                     <div className="font-semibold text-lg text-gray-900 text-center mb-6">Request review from?</div>
                     <div className="text-center">Select one or more</div>
@@ -96,63 +96,56 @@ export default function FundiCompleteJobDetails() {
                             route='#'
                             message="Review Requested"
                         /> */}
-      {/* <Button onClick={() => setRequestReviewsModalState(false)}>Submit</Button>
+                        {/* <Button onClick={() => setRequestReviewsModalState(false)}>Submit</Button>
                     </div> */}
-
-      {/* </div>
+                    
+                {/* </div>
             </Modal> */}
 
-      {/* <UserDetailsCard /> */}
+            {/* <UserDetailsCard /> */}
 
-      <Tab>
-        <Tab.List>
-          <Tab.ListItem>Progress Tracker</Tab.ListItem>
-          <Tab.ListItem>Project Details</Tab.ListItem>
-        </Tab.List>
+            <Tab>
+                <Tab.List>
+                    <Tab.ListItem>Progress Tracker</Tab.ListItem>
+                    <Tab.ListItem>Project Details</Tab.ListItem>
+                </Tab.List>
 
-        <Tab.Panels>
-          <Tab.Panel>
-            <ProgressBarActive />
-            <FundiCompleteJobDetailsAttachments />
-          </Tab.Panel>
+                <Tab.Panels>
+                    <Tab.Panel>
+                        <ProgressBarActive />
+                        <FundiCompleteJobDetailsAttachments />
+                    </Tab.Panel>
 
-          <Tab.Panel>
-            <div className="mb-4">
-              <ChunkedGrid
-                data={
-                  jobId === 'JOB0021'
-                    ? completeJobDetailsData[0]
-                    : completeJobDetailsData[1]
-                }
-                dataChunkSize={8}
-              />
-            </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab>
+                    <Tab.Panel>
+                        <div className="mb-4">
+                            <ChunkedGrid data={jobId === 'JOB0021'? completeJobDetailsData[0] : completeJobDetailsData[1]} dataChunkSize={8}/>
+                        </div>
+                    </Tab.Panel>
+                </Tab.Panels>
+            </Tab>
 
-      {/* <div className="mb-4">
+            {/* <div className="mb-4">
                 <ChunkedGrid data={jobId === 'JOB0021'? completeJobDetailsData[0] : completeJobDetailsData[1]} dataChunkSize={8}/>
             </div> */}
 
-      <div className="mt-6 flex justify-center">
-        {/* <Button className="">
+            <div className="flex justify-center mt-6">
+                {/* <Button className="">
                     Download Report
                 </Button> */}
 
-        <Button className="px-8" onClick={handleBack} type="submit">
-          Back
-        </Button>
+                    <Button className="px-8" onClick={handleBack} type="submit">
+                        Back
+                    </Button>
+                
+                    {jobId !== 'JOB0021' && (
+                        <Link href={routes.serviceProvider.fundi.addReview}>
+                            <Button className="ml-4" type="submit">
+                                Add Review
+                            </Button>
+                        </Link>
+                    )}
 
-        {jobId !== 'JOB0021' && (
-          <Link href={routes.serviceProvider.fundi.addReview}>
-            <Button className="ml-4" type="submit">
-              Add Review
-            </Button>
-          </Link>
-        )}
-
-        {/* <Button onClick={() => setModalState(true)} className="ml-4">
+                {/* <Button onClick={() => setModalState(true)} className="ml-4">
                     Add Review
                 </Button>
 
@@ -170,7 +163,7 @@ export default function FundiCompleteJobDetails() {
                     </Button>
                 )}
                  */}
-      </div>
-    </div>
-  );
+            </div>
+        </div>
+    )
 }

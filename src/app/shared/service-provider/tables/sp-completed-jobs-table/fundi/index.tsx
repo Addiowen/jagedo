@@ -16,11 +16,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiCompletedJobsTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default function FundiCompletedJobsTable({ className }: { className?: string }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({

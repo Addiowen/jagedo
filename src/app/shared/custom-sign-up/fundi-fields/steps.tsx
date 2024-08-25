@@ -33,19 +33,9 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
-import axios, { BASE_URL } from '@/lib/axios';
-// import { routes } from '@/config/routes';
+import axios, { axiosAuth, BASE_URL, createUsersAuth } from '@/lib/axios';
+import { useSession } from 'next-auth/react';
 
-// export type MultiStepFormProps = {
-
-//     currentStep: number,
-//     delta: number,
-//     register: UseFormRegister<SignUpFormSchema>,
-//     errors: FieldErrors<SignUpFormSchema>,
-
-//   }
-
-// dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ssr: false,
   loading: () => (
@@ -56,23 +46,14 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
 });
 
 export default function FundiSteps() {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const pathname = usePathname();
 
   const containsProfessional = pathname.includes('professional');
   const containsContractor = pathname.includes('contractor');
   const containsFundi = pathname.includes('fundi');
-
-  // function to get schema
-  // const getSignUpSchema = (pathname) => {
-  //   if (pathname.includes('professional')) {
-  //     return professionalSignUpFormSchema
-  //   } else if (pathname.includes('contractor')) {
-  //     return contractorSignUpFormSchema;
-  //   } else {
-  //     return fundiSignUpFormSchema; // Fallback schema if none match
-  //   }
-  // };
 
   // submit handler
   const onSubmit: SubmitHandler<RefinedSpSignUpFormSchema> = async (
@@ -83,32 +64,68 @@ export default function FundiSteps() {
     // console.log(e)
 
     let filteredData = { ...data };
+    let postData;
 
-    if (containsProfessional) {
-      const { skill, category, ...rest } = filteredData;
-      filteredData = rest;
-    } else if (containsContractor) {
-      const { profession, skill, ...rest } = filteredData;
-      filteredData = rest;
-    } else if (containsFundi) {
-      const { category, profession, ...rest } = filteredData;
-      filteredData = rest;
-    }
-    console.log(filteredData);
+    const getRole = () => {
+      if (containsProfessional) {
+        return 'professional';
+      } else if (containsContractor) {
+        return 'contractor';
+      } else if (containsFundi) {
+        return 'fundi';
+      }
+      return 'guest';
+    };
+
+    postData = {
+      displayName: filteredData.firstName,
+      firstname: filteredData.firstName,
+      lastname: filteredData.lastName,
+      email: filteredData.email,
+      description: 'dskdsksd',
+      username: filteredData.email,
+      password: filteredData.password,
+      phone: filteredData.phone,
+      metadata: {
+        role: getRole(), // Dynamically set the role
+      },
+    };
+
+    console.log(postData);
+
+    // try {
+    //   // Send POST request to the API with form data
+    //   const response = await createUsersAuth.post(
+    //     `${BASE_URL}/users`,
+    //     fundiPostData
+    //   );
+
+    //   console.log(response.data, 'Response from API');
+
+    //   // router.push(routes.auth.otp4);
+    // } catch (error) {
+    //   // Handle error (e.g., showing an error message)
+    //   console.error('Error submitting form:', error);
+    // }
 
     try {
-      // Send POST request to the API with form data
-      const response = await axios.post(`${BASE_URL}/user`, data);
+      const response = await axios.post(`${BASE_URL}/users`, postData, {
+        headers: {
+          Authorization:
+            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+        },
+      });
 
-      console.log(response.data, 'Response from API');
+      console.log('Response:', response.data);
 
-      // router.push(routes.auth.otp4);
+      const userDetails = response.data;
+
+      sessionStorage.setItem('userData', JSON.stringify(userDetails));
+
+      router.push(routes.auth.otp4);
     } catch (error) {
-      // Handle error (e.g., showing an error message)
-      console.error('Error submitting form:', error);
+      console.error('Error:', error);
     }
-
-    router.push(routes.auth.otp4);
   };
 
   return (
@@ -240,8 +257,8 @@ export default function FundiSteps() {
                     label="Phone Number"
                     size="lg"
                     inputClassName="text-sm"
-                    {...register('phoneNo')}
-                    error={errors.phoneNo?.message}
+                    {...register('phone')}
+                    error={errors.phone?.message}
                     className="[&>label>span]:font-medium"
                   />
 

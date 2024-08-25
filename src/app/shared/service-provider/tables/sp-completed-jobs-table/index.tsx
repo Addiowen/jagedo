@@ -16,11 +16,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function SpCompletedJobsTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default function SpCompletedJobsTable({ className }: { className?: string }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({

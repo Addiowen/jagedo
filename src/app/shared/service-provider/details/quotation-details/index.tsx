@@ -3,7 +3,7 @@
 import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
 import { Badge, Button } from 'rizzui';
-import { professionalRequestDetailsData } from '@/data/custom-job-details-data';
+import { professionalRequestDetailsData } from "@/data/custom-job-details-data";
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 
 const data = [
@@ -32,10 +32,7 @@ export default function QuotationDetailsCard() {
     <>
       <h3 className="mb-4">Quotation Details</h3>
       <div className="my-4">
-        <ChunkedGrid
-          data={professionalRequestDetailsData[0]}
-          dataChunkSize={6}
-        />
+        <ChunkedGrid data={professionalRequestDetailsData[0]} dataChunkSize={6} />
       </div>
       {/* <div className="grid items-start rounded-xl border border-gray-300 p-5 @2xl:grid-cols-2 @3xl:grid-cols-3 @3xl:p-8 @5xl:grid-cols-4">
         <div className='grid grid-cols-2 @xl:grid-cols-2' >

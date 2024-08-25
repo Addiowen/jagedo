@@ -15,11 +15,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContractorRequisitionsTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default function ContractorRequisitionsTable({ className }: { className?: string }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({

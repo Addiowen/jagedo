@@ -44,7 +44,7 @@ export default function SignInForm() {
             <Input
               type="email"
               size="lg"
-              label="Email"
+              label="Usrname"
               placeholder="Enter your email"
               className="[&>label>span]:font-medium"
               inputClassName="text-sm"

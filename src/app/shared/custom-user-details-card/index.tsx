@@ -42,27 +42,27 @@ const statData = [
     // icon: <RevenueUpIcon className="h-7 w-7" />,
     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
     graphColor: 'text-green',
-    name: '0745367287',
+    name: '0249U3424',
     increased: true,
     percentage: '+32.40',
   },
-//   {
-//     id: '3',
-//     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-//     graphColor: 'text-green',
-//     title: 'Gender',
-//     name: 'male',
-//     increased: true,
-//     percentage: '+32.40',
-//   },
-//   {
-//     id: '4',
-//     title: 'ID number ',
-//     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-//     graphColor: 'text-green',
-//     name: '34345344',
-//     increased: true,
-//   },
+  //   {
+  //     id: '3',
+  //     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+  //     graphColor: 'text-green',
+  //     title: 'Gender',
+  //     name: 'male',
+  //     increased: true,
+  //     percentage: '+32.40',
+  //   },
+  //   {
+  //     id: '4',
+  //     title: 'ID number ',
+  //     graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+  //     graphColor: 'text-green',
+  //     name: '34345344',
+  //     increased: true,
+  //   },
   {
     id: '3',
     title: 'Email Address',
@@ -86,11 +86,7 @@ const viewOptions = [
   },
 ];
 
-export default function UserDetailsCard({
-  className,
-}: {
-  className?: string;
-}) {
+export default function UserDetailsCard({ className }: { className?: string }) {
   function handleChange(viewType: string) {
     console.log('viewType', viewType);
   }
@@ -115,13 +111,7 @@ export default function UserDetailsCard({
               contentClassName="ps-5"
               iconClassName={cn('@5xl:w-20 @5xl:h-20 h-16 w-16')}
               chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
-<<<<<<<< HEAD:src/app/shared/custom-user-details-card/index.tsx
             ></UserDetails>
-========
-            >
-
-            </UserDetails>
->>>>>>>> customerportal:src/app/shared/logistics/dashboard/cutomer-details.tsx
           ))}
         </div>
       </SimpleBar>

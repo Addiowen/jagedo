@@ -5,6 +5,7 @@ import { env } from '@/env.mjs';
 import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
 import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
 
 export const authOptions: NextAuthOptions = {
   // debug: true,
@@ -16,16 +17,6 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    // async session({ session, token }) {
-    //   return {
-    //     ...session,
-    //     user: {
-    //       ...session.user,
-    //       id: token.idToken as string,
-    //     },
-    //   };
-    // },
-
     async session({ session, token }) {
       session.user = token as any;
       return session;
@@ -33,10 +24,11 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         // return user as JWT
-        // token.user = user;
+        // token.user = user
 
         return { ...token, ...user };
       }
+
       return token;
     },
     async redirect({ url, baseUrl }) {
@@ -61,10 +53,19 @@ export const authOptions: NextAuthOptions = {
         // that is false/null if the credentials are invalid
 
         try {
-          const res = await axios.post('http://localhost:9001/user', {
-            username: credentials?.username,
-            password: credentials?.password,
-          });
+          const res = await axios.post(
+            `${BASE_URL}/auth/login`,
+            {
+              username: credentials?.username,
+              password: credentials?.password,
+            },
+            {
+              headers: {
+                Authorization:
+                  'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              },
+            }
+          );
 
           const user = res.data;
           console.log(user, 'this');

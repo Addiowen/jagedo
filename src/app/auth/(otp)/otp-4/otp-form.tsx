@@ -16,8 +16,6 @@ export default function OtpForm() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
 
-    await submitFormData(data, `${BASE_URL}/user`);
-
     router.push(routes.signIn);
   };
   return (

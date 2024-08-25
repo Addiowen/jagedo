@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-import { axiosAuth } from '../axios';
+import { axiosAuth, createUsersAuth } from '../axios';
 import { useRefreshToken } from './useRefreshToken';
 
 const useAxiosAuth = () => {
@@ -15,6 +15,17 @@ const useAxiosAuth = () => {
         if (!config.headers['Authorization']) {
           config.headers['Authorization'] =
             `Bearer ${session?.user.accessToken}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    const requestIntercept2 = createUsersAuth.interceptors.request.use(
+      (config) => {
+        if (!config.headers['Authorization']) {
+          config.headers['Authorization'] =
+            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=';
         }
         return config;
       },
@@ -39,10 +50,11 @@ const useAxiosAuth = () => {
     return () => {
       axiosAuth.interceptors.request.eject(requestIntercept);
       axiosAuth.interceptors.response.eject(responseIntercept);
+      createUsersAuth.interceptors.request.eject(requestIntercept2);
     };
   }, [session]);
 
-  return axiosAuth;
+  return { axiosAuth, createUsersAuth };
 };
 
 export default useAxiosAuth;

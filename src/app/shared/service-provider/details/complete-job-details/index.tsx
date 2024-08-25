@@ -1,25 +1,21 @@
-'use client';
+'use client'
 
-import { AdvancedCheckbox, Button, Modal, Tab, Tooltip } from 'rizzui';
+import { AdvancedCheckbox, Button, Modal, Tab, Tooltip } from "rizzui";
 // import { useState } from 'react';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 // import ReviewForm from "@/app/shared/custom-reviews/review-form";
 // import UserDetailsCard from "@/app/shared/custom-user-details-card";
-import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import {
-  professionalCompleteJobDetailsData,
-  contractorCompleteJobDetailsData,
-  professionalRequestDetailsData,
-} from '@/data/custom-job-details-data';
+import ChunkedGrid from "@/app/shared/custom-chunked-grid";
+import { professionalCompleteJobDetailsData, contractorCompleteJobDetailsData, professionalRequestDetailsData } from "@/data/custom-job-details-data";
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 // import { PiUserCircleDuotone } from "react-icons/pi";
 // import ToastButton from "@/components/buttons/toast-button";
-import { routes } from '@/config/routes';
-import Link from 'next/link';
-import ProgressBarActive from '../../progress-bar-fundi';
+import { routes } from "@/config/routes";
+import Link from "next/link";
+import ProgressBarActive from "../../progress-bar-fundi";
 // import ActiveJobDetailsAttachments from "../sp-job-details/attachments";
-import CompleteJobDetailsAttachments from './attachments';
+import CompleteJobDetailsAttachments from "./attachments";
 
 // const data = [
 //     {
@@ -44,31 +40,31 @@ import CompleteJobDetailsAttachments from './attachments';
 //         role: 'Customer',
 //     },
 // ]
-
+  
 export default function CompleteJobDetails() {
-  // const [modalState, setModalState] = useState(false);
-  // const [viewReviewsModalState, setViewReviewsModalState] = useState(false)
-  // const [requestReviewsModalState, setRequestReviewsModalState] = useState(false)
+    // const [modalState, setModalState] = useState(false);
+    // const [viewReviewsModalState, setViewReviewsModalState] = useState(false)
+    // const [requestReviewsModalState, setRequestReviewsModalState] = useState(false)
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
 
-  const jobId = searchParams.get('id');
-  const contractor = pathname.includes('contractor');
-  const professional = pathname.includes('professional');
+    const jobId = searchParams.get('id')
+    const contractor = pathname.includes('contractor')
+    const professional = pathname.includes('professional')
 
-  const handleBack = () => router.back();
+    const handleBack = () => router.back()
 
-  return (
-    <div>
-      {/* <Modal isOpen={modalState} onClose={() => setModalState(false)}>
+    return (
+        <div>
+            {/* <Modal isOpen={modalState} onClose={() => setModalState(false)}>
                 <div className='p-10'>
                     <ReviewForm />
                 </div>
             </Modal> */}
 
-      {/* <Modal isOpen={viewReviewsModalState} onClose={() => setViewReviewsModalState(false)}>
+            {/* <Modal isOpen={viewReviewsModalState} onClose={() => setViewReviewsModalState(false)}>
                 <div className='p-10'>
                     {reviewsData.map((review, index) => (
                         <ReviewCard
@@ -83,7 +79,7 @@ export default function CompleteJobDetails() {
                 </div>
             </Modal> */}
 
-      {/* <Modal isOpen={requestReviewsModalState} onClose={() => setRequestReviewsModalState(false)}>
+            {/* <Modal isOpen={requestReviewsModalState} onClose={() => setRequestReviewsModalState(false)}>
                 <div className='p-10'>
                     <div className="font-semibold text-lg text-gray-900 text-center mb-6">Request review from?</div>
                     <div className="text-center">Select one or more</div>
@@ -105,48 +101,36 @@ export default function CompleteJobDetails() {
                 </div>
             </Modal> */}
 
-      {/* <UserDetailsCard /> */}
+            {/* <UserDetailsCard /> */}
 
-      <Tab>
-        <Tab.List>
-          <Tab.ListItem>Progress Tracker</Tab.ListItem>
-          <Tab.ListItem>Project Details</Tab.ListItem>
-        </Tab.List>
+            <Tab>
+                <Tab.List>
+                    <Tab.ListItem>Progress Tracker</Tab.ListItem>
+                    <Tab.ListItem>Project Details</Tab.ListItem>
+                </Tab.List>
 
-        <Tab.Panels>
-          <Tab.Panel>
-            <ProgressBarActive />
-            {/* <ActiveJobDetailsAttachments /> */}
-            <CompleteJobDetailsAttachments />
-          </Tab.Panel>
+                <Tab.Panels>
+                    <Tab.Panel>
+                        <ProgressBarActive />
+                        {/* <ActiveJobDetailsAttachments /> */}
+                        <CompleteJobDetailsAttachments />
+                    </Tab.Panel>
 
-          <Tab.Panel>
-            <div className="mb-4">
-              {contractor ? (
-                <ChunkedGrid
-                  data={
-                    jobId === 'JOB0021'
-                      ? contractorCompleteJobDetailsData[0]
-                      : contractorCompleteJobDetailsData[1]
-                  }
-                  dataChunkSize={8}
-                />
-              ) : (
-                <ChunkedGrid
-                  data={
-                    jobId === 'JOB0021'
-                      ? professionalCompleteJobDetailsData[0]
-                      : professionalCompleteJobDetailsData[1]
-                  }
-                  dataChunkSize={8}
-                />
-              )}
-            </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab>
+                    <Tab.Panel>
+                        <div className="mb-4">
+                            {
+                                contractor? (
+                                    <ChunkedGrid data={jobId === 'JOB0021'? contractorCompleteJobDetailsData[0] : contractorCompleteJobDetailsData[1]} dataChunkSize={8}/>
+                                ) : (
+                                    <ChunkedGrid data={jobId === 'JOB0021'? professionalCompleteJobDetailsData[0] : professionalCompleteJobDetailsData[1]} dataChunkSize={8}/>
+                                )
+                            }
+                        </div>
+                    </Tab.Panel>
+                </Tab.Panels>
+            </Tab>
 
-      {/* <div className="mb-4">
+            {/* <div className="mb-4">
                 {
                     contractor? (
                         <ChunkedGrid data={jobId === 'JOB0021'? contractorCompleteJobDetailsData[0] : contractorCompleteJobDetailsData[1]} dataChunkSize={8}/>
@@ -156,28 +140,29 @@ export default function CompleteJobDetails() {
                 }
             </div> */}
 
-      <div className="mt-6 flex justify-center">
-        {/* <Button className="">
+
+            <div className="flex justify-center mt-6">
+                {/* <Button className="">
                     Download Report
                 </Button> */}
 
-        {contractor && (
-          <>
-            <Button className="px-8" onClick={handleBack} type="submit">
-              Back
-            </Button>
+                {contractor && (
+                  <>
+                    <Button className="px-8" onClick={handleBack} type="submit">
+                      Back
+                    </Button>
+                
+                    {jobId !== 'JOB0021' && (
+                      <Link href={routes.serviceProvider.contractor.addReview}>
+                        <Button className="ml-4" type="submit">
+                          Add Review
+                        </Button>
+                      </Link>
+                    )}
+                  </>
+                )}
 
-            {jobId !== 'JOB0021' && (
-              <Link href={routes.serviceProvider.contractor.addReview}>
-                <Button className="ml-4" type="submit">
-                  Add Review
-                </Button>
-              </Link>
-            )}
-          </>
-        )}
-
-        {/* {contractor &&
+                {/* {contractor &&
                     (jobId === 'JOB0021'? (
                         <>
                             <Button className="px-8" onClick={handleBack} type="submit">
@@ -199,27 +184,27 @@ export default function CompleteJobDetails() {
                     
                 ))} */}
 
-        {professional && (
-          <>
-            <Button className="px-8" onClick={handleBack} type="submit">
-              Back
-            </Button>
-
-            {jobId !== 'JOB0021' && (
-              <Link href={routes.serviceProvider.professional.addReview}>
-                <Button className="ml-4" type="submit">
-                  Add Review
-                </Button>
-              </Link>
-            )}
-          </>
-        )}
-
-        {/* <Button onClick={() => setModalState(true)} className="ml-4">
+                {professional && (
+                    <>
+                    <Button className="px-8" onClick={handleBack} type="submit">
+                        Back
+                    </Button>
+                
+                    {jobId !== 'JOB0021' && (
+                        <Link href={routes.serviceProvider.professional.addReview}>
+                        <Button className="ml-4" type="submit">
+                            Add Review
+                        </Button>
+                        </Link>
+                    )}
+                    </>
+                )}
+                
+                {/* <Button onClick={() => setModalState(true)} className="ml-4">
                     Add Review
                 </Button> */}
 
-        {/* {jobId === 'JOB0021'? (
+                {/* {jobId === 'JOB0021'? (
                     <Button onClick={() => setViewReviewsModalState(true)} className="ml-4">
                         View Reviews
                     </Button>
@@ -234,7 +219,8 @@ export default function CompleteJobDetails() {
                     </Button>
                    
                 )} */}
-      </div>
-    </div>
-  );
+                
+            </div>
+        </div>
+    )
 }

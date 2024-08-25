@@ -4,10 +4,62 @@ import { usePathname } from 'next/navigation';
 import { Title, Collapse } from 'rizzui';
 import cn from '@/utils/class-names';
 import { PiCaretDownBold } from 'react-icons/pi';
-import { menuItems } from '@/layouts/hydrogen/menu-items';
 import StatusBadge from '@/components/get-status-badge';
+import { useSession } from 'next-auth/react';
+import {
+  adminMenu,
+  contractorMenu,
+  customerMenu,
+  fundiMenu,
+  MenuItem,
+  professionalMenu,
+  spDefault,
+} from './menu-items';
+
+let userRole: string;
 
 export function SidebarMenu() {
+  const { data: session } = useSession();
+
+  let menuItems: MenuItem[] = [];
+
+  const user = sessionStorage.getItem('userData');
+
+  if (user) {
+    const userObject: any = JSON.parse(user);
+
+    userRole = userObject.metadata?.role;
+
+    console.log('user role: ', userRole); // Outputs: 'fundi'
+  } else {
+    console.log('No user data found in sessionStorage');
+  }
+
+  switch (userRole) {
+    case 'admin':
+      menuItems = adminMenu;
+      break;
+
+    case 'fundi':
+      menuItems = fundiMenu;
+      break;
+
+    case 'contractor':
+      menuItems = contractorMenu;
+      break;
+
+    case 'professional':
+      menuItems = professionalMenu;
+      break;
+
+    case 'customer':
+      menuItems = customerMenu;
+      break;
+
+    default:
+      menuItems = spDefault;
+  }
+
   const pathname = usePathname();
 
   return (

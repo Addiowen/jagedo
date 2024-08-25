@@ -56,7 +56,9 @@ export const getColumns = ({
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {number}
+      </Text>
     ),
   },
 
@@ -66,9 +68,11 @@ export const getColumns = ({
     key: 'id',
     width: 10,
     render: (id: string) => (
-      // <Text>#{id}</Text>
-      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
-    ),
+    // <Text>#{id}</Text>
+    <Text className="text-sm text-gray-900 dark:text-gray-700">
+      #{id}
+    </Text>
+  ),
   },
 
   {
@@ -77,7 +81,9 @@ export const getColumns = ({
     key: 'date',
     width: 100,
     render: (date: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{date}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {date}
+      </Text>
     ),
   },
 
@@ -123,7 +129,9 @@ export const getColumns = ({
     key: 'county',
     width: 100,
     render: (county: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">
+        {county}
+      </Text>
     ),
   },
 
@@ -155,12 +163,7 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
-        <Link
-          href={{
-            pathname: routes.serviceProvider.contractor.requisitionDetails,
-            query: { id },
-          }}
-        >
+        <Link href={{ pathname: routes.serviceProvider.contractor.requisitionDetails, query: { id } }}>
           <Text className="text-sm text-green-600">View</Text>
         </Link>
       </div>
