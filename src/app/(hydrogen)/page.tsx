@@ -15,15 +15,15 @@ export default function FileDashboardPage() {
 
   // const userRole = session?.user.role;
 
-  let userRole: string | undefined;
+  const userRole = session?.user.role;
 
-  const user = sessionStorage.getItem('userData');
+  // const user = sessionStorage.getItem('userData');
 
-  if (user) {
-    const userObject: any = JSON.parse(user);
+  // if (user) {
+  //   const userObject: any = JSON.parse(user);
 
-    userRole = userObject.metadata?.role;
-  }
+  //   userRole = userObject.metadata?.role;
+  // }
 
   return userRole === 'admin' ? (
     <AdminDashboard />

@@ -1,6 +1,5 @@
 import PageHeader from '@/app/shared/commons/page-header';
 import ViewRequisition from '@/app/shared/customers/requisitions/requisition-details';
-import InvoiceDetails from '@/app/shared/logistics/shipment/details/invoice-details';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {

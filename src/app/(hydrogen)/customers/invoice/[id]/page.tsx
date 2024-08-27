@@ -14,11 +14,11 @@ const pageHeader = {
   title: 'Invoice Details',
   breadcrumb: [
     {
-      href: routes.eCommerce.dashboard,
+      href: '',
       name: 'Home',
     },
     {
-      href: routes.invoice.home,
+      href: '',
       name: 'Invoice',
     },
     {

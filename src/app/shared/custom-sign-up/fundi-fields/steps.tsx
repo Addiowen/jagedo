@@ -82,12 +82,16 @@ export default function FundiSteps() {
       firstname: filteredData.firstName,
       lastname: filteredData.lastName,
       email: filteredData.email,
+      type: 'organization',
       description: 'dskdsksd',
       username: filteredData.email,
       password: filteredData.password,
       phone: filteredData.phone,
       metadata: {
-        role: getRole(), // Dynamically set the role
+        role: getRole(),
+        ...filteredData,
+
+        // Dynamically set the role
       },
     };
 

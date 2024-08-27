@@ -1,28 +1,28 @@
 'use client';
 
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
-import { PiMagnifyingGlassBold, PiPlusBold } from 'react-icons/pi'; // Adjust the import as needed
-import { Input, Button } from 'rizzui'; // Assuming Button is available in rizzui
-import { requisitions } from '@/data/job-data';
+import { PiMagnifyingGlassBold } from 'react-icons/pi';
+import { Input, Button } from 'rizzui';
+import WidgetCard2 from '@/components/cards/widget-card2';
+import { useRouter, useSearchParams } from 'next/navigation';
+import apiRequest from '@/lib/apiService';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
-import WidgetCard2 from '@/components/cards/widget-card2';
-import { useRouter } from 'next/navigation';
-import { routes } from '@/config/routes';
+import { requisitions } from '@/data/job-data';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
 
-export default function RequisitionsTable({
-  className,
-}: {
-  className?: string;
-}) {
+export default  function RequisitionsTable({ className,request }: { className?: string; request: Requisition[]; }) {
+
+console.log(requisitions, "requist");
+console.log(request, "req");
+
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -34,6 +34,9 @@ export default function RequisitionsTable({
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
   }, []);
+
+
+
 
   const {
     isLoading,
@@ -53,12 +56,12 @@ export default function RequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(requisitions, pageSize, filterState);
+  } = useTable(request, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: requisitions,
+        data: request,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -67,6 +70,7 @@ export default function RequisitionsTable({
         handleSelectAll,
       }),
     [
+   
       selectedRowKeys,
       onHeaderCellClick,
       sortConfig.key,
@@ -117,7 +121,6 @@ export default function RequisitionsTable({
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}
-        // @ts-ignore
         columns={visibleColumns}
         paginatorOptions={{
           pageSize,

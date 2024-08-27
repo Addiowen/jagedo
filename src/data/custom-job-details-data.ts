@@ -42,21 +42,7 @@ export const requestDetailsData = [
       'End Date': '13/11/2023',
       'Invoice Number': '#3454',
       'Payment Status': 'Paid',
-      // 'Request Number': '#REQ0021',
       'Amount': '3000',
-      // 'doc_1': '/images/image1.jpg',
-      // Attachments: [
-      //   '/images/image1.jpg',
-      //   '/images/image2.jpg',
-      //   '/images/image3.jpg',
-      // ],
-      
-      // 'Job description': 'Repair of faulty wiring system',
-
-      // 'Deadline for availability': '20/04/2024',    
-    
-      
-      // 'Rate': '1000',
     },
     {
       Category: 'Fundi',

@@ -17,8 +17,10 @@ const filterState = {
 };
 export default function RequisitionsTable({
   className,
+  requests,
 }: {
   className?: string;
+  requests:any
 }) {
   const [pageSize, setPageSize] = useState(7);
 
@@ -51,12 +53,12 @@ export default function RequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(requisitions, pageSize, filterState);
+  } = useTable(requests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: requisitions,
+        data: requests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

@@ -1,56 +1,70 @@
-'use client';
-
-import Link from 'next/link';
-import { PiPlusBold } from 'react-icons/pi';
-import { routes } from '@/config/routes';
-import { Button, Tab, Text } from 'rizzui';
 import PageHeader from '@/app/shared/commons/page-header';
 
-import ToastButton from '@/components/buttons/toast-button';
-import { useSearchParams } from 'next/navigation';
-import ProfessionalTable from '@/app/shared/admin/dashboard/tables/professional';
-
-import WaterContractorsTable from '@/app/shared/admin/dashboard/tables/contractor/water';
 import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
+import { metaObject } from '@/config/site.config';
+import apiRequest from '@/lib/apiService';
 
-// export const metadata = {
-//   ...metaObject('Assign Service Providers'),
-// };
+export const metadata = {
+  ...metaObject('Assign Service Providers'),
+};
 
-// {
-//   className,
-// }: {
-//   className?: string;
-// }
+const fetchTransactions = async () => {
+  try {
+    const fundis = await apiRequest({
+      method: 'GET',
+      endpoint: `/assets`,
+    });
+    return fundis;
+  } catch (error) {
+    console.error('Failed to fetch transaction details:', error);
+    return null;
+  }
+};
 
-export default function AddtoServiceProviders() {
-  const searchParams = useSearchParams();
+interface PageProps {
+  searchParams: any;
+}
 
-  const jobId = searchParams.get('jobId');
+export default async function AddtoServiceProviders({
+  searchParams,
+}: PageProps) {
+  const requestId = searchParams.id;
+
+  const fundis = await fetchTransactions();
+
+  const fundilist =
+    fundis?.results.map((item: any, index: number) => {
+      console.log('Index:', index); // Log the index
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        firstName: item.metadata.firstname,
+        lastName: item.metadata?.lastname,
+        phone: item.metadata.phone,
+        category: 'Fundi',
+        skill: item.metadata?.subCategory || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: 'paid' || '',
+      };
+    }) || [];
 
   const pageHeader = {
-    title:
-      jobId === '3420'
-        ? 'Assign Professionals'
-        : jobId === '3700' || jobId === '3502'
-          ? 'Assign Contractors'
-          : 'Assign',
+    title: 'REQ',
   };
+
   return (
     <div className="@container">
       <PageHeader title={pageHeader.title}></PageHeader>
-      {(jobId === '3416' || jobId === '3418') && <FundisTable />}
-
-      {(jobId === '3502' || jobId === '3700') && <WaterContractorsTable />}
-
-      {(jobId === '3419' || jobId === '3420') && <ProfessionalTable />}
+      <FundisTable fundis={fundilist} />
 
       <div className="mt-6">
-        <ToastButton
+        {/* <ToastButton
           title="Assign "
           message="Request Assigned!"
           route={routes.admin.dashboard}
-        />
+        /> */}
       </div>
     </div>
   );

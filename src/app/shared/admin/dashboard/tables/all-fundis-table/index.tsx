@@ -21,7 +21,7 @@ const filterState = {
   status: '',
 };
 
-export default function FundisTable({
+export default function AllFundisTable({
   className,
   fundis,
 }: {

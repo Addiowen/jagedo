@@ -23,17 +23,19 @@ export function SidebarMenu() {
 
   let menuItems: MenuItem[] = [];
 
-  const user = sessionStorage.getItem('userData');
+  // const user = sessionStorage.getItem('userData');
 
-  if (user) {
-    const userObject: any = JSON.parse(user);
+  const userRole = session?.user.role;
 
-    userRole = userObject.metadata?.role;
+  // if (user) {
+  //   const userObject: any = JSON.parse(user);
 
-    console.log('user role: ', userRole); // Outputs: 'fundi'
-  } else {
-    console.log('No user data found in sessionStorage');
-  }
+  //   userRole = userObject.metadata?.role;
+
+  //   console.log('user role: ', userRole); // Outputs: 'fundi'
+  // } else {
+  //   console.log('No user data found in sessionStorage');
+  // }
 
   switch (userRole) {
     case 'admin':

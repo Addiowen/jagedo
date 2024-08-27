@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import cn from '@/utils/class-names';
 import {
@@ -21,7 +23,7 @@ export interface Item {
   'Request Number'?: string;
   'Job Description'?: string;
   County: string;
-  'Sub County': string;
+  'Sub-County': string;
   'Estate/Village'?: string;
   Status?: string;
   Category: string;

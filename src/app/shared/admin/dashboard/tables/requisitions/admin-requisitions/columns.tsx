@@ -69,7 +69,7 @@ export const getColumns = ({
     dataIndex: 'id',
     key: 'id',
     width: 10,
-    render: (id: string) => <Text>REQ#{id}</Text>,
+    render: (id: string) => <Text>REQ#{`${id.slice(0, 5)}...`}</Text>,
   },
   {
     title: <HeaderCell title="DATE" className="uppercase" />,
@@ -97,7 +97,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 150,
+    width: 250,
     render: (requestType: string) => (
       <Text className="font-semibold">{requestType}</Text>
     ),

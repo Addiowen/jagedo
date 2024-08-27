@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const res = await axios.post(
-            `${BASE_URL}/auth/login`,
+            `http://localhost:9001/user`,
             {
               username: credentials?.username,
               password: credentials?.password,

@@ -17,7 +17,7 @@ export const routes = {
       '/admin/profile/edit-profile/customer-individual',
     editOrgCustomerProfile: '/admin/profile/organization-profile',
 
-    editFundiProfile: '/admin/profile/edit-profile/fundi',
+    editFundiProfile: '/admin/edit/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
     editProfessionalProfile: '/admin/profile/edit-profile/professional',
     editDetails: '/admin/profile/edit-profile/edit-details',
@@ -80,10 +80,8 @@ export const routes = {
     invoice: '/customers/invoice',
     jobs: '/customers/jobs',
 
-
     //invoice
     details: (id: string) => `/customers/invoice/${id}`,
-
 
     //Registers
     requisitionDetails: '/customers/registers/requisitions/view-requisition',

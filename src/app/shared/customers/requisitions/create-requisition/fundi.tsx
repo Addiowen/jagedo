@@ -7,6 +7,8 @@ import { DUMMY_ID } from '@/config/constants';
 import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
 import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
 import Pricing from '@/app/shared/pricing-package/pricing';
+import axios, { BASE_URL } from '@/lib/axios';
+import { dateFnsLocalizer } from 'react-big-calendar';
 
 interface Option {
   label: string;
@@ -25,9 +27,9 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [managed, setManaged] = useState<Option | null>(null);
   const [county, setCounty] = useState<Option | null>(null);
   const [subCounty, setSubCounty] = useState<Option | null>(null);
-  const [village, setVillage] = useState<Option | null>(null);
+  const [village, setVillage] = useState('');
   const [skill, setSkill] = useState<Option | null>(null);
-  const [state, setState] = useState('Add description');
+  const [state, setState] = useState('');
   const [buttonText, setButtonText] = useState('Generate Invoice');
   const [buttonLink, setButtonLink] = useState(
     routes.invoice.details(DUMMY_ID)
@@ -87,23 +89,63 @@ const GenerateInvoiceFundi: React.FC = () => {
     setValue(selectedPackage);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Create formBody with all the form values
-    const formBody = {
-      description,
+    const formData = {
       date,
       file,
-      value: value?.value || '',
+      village,
+      packageType: value?.value || '',
       managed: managed?.value || '',
       county: county?.value || '',
       subCounty: subCounty?.value || '',
-      village: village?.value || '',
+
       skill: skill?.value || '',
     };
 
-    console.log('Form Body:', formBody);
+    const linkageFee =
+      value?.value === 'Package 1'
+        ? 3000
+        : value?.value === 'Package 2'
+          ? 1000
+          : 0;
+
+    console.log('Form Body:', formData);
+
+    {
+    }
+
+    const formBody = {
+      startDate: date,
+      takerId: 'usr_IeFdJpe18x01srBFz8x0',
+      duration: { d: 7 },
+      metadata: {
+        ...formData,
+        description: description,
+        linkageFee,
+      },
+    };
+
+    try {
+      const res = await axios.post(`${BASE_URL}/transactions`, formBody, {
+        headers: {
+          Authorization:
+            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+        },
+      });
+
+      const request = res.data;
+      console.log(request, 'this fundi request');
+
+      if (request) {
+        const queryParam = `?id=${request.id}`;
+        router.push(`${buttonLink}${queryParam}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
     // Here you can handle formBody as needed, e.g., send it to an API
   };
@@ -158,7 +200,13 @@ const GenerateInvoiceFundi: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <Input type="text" label="Estate/Village" />
+              <Input
+                id="village"
+                type="text"
+                label="Estate/Village"
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
+              />
             </div>
             <div className="form-group">
               <Input
@@ -174,9 +222,9 @@ const GenerateInvoiceFundi: React.FC = () => {
                 id="description"
                 clearable
                 placeholder="Add description"
-                value={state}
+                value={description}
                 onClear={() => setState('')}
-                onChange={(e) => setState(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 style={{ height: '60px' }}
               />
             </div>
@@ -190,7 +238,6 @@ const GenerateInvoiceFundi: React.FC = () => {
           <Button
             type="submit"
             className="mx-auto mt-8 block w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-            // onClick={() => router.push(buttonLink)}
           >
             {buttonText}
           </Button>

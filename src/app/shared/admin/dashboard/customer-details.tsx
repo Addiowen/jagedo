@@ -13,47 +13,7 @@ import UserColorIcon from '@/components/icons/user-color';
 import UserDetails from '@/components/cards/user-details';
 import SquareBoxIcon from '@/components/icons/square-box';
 
-const statData = [
-  {
-    id: '1',
-    title: 'Name',
-    icon: <UserColorIcon className="h-7 w-7" />,
-    graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-red',
-    name: 'newton',
-    increased: false,
-    percentage: '+4.40',
-  },
-  {
-    id: '2',
-    graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-green',
-    title: 'Type',
-    name: 'Individual',
-    increased: true,
-    percentage: '+32.40',
-  },
-  {
-    id: '3',
-    title: 'phone Number',
-    // icon: <RevenueUpIcon className="h-7 w-7" />,
-    graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-green',
-    name: '074933424',
-    increased: true,
-    percentage: '+32.40',
-  },
 
-  {
-    id: '4',
-    title: 'Email Address',
-    graphIcon: <TrendingDownIcon className="me-1 h-4 w-4" />,
-    graphColor: 'text-red',
-    name: 'stiv@gmail.com',
-    decreased: true,
-    percentage: '5.40',
-  },
-];
 
 const viewOptions = [
   {
@@ -68,9 +28,55 @@ const viewOptions = [
 
 export default function CustomerDetailsCard({
   className,
+  customerDetails,
 }: {
   className?: string;
+  customerDetails: any
 }) {
+
+  const statData = [
+    {
+      id: '1',
+      title: 'Name',
+      // icon: <UserColorIcon className="h-7 w-7" />,
+      graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+      graphColor: 'text-red',
+      name: `${customerDetails.firstname}  ${customerDetails.lastname}`,
+      increased: false,
+      percentage: '+4.40',
+    },
+    {
+      id: '2',
+      graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+      graphColor: 'text-green',
+      title: 'Type',
+      name: 'Individual',
+      increased: true,
+      percentage: '+32.40',
+    },
+    {
+      id: '3',
+      title: 'phone Number',
+      // icon: <RevenueUpIcon className="h-7 w-7" />,
+      graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
+      graphColor: 'text-green',
+      name: customerDetails.phone,
+      increased: true,
+      percentage: '+32.40',
+    },
+  
+    {
+      id: '4',
+      title: 'Email Address',
+      graphIcon: <TrendingDownIcon className="me-1 h-4 w-4" />,
+      graphColor: 'text-red',
+      name: customerDetails.email,
+      decreased: true,
+      percentage: '5.40',
+    },
+  ];
+
+
   function handleChange(viewType: string) {
     console.log('viewType', viewType);
   }
@@ -89,7 +95,7 @@ export default function CustomerDetailsCard({
               key={stat.title + stat.id}
               title={stat.title}
               name={stat.name}
-              icon={stat.icon}
+              // icon={stat.icon}
               className="min-w-[240px] border-0 p-1 @2xl:min-w-[280px] lg:p-1"
               titleClassName="capitalize"
               contentClassName="ps-5"

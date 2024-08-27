@@ -29,14 +29,14 @@ type Columns = {
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'pending approval':
+    case 'paid':
       return (
         <div className="flex items-center">
-          <Badge color="warning" renderAsDot />
-          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
+          <Badge color="success" renderAsDot />
+          <Text className="ms-2 font-medium ">{status}</Text>
         </div>
       );
-    case 'under quotation':
+    case 'under review':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
@@ -74,7 +74,7 @@ export const getColumns = ({
     dataIndex: 'id',
     key: 'id',
     width: 50,
-    render: (id: string) => <Text>REQ#{id}</Text>,
+    render: (id: string) => <Text>REQ#{`${id.substring(0, 7)}...`}</Text>,
   },
   {
     title: <HeaderCell title="DATE" className="uppercase" />,
@@ -144,7 +144,7 @@ export const getColumns = ({
     title: <HeaderCell title="STATUS" />,
     dataIndex: 'status',
     key: 'status',
-    width: 200,
+    width: 100,
     render: (value: string) => getStatusBadge(value),
   },
   {

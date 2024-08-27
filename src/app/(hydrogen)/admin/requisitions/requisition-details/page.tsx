@@ -1,4 +1,4 @@
-'use client';
+
 
 import { routes } from '@/config/routes';
 import { Button, Textarea } from 'rizzui';
@@ -9,33 +9,73 @@ import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
-import { requestDetails } from '@/data/job-data';
-import { useSearchParams } from 'next/navigation';
+import apiRequest from '@/lib/apiService';
 
-export default function RequisitionDetailsPage() {
-  const searchParams = useSearchParams();
 
-  const jobId = searchParams.get('id');
 
-  const currentRequest =
-    jobId === '3416'
-      ? requestDetails[0]
-      : jobId === '3418'
-        ? requestDetails[1]
-        : jobId === '3419'
-          ? requestDetails[3]
-          : jobId === '3420'
-            ? requestDetails[4]
-            : jobId === '3502'
-              ? requestDetails[5]
-              : jobId === '3700'
-                ? requestDetails[6]
-                : requestDetails[0];
+interface PageProps {
+  searchParams: any;
+}
 
-  const contractor = currentRequest?.Contractor || '';
+
+export default async function RequisitionDetailsPage({
+  searchParams,
+}: PageProps)  {
+  
+
+const requestId = searchParams.id
+
+ 
+  const fetchUserTransaction = async () => {
+    try {
+      const userTransaction = await apiRequest({
+        method: 'GET',
+        endpoint: `/transactions/${searchParams.id}`,
+      });
+      return userTransaction;
+    } catch (error) {
+      console.error('Failed to fetch transaction details:', error);
+      return null;
+    }
+  };
+  
+  const customerRequest = await fetchUserTransaction()
+
+  const fetchCustomerDetails = async () => {
+    try {
+      const userTransaction = await apiRequest({
+        method: 'GET',
+        endpoint: `/users/${customerRequest.takerId}`,
+      });
+      return userTransaction;
+    } catch (error) {
+      console.error('Failed to fetch transaction details:', error);
+      return null;
+    }
+  };
+ 
+  const customerDetails = await fetchCustomerDetails()
+
+  const requestDetails = {
+    Category: 'Fundi',
+    'Sub-Category': customerRequest?.metadata.skill,
+    'Request Type': customerRequest?.metadata.packageType || 'N/A',
+    'Managed By': customerRequest?.metadata.managed || 'N/A',
+    County: customerRequest?.metadata.county || 'N/A',
+    'Sub-County': customerRequest?.metadata.subCounty || 'N/A',
+    'Estate/Village': customerRequest?.metadata.village || 'N/A',
+    'Request Date': customerRequest?.metadata.date ? new Date(customerRequest.metadata.date).toLocaleDateString() : 'N/A',
+    Status: customerRequest?.status || 'N/A',
+    'Start Date': customerRequest?.startDate ? new Date(customerRequest.startDate).toLocaleDateString() : 'N/A',
+    'End Date': customerRequest?.endDate ? new Date(customerRequest.endDate).toLocaleDateString() : 'N/A',
+    'Invoice Number': '#3454',
+    'Payment Status': 'Paid', 
+    Amount: customerRequest?.metadata.linkageFee ? customerRequest.metadata.linkageFee.toFixed(2) : 'N/A',
+  };
+
 
   const pageHeader = {
-    title: jobId ? `REQ#${jobId}` : 'REQ',
+    title: `REQ# ${requestId.slice(0,6)}...`,
     breadcrumb: [
       {
         href: routes.admin.dashboard,
@@ -57,11 +97,12 @@ export default function RequisitionDetailsPage() {
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
 
-      <CustomerDetailsCard className="mt-2" />
+      <CustomerDetailsCard customerDetails={customerDetails} className="mt-2" />
+
       {/* <JobDetailsCard className="mt-6" /> */}
       <div className="mt-4">
         <ChunkedGrid
-          data={currentRequest}
+          data={requestDetails}
           dataChunkSize={8}
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
@@ -75,7 +116,7 @@ export default function RequisitionDetailsPage() {
       ></WidgetCard3>
 
       <div className="mt-6 flex items-center justify-center space-x-6">
-        {jobId === '3420' || jobId === '3419' ? (
+        {/* {jobId === '3420' || jobId === '3419' ? (
           <>
             <Link
               href={{
@@ -113,16 +154,18 @@ export default function RequisitionDetailsPage() {
               <ToastButton title="Assign Contractors" />
             </Link>
           </>
-        ) : (
-          <Link
+        ) : ( 
+        )} */}
+
+
+<Link
             href={{
               pathname: routes.admin.assignServiceProvider,
-              query: { jobId },
+              query: { requestId },
             }}
           >
             <ToastButton title="Assign Fundis" />
           </Link>
-        )}
       </div>
     </>
   );
