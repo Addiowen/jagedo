@@ -24,7 +24,6 @@ const ProfileChunkedGrid: React.FC<Props> = ({
 
   // Convert the data object to an array of key-value pairs
   const dataArray = Object.entries(data);
-  console.log(dataArray);
 
   // Helper function to chunk the data into subarrays of a specified size
   const chunkArray = (array: [string, string][], chunkSize: number) => {

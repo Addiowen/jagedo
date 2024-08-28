@@ -1,4 +1,4 @@
-import IndividualsTable from '@/app/shared/admin/dashboard/tables/individuals';
+import IndividualsTable from '@/app/shared/customers/dashboard/tables/individuals';
 
 import { metaObject } from '@/config/site.config';
 

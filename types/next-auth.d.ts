@@ -6,7 +6,8 @@ declare module 'next-auth' {
     user: {
       id: string;
       accessToken?: string | null;
-      role?: string | null;
+      role?: string;
+      assetId?: string;
 
       // currentTeamId: string | null;
     } & DefaultSession['user'];

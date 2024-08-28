@@ -9,7 +9,7 @@ import {
   orderNoteAtom,
   shippingAddressAtom,
 } from '@/store/checkout';
-import OrderViewProducts from '@/app/shared/ecommerce/order/order-products/order-view-products';
+// import OrderViewProducts from '@/app/shared/ecommerce/order/order-products/order-view-products';
 import { useCart } from '@/store/quick-cart/cart.context';
 import { Title, Text, Button } from 'rizzui';
 import cn from '@/utils/class-names';
@@ -18,7 +18,7 @@ import { formatDate } from '@/utils/format-date';
 import usePrice from '@/hooks/use-price';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-import CustomersTable from '@/app/shared/admin/dashboard/tables/customers';
+// import CustomersTable from '@/app/shared/admin/dashboard/tables/customers';
 
 function WidgetCard({
   title,
@@ -135,7 +135,7 @@ export default function EditCustomersForm() {
         </div>
       </div>
 
-      <CustomersTable className="mt-6" />
+      {/* <CustomersTable className="mt-6" /> */}
     </div>
   );
 }

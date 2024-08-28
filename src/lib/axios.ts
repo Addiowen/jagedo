@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 export const BASE_URL = 'http://107.21.161.222:4100';
+export const AUTH_TOKEN =
+  'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=';
 
 export default axios.create({
   baseURL: BASE_URL,

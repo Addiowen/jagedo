@@ -1,4 +1,4 @@
-import ContractorsTable from '@/app/shared/admin/dashboard/tables/contractors';
+import ContractorsTable from '@/app/shared/customers/dashboard/tables/contractors';
 
 import { metaObject } from '@/config/site.config';
 

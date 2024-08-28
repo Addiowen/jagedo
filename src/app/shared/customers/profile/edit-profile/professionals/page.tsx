@@ -15,7 +15,7 @@ import cn from '@/utils/class-names';
 import usePrice from '@/hooks/use-price';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-import CustomersTable from '@/app/shared/admin/dashboard/tables/customers';
+// import CustomersTable from '@/app/shared/admin/dashboard/tables/customers';
 
 function WidgetCard({
   title,
@@ -132,7 +132,7 @@ export default function EditProfessionalForm() {
         </div>
       </div>
 
-      <CustomersTable className="mt-6" />
+      {/* <CustomersTable className="mt-6" /> */}
     </div>
   );
 }

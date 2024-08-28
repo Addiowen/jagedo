@@ -31,6 +31,7 @@ export default async function AddtoServiceProviders({
   const requestId = searchParams.id;
 
   const fundis = await fetchTransactions();
+  console.log(fundis.results, 'the fundis');
 
   const fundilist =
     fundis?.results.map((item: any, index: number) => {
@@ -39,8 +40,8 @@ export default async function AddtoServiceProviders({
         no: index + 1,
         id: item.id || '',
         date: item.metadata?.date || '',
-        firstName: item.metadata.firstname,
-        lastName: item.metadata?.lastname,
+        firstName: item.metadata.firstName,
+        lastName: item.metadata?.lastName,
         phone: item.metadata.phone,
         category: 'Fundi',
         skill: item.metadata?.subCategory || '',

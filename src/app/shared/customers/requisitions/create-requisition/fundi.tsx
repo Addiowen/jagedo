@@ -9,6 +9,7 @@ import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
 import Pricing from '@/app/shared/pricing-package/pricing';
 import axios, { BASE_URL } from '@/lib/axios';
 import { dateFnsLocalizer } from 'react-big-calendar';
+import FileUpload from '@/app/shared/uploading-images';
 
 interface Option {
   label: string;
@@ -229,7 +230,7 @@ const GenerateInvoiceFundi: React.FC = () => {
               />
             </div>
             <div className="col-span-1 md:col-span-2 lg:col-span-4">
-              <ActiveJobDetailsAttachments />
+              <FileUpload />
             </div>
             <div className="form-group col-span-1 flex items-center md:col-span-2">
               <Checkbox label="I agree to Fundi Agreement" />

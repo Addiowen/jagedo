@@ -7,19 +7,6 @@ export const metadata = {
   ...metaObject('Profile View'),
 };
 
-const fetchTransactions = async () => {
-  try {
-    const transactionDetails = await apiRequest({
-      method: 'GET',
-      endpoint: `/transactions?takerId=usr_IeFdJpe18x01srBFz8x0&order=asc&orderBy=createdDate`,
-    });
-    return transactionDetails;
-  } catch (error) {
-    console.error('Failed to fetch transaction details:', error);
-    return null;
-  }
-};
-
 const pageHeader = {
   title: 'Profile',
   breadcrumb: [
@@ -33,14 +20,35 @@ const pageHeader = {
   ],
 };
 
-export default function EditProfileContactDetailsPage() {
+export default async function EditProfileContactDetailsPage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+  const fetchUserDetails = async () => {
+    try {
+      const userDetails = await apiRequest({
+        method: 'GET',
+        endpoint: `/users/${searchParams.id}`,
+      });
+      return userDetails;
+    } catch (error) {
+      console.error('Failed to fetch transaction details:', error);
+      return null;
+    }
+  };
+
+  const user = await fetchUserDetails();
+
+  console.log(user);
+
   return (
     <>
       <PageHeader
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <EditProfileContactDetails />
+      <EditProfileContactDetails userDetails={user} />
     </>
   );
 }

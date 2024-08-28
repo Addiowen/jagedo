@@ -11,7 +11,6 @@ interface Metadata {
   linkageFee: number;
   status: string;
   id: string;
-
 }
 
 interface RequestDetails {
@@ -25,7 +24,7 @@ interface RequestDetails {
   validated: boolean;
   locations: any[]; // Adjust as necessary
   active: boolean;
-  results: any[]
+  results: any[];
   assetTypeId: string;
   quantity: number;
   currency: string | null;
@@ -49,5 +48,3 @@ interface Requisition {
   subCounty: string;
   status: string;
 }
-
-

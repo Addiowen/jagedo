@@ -77,19 +77,21 @@ export default function FundiSteps() {
       return 'guest';
     };
 
+    const { password, confirmPassword, ...rest } = filteredData;
+    const userDetails = rest;
+
     postData = {
       displayName: filteredData.firstName,
       firstname: filteredData.firstName,
       lastname: filteredData.lastName,
       email: filteredData.email,
-      type: 'organization',
       description: 'dskdsksd',
       username: filteredData.email,
       password: filteredData.password,
       phone: filteredData.phone,
       metadata: {
         role: getRole(),
-        ...filteredData,
+        ...userDetails,
 
         // Dynamically set the role
       },

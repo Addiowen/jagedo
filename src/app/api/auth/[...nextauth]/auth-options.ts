@@ -48,13 +48,9 @@ export const authOptions: NextAuthOptions = {
       name: 'Credentials',
       credentials: {},
       async authorize(credentials: any, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid
-
         try {
           const res = await axios.post(
-            `http://localhost:9001/user`,
+            `${BASE_URL}/auth/login`,
             {
               username: credentials?.username,
               password: credentials?.password,
@@ -71,6 +67,26 @@ export const authOptions: NextAuthOptions = {
           console.log(user, 'this');
 
           if (user) {
+            try {
+              // Fetch additional user details
+              const userDetailsRes = await axios.get(
+                `${BASE_URL}/users/${user.userId}`,
+                {
+                  headers: {
+                    Authorization:
+                      'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                  },
+                }
+              );
+              const role = userDetailsRes.data.metadata.role;
+              const assetId = userDetailsRes.data.metadata?.assetId;
+              // Merge user data with additional details
+              const completeUser = { ...user, role, assetId };
+              return completeUser;
+            } catch (error) {
+              console.error('Error fetching user details:', error);
+            }
+
             return user as any;
           }
         } catch (error) {

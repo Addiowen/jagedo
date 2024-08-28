@@ -17,6 +17,7 @@ import { formatNumber } from '@/utils/format-number';
 import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useRole } from '@floating-ui/react';
 
 type JobSliderData = {
   name: string;
@@ -72,7 +73,7 @@ const viewOptions = [
 ];
 
 export default function JobSlider({ className }: { className?: string }) {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   let userRole: string | undefined;
 

@@ -1,7 +1,5 @@
-
 import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
-import CreateOrganizationProfileForm from '@/app/shared/service-provider/profile/create-profile/organization';
 
 export const metadata = {
   ...metaObject('Profile'),
@@ -32,7 +30,7 @@ export default function OrganizationCreateProfilePage() {
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
 
-      <CreateOrganizationProfileForm />
+      {/* <CreateOrganizationProfileForm /> */}
     </>
   );
 }

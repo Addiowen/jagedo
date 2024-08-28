@@ -8,19 +8,19 @@ export default withAuth(
     console.log(request.nextUrl.pathname);
     console.log(request.nextauth.token, 'the token');
 
-    // if (
-    //   request.nextUrl.pathname.startsWith('/admin') &&
-    //   request.nextauth.token?.role !== 'admin'
-    // ) {
-    //   return NextResponse.rewrite(new URL(routes.accessDenied, request.url));
-    // }
+    if (
+      request.nextUrl.pathname.startsWith('/admin') &&
+      request.nextauth.token?.role !== 'admin'
+    ) {
+      return NextResponse.rewrite(new URL(routes.accessDenied, request.url));
+    }
 
-    // if (
-    //   request.nextUrl.pathname.startsWith('/customers') &&
-    //   request.nextauth.token?.role !== 'customer'
-    // ) {
-    //   return NextResponse.rewrite(new URL(routes.accessDenied, request.url));
-    // }
+    if (
+      request.nextUrl.pathname.startsWith('/customers') &&
+      request.nextauth.token?.role !== 'customer'
+    ) {
+      return NextResponse.rewrite(new URL(routes.accessDenied, request.url));
+    }
   },
   {
     callbacks: {

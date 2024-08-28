@@ -15,7 +15,13 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiRequisitionsTable({ className }: { className?: string }) {
+export default function FundiRequisitionsTable({
+  className,
+  requestDetails,
+}: {
+  className?: string;
+  requestDetails: any;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -28,6 +34,22 @@ export default function FundiRequisitionsTable({ className }: { className?: stri
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const request = {
+    number: 1, // Assuming 'number' maps to 'id'
+    id: requestDetails.id,
+    date: requestDetails.createdDate.split('T')[0], // Extract date from createdDate
+    category: 'Fundi' || '', // Map 'skill' to 'category'
+    subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+    requestType:
+      `${requestDetails.metadata.packageType} Managed by Jagedo` || '', // Map 'description' to 'requestType'
+    county: requestDetails.metadata.county || '', // Map 'county'
+    subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+    status: requestDetails.status, // Status is directly mapped
+    requestTypeId: requestDetails.id, // No direct mapping
+  };
+
+  const requests = [request];
 
   const {
     isLoading,
@@ -47,12 +69,12 @@ export default function FundiRequisitionsTable({ className }: { className?: stri
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(fundiRequisitionData, pageSize, filterState);
+  } = useTable(requests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: fundiRequisitionData,
+        data: requests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

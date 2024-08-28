@@ -106,16 +106,6 @@ export default function EditProfileCard({
           Save Changes
         </Button>
       )}
-
-      <Button
-        onClick={() => {
-          setEditMode(true);
-        }}
-        as="span"
-        className="h-[38px] cursor-pointer shadow md:h-10"
-      >
-        Approve
-      </Button>
     </div>
   );
 }
