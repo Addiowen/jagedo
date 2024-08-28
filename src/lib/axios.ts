@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = 'http://107.21.161.222:4100';
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const AUTH_TOKEN =
   'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=';
 

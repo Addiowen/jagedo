@@ -80,7 +80,6 @@ export const authOptions: NextAuthOptions = {
               );
               const role = userDetailsRes.data.metadata.role;
               const assetId = userDetailsRes.data.metadata?.assetId;
-              // Merge user data with additional details
               const completeUser = { ...user, role, assetId };
               return completeUser;
             } catch (error) {

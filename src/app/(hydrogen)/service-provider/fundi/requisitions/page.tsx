@@ -29,14 +29,22 @@ const fetchUserAssetDetails = async () => {
   } catch (error) {
     console.error('Error fetching user details:', error);
     // Handle error accordingly, e.g., show a message to the user
+    return null; // Return null in case of error
   }
 };
 
 export default async function RequisitionsPage() {
   const asset = await fetchUserAssetDetails();
-  const therequestId = asset.metadata.requesttransactionId;
+
+  // Check if asset and metadata exist
+  const therequestId = asset?.metadata?.requesttransactionId;
 
   const fetchRequestDetails = async () => {
+    if (!therequestId) {
+      console.error('Request transaction ID is missing');
+      return null; // Handle missing ID case
+    }
+
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
@@ -45,8 +53,9 @@ export default async function RequisitionsPage() {
 
       return assetDetails;
     } catch (error) {
-      console.error('Error fetching user details:', error);
+      console.error('Error fetching request details:', error);
       // Handle error accordingly, e.g., show a message to the user
+      return null; // Return null in case of error
     }
   };
 
