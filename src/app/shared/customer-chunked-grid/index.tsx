@@ -1,23 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import cn from '@/utils/class-names';
 import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
 import { useSearchParams } from 'next/navigation';
-import { JobDescription, Note } from '@/data/custom-job-details-data';
+import { JobDescription } from '@/data/custom-job-details-data';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
-
-// interface Item {
-//   [key: string]: string;
-// }
 
 interface Item {
   [key: string]: string | string[];
 }
-
-// [key: string]: string | string[];
 
 interface Props {
   data: Item;
@@ -26,24 +21,71 @@ interface Props {
 }
 
 interface Data {
-  [key: string]: string;
+  name: string;
+  url: string;
 }
 
 const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
-  // const pathname = usePathname()
-  // const requestDetailsPage = pathname.includes('requisitions')
-
   const searchParams = useSearchParams();
-
   const jobId = searchParams.get('id');
 
-  // const filteredData =
+  const [attachments, setAttachments] = useState<Data[]>([]);
+  const [downloadStatus, setDownloadStatus] = useState<string>("");
 
-  // Convert the data object to an array of key-value pairs
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
+
+  // Function to download file from a URL
+  const downloadFile = async (url: string) => {
+    setDownloadStatus("Downloading...");
+    try {
+      const response = await axios.get(url, {
+        responseType: "blob", // Important for binary data
+      });
+
+      // Extract filename from content-disposition header, if available
+      const contentDisposition = response.headers["content-disposition"];
+      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
+      const fileName = fileNameMatch ? fileNameMatch[1] : getFileNameFromUrl(url);
+
+      // Create a temporary anchor element to trigger the download
+      const urlObject = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = urlObject;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(urlObject);
+
+      setDownloadStatus("Downloaded");
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      setDownloadStatus("Error downloading");
+    }
+  };
+
+  useEffect(() => {
+    const data = sessionStorage.getItem('uploadedUrls');
+
+    if (data) {
+      try {
+        const urls = JSON.parse(data) as string[];
+        const structuredAttachments = urls.map(url => ({
+          name: getFileNameFromUrl(url),
+          url: url
+        }));
+
+        setAttachments(structuredAttachments);
+      } catch (error) {
+        console.error("Failed to parse session storage data", error);
+      }
+    }
+  }, []);
+
   const dataArray = Object.entries(data);
-  // console.log(dataArray)
 
-  // Helper function to chunk the data into subarrays of a specified size
   const chunkArray = (
     array: [string, string | string[]][],
     chunkSize: number
@@ -55,7 +97,6 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
     return result;
   };
 
-  // Chunk data into subarrays of 4
   const chunkedData = chunkArray(dataArray, dataChunkSize);
 
   return (
@@ -67,7 +108,6 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
       <JobDescriptionChunked
         data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
         dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       />
 
       <div
@@ -83,21 +123,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
             className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md"
           >
             {chunk.map(([key, value], itemIndex) => (
-              // <li key={itemIndex} className="flex items-start justify-between mb-4 last:mb-0">
-              // <span className="font-semibold text-gray-900 mr-2">{key}:</span>
-              // <span className="text-end">{value}</span>
-              // </li>
               <div key={itemIndex} className="flex items-start">
-                {/* <div
-                    className={cn(
-                      'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded',
-                      'bg-gray-100'
-                      // item.fill,
-                      // item.color
-                    )}
-                  >
-                    <PiHammerBold className="w-4 h-4" />
-                  </div> */}
                 <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
                   <div className="">
                     <Title
@@ -108,27 +134,16 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
                     </Title>
                     {key === 'Attachments' ? (
                       <div className="flex flex-wrap gap-6 text-gray-500">
-                        {(value as unknown as string[]).map(
-                          (imgSrc, imgIndex) => (
-                            <a key={imgIndex} href={imgSrc} download>
-                              <PiDownloadSimple className="h-5 w-5 text-blue-500" />
-                            </a>
-                          )
-                        )}
+                        {(value as string[]).map((imgSrc, imgIndex) => (
+                          <button key={imgIndex} onClick={() => downloadFile(imgSrc)}>
+                            <PiDownloadSimple className="h-5 w-5 text-blue-500" />
+                          </button>
+                        ))}
                       </div>
                     ) : (
                       <div className="text-gray-500">{value}</div>
                     )}
-                    {/* <div className="text-gray-500">
-                        {value}
-                      </div> */}
                   </div>
-                  {/* <div
-                      as="span"
-                      className="font-lexend text-gray-900 dark:text-gray-700"
-                    >
-                      {item.price}
-                    </div> */}
                 </div>
               </div>
             ))}
@@ -136,8 +151,8 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
         ))}
       </div>
 
-      <ViewAttachments />
-
+      {downloadStatus && <p>{downloadStatus}</p>}
+      <ViewAttachments attachments={attachments} />
     </div>
   );
 };
