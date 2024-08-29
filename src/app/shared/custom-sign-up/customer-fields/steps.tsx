@@ -79,6 +79,9 @@ export default function CustomerSteps() {
       metadata: {
         role: 'customer',
         phone: filteredData.phone,
+        county: filteredData.county,
+        subCounty: filteredData.subCounty,
+        estate: filteredData.estate,
       },
     };
 

@@ -43,18 +43,20 @@ interface Props {
   editMode: boolean;
   setEditMode: Dispatch<SetStateAction<boolean>>;
   setModalState: Dispatch<SetStateAction<boolean>>;
+  userDetails: any;
 }
 
 export default function EditProfileCard({
   editMode,
   setEditMode,
   setModalState,
+  userDetails,
 }: Props) {
   return (
     <div className="space-y-7 pt-8 @container @5xl:col-span-1 @5xl:space-y-10 @5xl:pt-0 @6xl:col-span-1">
       <WidgetCard
         className="mb-7.5 @5xl:mb-5"
-        title="Fundi Details"
+        title="User Details"
         childrenWrapperClass="py-5 @5xl:py-8 flex"
       >
         <div className="relative aspect-square h-16 w-16 shrink-0 @5xl:h-20 @5xl:w-20">
@@ -72,15 +74,15 @@ export default function EditProfileCard({
             as="h3"
             className="mb-2.5 text-base font-semibold @7xl:text-lg"
           >
-            Olive Wangari
+            {userDetails.firstname} {userDetails.lastname}
           </Title>
           <Text as="p" className="mb-2 break-all last:mb-0">
-            olive.wangari@example.com
+            {userDetails.email}
           </Text>
           <Text as="p" className="mb-2 last:mb-0">
-            (316) 555-0116
+            {userDetails?.metadata?.phone}
           </Text>
-          <Rate value={3.5} allowHalf={true} disabled={true} />
+          {/* <Rate value={3.5} allowHalf={true} disabled={true} /> */}
         </div>
       </WidgetCard>
 

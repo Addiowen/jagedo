@@ -32,46 +32,46 @@ export default function OtpForm() {
   };
 
   // Function to send SMS with the OTP
-  const sendSms = async (otp: string) => {
-    const url = 'https://api.africastalking.com/version1/messaging';
-    const smsMessage = `Your verification code is ${otp}. 
- `;
+  //   const sendSms = async (otp: string) => {
+  //     const url = 'https://api.africastalking.com/version1/messaging';
+  //     const smsMessage = `Your verification code is ${otp}.
+  //  `;
 
-    const data: any = {
-      to: phoneNumber.startsWith('+') ? phoneNumber : `+${fetchedPhone}`,
-      message: smsMessage,
-      username: process.env.NEXT_PUBLIC_USERNAME, // Replace with your Africa's Talking username
+  //     const data: any = {
+  //       to: phoneNumber.startsWith('+') ? phoneNumber : `+${fetchedPhone}`,
+  //       message: smsMessage,
+  //       username: process.env.NEXT_PUBLIC_USERNAME, // Replace with your Africa's Talking username
 
-      from: process.env.NEXT_PUBLIC_SENDER_ID,
-    };
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      apiKey: process.env.NEXT_PUBLIC_AFRICA_API_KEY,
-    };
+  //       from: process.env.NEXT_PUBLIC_SENDER_ID,
+  //     };
+  //     const headers = {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       apiKey: process.env.NEXT_PUBLIC_AFRICA_API_KEY,
+  //     };
 
-    try {
-      const res = await axios.post(url, new URLSearchParams(data), { headers });
-      setResponse(res.data);
-      console.log('SMS sent successfully:', res.data);
-    } catch (error) {
-      console.error('Error sending SMS:', error);
-    }
-  };
+  //     try {
+  //       const res = await axios.post(url, new URLSearchParams(data), { headers });
+  //       setResponse(res.data);
+  //       console.log('SMS sent successfully:', res.data);
+  //     } catch (error) {
+  //       console.error('Error sending SMS:', error);
+  //     }
+  //   };
 
   // Send the OTP to the user and store it for later validation
-  const sendOtpToUser = () => {
-    const otp = generateOtp();
-    setGeneratedOtp(otp);
-    sendSms(otp); // Send the OTP via SMS
-  };
+  // const sendOtpToUser = () => {
+  //   const otp = generateOtp();
+  //   setGeneratedOtp(otp);
+  //   sendSms(otp); // Send the OTP via SMS
+  // };
 
   // Call sendOtpToUser when the component mounts
-  useEffect(() => {
-    if (fetchedPhone) {
-      setPhoneNumber(fetchedPhone);
-    }
-    sendOtpToUser();
-  }, []);
+  // useEffect(() => {
+  //   if (fetchedPhone) {
+  //     setPhoneNumber(fetchedPhone);
+  //   }
+  //   sendOtpToUser();
+  // }, []);
 
   const validateOtp = (otp: string) => {
     if (generatedOtp && otp === generatedOtp) {
@@ -85,21 +85,20 @@ export default function OtpForm() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
-    if (validateOtp(data.otp)) {
-      // Perform your form submission logic here if OTP is correct
-      router.push(routes.signIn);
-    } else {
-      // Handle incorrect OTP submission if needed
-      setOtpStatus('incorrect');
-    }
+    // if (validateOtp(data.otp)) {
+    // Perform your form submission logic here if OTP is correct
+    router.push(routes.signIn);
+    // } else {
+    // Handle incorrect OTP submission if needed
+    // setOtpStatus('incorrect');
   };
 
-  const handleOtpChange = (value: string) => {
-    if (value.length === 4) {
-      // Assuming OTP length is 4
-      validateOtp(value);
-    }
-  };
+  // const handleOtpChange = (value: string) => {
+  //   if (value.length === 4) {
+  //     // Assuming OTP length is 4
+  //     validateOtp(value);
+  //   }
+  // };
 
   return (
     <Form<FormValues> onSubmit={onSubmit}>
@@ -109,9 +108,8 @@ export default function OtpForm() {
             variant="outline"
             setValue={(value) => {
               setValue('otp', String(value));
-              handleOtpChange(String(value));
             }}
-            className={`pb-2 ${otpStatus === 'correct' ? 'border-green-500' : otpStatus === 'incorrect' ? 'border-red-500' : ''}`}
+            className={`pb-2}`}
             size="lg"
           />
 
@@ -121,7 +119,6 @@ export default function OtpForm() {
             size="xl"
             variant="outline"
             rounded="lg"
-            onClick={sendOtpToUser} // Resend OTP on button click
           >
             Resend OTP
           </Button>
