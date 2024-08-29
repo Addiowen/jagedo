@@ -1,9 +1,9 @@
 import { Button, Text } from 'rizzui';
-// import { useFormContext } from 'react-hook-form';
+
 import { PiCloudArrowDown } from "react-icons/pi";
 
 const ViewAttachments = () => {
-    // const { register } = useFormContext();
+   
 
     return (  
         <>

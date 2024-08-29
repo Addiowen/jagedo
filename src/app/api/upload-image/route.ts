@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 
 // Initialize the S3 client
 const s3Client = new S3Client({
-  region: process.env.NEXT_PUBLIC_AWS_REGION,
+  region: process.env.NEXT_PUBLIC_AWS_REGION!,
   credentials: {
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
@@ -24,11 +24,11 @@ export async function POST(request: Request) {
     const fileKey = file.name; // The key for the file in S3
 
     const upload = new Upload({
-      client: s3Client,
+      client: s3Client, // Correct usage of S3Client instance
       params: {
         Bucket: bucketName,
         Key: fileKey,
-        Body: file,
+        Body: file.stream(), // Use file.stream() to handle the file upload properly
         ContentType: file.type,
       },
     });
@@ -44,4 +44,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
-

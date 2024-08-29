@@ -83,21 +83,9 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
             className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md"
           >
             {chunk.map(([key, value], itemIndex) => (
-              // <li key={itemIndex} className="flex items-start justify-between mb-4 last:mb-0">
-              // <span className="font-semibold text-gray-900 mr-2">{key}:</span>
-              // <span className="text-end">{value}</span>
-              // </li>
+
               <div key={itemIndex} className="flex items-start">
-                {/* <div
-                    className={cn(
-                      'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded',
-                      'bg-gray-100'
-                      // item.fill,
-                      // item.color
-                    )}
-                  >
-                    <PiHammerBold className="w-4 h-4" />
-                  </div> */}
+
                 <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
                   <div className="">
                     <Title
@@ -137,6 +125,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
       </div>
 
       <ViewAttachments />
+      
 
     </div>
   );

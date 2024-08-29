@@ -1,32 +1,69 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-import { FaCheck, FaRedo, FaTimes, FaCloudUploadAlt } from 'react-icons/fa';
+import { FaCheck, FaRedo, FaTimes, FaCloudUploadAlt, FaEdit, FaSave } from 'react-icons/fa';
 
 interface FileWithProgress {
   file: File;
   progress: number;
   status: 'pending' | 'success' | 'failed';
+  url?: string;
+  editedName: string; // Name without extension
+  extension: string;  // File extension
+  isEditing: boolean; // Toggle for editing mode
 }
 
 const FileUpload: React.FC = () => {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const filesWithProgress = acceptedFiles.map((file) => ({
-      file,
-      progress: 0,
-      status: 'pending' as const,
-    }));
+    const filesWithProgress = acceptedFiles.map((file) => {
+      const fileNameParts = file.name.split('.');
+      const extension = fileNameParts.length > 1 ? fileNameParts.pop() : ''; // Get the file extension
+      const baseName = fileNameParts.join('.'); // Get the base name without the extension
+
+      return {
+        file,
+        progress: 0,
+        status: 'pending' as const,
+        editedName: baseName, // Initialize editedName with the base name
+        extension: extension ? `.${extension}` : '', // Keep the extension separate
+        isEditing: false, // Initialize editing mode as false
+      };
+    });
     setFiles((prevFiles) => [...prevFiles, ...filesWithProgress]);
   }, []);
+
+  const handleEditName = (index: number, newName: string) => {
+    setFiles((prevFiles) =>
+      prevFiles.map((f, i) =>
+        i === index ? { ...f, editedName: newName } : f
+      )
+    );
+  };
+
+  const toggleEditMode = (index: number) => {
+    setFiles((prevFiles) =>
+      prevFiles.map((f, i) =>
+        i === index ? { ...f, isEditing: !f.isEditing } : f
+      )
+    );
+  };
+
+  const saveEditedName = (index: number) => {
+    setFiles((prevFiles) =>
+      prevFiles.map((f, i) =>
+        i === index ? { ...f, isEditing: false } : f
+      )
+    );
+  };
 
   const uploadFile = async (fileWithProgress: FileWithProgress) => {
     try {
       const formData = new FormData();
-      formData.append('file', fileWithProgress.file);
+      formData.append('file', fileWithProgress.file, fileWithProgress.editedName + fileWithProgress.extension); // Combine edited name with extension
 
-      await axios.post('/api/upload-image', formData, {
+      const response = await axios.post('/api/upload-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -47,7 +84,7 @@ const FileUpload: React.FC = () => {
       setFiles((prevFiles) =>
         prevFiles.map((f) =>
           f.file === fileWithProgress.file
-            ? { ...f, progress: 100, status: 'success' }
+            ? { ...f, progress: 100, status: 'success', url: response.data.url }
             : f
         )
       );
@@ -83,36 +120,60 @@ const FileUpload: React.FC = () => {
       </div>
 
       <div className="mt-4 space-y-4">
-        {files.map(({ file, progress, status }) => (
+        {files.map(({ file, progress, status, url, editedName, extension, isEditing }, index) => (
           <div
             key={file.name}
             className="rounded-lg border border-gray-300 p-4"
           >
             <div className="mb-2 flex items-center justify-between">
-              <div>
-                <span className="font-medium text-gray-800">{file.name}</span>
-                <span className="ml-2 text-sm text-gray-500">
-                  {(file.size / (1024 * 1024)).toFixed(2)} MB
-                </span>
+              <div className="flex items-center">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={editedName}
+                    onChange={(e) => handleEditName(index, e.target.value)}
+                    className="border p-1 mr-1"
+                  />
+                ) : (
+                  <span className="font-medium text-gray-800">{editedName}</span>
+                )}
+                {!isEditing && (
+                  <span className="text-gray-500">{extension}</span>
+                )}
+                {isEditing && (
+                  <span className="text-gray-500">{extension}</span>
+                )}
               </div>
-              <button
-                onClick={() =>
-                  status === 'pending'
-                    ? setFiles((prevFiles) =>
-                        prevFiles.filter((f) => f.file !== file)
-                      )
-                    : null
-                }
-                className="text-red-500 hover:text-red-700"
-              >
+              <div className="flex items-center">
                 {status === 'success' ? (
                   <FaCheck className="text-green-500" />
                 ) : status === 'failed' ? (
                   <FaRedo />
                 ) : (
-                  <FaTimes />
+                  <>
+                    {isEditing ? (
+                      <FaSave
+                        onClick={() => saveEditedName(index)}
+                        className="text-blue-500 cursor-pointer hover:text-blue-700 mx-2"
+                      />
+                    ) : (
+                      <FaEdit
+                        onClick={() => toggleEditMode(index)}
+                        className="text-gray-500 cursor-pointer hover:text-gray-700 mx-2"
+                        style={{ marginRight: '10px' }}
+                      />
+                    )}
+                    <FaTimes
+                      onClick={() =>
+                        setFiles((prevFiles) =>
+                          prevFiles.filter((f) => f.file !== file)
+                        )
+                      }
+                      className="text-red-500 hover:text-red-700 cursor-pointer"
+                    />
+                  </>
                 )}
-              </button>
+              </div>
             </div>
             <div className="relative h-2 w-full rounded bg-gray-200">
               <div
@@ -120,6 +181,18 @@ const FileUpload: React.FC = () => {
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
+            {url && (
+              <div className="mt-2">
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Download {editedName + extension}
+                </a>
+              </div>
+            )}
           </div>
         ))}
       </div>
