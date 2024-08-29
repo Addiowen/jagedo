@@ -1,5 +1,6 @@
 import { Button, Text } from 'rizzui';
 import { PiCloudArrowDown } from 'react-icons/pi';
+import axios from 'axios'; // Import axios for HTTP requests
 
 interface Attachment {
   name: string;
@@ -11,8 +12,28 @@ interface ViewAttachmentsProps {
 }
 
 const ViewAttachments: React.FC<ViewAttachmentsProps> = ({ attachments }) => {
-  const handleDownload = (url: string) => {
-    window.open(url, '_blank');
+  const handleDownload = async (url: string, name: string) => {
+    try {
+      const response = await axios.get(url, {
+        responseType: 'blob', // Important for binary data
+      });
+
+      // Create a URL for the Blob data
+      const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', name); // Set the download attribute with the file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); // Clean up the DOM
+
+      // Revoke the Blob URL after the download
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
   };
 
   return (
@@ -25,7 +46,7 @@ const ViewAttachments: React.FC<ViewAttachmentsProps> = ({ attachments }) => {
           </div>
           <Button
             variant="text"
-            onClick={() => handleDownload(attachment.url)}
+            onClick={() => handleDownload(attachment.url, attachment.name)}
             className="p-2 text-sm font-bold leading-loose text-gray-500 group col-span-1"
           >
             <PiCloudArrowDown className="h-6 w-6 text-gray-500 group-hover:text-blue-500" />

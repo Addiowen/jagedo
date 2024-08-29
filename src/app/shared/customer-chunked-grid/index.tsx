@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import cn from '@/utils/class-names';
 import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
@@ -28,31 +29,54 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
 
-  // Function to extract the file name from a URL
+  const [attachments, setAttachments] = useState<Data[]>([]);
+  const [downloadStatus, setDownloadStatus] = useState<string>("");
+
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
-  // State to hold the structured attachment data
-  const [attachments, setAttachments] = useState<Data[]>([]);
+  // Function to download file from a URL
+  const downloadFile = async (url: string) => {
+    setDownloadStatus("Downloading...");
+    try {
+      const response = await axios.get(url, {
+        responseType: "blob", // Important for binary data
+      });
 
-  // Retrieve and structure attachment data on component mount
+      // Extract filename from content-disposition header, if available
+      const contentDisposition = response.headers["content-disposition"];
+      const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
+      const fileName = fileNameMatch ? fileNameMatch[1] : getFileNameFromUrl(url);
+
+      // Create a temporary anchor element to trigger the download
+      const urlObject = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = urlObject;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(urlObject);
+
+      setDownloadStatus("Downloaded");
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      setDownloadStatus("Error downloading");
+    }
+  };
+
   useEffect(() => {
-    // Retrieve the JSON string from session storage
     const data = sessionStorage.getItem('uploadedUrls');
 
     if (data) {
       try {
-        // Parse the JSON string to get the array
         const urls = JSON.parse(data) as string[];
-
-        // Create structured data
         const structuredAttachments = urls.map(url => ({
           name: getFileNameFromUrl(url),
           url: url
         }));
 
-        // Update state with structured data
         setAttachments(structuredAttachments);
       } catch (error) {
         console.error("Failed to parse session storage data", error);
@@ -60,10 +84,8 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
     }
   }, []);
 
-  // Convert the data object to an array of key-value pairs
   const dataArray = Object.entries(data);
 
-  // Helper function to chunk the data into subarrays of a specified size
   const chunkArray = (
     array: [string, string | string[]][],
     chunkSize: number
@@ -75,7 +97,6 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
     return result;
   };
 
-  // Chunk data into subarrays of dataChunkSize
   const chunkedData = chunkArray(dataArray, dataChunkSize);
 
   return (
@@ -114,9 +135,9 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
                     {key === 'Attachments' ? (
                       <div className="flex flex-wrap gap-6 text-gray-500">
                         {(value as string[]).map((imgSrc, imgIndex) => (
-                          <a key={imgIndex} href={imgSrc} download>
+                          <button key={imgIndex} onClick={() => downloadFile(imgSrc)}>
                             <PiDownloadSimple className="h-5 w-5 text-blue-500" />
-                          </a>
+                          </button>
                         ))}
                       </div>
                     ) : (
@@ -130,8 +151,8 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
         ))}
       </div>
 
+      {downloadStatus && <p>{downloadStatus}</p>}
       <ViewAttachments attachments={attachments} />
-      
     </div>
   );
 };
