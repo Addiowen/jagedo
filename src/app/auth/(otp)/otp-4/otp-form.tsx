@@ -72,7 +72,7 @@ export default function OtpForm() {
   const createUser = async () => {
     try {
       const response = await axios.post(
-        'http://54.221.116.218:4100/users',
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
         postData,
         {
           headers: {
@@ -117,13 +117,10 @@ export default function OtpForm() {
     const welcomeMessage = `Welcome to JaGedo. Thanks for Signing up. Start Exploring your Account now. Need help? We're here for you.`;
 
     try {
-      const res = await axios.post(
-        'https://jagedomsz.wearedeefrent.org/sendSms',
-        {
-          phoneNumber: phoneNumber,
-          message: welcomeMessage,
-        }
-      );
+      const res = await axios.post('https://uatapimsz.jagedo.co.ke/sendSms', {
+        phoneNumber: phoneNumber,
+        message: welcomeMessage,
+      });
 
       if (res.data.success) {
         console.log('Welcome SMS sent successfully:', res.data);
@@ -152,7 +149,7 @@ export default function OtpForm() {
 
     try {
       const response = await axios.post(
-        'https://jagedomsz.wearedeefrent.org/createZohoUser',
+        'https://uatapimsz.jagedo.co.ke/createZohoUser',
         zohoPayload
       );
 
@@ -172,7 +169,7 @@ export default function OtpForm() {
   const patchUserWithZohoId = async (userId: string, zohoId: string) => {
     try {
       await axios.patch(
-        `http://54.221.116.218:4100/users/${userId}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`,
         {
           phone: '0723276981',
           metadata: { zohoid: zohoId },
