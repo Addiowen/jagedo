@@ -43,13 +43,10 @@ export default function OtpForm() {
     const smsMessage = `Your verification code is ${otp}.`;
 
     try {
-      const res = await axios.post(
-        'https://jagedomsz.wearedeefrent.org/sendSms',
-        {
-          phoneNumber: fetchedPhone,
-          message: smsMessage,
-        }
-      );
+      const res = await axios.post('https://uatapimsz.jagedo.co.ke/sendSms', {
+        phoneNumber: fetchedPhone,
+        message: smsMessage,
+      });
 
       if (res.data.success) {
         setOtpSent(true);
