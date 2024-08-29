@@ -4,9 +4,11 @@ import { Title, Button, Modal, Tab } from 'rizzui';
 import { useState } from 'react';
 import EditProfileCard from './edit-profile-card';
 import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
+import { OrganizationProfileSchema } from '@/utils/validators/custom-profile.schema';
+import { SubmitHandler } from 'react-hook-form';
 
 interface Data {
   [key: string]: string | null;
@@ -47,10 +49,60 @@ export default function EditProfileContactDetails({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const userId = searchParams.get('id');
-
+  const router = useRouter();
   console.log(userDetails);
 
   // Create asset
+
+  const onSubmit = async () => {
+    try {
+      // Prepare the data to be sent to the API
+      const updateData = {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+        phone: data.phoneNo,
+
+        metadata: {
+          county: data.county,
+          orgName: data.orgName,
+          subCounty: data.subCounty,
+          estate: data.estate,
+          phoneNo: data.phoneNo,
+          regNo: data.regNo,
+          pin: data.pin,
+        }, // Add the pin from the form if applicable
+      };
+
+      console.log(updateData, 'update data');
+
+      // Fetch additional user details
+      const userDetailsRes = await axios.patch(
+        `${BASE_URL}/users/${userDetails.id}`,
+        updateData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
+      // Handle the response or redirect after successful update
+      if (userDetailsRes) {
+        console.log(userDetailsRes, 'user details');
+
+        setEditMode(false);
+        setModalState(true);
+        router.push('/customers/edit-profile');
+        // router.push('/service-provider/fundi/profile');
+      }
+    } catch (error) {
+      console.error('Failed to update user details:', error);
+      // Optionally, handle the error (e.g., show a notification)
+    }
+  };
+
   const handleSaveAndCreate = async () => {
     try {
       const assetPayload = {
@@ -184,8 +236,7 @@ export default function EditProfileContactDetails({
                 ) : (
                   <Button
                     onClick={() => {
-                      setEditMode(false);
-                      setModalState(true);
+                      onSubmit();
                     }}
                     as="span"
                     className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
