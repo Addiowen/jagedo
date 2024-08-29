@@ -14,12 +14,12 @@ export default async function RFQEmergencyFundiPage({
 }) {
   const fetchRequestDetails = async () => {
     try {
-      const assetDetails = await apiRequest({
+      const transactionDetails = await apiRequest({
         method: 'GET',
         endpoint: `/transactions/${searchParams.id}`,
       });
 
-      return assetDetails;
+      return transactionDetails;
     } catch (error) {
       console.error('Error fetching user details:', error);
       // Handle error accordingly, e.g., show a message to the user

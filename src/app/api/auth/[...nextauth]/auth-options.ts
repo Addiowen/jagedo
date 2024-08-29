@@ -79,8 +79,10 @@ export const authOptions: NextAuthOptions = {
                 }
               );
               const role = userDetailsRes.data.metadata.role;
+
               const assetId = userDetailsRes.data.metadata?.assetId;
               const completeUser = { ...user, role, assetId };
+
               return completeUser;
             } catch (error) {
               console.error('Error fetching user details:', error);

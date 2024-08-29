@@ -72,6 +72,7 @@ export const messages = {
   roleNameLengthMin: 'Role name must be at least 3 letters',
   errorSendingEmail: 'Error sending email',
   emailSentSuccessfully: 'Your email has been sent successfully.',
+  invalidPhoneNumber: 'Phone number must be in the format +25412345678',
 
   // added these
   // service provider

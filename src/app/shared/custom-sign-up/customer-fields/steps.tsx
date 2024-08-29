@@ -33,6 +33,7 @@ import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
+import { log } from 'console';
 
 // export type MultiStepFormProps = {
 
@@ -63,6 +64,7 @@ export default function CustomerSteps() {
     e?.preventDefault();
 
     let filteredData = { ...data };
+
     let postData;
 
     postData = {
@@ -75,9 +77,12 @@ export default function CustomerSteps() {
       password: filteredData.password,
       phone: filteredData.phone,
       metadata: {
-        role: 'customer', // Dynamically set the role
+        role: 'customer',
+        phone: filteredData.phone,
       },
     };
+
+    console.log(postData);
 
     try {
       const response = await axios.post(`${BASE_URL}/users`, postData, {
@@ -91,9 +96,9 @@ export default function CustomerSteps() {
 
       const userDetails = response.data;
 
-      sessionStorage.setItem('userData', JSON.stringify(userDetails));
+      const userPhone = userDetails.metadata.phone;
 
-      router.push(routes.auth.otp4);
+      router.push(`${routes.auth.otp4}?phone=${userPhone}`);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -201,6 +206,7 @@ export default function CustomerSteps() {
                     error={errors.lastName?.message}
                     className="[&>label>span]:font-medium"
                   />
+
                   <Input
                     placeholder="Phone Number"
                     label="Phone Number"

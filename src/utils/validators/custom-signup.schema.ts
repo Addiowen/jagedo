@@ -71,6 +71,8 @@ export const customerSignUpFormSchema = z.object({
   organizationName: z.string().optional(),
 
   phone: z.string().min(1, { message: messages.phoneNumberIsRequired }),
+
+  // .regex(/^\d{1,3}\d{9,12}$/, { message: messages.invalidPhoneNumber }),
   // idNo: z.string().min(1, { message: messages.idNoIsRequired }),
   // gender: z.string().min(1, { message: messages.genderIsRequired }),
   // dob: z.string().min(1, { message: messages.dobIsRequired }),
