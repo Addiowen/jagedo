@@ -1,34 +1,42 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { FaCheck, FaRedo, FaTimes, FaCloudUploadAlt, FaEdit, FaSave } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
 
 interface FileWithProgress {
   file: File;
   progress: number;
   status: 'pending' | 'success' | 'failed';
   url?: string;
-  editedName: string; // Name without extension
-  extension: string;  // File extension
-  isEditing: boolean; // Toggle for editing mode
+  editedName: string;
+  extension: string;
+  isEditing: boolean;
 }
 
 const FileUpload: React.FC = () => {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const id: string | null = session?.user?.userId || null;
+    setUserId(id);
+  }, [session]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const filesWithProgress = acceptedFiles.map((file) => {
       const fileNameParts = file.name.split('.');
-      const extension = fileNameParts.length > 1 ? fileNameParts.pop() : ''; // Get the file extension
-      const baseName = fileNameParts.join('.'); // Get the base name without the extension
+      const extension = fileNameParts.length > 1 ? fileNameParts.pop() : '';
+      const baseName = fileNameParts.join('.');
 
       return {
         file,
         progress: 0,
         status: 'pending' as const,
-        editedName: baseName, // Initialize editedName with the base name
-        extension: extension ? `.${extension}` : '', // Keep the extension separate
-        isEditing: false, // Initialize editing mode as false
+        editedName: baseName,
+        extension: extension ? `.${extension}` : '',
+        isEditing: false,
       };
     });
     setFiles((prevFiles) => [...prevFiles, ...filesWithProgress]);
@@ -60,8 +68,14 @@ const FileUpload: React.FC = () => {
 
   const uploadFile = async (fileWithProgress: FileWithProgress) => {
     try {
+      if (!userId) {
+        console.error('User ID not found in session storage.');
+        return;
+      }
+
       const formData = new FormData();
-      formData.append('file', fileWithProgress.file, fileWithProgress.editedName + fileWithProgress.extension); // Combine edited name with extension
+      formData.append('file', fileWithProgress.file, fileWithProgress.editedName + fileWithProgress.extension);
+      formData.append('userId', userId);
 
       const response = await axios.post('/api/upload-image', formData, {
         headers: {
@@ -81,13 +95,21 @@ const FileUpload: React.FC = () => {
         },
       });
 
+      const url = response.data.url;
+
       setFiles((prevFiles) =>
         prevFiles.map((f) =>
           f.file === fileWithProgress.file
-            ? { ...f, progress: 100, status: 'success', url: response.data.url }
+            ? { ...f, progress: 100, status: 'success', url }
             : f
         )
       );
+
+      // Store URLs in session storage
+      const existingUrls = JSON.parse(sessionStorage.getItem('uploadedUrls') || '[]') as string[];
+      existingUrls.push(url);
+      sessionStorage.setItem('uploadedUrls', JSON.stringify(existingUrls));
+
     } catch (error) {
       console.error('Error uploading file:', error);
       setFiles((prevFiles) =>
@@ -104,7 +126,7 @@ const FileUpload: React.FC = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 10 * 1024 * 1024,
+    maxSize: 10 * 1024 * 1024, // 10 MB
   });
 
   return (
@@ -121,10 +143,7 @@ const FileUpload: React.FC = () => {
 
       <div className="mt-4 space-y-4">
         {files.map(({ file, progress, status, url, editedName, extension, isEditing }, index) => (
-          <div
-            key={file.name}
-            className="rounded-lg border border-gray-300 p-4"
-          >
+          <div key={file.name} className="rounded-lg border border-gray-300 p-4">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex items-center">
                 {isEditing ? (
@@ -137,12 +156,7 @@ const FileUpload: React.FC = () => {
                 ) : (
                   <span className="font-medium text-gray-800">{editedName}</span>
                 )}
-                {!isEditing && (
-                  <span className="text-gray-500">{extension}</span>
-                )}
-                {isEditing && (
-                  <span className="text-gray-500">{extension}</span>
-                )}
+                <span className="text-gray-500">{extension}</span>
               </div>
               <div className="flex items-center">
                 {status === 'success' ? (
@@ -160,7 +174,6 @@ const FileUpload: React.FC = () => {
                       <FaEdit
                         onClick={() => toggleEditMode(index)}
                         className="text-gray-500 cursor-pointer hover:text-gray-700 mx-2"
-                        style={{ marginRight: '10px' }}
                       />
                     )}
                     <FaTimes
@@ -175,24 +188,25 @@ const FileUpload: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className="relative h-2 w-full rounded bg-gray-200">
-              <div
-                className="absolute left-0 top-0 h-2 rounded bg-blue-500"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-            {url && (
-              <div className="mt-2">
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Download {editedName + extension}
+
+            {status === 'success' && url && (
+              <div className="mb-2">
+                <a href={url} className="text-blue-500" download>
+                  Download
                 </a>
               </div>
             )}
+
+            {status === 'failed' && (
+              <div className="text-red-500">Upload failed</div>
+            )}
+
+            <div className="h-2 bg-gray-200">
+              <div
+                className="h-full bg-blue-500"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -201,7 +215,7 @@ const FileUpload: React.FC = () => {
         <div className="mt-4 flex justify-center">
           <button
             onClick={startUpload}
-            className="mt-4 rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            className="mt-4 rounded-lg bg-blue-500 py-2 px-4 text-white"
           >
             Upload
           </button>
