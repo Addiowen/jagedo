@@ -129,7 +129,7 @@ const GenerateInvoiceFundi: React.FC = () => {
       },
     };
 
-    try {http://localhost:3000/customers/generate-invoice/fundi
+    try {
       const res = await axios.post(`${BASE_URL}/transactions`, formBody, {
         headers: {
           Authorization:
