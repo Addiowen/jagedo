@@ -88,12 +88,16 @@ export default function CustomerSteps() {
     console.log(postData);
 
     try {
-      const response = await axios.post(`${BASE_URL}/users`, postData, {
-        headers: {
-          Authorization:
-            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
-        },
-      });
+      const response = await axios.post(
+        `http://54.221.116.218:4100/users`,
+        postData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
 
       console.log('Response:', response.data);
 

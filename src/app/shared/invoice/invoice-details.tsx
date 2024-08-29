@@ -47,7 +47,7 @@ export default function InvoiceDetails() {
   const linkageFee = requestDetails?.metadata.linkageFee;
   let updatedLinkageFee = linkageFee;
   if (linkageFee) {
-    updatedLinkageFee = parseFloat((linkageFee * 1.15).toFixed(2));
+    updatedLinkageFee = parseFloat((linkageFee * 1.16).toFixed(2));
   }
 
   const paidRequest = {
@@ -140,10 +140,9 @@ export default function InvoiceDetails() {
         toast.success(<Text as="b">Payment Successful</Text>);
         setPaymentStatus('Paid');
 
-
-        router.push(`${routes.customers.requisitions}?transactionId=${transactionId}`);
-
-
+        router.push(
+          `${routes.customers.requisitions}?transactionId=${transactionId}`
+        );
       }
     } catch (error) {
       console.log(error);

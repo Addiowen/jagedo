@@ -28,39 +28,6 @@ type JobSliderData = {
 
 let data: JobSliderData[] = [];
 
-// const data = [
-//   {
-//     name: 'Requisitions',
-//     total: 8,
-//     fill: '#2B7F75',
-//     link: routes.serviceProvider.fundi.requisitions,
-//   },
-//   {
-//     name: 'Quotations',
-//     total: 7,
-//     fill: '#FFD66B',
-//     link: routes.serviceProvider.fundi.quotations,
-//   },
-//   {
-//     name: 'Active',
-//     total: 10,
-//     fill: '#04364A',
-//     link: routes.serviceProvider.fundi.activeJobs,
-//   },
-//   {
-//     name: 'Completed',
-//     total: 13,
-//     fill: '#64CCC5',
-//     link: routes.serviceProvider.fundi.completedJobs,
-//   },
-//   {
-//     name: 'Reviews',
-//     total: 5,
-//     fill: '#702963',
-//     link: '##',
-//   },
-// ];
-
 const viewOptions = [
   {
     value: 'Daily',
