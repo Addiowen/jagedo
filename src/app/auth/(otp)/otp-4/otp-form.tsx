@@ -7,64 +7,27 @@ import { SubmitHandler } from 'react-hook-form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { routes } from '@/config/routes';
+import toast from 'react-hot-toast';
 
 type FormValues = {
   otp: string;
 };
 
 export default function OtpForm() {
+  const postData = JSON.parse(sessionStorage.getItem('postData') || '{}');
+
+  console.log(postData);
   const searchParams = useSearchParams();
-
   const fetchedPhone = searchParams.get('phone');
+  const router = useRouter();
 
-  const [phoneNumber, setPhoneNumber] = useState(''); // Store the user's phone number
-  const [message, setMessage] = useState(''); // Store the message to be sent
-  const [response, setResponse] = useState(null); // Store the response from the API
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
   const [otpStatus, setOtpStatus] = useState<
     'default' | 'correct' | 'incorrect'
   >('default');
-  const router = useRouter();
+  const [otpSent, setOtpSent] = useState(false);
 
-  // Function to generate a 4-digit OTP
-  const generateOtp = (): string => {
-    return Math.floor(1000 + Math.random() * 9000).toString(); // Generates a random 4-digit number
-  };
-
-  // Function to send SMS with the OTP
-  const sendSms = async (otp: string) => {
-    const url = 'https://api.africastalking.com/version1/messaging';
-    const smsMessage = `Your verification code is ${otp}. 
- `;
-    const data: any = {
-      to: phoneNumber.startsWith('+') ? phoneNumber : `+${fetchedPhone}`,
-      message: smsMessage,
-      username: process.env.NEXT_PUBLIC_USERNAME, // Replace with your Africa's Talking username
-
-      from: process.env.NEXT_PUBLIC_SENDER_ID,
-    };
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      apiKey: process.env.AT_API_KEY, // Replace with your Africa's Talking API key
-    };
-
-    try {
-      const res = await axios.post(url, new URLSearchParams(data), { headers });
-      setResponse(res.data);
-      console.log('SMS sent successfully:', res.data);
-    } catch (error) {
-      console.error('Error sending SMS:', error);
-    }
-  };
-
-  // Send the OTP to the user and store it for later validation
-  const sendOtpToUser = () => {
-    const otp = generateOtp();
-    setGeneratedOtp(otp);
-    sendSms(otp); // Send the OTP via SMS
-  };
-
-  // Call sendOtpToUser when the component mounts
   useEffect(() => {
     if (fetchedPhone) {
       setPhoneNumber(fetchedPhone);
@@ -72,33 +35,180 @@ export default function OtpForm() {
     sendOtpToUser();
   }, []);
 
-  const validateOtp = (otp: string) => {
-    if (generatedOtp && otp === generatedOtp) {
+  const generateOtp = (): string => {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  };
+
+  const sendSms = async (otp: string) => {
+    const smsMessage = `Your verification code is ${otp}.`;
+
+    try {
+      const res = await axios.post(
+        'https://jagedomsz.wearedeefrent.org/sendSms',
+        {
+          phoneNumber: fetchedPhone,
+          message: smsMessage,
+        }
+      );
+
+      if (res.data.success) {
+        setOtpSent(true);
+        console.log('SMS sent successfully:', res.data);
+      } else {
+        toast.error('Failed to send OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending SMS:', error);
+      toast.error('An error occurred while sending OTP. Please try again.');
+    }
+  };
+
+  const sendOtpToUser = () => {
+    const otp = generateOtp();
+    setGeneratedOtp(otp);
+    sendSms(otp);
+  };
+
+  const createUser = async () => {
+    try {
+      const response = await axios.post(
+        'http://54.221.116.218:4100/users',
+        postData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        const userDetails = response.data;
+
+        const userPhone = userDetails.metadata.phone || fetchedPhone;
+
+        const zohoResponse = await createZohoUser(userDetails);
+        if (zohoResponse.success) {
+          await patchUserWithZohoId(
+            userDetails.id,
+            zohoResponse.data.contact.contact_id
+          );
+          await sendWelcomeSms(userPhone);
+          router.push(`${routes.signIn}`);
+        } else {
+          toast.error('Failed to create Zoho user.');
+        }
+      } else {
+        if (response.status >= 400 && response.status < 500) {
+          const errorMessage =
+            response.data.message || 'Failed to create user.';
+          toast.error(`Failed to create user: ${errorMessage}`);
+        } else {
+          toast.error('Failed to create user.');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('An error occurred while creating the user.');
+    }
+  };
+
+  const sendWelcomeSms = async (phoneNumber: string) => {
+    const welcomeMessage = `Welcome to JaGedo. Thanks for Signing up. Start Exploring your Account now. Need help? We're here for you.`;
+
+    try {
+      const res = await axios.post(
+        'https://jagedomsz.wearedeefrent.org/sendSms',
+        {
+          phoneNumber: phoneNumber,
+          message: welcomeMessage,
+        }
+      );
+
+      if (res.data.success) {
+        console.log('Welcome SMS sent successfully:', res.data);
+      } else {
+        toast.error('Failed to send Welcome SMS.');
+      }
+    } catch (error) {
+      console.error('Error sending Welcome SMS:', error);
+      toast.error('An error occurred while sending the Welcome SMS.');
+    }
+  };
+
+  const createZohoUser = async (userDetails: any) => {
+    const zohoPayload = {
+      contact_name: `${userDetails.firstname} ${userDetails.lastname}`,
+      company_name: `${userDetails.firstname} ${userDetails.lastname}`,
+      customer_sub_type: 'individual',
+      city: userDetails.metadata.county,
+      state: userDetails.metadata.subCounty,
+      country: 'Kenya',
+      phone: userDetails.phone || fetchedPhone,
+      first_name: userDetails.firstname,
+      last_name: userDetails.lastname,
+      email: userDetails.email,
+    };
+
+    try {
+      const response = await axios.post(
+        'https://jagedomsz.wearedeefrent.org/createZohoUser',
+        zohoPayload
+      );
+
+      if (response.data.success) {
+        return response.data;
+      } else {
+        toast.error('Failed to create Zoho user.');
+        return { success: false };
+      }
+    } catch (error) {
+      console.error('Error creating Zoho user:', error);
+      toast.error('An error occurred while creating Zoho user.');
+      return { success: false };
+    }
+  };
+
+  const patchUserWithZohoId = async (userId: string, zohoId: string) => {
+    try {
+      await axios.patch(
+        `http://54.221.116.218:4100/users/${userId}`,
+        {
+          phone: '0723276981',
+          metadata: { zohoid: zohoId },
+        },
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+    } catch (error) {
+      console.error('Error patching user with Zoho ID:', error);
+      toast.error('An error occurred while updating user with Zoho ID.');
+    }
+  };
+
+  const validateOtp = async (otp: string) => {
+    if (otpSent && generatedOtp && otp === generatedOtp) {
       setOtpStatus('correct');
-      return true;
+      await createUser();
     } else {
       setOtpStatus('incorrect');
-      return false;
+      toast.error('Incorrect OTP. Please try again.');
     }
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log(data);
-    if (validateOtp(data.otp)) {
-      // Perform your form submission logic here if OTP is correct
-      router.push(routes.signIn);
-    } else {
-      // Handle incorrect OTP submission if needed
-      setOtpStatus('incorrect');
-    }
+    await validateOtp(data.otp);
   };
 
-  const handleOtpChange = (value: string) => {
-    if (value.length === 4) {
-      // Assuming OTP length is 4
-      validateOtp(value);
-    }
-  };
+  // const handleOtpChange = (value: string) => {
+  //   if (value.length === 4) {
+  //     validateOtp(value);
+  //   }
+  // };
 
   return (
     <Form<FormValues> onSubmit={onSubmit}>
@@ -108,7 +218,7 @@ export default function OtpForm() {
             variant="outline"
             setValue={(value) => {
               setValue('otp', String(value));
-              handleOtpChange(String(value));
+              // handleOtpChange(String(value));
             }}
             className={`pb-2 ${otpStatus === 'correct' ? 'border-green-500' : otpStatus === 'incorrect' ? 'border-red-500' : ''}`}
             size="lg"
@@ -120,7 +230,7 @@ export default function OtpForm() {
             size="xl"
             variant="outline"
             rounded="lg"
-            onClick={sendOtpToUser} // Resend OTP on button click
+            onClick={sendOtpToUser}
           >
             Resend OTP
           </Button>

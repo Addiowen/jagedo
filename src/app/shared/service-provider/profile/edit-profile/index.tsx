@@ -163,42 +163,64 @@ export default function EditProfileContactDetails({
         <Tab.Panels>
           <Tab.Panel>
             <div className="items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
-              <EditProfileCard
-                userDetails={userDetails}
-                editMode={editMode}
-                setEditMode={setEditMode}
-                setModalState={setModalState}
-              />
+              <div className="flex flex-col">
+                <EditProfileCard
+                  userDetails={userDetails}
+                  editMode={editMode}
+                  setEditMode={setEditMode}
+                  setModalState={setModalState}
+                />
 
-              <div className="col-span-2">
-                <div className="mb-3.5 @5xl:mb-5">
-                  <Title
-                    as="h3"
-                    className="text-base font-semibold @7xl:text-lg"
-                  >
-                    Personal Details
-                  </Title>
-                </div>
-                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
-                  <ProfileChunkedGrid
-                    data={personalDetails}
-                    dataChunkSize={16}
-                    editMode={editMode}
-                  />
-                </div>
-
-                {isAdmin && (
+                {!editMode ? (
                   <Button
                     onClick={() => {
-                      handleSaveAndCreate();
+                      setEditMode(true);
                     }}
                     as="span"
-                    className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                    className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
                   >
-                    Approve
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      setEditMode(false);
+                      setModalState(true);
+                    }}
+                    as="span"
+                    className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
+                  >
+                    Save Changes
                   </Button>
                 )}
               </div>
+            </div>
+
+            <div className="col-span-2">
+              <div className="mb-3.5 @5xl:mb-5">
+                <Title as="h3" className="text-base font-semibold @7xl:text-lg">
+                  Personal Details
+                </Title>
+              </div>
+              <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
+                <ProfileChunkedGrid
+                  data={personalDetails}
+                  dataChunkSize={16}
+                  editMode={editMode}
+                />
+              </div>
+
+              {isAdmin && (
+                <Button
+                  onClick={() => {
+                    handleSaveAndCreate();
+                  }}
+                  as="span"
+                  className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                >
+                  Approve
+                </Button>
+              )}
             </div>
           </Tab.Panel>
 
@@ -238,6 +260,29 @@ export default function EditProfileContactDetails({
                 setEditMode={setEditMode}
                 setModalState={setModalState}
               />
+
+              {!editMode ? (
+                <Button
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                  as="span"
+                  className="mr-6 h-[38px] cursor-pointer shadow md:h-10"
+                >
+                  Edit Profile
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    setEditMode(false);
+                    setModalState(true);
+                  }}
+                  as="span"
+                  className="mr-6 h-[38px]  cursor-pointer shadow md:h-10"
+                >
+                  Save Changes
+                </Button>
+              )}
               <div className="col-span-2">
                 <div className="mb-3.5 @5xl:mb-5">
                   <Title

@@ -35,9 +35,7 @@ export default function SignInForm() {
         validationSchema={loginSchema}
         resetValues={reset}
         onSubmit={onSubmit}
-        useFormProps={{
-          defaultValues: initialValues,
-        }}
+        useFormProps={{}}
       >
         {({ register, formState: { errors } }) => (
           <div className="space-y-5">

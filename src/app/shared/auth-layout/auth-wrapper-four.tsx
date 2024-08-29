@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button, Title } from 'rizzui';
 import cn from '@/utils/class-names';
 import { PiArrowLineRight, PiUserCirclePlus } from 'react-icons/pi';
@@ -107,6 +107,8 @@ export default function AuthWrapperFour({
 }
 
 function AuthHeader() {
+  const pathname = usePathname();
+
   return (
     <header className="flex items-center justify-between p-4 lg:px-16 lg:py-6 2xl:px-24">
       <Link href={'/'}>
@@ -120,14 +122,20 @@ function AuthHeader() {
         </div>
       </Link>
       <div className="-mt-16 flex items-center space-x-2 md:space-x-4">
-        <AuthNavLink href={'/signin'}>
-          <PiArrowLineRight className="h-4 w-4" />
-          <span>Login</span>
-        </AuthNavLink>
-        {/* <AuthNavLink href={routes.auth.signUp4}>
-          <PiUserCirclePlus className="h-4 w-4" />
-          <span>Sign Up</span>
-        </AuthNavLink> */}
+        {pathname.includes('signup') && (
+          <AuthNavLink href={'/signin'}>
+            <PiArrowLineRight className="h-4 w-4" />
+            <span>Login</span>
+          </AuthNavLink>
+        )}
+
+        {pathname.includes('signin') && (
+          <AuthNavLink href="/signup">
+            {/* Adjust href as needed */}
+            <PiUserCirclePlus className="h-4 w-4" />
+            <span>Sign Up</span>
+          </AuthNavLink>
+        )}
       </div>
     </header>
   );

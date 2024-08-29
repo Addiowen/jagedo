@@ -17,6 +17,8 @@ import {
 } from '@/app/shared/service-provider/profile/create-profile/professional/data';
 import { useRouter } from 'next/navigation';
 import { organizationProfileSteps } from './data';
+import apiRequest from '@/lib/apiService';
+import axios, { BASE_URL } from '@/lib/axios';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -36,32 +38,72 @@ export default function CreateOrganizationProfileForm({
   const router = useRouter();
 
   const organizationProfileInitialValues: OrganizationProfileSchema = {
-    type: 'Org',
-    orgName: 'Jagedo',
+    type: userDetails.metadata.type || '',
+    orgName: userDetails.metadata.orgName || '',
     county: userDetails.metadata.county || '',
     subCounty: userDetails.metadata.subCounty || '',
     estate: userDetails.metadata.estate || '',
-    firstName: userDetails.firstname,
-    lastName: userDetails.lastname,
-    email: userDetails.email,
-    phoneNo: userDetails.metadata.phone,
+    firstName: userDetails.firstname || '',
+    lastName: userDetails.lastname || '',
+    email: userDetails.email || '',
+    phoneNo: userDetails.metadata.phone || '',
     regNo: '',
     pin: '',
   };
 
   // submit handler
-  const onSubmit: SubmitHandler<OrganizationProfileSchema> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<OrganizationProfileSchema> = async (data) => {
+    try {
+      // Prepare the data to be sent to the API
+      const updateData = {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+        phone: data.phoneNo,
 
-    window.sessionStorage.setItem('profileCreated', 'true');
-    window.location.reload();
-    // router.push(routes.serviceProvider.fundi.profile)
+        metadata: {
+          county: data.county,
+          orgName: data.orgName,
+          subCounty: data.subCounty,
+          estate: data.estate,
+          phoneNo: data.phoneNo,
+          regNo: data.regNo,
+          pin: data.pin,
+        }, // Add the pin from the form if applicable
+      };
+
+      console.log(updateData, 'update data');
+
+      // Fetch additional user details
+      const userDetailsRes = await axios.patch(
+        `${BASE_URL}/users/${userDetails.id}`,
+        updateData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
+      // Handle the response or redirect after successful update
+      if (userDetailsRes) {
+        console.log(userDetailsRes, 'user details');
+
+        window.sessionStorage.setItem('profileCreated', 'true');
+        router.push('/customers/edit-profile');
+        // router.push('/service-provider/fundi/profile');
+      }
+    } catch (error) {
+      console.error('Failed to update user details:', error);
+      // Optionally, handle the error (e.g., show a notification)
+    }
   };
 
   return (
     <>
       <CustomMultiStepForm<OrganizationProfileSchema>
-        // validationSchema={organizationProfileSchema}
+        // validationSchema={organizationProfileSchema}x
         onSubmit={onSubmit}
         useFormProps={{
           mode: 'onChange',

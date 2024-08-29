@@ -85,30 +85,13 @@ export default function CustomerSteps() {
       },
     };
 
+    sessionStorage.setItem('postData', JSON.stringify(postData));
+
+    router.push(
+      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}`
+    );
+
     console.log(postData);
-
-    try {
-      const response = await axios.post(
-        `http://54.221.116.218:4100/users`,
-        postData,
-        {
-          headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
-          },
-        }
-      );
-
-      console.log('Response:', response.data);
-
-      const userDetails = response.data;
-
-      const userPhone = userDetails.metadata.phone;
-
-      router.push(`${routes.auth.otp4}?phone=${userPhone}`);
-    } catch (error) {
-      console.error('Error:', error);
-    }
   };
 
   return (

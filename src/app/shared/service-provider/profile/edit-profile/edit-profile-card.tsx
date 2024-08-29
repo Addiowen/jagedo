@@ -80,13 +80,13 @@ export default function EditProfileCard({
             {userDetails.email}
           </Text>
           <Text as="p" className="mb-2 last:mb-0">
-            {userDetails?.metadata?.phone}
+            {userDetails.metadata?.phone}
           </Text>
           {/* <Rate value={3.5} allowHalf={true} disabled={true} /> */}
         </div>
       </WidgetCard>
 
-      {!editMode ? (
+      {/* {!editMode ? (
         <Button
           onClick={() => {
             setEditMode(true);
@@ -107,7 +107,7 @@ export default function EditProfileCard({
         >
           Save Changes
         </Button>
-      )}
+      )} */}
     </div>
   );
 }
