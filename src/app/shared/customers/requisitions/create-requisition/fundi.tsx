@@ -5,12 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
 import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
-import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
 import Pricing from '@/app/shared/pricing-package/pricing';
 import axios, { BASE_URL } from '@/lib/axios';
-import { dateFnsLocalizer } from 'react-big-calendar';
 import FileUpload from '@/app/shared/uploading-images';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
+// Define the Option type
 interface Option {
   label: string;
   value: string;
@@ -20,89 +21,112 @@ const GenerateInvoiceFundi: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
+  const { data: session } = useSession();
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+  // State types
+  const [description, setDescription] = useState<string>('');
+
+  const [date, setDate] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [value, setValue] = useState<Option | null>(null);
   const [managed, setManaged] = useState<Option | null>(null);
   const [county, setCounty] = useState<Option | null>(null);
   const [subCounty, setSubCounty] = useState<Option | null>(null);
-  const [village, setVillage] = useState('');
+  const [village, setVillage] = useState<string>('');
   const [skill, setSkill] = useState<Option | null>(null);
-  const [state, setState] = useState('');
-  const [buttonText, setButtonText] = useState('Generate Invoice');
-  const [buttonLink, setButtonLink] = useState(
-    routes.invoice.details(DUMMY_ID)
-  );
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
-  const reqType = [
+  // Options for select fields
+  const reqType: Option[] = [
     { label: 'Package 1', value: 'Package 1' },
     { label: 'Package 2', value: 'Package 2' },
   ];
 
-  const managedBy = [
-    { label: 'Jagedo', value: 'Jagedo' },
-    { label: 'Self', value: 'Self' },
-  ];
+  const managedByOptions: Record<string, Option> = {
+    'Package 1': { label: 'Jagedo', value: 'Jagedo' },
+    'Package 2': { label: 'Self', value: 'Self' },
+  };
 
-  const County = [
+  const County: Option[] = [
     { label: 'Nairobi', value: 'Nairobi' },
     { label: 'Busia', value: 'Busia' },
     { label: 'Kisumu', value: 'Kisumu' },
     { label: 'Kakamega', value: 'Kakamega' },
   ];
 
-  const SubCounty = [
+  const SubCounty: Option[] = [
     { label: 'Nambale', value: 'Nambale' },
     { label: 'Muranga', value: 'Muranga' },
     { label: 'Bondo', value: 'Bondo' },
     { label: 'Bunyala', value: 'Bunyala' },
   ];
 
-  const Skill = [
+  const Skill: Option[] = [
     { label: 'Plumber', value: 'Plumber' },
     { label: 'Mason', value: 'Mason' },
     { label: 'Construction', value: 'Construction' },
   ];
 
   useEffect(() => {
-    if (value?.value === 'Package 1') {
-      setManaged({ label: 'Jagedo', value: 'Jagedo' });
-      setButtonText('Generate Invoice');
-      setButtonLink(routes.customers.details(DUMMY_ID));
-    } else if (value?.value === 'Package 2') {
-      setManaged({ label: 'Self', value: 'Self' });
-      setButtonText('Generate Invoice');
-      setButtonLink(routes.customers.details(DUMMY_ID));
+    const id: string | null = session?.user?.userId || null;
+    setUserId(id);
+    // Form validation
+    const checkFormValidity = () => {
+      if (
+        description &&
+        date &&
+        value &&
+        managed &&
+        county &&
+        subCounty &&
+        village &&
+        skill
+      ) {
+        setIsFormValid(true);
+      } else {
+        setIsFormValid(false);
+      }
+    };
+
+    checkFormValidity();
+  }, [
+    description,
+    date,
+    file,
+    value,
+    managed,
+    county,
+    subCounty,
+    village,
+    skill,
+    session,
+  ]);
+
+  useEffect(() => {
+    // Automatically adjust the "Managed By" field based on the selected package type
+    if (value) {
+      setManaged(managedByOptions[value.value] || null);
     }
   }, [value]);
-
-  // Set default selected package
-  useEffect(() => {
-    if (!value) {
-      setValue(reqType[0]);
-      setManaged(managedBy[0]);
-    }
-  }, []);
-
-  const handlePackageSelect = (selectedPackage: Option) => {
-    setValue(selectedPackage);
-  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Create formBody with all the form values
+    if (!isFormValid) {
+      toast.error('Please fill in all required fields and upload an image.');
+      return;
+    }
+
     const formData = {
+      description,
       date,
       file,
-      village,
       packageType: value?.value || '',
       managed: managed?.value || '',
       county: county?.value || '',
       subCounty: subCounty?.value || '',
-
+      village,
       skill: skill?.value || '',
     };
 
@@ -113,14 +137,9 @@ const GenerateInvoiceFundi: React.FC = () => {
           ? 1000
           : 0;
 
-    console.log('Form Body:', formData);
-
-    {
-    }
-
     const formBody = {
       startDate: date,
-      takerId: 'usr_IeFdJpe18x01srBFz8x0',
+      takerId: userId,
       duration: { d: 7 },
       metadata: {
         ...formData,
@@ -130,25 +149,24 @@ const GenerateInvoiceFundi: React.FC = () => {
     };
 
     try {
-      const res = await axios.post(`${BASE_URL}/transactions`, formBody, {
+      // Make the API call
+      const response = await axios.post(`${BASE_URL}/transactions`, formBody, {
         headers: {
-          Authorization:
-            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
         },
       });
 
-      const request = res.data;
-      console.log(request, 'this fundi request');
-
-      if (request) {
-        const queryParam = `?id=${request.id}`;
-        router.push(`${buttonLink}${queryParam}`);
+      // Handle successful response
+      if (response.data) {
+        toast.success('Form submitted successfully!');
+        router.push(
+          `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
+        );
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error submitting form:', error);
+      toast.error('There was an error submitting the form. Please try again.');
     }
-
-    // Here you can handle formBody as needed, e.g., send it to an API
   };
 
   return (
@@ -179,9 +197,10 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="form-group">
               <Select
                 label="Managed By"
-                options={managedBy}
+                options={Object.values(managedByOptions)}
                 value={managed}
                 onChange={(selected) => setManaged(selected as Option)}
+                disabled // Disable the field
               />
             </div>
             <div className="form-group">
@@ -224,7 +243,7 @@ const GenerateInvoiceFundi: React.FC = () => {
                 clearable
                 placeholder="Add description"
                 value={description}
-                onClear={() => setState('')}
+                onClear={() => setDescription('')}
                 onChange={(e) => setDescription(e.target.value)}
                 style={{ height: '60px' }}
               />
@@ -238,9 +257,14 @@ const GenerateInvoiceFundi: React.FC = () => {
           </div>
           <Button
             type="submit"
-            className="mx-auto mt-8 block w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+            className={`mx-auto mt-8 block w-full rounded-md ${
+              isFormValid
+                ? 'bg-blue-600 hover:bg-blue-700'
+                : 'cursor-not-allowed bg-gray-400'
+            } px-4 py-2 text-white`}
+            disabled={!isFormValid}
           >
-            {buttonText}
+            Generate Invoice
           </Button>
         </form>
       </div>

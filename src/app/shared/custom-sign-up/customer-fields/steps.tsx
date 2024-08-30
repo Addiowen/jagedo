@@ -72,7 +72,7 @@ export default function CustomerSteps() {
       firstname: filteredData.firstName,
       lastname: filteredData.lastName,
       email: filteredData.email,
-      description: 'dskdsksd',
+      description: 'customer',
       username: filteredData.email,
       password: filteredData.password,
       phone: filteredData.phone,
@@ -82,15 +82,15 @@ export default function CustomerSteps() {
         county: filteredData.county,
         subCounty: filteredData.subCounty,
         estate: filteredData.estate,
+        otp: filteredData.accountVerification,
       },
     };
 
     sessionStorage.setItem('postData', JSON.stringify(postData));
 
     router.push(
-      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}`
+      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(postData.firstname)}`
     );
-
     console.log(postData);
   };
 

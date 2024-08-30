@@ -85,53 +85,23 @@ export default function FundiSteps() {
       firstname: filteredData.firstName,
       lastname: filteredData.lastName,
       email: filteredData.email,
-      description: 'dskdsksd',
+      description: 'fundi',
       username: filteredData.email,
       password: filteredData.password,
       phone: filteredData.phone,
       metadata: {
         role: getRole(),
         ...userDetails,
-
-        // Dynamically set the role
       },
     };
 
+    sessionStorage.setItem('postData', JSON.stringify(postData));
+
     console.log(postData);
 
-    // try {
-    //   // Send POST request to the API with form data
-    //   const response = await createUsersAuth.post(
-    //     `${BASE_URL}/users`,
-    //     fundiPostData
-    //   );
-
-    //   console.log(response.data, 'Response from API');
-
-    //   // router.push(routes.auth.otp4);
-    // } catch (error) {
-    //   // Handle error (e.g., showing an error message)
-    //   console.error('Error submitting form:', error);
-    // }
-
-    try {
-      const response = await axios.post(`${BASE_URL}/users`, postData, {
-        headers: {
-          Authorization:
-            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
-        },
-      });
-
-      console.log('Response:', response.data);
-
-      const userDetails = response.data;
-
-      sessionStorage.setItem('userData', JSON.stringify(userDetails));
-
-      router.push(routes.auth.otp4);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    router.push(
+      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(postData.firstname)}`
+    );
   };
 
   return (

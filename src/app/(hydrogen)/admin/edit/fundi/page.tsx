@@ -40,7 +40,7 @@ export default async function EditProfileContactDetailsPage({
 
   const user = await fetchUserDetails();
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <>

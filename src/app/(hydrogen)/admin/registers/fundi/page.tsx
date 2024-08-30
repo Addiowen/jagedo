@@ -37,11 +37,11 @@ export default async function FundisPage({ searchParams }: PageProps) {
     (item: { metadata: { role: string } }) => item.metadata.role === 'fundi'
   );
 
-  console.log(filteredFundis);
+  // console.log(filteredFundis);
 
   const fundilist =
     filteredFundis?.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
+      // console.log('Index:', index); // Log the indexs
 
       return {
         no: index + 1,

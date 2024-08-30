@@ -236,7 +236,7 @@ export default function EditProfileContactDetails({
                 ) : (
                   <Button
                     onClick={() => {
-                      onSubmit();
+                      onSubmit;
                     }}
                     as="span"
                     className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
