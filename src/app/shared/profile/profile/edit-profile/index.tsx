@@ -1,24 +1,8 @@
 'use client';
 
-// import Image from 'next/image';
-// import { useAtomValue } from 'jotai';
-// import isEmpty from 'lodash/isEmpty';
-// import { PiCheckBold, PiPlusBold, PiUserBold } from 'react-icons/pi';
-// import {
-//   billingAddressAtom,
-//   orderNoteAtom,
-//   shippingAddressAtom,
-// } from '@/store/checkout';
-// import OrderViewProducts from '@/app/shared/ecommerce/order/order-products/order-view-products';
-// import { useCart } from '@/store/quick-cart/cart.context';
 import { Title, Text, Button, Modal } from 'rizzui';
 import cn from '@/utils/class-names';
-// import { toCurrency } from '@/utils/to-currency';
-// import { formatDate } from '@/utils/format-date';
-// import usePrice from '@/hooks/use-price';
-// import { routes } from '@/config/routes';
-// import Link from 'next/link';
-// import PersonalDetailsForm from './personal-details';
+
 import { useState } from 'react';
 import EditProfileCard from './edit-profile-card';
 
@@ -32,11 +16,12 @@ export default function EditProfileContactDetails() {
   return (
     <div className="@container">
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-        <div className='p-20 font-bold text-lg'>Details saved successfully.</div>
+        <div className="p-20 text-lg font-bold">
+          Details saved successfully.
+        </div>
       </Modal>
 
       <div className="items-start pt-5 @5xl:grid @5xl:grid-cols-12 @5xl:gap-7 @6xl:grid-cols-10 @7xl:gap-10">
-        
         <EditProfileCard />
 
         <div className="space-y-6 @5xl:col-span-8 @5xl:space-y-10 @6xl:col-span-7">
@@ -78,14 +63,16 @@ export default function EditProfileContactDetails() {
           </div>
           {/* <PersonalDetailsForm /> */}
 
-          <Button onClick={() => setModalState(true)} as="span" className="h-[38px] shadow md:h-10">
+          <Button
+            onClick={() => setModalState(true)}
+            as="span"
+            className="h-[38px] shadow md:h-10"
+          >
             Save Changes
           </Button>
-
         </div>
       </div>
 
-     
       {/* <CustomersTable className="mt-6" /> */}
     </div>
   );

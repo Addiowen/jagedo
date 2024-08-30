@@ -79,8 +79,11 @@ export const authOptions: NextAuthOptions = {
               );
               const role = userDetailsRes.data.metadata.role;
 
-              const assetId = userDetailsRes.data.metadata?.assetId;
-              const completeUser = { ...user, role, assetId };
+              const completeUser = {
+                ...user,
+                role,
+                ...userDetailsRes.data,
+              };
 
               return completeUser;
             } catch (error) {

@@ -7,7 +7,6 @@ import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
 import JobDescriptionChunked from '../job-description-chunked';
 import { useSearchParams } from 'next/navigation';
-import { JobDescription } from '@/data/custom-job-details-data';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
 
 interface Item {
@@ -25,12 +24,17 @@ interface Data {
   url: string;
 }
 
-const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
+const CustomerChunkedGrid: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+}) => {
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
+  const JobDescription: any = data.Description;
 
   const [attachments, setAttachments] = useState<Data[]>([]);
-  const [downloadStatus, setDownloadStatus] = useState<string>("");
+  const [downloadStatus, setDownloadStatus] = useState<string>('');
 
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
@@ -38,31 +42,33 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
 
   // Function to download file from a URL
   const downloadFile = async (url: string) => {
-    setDownloadStatus("Downloading...");
+    setDownloadStatus('Downloading...');
     try {
       const response = await axios.get(url, {
-        responseType: "blob", // Important for binary data
+        responseType: 'blob', // Important for binary data
       });
 
       // Extract filename from content-disposition header, if available
-      const contentDisposition = response.headers["content-disposition"];
+      const contentDisposition = response.headers['content-disposition'];
       const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
-      const fileName = fileNameMatch ? fileNameMatch[1] : getFileNameFromUrl(url);
+      const fileName = fileNameMatch
+        ? fileNameMatch[1]
+        : getFileNameFromUrl(url);
 
       // Create a temporary anchor element to trigger the download
       const urlObject = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = urlObject;
-      link.setAttribute("download", fileName);
+      link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(urlObject);
 
-      setDownloadStatus("Downloaded");
+      setDownloadStatus('Downloaded');
     } catch (error) {
-      console.error("Error downloading file:", error);
-      setDownloadStatus("Error downloading");
+      console.error('Error downloading file:', error);
+      setDownloadStatus('Error downloading');
     }
   };
 
@@ -72,14 +78,14 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
     if (data) {
       try {
         const urls = JSON.parse(data) as string[];
-        const structuredAttachments = urls.map(url => ({
+        const structuredAttachments = urls.map((url) => ({
           name: getFileNameFromUrl(url),
-          url: url
+          url: url,
         }));
 
         setAttachments(structuredAttachments);
       } catch (error) {
-        console.error("Failed to parse session storage data", error);
+        console.error('Failed to parse session storage data', error);
       }
     }
   }, []);
@@ -105,10 +111,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
         Project Details
       </div>
 
-      <JobDescriptionChunked
-        data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
-        dataChunkSize={1}
-      />
+      {/* <JobDescriptionChunked data={JobDescription} /> */}
 
       <div
         className={cn(
@@ -135,7 +138,10 @@ const CustomerChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }
                     {key === 'Attachments' ? (
                       <div className="flex flex-wrap gap-6 text-gray-500">
                         {(value as string[]).map((imgSrc, imgIndex) => (
-                          <button key={imgIndex} onClick={() => downloadFile(imgSrc)}>
+                          <button
+                            key={imgIndex}
+                            onClick={() => downloadFile(imgSrc)}
+                          >
                             <PiDownloadSimple className="h-5 w-5 text-blue-500" />
                           </button>
                         ))}

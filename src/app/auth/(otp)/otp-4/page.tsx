@@ -5,8 +5,8 @@ import OtpForm from '@/app/auth/(otp)/otp-4/otp-form';
 // Function to mask the phone number
 const maskPhoneNumber = (phoneNumber: string): string => {
   if (!phoneNumber) return '';
-  const visiblePart = phoneNumber.slice(-4); // Get the last 4 digits
-  const maskedPart = phoneNumber.slice(0, -4).replace(/\d/g, '*'); // Mask the first part
+  const visiblePart = phoneNumber.slice(-4);
+  const maskedPart = phoneNumber.slice(0, -4).replace(/\d/g, '*');
   return `${maskedPart}${visiblePart}`;
 };
 

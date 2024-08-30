@@ -15,7 +15,7 @@ export default function FileDashboardPage() {
 
   // const userRole = session?.user.role;
 
-  const userRole = session?.user.role;
+  const userRole = session?.user.metadata.role;
 
   // const user = sessionStorage.getItem('userData');
 

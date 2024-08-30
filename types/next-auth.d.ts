@@ -7,6 +7,10 @@ declare module 'next-auth' {
       id: string;
       accessToken?: string | null;
       role?: string;
+      metadata: {
+        role;
+        zohoid;
+      };
       assetId?: string;
       userId: string;
 

@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 export default function InvoiceDetails() {
   const [requestDetails, setRequestDetails] = useState<RequestDetails | null>(
@@ -19,6 +20,9 @@ export default function InvoiceDetails() {
   const [paymentStatus, setPaymentStatus] = useState('Unpaid');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+  const { data: session } = useSession();
+
+  const userZohoId = session?.user.metadata?.zohoid;
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('id') as string;
@@ -32,7 +36,7 @@ export default function InvoiceDetails() {
           method: 'GET',
           endpoint: `/transactions/${transactionId}`,
         });
-        console.log('User Details:', userDetails);
+        console.log('Transaction Details:', userDetails);
         setRequestDetails(userDetails);
       } catch (error) {
         console.error('Failed to fetch user details:', error);
@@ -46,6 +50,9 @@ export default function InvoiceDetails() {
   const requestType = requestDetails?.metadata.packageType;
   const managed = requestDetails?.metadata.managed;
   const linkageFee = requestDetails?.metadata.linkageFee;
+
+  const packageType = `fundi${managed?.toLowerCase()}managedrequest`;
+
   let updatedLinkageFee = linkageFee;
   if (linkageFee) {
     updatedLinkageFee = parseFloat((linkageFee * 1.16).toFixed(2));
@@ -166,6 +173,33 @@ export default function InvoiceDetails() {
           toast.success(<Text as="b">Transaction Completed Successfully</Text>);
           setPaymentStatus('Paid');
 
+          console.log({
+            customer_id: userZohoId, // Replace with the actual customer_id if dynamic
+            amount: updatedLinkageFee,
+            reference_number: `REF-${new Date().getFullYear()}-001`, // Dynamic reference number
+            packageType,
+          });
+
+          // Call the journal entry API
+          const journalEntryResponse = await axios.post(
+            'https://uatapimsz.jagedo.co.ke/createJournalEntry',
+            {
+              customer_id: userZohoId, // Replace with the actual customer_id if dynamic
+              amount: updatedLinkageFee,
+              reference_number: `REF-${new Date().getFullYear()}-001`, // Dynamic reference number
+              requestType: packageType,
+            }
+          );
+
+          if (journalEntryResponse.data.success) {
+            toast.success(
+              'Journal Entry Created Successfully: ' +
+                journalEntryResponse.data.data.message
+            );
+          } else {
+            toast.error('Failed to create Journal Entry.');
+          }
+
           router.push(
             `${routes.customers.requisitions}?transactionId=${transactionId}`
           );
@@ -178,6 +212,8 @@ export default function InvoiceDetails() {
       toast.error('Payment Failed. Please try again.');
     }
   };
+
+  const randomNumber = Math.floor(100000 + Math.random() * 900000);
 
   return (
     <>
@@ -193,7 +229,11 @@ export default function InvoiceDetails() {
               />
             </div>
             <div className="-mt-6 mb-6">
-              <h2> INV - #246098</h2>
+              <h2>
+                {' '}
+                INV - #
+                {(requestDetails && requestDetails.id.toUpperCase()) || 'NA'}
+              </h2>
             </div>
           </div>
 
@@ -226,16 +266,17 @@ export default function InvoiceDetails() {
             </div>
 
             <div className="flex-end ">
-              <h6>Request Id - #246098</h6>
+              <h6>Request Id </h6>
               <Text className="text-2xs mt-0.5 text-gray-500">
-                Invoice Number
+                {randomNumber}
               </Text>
 
               <h6 className="mt-4">Estate</h6>
               <Text className="text-2xs">
                 {requestDetails?.metadata.subCounty}
               </Text>
-              
+
+              {/* {/ <QRCodeSVG value="https://reactjs.org/" className="h-20 w-20" /> /} */}
             </div>
           </div>
         </div>
@@ -272,16 +313,17 @@ export default function InvoiceDetails() {
           </div>
         </div>
       </div>
-      
-      <div className="mt-4 inline-flex flex-col items-center justify-center">
-        <Input
-          type="text"
-          placeholder="Enter MPESA Phone Number"
-          value={phoneNumber}
-          onChange={handlePhoneNumberChange}
-          className={`mb-2 ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
-        />
-        <Button onClick={handlePayment}>Pay</Button>
+      <div className="mt-4 inline-flex justify-center">
+        <div className="mt-4 inline-flex flex-col items-center justify-center">
+          <Input
+            type="text"
+            placeholder="Enter MPESA Phone Number"
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            className={`mb-2 ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
+          />
+          <Button onClick={handlePayment}>Pay</Button>
+        </div>
       </div>
     </>
   );

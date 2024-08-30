@@ -5,6 +5,8 @@ import { routes } from './config/routes';
 
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
+    console.log(request.nextauth.token, 'token in middleware');
+
     console.log(request.nextUrl.pathname);
     // console.log(request.nextauth.token, 'the token');
 

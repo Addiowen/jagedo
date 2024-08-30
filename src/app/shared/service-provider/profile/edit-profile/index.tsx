@@ -9,6 +9,8 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import { OrganizationProfileSchema } from '@/utils/validators/custom-profile.schema';
 import { SubmitHandler } from 'react-hook-form';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
 
 interface Data {
   [key: string]: string | null;
@@ -101,6 +103,11 @@ export default function EditProfileContactDetails({
       console.error('Failed to update user details:', error);
       // Optionally, handle the error (e.g., show a notification)
     }
+  };
+
+  const handleEditClick = () => {
+    sessionStorage.clear();
+    router.push(routes.customers.createCustomerProfile);
   };
 
   const handleSaveAndCreate = async () => {
@@ -223,27 +230,13 @@ export default function EditProfileContactDetails({
                   setModalState={setModalState}
                 />
 
-                {!editMode ? (
-                  <Button
-                    onClick={() => {
-                      setEditMode(true);
-                    }}
-                    as="span"
-                    className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
-                  >
-                    Edit Profile
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      onSubmit;
-                    }}
-                    as="span"
-                    className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
-                  >
-                    Save Changes
-                  </Button>
-                )}
+                <Button
+                  onClick={handleEditClick}
+                  as="span"
+                  className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
+                >
+                  Edit Profile
+                </Button>
               </div>
             </div>
 

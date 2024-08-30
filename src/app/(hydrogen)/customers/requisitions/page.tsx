@@ -1,7 +1,9 @@
-// page.tsx
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import RequisitionsTable from '@/app/shared/tables/requisitions';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
+import { getServerSession } from 'next-auth';
+import toast from 'react-hot-toast';
 
 // Define the metadata for the page
 export const metadata = {
@@ -9,25 +11,37 @@ export const metadata = {
 };
 
 // Fetch data server-side
-const fetchTransactions = async () => {
+const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=usr_IeFdJpe18x01srBFz8x0&order=asc&orderBy=createdDate`,
+      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
     console.error('Failed to fetch transaction details:', error);
+    toast.error('Failed to fetch transaction details');
     return null;
   }
 };
 
-export default async function Requsitions() {
-  const transactions = await fetchTransactions();
+export default async function Requisitions() {
+  const session = await getServerSession(authOptions);
+
+  // Return a loading state if the session or userId is not available
+  if (!session?.user?.id) {
+    return <div>Loading...</div>; // You can replace this with a spinner or other loading indicator
+  }
+
+  const transactions = await fetchTransactions(session.user.id);
+
+  if (!transactions) {
+    return <div>Unable to load transactions. Please try again later.</div>;
+  }
 
   // Format the data if needed
   const formattedData =
-    transactions?.results.map((item: any, index: number) => {
+    transactions.results.map((item: any, index: number) => {
       console.log('Index:', index); // Log the index
       return {
         number: index + 1,
