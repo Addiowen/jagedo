@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Badge, Title, Text, Button } from 'rizzui';
+import { Badge, Title, Text, Button, Input } from 'rizzui';
 import Table from '@/components/ui/table';
 import { siteConfig } from '@/config/site.config';
 import { routes } from '@/config/routes';
-import ToastButton from '../buttons/page';
 import apiRequest from '@/lib/apiService';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
@@ -18,6 +17,8 @@ export default function InvoiceDetails() {
     null
   );
   const [paymentStatus, setPaymentStatus] = useState('Unpaid');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('id') as string;
@@ -120,32 +121,61 @@ export default function InvoiceDetails() {
     );
   }
 
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+    setIsPhoneNumberValid(/^\d{10}$/.test(value)); // Validate that the phone number is 10 digits
+  };
+
   const handlePayment = async () => {
+    if (!isPhoneNumberValid) {
+      toast.error('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
     try {
-      const res = await axios.patch(
-        `${BASE_URL}/transactions/${transactionId}`,
-        paidRequest,
+      const mpesaResponse = await axios.post(
+        'https://uatapimsz.jagedo.co.ke/stkpush',
         {
-          headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
-          },
+          phoneNumber: `254${phoneNumber.slice(1)}`, // Convert to international format
+          amount: updatedLinkageFee,
+          accountReference: transactionId,
         }
       );
 
-      const transactionDetails = res.data;
-      console.log(transactionDetails, 'transactionDetails');
+      const { success, message, data } = mpesaResponse.data;
 
-      if (transactionDetails) {
-        toast.success(<Text as="b">Payment Successful</Text>);
-        setPaymentStatus('Paid');
-
-        router.push(
-          `${routes.customers.requisitions}?transactionId=${transactionId}`
+      if (success) {
+        toast.success('Payment Successful');
+        // Call the existing payment API
+        const res = await axios.patch(
+          `${BASE_URL}/transactions/${transactionId}`,
+          paidRequest,
+          {
+            headers: {
+              Authorization:
+                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            },
+          }
         );
+
+        const transactionDetails = res.data;
+        console.log(transactionDetails, 'transactionDetails');
+
+        if (transactionDetails) {
+          toast.success(<Text as="b">Transaction Completed Successfully</Text>);
+          setPaymentStatus('Paid');
+
+          router.push(
+            `${routes.customers.requisitions}?transactionId=${transactionId}`
+          );
+        }
+      } else {
+        toast.error(data.ResultDesc || message);
       }
     } catch (error) {
       console.log(error);
+      toast.error('Payment Failed. Please try again.');
     }
   };
 
@@ -205,8 +235,7 @@ export default function InvoiceDetails() {
               <Text className="text-2xs">
                 {requestDetails?.metadata.subCounty}
               </Text>
-
-              {/* <QRCodeSVG value="https://reactjs.org/" className="h-20 w-20" /> */}
+              
             </div>
           </div>
         </div>
@@ -243,18 +272,16 @@ export default function InvoiceDetails() {
           </div>
         </div>
       </div>
-      <div className="mt-4 inline-flex justify-center">
-        <div className="rounded-full px-3 py-1 font-bold text-white">
-          {/* <ToastButton
-            title="Pay"
-            message="Payment Successful!"
-            route={routes.customers.requisitions}
-            onSuccess={handlePayment}
-            delay={3000}
-          /> */}
-
-          <Button onClick={handlePayment}>Pay</Button>
-        </div>
+      
+      <div className="mt-4 inline-flex flex-col items-center justify-center">
+        <Input
+          type="text"
+          placeholder="Enter MPESA Phone Number"
+          value={phoneNumber}
+          onChange={handlePhoneNumberChange}
+          className={`mb-2 ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
+        />
+        <Button onClick={handlePayment}>Pay</Button>
       </div>
     </>
   );
