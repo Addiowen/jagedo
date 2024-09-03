@@ -25,7 +25,7 @@ export function SidebarMenu() {
 
   // const user = sessionStorage.getItem('userData');
 
-  const userRole = session?.user.metadata.role;
+  const userRole = session?.user.role;
 
   // if (user) {
   //   const userObject: any = JSON.parse(user);
