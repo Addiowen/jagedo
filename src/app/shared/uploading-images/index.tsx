@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { useUrls } from '@/app/context/urlsContext';
 
 interface FileWithProgress {
   file: File;
@@ -25,7 +26,10 @@ interface FileWithProgress {
 const FileUpload: React.FC = () => {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const { urls, addUrl } = useUrls();
   const { data: session } = useSession();
+
+  const uploads: string[] = [];
 
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
@@ -132,6 +136,10 @@ const FileUpload: React.FC = () => {
       );
 
       // Store URLs in session storage
+      uploads.push(url);
+
+      addUrl(uploads);
+
       const existingUrls = JSON.parse(
         sessionStorage.getItem('uploadedUrls') || '[]'
       ) as string[];

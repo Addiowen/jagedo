@@ -66,10 +66,12 @@ export default async function RFQEmergencyFundiPage({
       : 'N/A',
     'Invoice Number': `#INV${truncatedId}`,
     'Payment Status': 'Paid',
+    Uploads: customerRequest?.metadata.uploads,
     Amount: customerRequest?.metadata.linkageFee
       ? customerRequest.metadata.linkageFee.toFixed(2)
       : 'N/A',
   };
+  console.log(formattedData, 'formatted data');
 
   return (
     <>

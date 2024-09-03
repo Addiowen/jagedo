@@ -24,7 +24,7 @@ export default function ViewFundiJobDetails({ request }: { request: any }) {
   return (
     <>
       <div className="my-4">
-        <CustomerChunkedGrid data={request} dataChunkSize={8} />
+        <CustomerChunkedGrid requestDetails={request} dataChunkSize={8} />
       </div>
       <div className="flex justify-center space-x-4 pt-5">
         <Button variant="outline" className="w-32" onClick={handleBack}>

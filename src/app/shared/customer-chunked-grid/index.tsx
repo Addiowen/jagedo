@@ -10,11 +10,11 @@ import { useSearchParams } from 'next/navigation';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
 
 interface Item {
-  [key: string]: string | string[];
+  [key: string]: string[];
 }
 
 interface Props {
-  data: Item;
+  requestDetails: Item;
   className?: string;
   dataChunkSize: number;
 }
@@ -25,16 +25,18 @@ interface Data {
 }
 
 const CustomerChunkedGrid: React.FC<Props> = ({
-  data,
+  requestDetails,
   className,
   dataChunkSize,
 }) => {
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
-  const JobDescription: any = data.Description;
+  const JobDescription: any = requestDetails.Description;
 
   const [attachments, setAttachments] = useState<Data[]>([]);
   const [downloadStatus, setDownloadStatus] = useState<string>('');
+
+  const uploadsData = requestDetails.Uploads;
 
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
@@ -77,8 +79,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({
 
     if (data) {
       try {
-        const urls = JSON.parse(data) as string[];
-        const structuredAttachments = urls.map((url) => ({
+        const structuredAttachments = uploadsData.map((url) => ({
           name: getFileNameFromUrl(url),
           url: url,
         }));
@@ -90,7 +91,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({
     }
   }, []);
 
-  const dataArray = Object.entries(data);
+  const dataArray = Object.entries(requestDetails);
 
   const chunkArray = (
     array: [string, string | string[]][],
@@ -104,6 +105,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({
   };
 
   const chunkedData = chunkArray(dataArray, dataChunkSize);
+  console.log(chunkedData);
 
   return (
     <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
@@ -135,7 +137,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({
                     >
                       {key}
                     </Title>
-                    {key === 'Attachments' ? (
+                    {key === 'Uploads' ? (
                       <div className="flex flex-wrap gap-6 text-gray-500">
                         {(value as string[]).map((imgSrc, imgIndex) => (
                           <button

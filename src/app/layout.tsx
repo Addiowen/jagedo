@@ -12,6 +12,7 @@ import NextProgress from '@/components/next-progress';
 
 // styles
 import '@/app/globals.css';
+import { UrlsProvider } from './context/urlsContext';
 
 export const metadata = {
   title: siteConfig.title,
@@ -40,13 +41,15 @@ export default async function RootLayout({
         className={cn(inter.variable, lexendDeca.variable, 'font-inter')}
       >
         <AuthProvider session={session}>
-          <ThemeProvider>
-            <NextProgress />
-            {children}
-            <Toaster />
-            <GlobalDrawer />
-            <GlobalModal />
-          </ThemeProvider>
+          <UrlsProvider>
+            <ThemeProvider>
+              <NextProgress />
+              {children}
+              <Toaster />
+              <GlobalDrawer />
+              <GlobalModal />
+            </ThemeProvider>
+          </UrlsProvider>
         </AuthProvider>
       </body>
     </html>

@@ -10,6 +10,7 @@ import axios, { BASE_URL } from '@/lib/axios';
 import FileUpload from '@/app/shared/uploading-images';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
+import { useUrls } from '@/app/context/urlsContext';
 
 // Define the Option type
 interface Option {
@@ -18,6 +19,7 @@ interface Option {
 }
 
 const GenerateInvoiceFundi: React.FC = () => {
+  const { urls } = useUrls();
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
@@ -28,7 +30,6 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [description, setDescription] = useState<string>('');
 
   const [date, setDate] = useState<string>('');
-  const [file, setFile] = useState<File | null>(null);
   const [value, setValue] = useState<Option | null>(null);
   const [managed, setManaged] = useState<Option | null>(null);
   const [county, setCounty] = useState<Option | null>(null);
@@ -93,7 +94,6 @@ const GenerateInvoiceFundi: React.FC = () => {
   }, [
     description,
     date,
-    file,
     value,
     managed,
     county,
@@ -113,59 +113,76 @@ const GenerateInvoiceFundi: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isFormValid) {
-      toast.error('Please fill in all required fields and upload an image.');
-      return;
-    }
+    // Retrieve the latest uploads from session storage
+    const existingUrls = JSON.parse(
+      sessionStorage.getItem('uploadedUrls') || '[]'
+    ) as string[];
 
-    const formData = {
-      description,
-      date,
-      file,
-      packageType: value?.value || '',
-      managed: managed?.value || '',
-      county: county?.value || '',
-      subCounty: subCounty?.value || '',
-      village,
-      skill: skill?.value || '',
-    };
+    // Update the state to ensure the form has the latest data
+    console.log(urls);
 
-    const linkageFee =
-      value?.value === 'Package 1'
-        ? 3000
-        : value?.value === 'Package 2'
-          ? 1000
-          : 0;
+    if (urls) {
+      if (!isFormValid) {
+        toast.error('Please fill in all required fields and upload an image.');
+        return;
+      }
 
-    const formBody = {
-      startDate: date,
-      takerId: userId,
-      duration: { d: 7 },
-      metadata: {
-        ...formData,
-        description: description,
-        linkageFee,
-      },
-    };
+      const formData = {
+        description,
+        date,
+        uploads: urls,
+        packageType: value?.value || '',
+        managed: managed?.value || '',
+        county: county?.value || '',
+        subCounty: subCounty?.value || '',
+        village,
+        skill: skill?.value || '',
+      };
 
-    try {
-      // Make the API call
-      const response = await axios.post(`${BASE_URL}/transactions`, formBody, {
-        headers: {
-          Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+      const linkageFee =
+        value?.value === 'Package 1'
+          ? 3000
+          : value?.value === 'Package 2'
+            ? 1000
+            : 0;
+
+      const formBody = {
+        startDate: date,
+        takerId: userId,
+        duration: { d: 7 },
+        metadata: {
+          ...formData,
+          description: description,
+          linkageFee,
         },
-      });
+      };
 
-      // Handle successful response
-      if (response.data) {
-        toast.success('Form submitted successfully!');
-        router.push(
-          `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
+      console.log(formBody);
+      try {
+        // Make the API call
+        const response = await axios.post(
+          `${BASE_URL}/transactions`,
+          formBody,
+          {
+            headers: {
+              Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+            },
+          }
+        );
+
+        // Handle successful response
+        if (response.data) {
+          toast.success('Form submitted successfully!');
+          router.push(
+            `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
+          );
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        toast.error(
+          'There was an error submitting the form. Please try again.'
         );
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('There was an error submitting the form. Please try again.');
     }
   };
 
