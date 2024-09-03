@@ -276,7 +276,6 @@ export default function InvoiceDetails() {
                 {requestDetails?.metadata.subCounty}
               </Text>
 
-              {/* {/ <QRCodeSVG value="https://reactjs.org/" className="h-20 w-20" /> /} */}
             </div>
           </div>
         </div>

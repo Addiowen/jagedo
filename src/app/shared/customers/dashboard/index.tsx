@@ -1,15 +1,7 @@
-import AdminCards from './admin-cards';
 import SpType from './spType';
-import SummaryWidget from './summary';
-import SummaryWidgetCustomers from './summaryCustomer';
-import StatusCard from './status-card';
 import WalletCard from './wallet';
-import PendingInvoiceCard from './pendinginvoice';
 import JobSlider from '../../customers/requisitions/cards/job-slider';
 import RequisitionAlerts from './requisition-alerts';
-import ReviewSlider from './review-slider';
-import Notifications from './notifications';
-import BidsStatus from './pie-chart';
 import InvoiceList from './review-slider';
 
 import walletImage from '../../../../../public/wallets.png';
