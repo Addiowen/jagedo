@@ -31,7 +31,7 @@ const data = [
     link: routes.customers.quotations,
   },
   {
-    name: 'Active Jobs',
+    name: 'Jobs',
     total: 10,
     fill: '#04364A',
     link: routes.customers.active,
@@ -81,23 +81,9 @@ export default function JobSlider({ className }: { className?: string }) {
       titleClassName="text-gray-700 font-bold sm:text-sm "
       headerClassName="items-center"
       className={cn(' @container', className)}
-      //   action={
-      //     <DropdownAction
-      //       className="rounded-lg border"
-      //       options={viewOptions}
-      //       onChange={handleChange}
-      //       dropdownClassName="!z-0"
-      //     />
-      //   }
+
     >
       <div className="-mt-2 mb-2 flex items-center  @lg:mt-1">
-        {/* <Title as="h2" className="font-inter font-bold">
-          73,504
-        </Title> */
-        /* <span className="flex items-center gap-1 text-green-dark">
-          <TrendingUpIcon className="h-auto w-5" />
-          <span className="font-semibold leading-none"> +32.40%</span>
-        </span> */}
       </div>
       <SimpleBar>
         <div className="-mt-4 h-[17rem] w-full pt-1">
