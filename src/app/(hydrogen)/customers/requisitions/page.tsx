@@ -46,7 +46,7 @@ export default async function Requisitions() {
       return {
         number: index + 1,
         id: item.id || '',
-        date: item.metadata?.date || '',
+        date: item.createdDate || '',
         category: 'Fundi',
         subCategory: item.metadata?.skill || '',
         requestType:

@@ -25,10 +25,7 @@ const GenerateInvoiceFundi: React.FC = () => {
   const metric = searchParams.get('metric') || '';
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string | null>(null);
-
-  // State types
   const [description, setDescription] = useState<string>('');
-
   const [date, setDate] = useState<string>('');
   const [value, setValue] = useState<Option | null>(null);
   const [managed, setManaged] = useState<Option | null>(null);
@@ -37,6 +34,7 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [village, setVillage] = useState<string>('');
   const [skill, setSkill] = useState<Option | null>(null);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Options for select fields
   const reqType: Option[] = [
@@ -72,7 +70,7 @@ const GenerateInvoiceFundi: React.FC = () => {
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
     setUserId(id);
-    // Form validation
+
     const checkFormValidity = () => {
       if (
         description &&
@@ -104,7 +102,6 @@ const GenerateInvoiceFundi: React.FC = () => {
   ]);
 
   useEffect(() => {
-    // Automatically adjust the "Managed By" field based on the selected package type
     if (value) {
       setManaged(managedByOptions[value.value] || null);
     }
@@ -113,13 +110,9 @@ const GenerateInvoiceFundi: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Retrieve the latest uploads from session storage
     const existingUrls = JSON.parse(
       sessionStorage.getItem('uploadedUrls') || '[]'
     ) as string[];
-
-    // Update the state to ensure the form has the latest data
-    console.log(urls);
 
     if (urls) {
       if (!isFormValid) {
@@ -157,9 +150,9 @@ const GenerateInvoiceFundi: React.FC = () => {
         },
       };
 
-      console.log(formBody);
       try {
-        // Make the API call
+        setLoading(true);
+
         const response = await axios.post(
           `${BASE_URL}/transactions`,
           formBody,
@@ -170,7 +163,6 @@ const GenerateInvoiceFundi: React.FC = () => {
           }
         );
 
-        // Handle successful response
         if (response.data) {
           toast.success('Form submitted successfully!');
           router.push(
@@ -182,14 +174,21 @@ const GenerateInvoiceFundi: React.FC = () => {
         toast.error(
           'There was an error submitting the form. Please try again.'
         );
+      } finally {
+        setLoading(false);
       }
     }
   };
 
+  const today = new Date();
+  const nextDay = new Date(today);
+  nextDay.setDate(today.getDate() + 1);
+  const minDate = nextDay.toISOString().split('T')[0];
+
   return (
-    <div className="@container">
-      <h1>Fundi</h1>
-      <div className="w-full rounded-lg bg-white p-4">
+    <div className="relative">
+      <h1 className="text-2xl font-bold">Fundi</h1>
+      <div className="w-full rounded-lg bg-white p-4 shadow-md">
         <div>
           <Pricing />
         </div>
@@ -252,6 +251,8 @@ const GenerateInvoiceFundi: React.FC = () => {
                 label="Date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min={minDate}
+                className="form-control"
               />
             </div>
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
@@ -277,12 +278,19 @@ const GenerateInvoiceFundi: React.FC = () => {
             className={`mx-auto mt-8 block w-full rounded-md ${
               isFormValid
                 ? 'bg-blue-600 hover:bg-blue-700'
-                : 'cursor-not-allowed bg-gray-400'
-            } px-4 py-2 text-white`}
+                : 'bg-gray-500 cursor-not-allowed'
+            }`}
             disabled={!isFormValid}
           >
             Generate Invoice
           </Button>
+          {loading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+              <div className="w-16 h-16 border-4 border-t-4 border-blue-600 border-solid rounded-full animate-spin">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </div>

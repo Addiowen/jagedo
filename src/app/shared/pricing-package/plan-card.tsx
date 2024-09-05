@@ -5,16 +5,15 @@ interface PlanCardProps {
   price: string;
   description: string;
   features: string[];
-  isHighlighted: boolean;
   isSelected: boolean;
   onClick: () => void;
 }
 
-const PlanCard: React.FC<PlanCardProps> = ({ title, price, description, features, isHighlighted, isSelected, onClick }) => {
+const PlanCard: React.FC<PlanCardProps> = ({ title, price, description, features, isSelected, onClick }) => {
   return (
     <div
       className={`flex flex-col justify-between p-6 rounded-lg border shadow-lg cursor-pointer transition-all duration-300 ${
-        isSelected ? 'bg-blue-500 text-white transform scale-105 shadow-2xl' : isHighlighted ? 'bg-gray-100 text-white' : 'bg-white text-gray-900'
+        isSelected ? 'bg-blue-500 text-white transform scale-105 shadow-2xl' : 'bg-gray-300 text-gray-900'
       }`}
       onClick={onClick}
     >

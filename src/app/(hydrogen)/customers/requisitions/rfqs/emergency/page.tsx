@@ -48,7 +48,7 @@ export default async function RFQEmergencyFundiPage({
   const formattedData = {
     Category: 'Fundi',
     'Sub-Category': customerRequest?.metadata.skill,
-    'Request Type': customerRequest?.metadata.packageType || 'N/A',
+    // 'Request Type': customerRequest?.metadata.packageType || 'N/A',
     'Managed By': customerRequest?.metadata.managed || 'N/A',
     County: customerRequest?.metadata.county || 'N/A',
     Description: customerRequest?.metadata.description || 'N/A',
@@ -66,10 +66,10 @@ export default async function RFQEmergencyFundiPage({
       : 'N/A',
     'Invoice Number': `#INV${truncatedId}`,
     'Payment Status': 'Paid',
-    Uploads: customerRequest?.metadata.uploads,
     Amount: customerRequest?.metadata.linkageFee
       ? customerRequest.metadata.linkageFee.toFixed(2)
       : 'N/A',
+      Uploads: customerRequest?.metadata.uploads,
   };
   console.log(formattedData, 'formatted data');
 

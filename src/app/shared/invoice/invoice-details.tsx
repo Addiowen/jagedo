@@ -17,10 +17,15 @@ export default function InvoiceDetails() {
   const [requestDetails, setRequestDetails] = useState<RequestDetails | null>(
     null
   );
-  const [paymentStatus, setPaymentStatus] = useState('Unpaid');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+
   const { data: session } = useSession();
+
+  const userPhone = session?.user.metadata.phone;
+
+  const [paymentStatus, setPaymentStatus] = useState('Unpaid');
+  const [phoneNumber, setPhoneNumber] = useState(userPhone);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const userZohoId = session?.user.metadata?.zohoid;
 
@@ -32,12 +37,12 @@ export default function InvoiceDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDetails = await apiRequest({
+        const requestDetails = await apiRequest({
           method: 'GET',
           endpoint: `/transactions/${transactionId}`,
         });
-        console.log('Transaction Details:', userDetails);
-        setRequestDetails(userDetails);
+        console.log('Transaction Details:', requestDetails);
+        setRequestDetails(requestDetails);
       } catch (error) {
         console.error('Failed to fetch user details:', error);
         setRequestDetails(null);
@@ -53,15 +58,10 @@ export default function InvoiceDetails() {
 
   const packageType = `fundi${managed?.toLowerCase()}managedrequest`;
 
-  let updatedLinkageFee = linkageFee;
-  if (linkageFee) {
-    updatedLinkageFee = parseFloat((linkageFee * 1.16).toFixed(2));
-  }
-
   const paidRequest = {
+    status: 'paid',
     metadata: {
-      status: 'paid',
-      amount: updatedLinkageFee,
+      amount: linkageFee,
     },
   };
 
@@ -140,12 +140,14 @@ export default function InvoiceDetails() {
       return;
     }
 
+    setLoading(true); // Set loading to true when payment starts
+
     try {
       const mpesaResponse = await axios.post(
         'https://uatapimsz.jagedo.co.ke/stkpush',
         {
           phoneNumber: `254${phoneNumber.slice(1)}`, // Convert to international format
-          amount: updatedLinkageFee,
+          amount: linkageFee,
           accountReference: transactionId,
         }
       );
@@ -173,20 +175,13 @@ export default function InvoiceDetails() {
           toast.success(<Text as="b">Transaction Completed Successfully</Text>);
           setPaymentStatus('Paid');
 
-          console.log({
-            customer_id: userZohoId, // Replace with the actual customer_id if dynamic
-            amount: updatedLinkageFee,
-            reference_number: `REF-${new Date().getFullYear()}-001`, // Dynamic reference number
-            packageType,
-          });
-
           // Call the journal entry API
           const journalEntryResponse = await axios.post(
             'https://uatapimsz.jagedo.co.ke/createJournalEntry',
             {
               customer_id: userZohoId, // Replace with the actual customer_id if dynamic
-              amount: updatedLinkageFee,
-              reference_number: `REF-${new Date().getFullYear()}-001`, // Dynamic reference number
+              amount: linkageFee,
+              reference_number: `${requestDetails && requestDetails.id}`, // Dynamic reference number
               requestType: packageType,
             }
           );
@@ -210,6 +205,8 @@ export default function InvoiceDetails() {
     } catch (error) {
       console.log(error);
       toast.error('Payment Failed. Please try again.');
+    } finally {
+      setLoading(false); // Set loading to false when payment completes
     }
   };
 
@@ -266,16 +263,10 @@ export default function InvoiceDetails() {
             </div>
 
             <div className="flex-end ">
-              <h6>Request Id </h6>
-              <Text className="text-2xs mt-0.5 text-gray-500">
-                {randomNumber}
-              </Text>
-
               <h6 className="mt-4">Estate</h6>
               <Text className="text-2xs">
                 {requestDetails?.metadata.subCounty}
               </Text>
-
             </div>
           </div>
         </div>
@@ -285,43 +276,72 @@ export default function InvoiceDetails() {
         <div className="flex flex-col-reverse items-start justify-between border-t border-muted pb-1 pt-3 xs:flex-row">
           <div className="mt-1 max-w-md pe-3 xs:mt-0">
             <Title as="h6" className="text-2xs mb-1 font-semibold uppercase">
-              Notes
+              Additional Information
             </Title>
-            <Text className="text-2xs leading-[1.5]">
-              We appreciate your business. Should you need us to add VAT or
-              extra notes let us know!
+            <Text className="text-2xs">
+              Amount to be paid for linkage management & Service provision
+              fee.
             </Text>
           </div>
-          <div className="w-full max-w-xs">
-            <Text className="text-2xs flex items-center justify-between border-b border-muted pb-1">
-              Subtotal:
-              <Text as="span" className="font-semibold">
-                {linkageFee}
-              </Text>
-            </Text>
-            <Text className="text-2xs flex items-center justify-between border-b border-muted py-1">
-              Taxes:
-              <Text as="span" className="font-semibold">
-                16% VAT
-              </Text>
-            </Text>
-            <Text className="flex items-center justify-between pt-1 text-xs font-semibold text-gray-900">
-              Total:
-              <Text as="span">KSH {updatedLinkageFee}</Text>
-            </Text>
+
+          <div className="flex flex-col xs:flex-row xs:items-center xs:gap-2">
+            <div className="mb-1 xs:mb-0">
+              <Input
+                type="text"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                className={`border ${
+                  !isPhoneNumberValid ? 'border-red-500' : ''
+                }`}
+              />
+            </div>
+
+            <Button
+              className="w-full xs:w-auto"
+              onClick={handlePayment}
+              disabled={loading} // Disable button when loading
+            >
+              {loading ? (
+                <span className="flex items-center">
+                <svg
+                  className="animate-spin h-8 w-8 mr-3 text-blue-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    className="text-blue-500"
+                    fill="none"
+                  />
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray="63"
+                    strokeDashoffset="50"
+                    className="text-gray-200"
+                    fill="none"
+                    transform="rotate(-90 12 12)"
+                  />
+                </svg>
+                <span>Processing...</span>
+              </span>
+              ) : (
+                'Pay'
+              )}
+            </Button>
           </div>
-        </div>
-      </div>
-      <div className="mt-4 inline-flex justify-center">
-        <div className="mt-4 inline-flex flex-col items-center justify-center">
-          <Input
-            type="text"
-            placeholder="Enter MPESA Phone Number"
-            value={phoneNumber}
-            onChange={handlePhoneNumberChange}
-            className={`mb-2 ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
-          />
-          <Button onClick={handlePayment}>Pay</Button>
         </div>
       </div>
     </>

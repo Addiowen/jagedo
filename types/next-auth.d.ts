@@ -10,6 +10,7 @@ declare module 'next-auth' {
       metadata: {
         role;
         zohoid;
+        phone;
       };
       assetId?: string;
       userId: string;

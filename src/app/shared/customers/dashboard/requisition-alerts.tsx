@@ -64,7 +64,6 @@ export default function RequisitionAlerts(
           }
         );
 
-        // Directly set messages from the response data
         setMessages(response.data.results);
       } catch (error) {
         console.error('Error fetching messages:', error);
@@ -74,7 +73,7 @@ export default function RequisitionAlerts(
     }
 
     fetchMessages();
-  }, []);
+  }, [receiverId]);
 
   if (loading) return (
     <div className="flex justify-center items-center h-full">
@@ -123,7 +122,6 @@ export default function RequisitionAlerts(
           </div>
         </div>
 
-        
         <div className='flex ps-3 items-center pb-2'>
           <Text className="mb-0.5 w-11/12 truncate text-sm font-semibold text-gray-900 dark:text-gray-700">
             #New Category Add
@@ -135,36 +133,42 @@ export default function RequisitionAlerts(
 
         <SimpleBar className="max-h-[228px]">
           <div className="grid grid-cols-1">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className="group grid ps-3 cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-2.5 rounded-md py-2.5 pe-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50"
-              >
-                <Text className="w-full truncate pe-7 font-medium text-gray-500">
-                  {message.content}
-                </Text>
-
-                <div className="flex items-center">
-                  <Text className="ms-auto whitespace-nowrap pe-8 text-xs text-gray-500">
-                    {dayjs(message.createdDate).fromNow(true)} ago
+            {messages.length === 0 ? (
+              <div className="flex justify-center items-center h-full py-4 text-gray-500">
+                <Text>No messages available</Text>
+              </div>
+            ) : (
+              messages.map((message) => (
+                <div
+                  key={message.id}
+                  className="group grid ps-3 cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-2.5 rounded-md py-2.5 pe-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50"
+                >
+                  <Text className="w-full truncate pe-7 font-medium text-gray-500">
+                    {message.content}
                   </Text>
-                  <div className="flex-shrink-0">
-                    {message.read ? (
-                      <span className="inline-block rounded-full bg-gray-100 p-0.5 dark:bg-gray-50">
-                        <PiCheck className="h-auto w-[9px]" />
-                      </span>
-                    ) : (
-                      <Badge
-                        renderAsDot
-                        size="lg"
-                        color="primary"
-                        className="scale-90"
-                      />
-                    )}
+
+                  <div className="flex items-center">
+                    <Text className="ms-auto whitespace-nowrap pe-8 text-xs text-gray-500">
+                      {dayjs(message.createdDate).fromNow(true)} ago
+                    </Text>
+                    <div className="flex-shrink-0">
+                      {message.read ? (
+                        <span className="inline-block rounded-full bg-gray-100 p-0.5 dark:bg-gray-50">
+                          <PiCheck className="h-auto w-[9px]" />
+                        </span>
+                      ) : (
+                        <Badge
+                          renderAsDot
+                          size="lg"
+                          color="primary"
+                          className="scale-90"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </SimpleBar>
       </div>

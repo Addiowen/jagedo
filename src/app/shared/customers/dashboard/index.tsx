@@ -7,13 +7,13 @@ import InvoiceList from './review-slider';
 import walletImage from '../../../../../public/wallets.png';
 
 export default function CustomerDashboard() {
-  // Wallet data
-  const balance = 'KSH 1,234.56';
+  // // Wallet data
+  // const balance = 'KSH 1,234.56';
 
-  // Pending invoice data
-  const invoiceId = 'INV123456';
-  const amount = 1234.56;
-  const dueDate = '2024-06-25';
+  // // Pending invoice data
+  // const invoiceId = 'INV123456';
+  // const amount = 1234.56;
+  // const dueDate = '2024-06-25';
 
   return (
     <div className="@container">
@@ -22,13 +22,13 @@ export default function CustomerDashboard() {
         <JobSlider />
         <RequisitionAlerts />
       </div>
-      <div className="grid grid-cols-1 gap-6 pt-10 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
+      {/* <div className="grid grid-cols-1 gap-6 pt-10 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <WalletCard
           balance="232,000.00"
           image={walletImage} // Pass the imported image
         />
         <InvoiceList />
-      </div>
+      </div> */}
     </div>
   );
 }
