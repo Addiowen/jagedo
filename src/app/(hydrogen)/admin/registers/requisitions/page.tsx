@@ -22,7 +22,7 @@ const fetchTransactions = async () => {
 export default async function AdminRequisitionsPage() {
   const transactions = await fetchTransactions();
 
-  console.log(transactions, 'transactions');
+  console.log(transactions.results[0].metadata, 'transactions');
 
   // Format the data if needed
   const formattedData =
@@ -33,7 +33,7 @@ export default async function AdminRequisitionsPage() {
         date: item.createdDate || '',
         category: 'Fundi',
         subCategory: item.metadata?.skill || '',
-        requestType: `Managed by ${item.metadata?.managed}` || '',
+        requestType: `${item.metadata?.packageType}` || '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',
         county: item.metadata?.county || '',
