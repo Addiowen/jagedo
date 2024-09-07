@@ -75,10 +75,10 @@ export const getColumns = ({
 
   {
     title: <HeaderCell title=" Date" className="uppercase" />,
-    dataIndex: 'completionDate',
-    key: 'completionDate',
+    dataIndex: 'date',
+    key: 'date',
     width: 150,
-    render: (completionDate: Date) => <DateCell date={completionDate} />,
+    render: (date: Date) => <DateCell date={date} />,
   },
   {
     title: <HeaderCell title="Category" className="uppercase" />,

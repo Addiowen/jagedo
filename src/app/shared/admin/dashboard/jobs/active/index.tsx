@@ -15,7 +15,13 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ActiveJobsTable({ className }: { className?: string }) {
+export default function ActiveJobsTable({
+  className,
+  jobs,
+}: {
+  className?: string;
+  jobs: any;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -47,12 +53,12 @@ export default function ActiveJobsTable({ className }: { className?: string }) {
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(activeJobs, pageSize, filterState);
+  } = useTable(jobs, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: activeJobs,
+        data: jobs,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

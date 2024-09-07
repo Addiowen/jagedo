@@ -90,14 +90,14 @@ export const getColumns = ({
     title: <HeaderCell title="Sub Category" />,
     dataIndex: 'subCategory',
     key: 'subCategory',
-    width: 20,
+    width: 50,
     render: (subCategory: string) => <Text>{subCategory}</Text>,
   },
   {
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 150,
+    width: 100,
     render: (requestType: string) => (
       <Text className="font-semibold">{requestType}</Text>
     ),

@@ -7,8 +7,11 @@ import WidgetCard3 from '@/components/cards/widget-card3';
 import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
-import apiRequest from '@/lib/apiService';
-import WidgetCard from '@/components/cards/widget-card';
+import {
+  fetchUserTransaction,
+  fetchCustomerDetails,
+  getRequestDetails,
+} from '@/lib/transaction.helper';
 
 interface PageProps {
   searchParams: any;
@@ -19,63 +22,16 @@ export default async function RequisitionDetailsPage({
 }: PageProps) {
   const requestId = searchParams.id;
 
-  const fetchUserTransaction = async () => {
-    try {
-      const userTransaction = await apiRequest({
-        method: 'GET',
-        endpoint: `/transactions/${searchParams.id}`,
-      });
-      return userTransaction;
-    } catch (error) {
-      console.error('Failed to fetch transaction details:', error);
-      return null;
-    }
-  };
+  // Fetch user transaction details
+  const customerRequest = await fetchUserTransaction(requestId);
 
-  const customerRequest = await fetchUserTransaction();
+  // Fetch customer details using takerId from the customerRequest
+  const customerDetails = customerRequest
+    ? await fetchCustomerDetails(customerRequest.takerId)
+    : null;
 
-  const fetchCustomerDetails = async () => {
-    try {
-      const customerDetails = await apiRequest({
-        method: 'GET',
-        endpoint: `/users/${customerRequest.takerId}`,
-      });
-      return customerDetails;
-    } catch (error) {
-      console.error('Failed to fetch transaction details:', error);
-      return null;
-    }
-  };
-
-  const customerDetails = await fetchCustomerDetails();
-
-  console.log(customerDetails, 'customerDetails');
-
-  const requestDetails = {
-    Category: 'Fundi',
-    'Sub-Category': customerRequest?.metadata.skill,
-    'Request Type': customerRequest?.metadata.packageType || 'N/A',
-    'Managed By': customerRequest?.metadata.managed || 'N/A',
-    County: customerRequest?.metadata.county || 'N/A',
-    'Sub-County': customerRequest?.metadata.subCounty || 'N/A',
-    'Estate/Village': customerRequest?.metadata.village || 'N/A',
-    'Request Date': customerRequest?.metadata.date
-      ? new Date(customerRequest.metadata.date).toLocaleDateString()
-      : 'N/A',
-    Status: customerRequest?.status || 'N/A',
-    'Start Date': customerRequest?.startDate
-      ? new Date(customerRequest.startDate).toLocaleDateString()
-      : 'N/A',
-    'End Date': customerRequest?.endDate
-      ? new Date(customerRequest.endDate).toLocaleDateString()
-      : 'N/A',
-    'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
-    Amount: customerRequest?.metadata.linkageFee
-      ? customerRequest.metadata.linkageFee.toFixed(2)
-      : 'N/A',
-    Uploads: customerRequest?.metadata.uploads || 'N/A',
-  };
+  // Generate request details for the ChunkedGrid component
+  const requestDetails = getRequestDetails(customerRequest);
 
   const pageHeader = {
     title: `REQ# ${requestId.toUpperCase()}`,
@@ -94,8 +50,6 @@ export default async function RequisitionDetailsPage({
     ],
   };
 
-  console.log(customerDetails);
-
   return (
     <>
       <PageHeader
@@ -105,13 +59,11 @@ export default async function RequisitionDetailsPage({
 
       <CustomerDetailsCard customerDetails={customerDetails} className="mt-2" />
 
-      {/* <JobDetailsCard className="mt-6" /> */}
       <div className="mt-4">
         <ChunkedGrid
           data={requestDetails}
           requestDetails={requestDetails}
           dataChunkSize={8}
-          // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
       </div>
 

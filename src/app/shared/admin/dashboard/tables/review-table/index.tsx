@@ -19,9 +19,42 @@ const filterState = {
 };
 export default function FundiReviewsTable({
   className,
+  ratings,
 }: {
   className?: string;
+  ratings: any;
 }) {
+  const mappedRatings = ratings.results.map(
+    (
+      result: {
+        metadata: {
+          transaction: {
+            [x: string]: any;
+            transactionId: any;
+            Category: any;
+            County: any;
+          };
+        };
+        id: any;
+        score: any;
+        transactionId: any;
+      },
+      index: number
+    ) => ({
+      number: (index + 1).toString() || '',
+      id: result.transactionId,
+      ratingId: result.id,
+      date: result.metadata.transaction?.['Request Date'] || '',
+      category: result.metadata.transaction?.Category || '',
+      subCategory: result.metadata.transaction?.['Sub-Category'] || '',
+      requestType: result.metadata.transaction?.['Request Type'] || '',
+      county: result.metadata.transaction?.County || '',
+      subCounty: result.metadata.transaction?.['Sub-County'] || '',
+      rating: (result.score / 20).toFixed(1),
+      requestTypeId: 0,
+    })
+  );
+
   const [pageSize, setPageSize] = useState(7);
   const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
 
@@ -54,12 +87,12 @@ export default function FundiReviewsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(reviewData, pageSize, filterState);
+  } = useTable(mappedRatings, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: reviewData,
+        data: mappedRatings,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -67,6 +100,7 @@ export default function FundiReviewsTable({
         onChecked: handleRowSelect,
         handleSelectAll,
         setViewReviewsModalState,
+        hideRatingColumn: true,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [

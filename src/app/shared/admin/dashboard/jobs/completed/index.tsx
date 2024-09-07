@@ -17,8 +17,10 @@ const filterState = {
 };
 export default function CompletedJobsTable({
   className,
+  jobs,
 }: {
   className?: string;
+  jobs: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
 
@@ -51,12 +53,12 @@ export default function CompletedJobsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(completeJobs, pageSize, filterState);
+  } = useTable(jobs, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: completeJobs,
+        data: jobs,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

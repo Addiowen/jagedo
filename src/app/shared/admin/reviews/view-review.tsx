@@ -9,13 +9,22 @@ import {
   Text,
   Textarea,
 } from 'rizzui';
-import { Fragment, useState } from 'react';
+import {
+  AwaitedReactNode,
+  Fragment,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useState,
+} from 'react';
 import cn from '@/utils/class-names';
 import { Controller, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 import { usePathname, useRouter } from 'next/navigation';
-import JobDescriptionChunked from '@/app/shared/job-description-chunked/job-description-chunked';
+import JobDescriptionChunked from '@/app/shared/job-description-chunked';
+import { reviewComments } from '@/data/custom-job-details-data';
 // import { useFieldArray, useFormContext } from 'react-hook-form';
 // import { BillTableType } from './view-bill';
 
@@ -24,45 +33,16 @@ import JobDescriptionChunked from '@/app/shared/job-description-chunked/job-desc
 //     billTableValues: BillTableType[]
 // }
 
-const data = [
-  {
-    question: 'Question 1 goes here',
-    customerValue: 3,
-    spValue: 4,
-    adminValue: undefined,
-    average: 5,
-  },
-  {
-    question: 'Question 2 goes here',
-    customerValue: 2,
-    spValue: 5,
-    adminValue: undefined,
-    average: 4,
-  },
-  {
-    question: 'Question 3 goes here',
-    customerValue: 5,
-    spValue: 4,
-    adminValue: undefined,
-    average: 3.5,
-  },
-  {
-    question: 'Question 4 goes here',
-    customerValue: 5,
-    spValue: 2,
-    adminValue: undefined,
-    average: 2.7,
-  },
-  {
-    question: 'Question 5 goes here',
-    customerValue: 4,
-    spValue: 3,
-    adminValue: 4,
-    average: 24,
-  },
-];
-
-export default function ViewReviewComponent() {
+export default function ViewReviewComponent({ rating }: { rating: any }) {
+  const data = rating.metadata.answers.map(
+    (answer: { question: any; value: any }) => ({
+      question: answer.question,
+      customerValue: answer.value,
+      spValue: undefined,
+      adminValue: undefined,
+      average: (rating.score / 20).toFixed(1),
+    })
+  );
   // const { control, handleSubmit } = useForm()
   const router = useRouter();
   const pathname = usePathname();
@@ -137,54 +117,73 @@ export default function ViewReviewComponent() {
 
         <>
           <form>
-            {data.map((field, index) => {
-              let reviewTotal = field.customerValue + field.spValue;
-              let reviewAverage = reviewTotal / 2;
-              score += reviewAverage;
+            {data.map(
+              (
+                field: {
+                  customerValue: any;
+                  spValue: any;
+                  question:
+                    | string
+                    | number
+                    | bigint
+                    | boolean
+                    | ReactElement<any, string | JSXElementConstructor<any>>
+                    | Iterable<ReactNode>
+                    | ReactPortal
+                    | Promise<AwaitedReactNode>
+                    | null
+                    | undefined;
+                },
+                index: number
+              ) => {
+                let reviewTotal = field.customerValue + field.spValue;
+                let reviewAverage = reviewTotal / 2;
+                score += reviewAverage;
 
-              return (
-                <Fragment key={`add-review-table-${index}`}>
-                  <div>
-                    <div className="group grid min-h-10 grid-cols-7 gap-0 border-b border-muted py-2 dark:border-muted/20">
-                      <div className="col-span-1 w-full p-2 pe-4 text-center text-gray-900 dark:text-gray-0">
-                        {index + 1}
-                      </div>
+                return (
+                  <Fragment key={`add-review-table-${index}`}>
+                    <div>
+                      <div className="group grid min-h-10 grid-cols-7 gap-0 border-b border-muted py-2 dark:border-muted/20">
+                        <div className="col-span-1 w-full p-2 pe-4 text-center text-gray-900 dark:text-gray-0">
+                          {index + 1}
+                        </div>
 
-                      <div className="col-span-3 p-2">
-                        <Text className="text-gray-900 dark:text-gray-0">
-                          {field.question}
-                        </Text>
-                      </div>
+                        <div className="col-span-3 p-2">
+                          <Text className="text-gray-900 dark:text-gray-0">
+                            {field.question}
+                          </Text>
+                        </div>
 
-                      <div className="col-span-1 p-2">
-                        <Text className="text-gray-900 dark:text-gray-0">
-                          {field.customerValue
-                            ? `${field.customerValue}`
-                            : '--'}
-                        </Text>
-                      </div>
+                        <div className="col-span-1 p-2">
+                          <Text className="text-gray-900 dark:text-gray-0">
+                            {field.customerValue
+                              ? `${field.customerValue}`
+                              : '--'}
+                          </Text>
+                        </div>
 
-                      <div className="col-span-1 p-2">
-                        <Text className="text-gray-900 dark:text-gray-0">
-                          {field.spValue ? `${field.spValue}` : '--'}
-                        </Text>
-                      </div>
+                        <div className="col-span-1 p-2">
+                          <Text className="text-gray-900 dark:text-gray-0">
+                            {field.spValue ? `${field.spValue}` : '--'}
+                          </Text>
+                        </div>
 
-                      {/* <div className="col-span-1 p-2">
+                        {/* <div className="col-span-1 p-2">
                         <Text className='text-gray-900 dark:text-gray-0'>{ field.adminValue ? `${field.adminValue}` : '--' }</Text>
                     </div> */}
 
-                      <div className="col-span-1 p-2">
-                        {/* <Text className='text-gray-900 dark:text-gray-0'>{ field.average ? `${field.average}` : '--' }</Text> */}
-                        <Text className="text-gray-900 dark:text-gray-0">
-                          {reviewAverage}
-                        </Text>
+                        <div className="col-span-1 p-2">
+                          {/* <Text className='text-gray-900 dark:text-gray-0'>{ field.average ? `${field.average}` : '--' }</Text> */}
+                          <Text className="text-gray-900 dark:text-gray-0">
+                            {reviewAverage}
+                          </Text>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Fragment>
-              );
-            })}
+                  </Fragment>
+                );
+              }
+            )}
 
             <div className="ms-auto mt-2 w-full max-w-xs divide-y pb-4 dark:divide-muted/20">
               <div className="grid grid-cols-2 items-center gap-2">
@@ -207,21 +206,21 @@ export default function ViewReviewComponent() {
             {fundi ? 'Fundi' : professional ? 'Professional' : 'Contractor'}
           </Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            Job was finished with no problems
+            {rating.metadata.fundicomment || ''}
           </Text>
         </div>
 
         <div className="mb-4">
           <Text className="font-semibold">Customer</Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            Liked the service, would recommend
+            {rating.comment}
           </Text>
         </div>
 
         <div className="mb-4">
           <Text className="font-semibold">Admin</Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            The service provider did a good job
+            {rating.metadata.admincomment || ''}
           </Text>
         </div>
 

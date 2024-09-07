@@ -110,7 +110,7 @@ export const getColumns = ({
     title: <HeaderCell title="REQUEST TYPE" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 350,
+    width: 200,
     render: (requestType: string) => (
       <Text className="text-sm font-semibold  text-gray-900 dark:text-gray-700">
         {requestType}
@@ -155,9 +155,8 @@ export const getColumns = ({
     width: 100,
     render: (id: number, row: any) => (
       <div className="gap-3 pe-3">
-        <Link href={{ pathname: routes.customers.rfq, query: { id } }}
-        >
-            <Text className="text-sm text-green-600">View</Text>
+        <Link href={{ pathname: routes.customers.rfq, query: { id } }}>
+          <Text className="text-sm text-green-600">View</Text>
         </Link>
         {/* {(requestTypeId === 0) ? (
           <Link href={routes.serviceProvider.fundi.rfqEmergency}>
@@ -168,7 +167,7 @@ export const getColumns = ({
             <Text className="text-sm text-green-600">View</Text>
           </Link>
         )} */}
-        
+
         {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
@@ -182,7 +181,6 @@ export const getColumns = ({
             </Link>
           </ActionIcon>
         </Tooltip> */}
-
 
         {/* <DeletePopover
           title={`Remove User`}

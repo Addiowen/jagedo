@@ -1,6 +1,5 @@
 'use client';
 
-import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
 import CustomerDetailsCard from '../../jobs/cutomer-details';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
@@ -13,6 +12,8 @@ import ActiveJobDetailsAttachments from '../../add-attachments';
 import ProgressBarActive from '../../progress-bar-admin';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
+import ChunkedGrid from '@/app/shared/custom-chunked-grid';
+import ViewAttachments from '@/app/shared/service-provider/details/request-details/view-attachments';
 
 // const data = [
 //   {
@@ -32,13 +33,28 @@ import { routes } from '@/config/routes';
 //   },
 // ];
 
-export default function ActiveJobDetailsCard() {
+export default function ActiveJobDetailsCard({
+  requestDetails,
+}: {
+  requestDetails: any;
+}) {
   // const router = useRouter();
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
+
+  const uploadsData = requestDetails.Uploads;
+
+  const structuredAttachments = uploadsData.map((url: string) => ({
+    name: getFileNameFromUrl(url),
+    url: url,
+  }));
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -59,7 +75,7 @@ export default function ActiveJobDetailsCard() {
             <ProgressBarActive />
 
             <div className="col-span-full">
-              <ActiveJobDetailsAttachments />
+              <ViewAttachments attachments={structuredAttachments} />
             </div>
             <div className="flex  justify-center">
               <Link href={routes.admin.active}>
@@ -74,23 +90,10 @@ export default function ActiveJobDetailsCard() {
 
             <div className="mb-4">
               <ChunkedGrid
-                data={
-                  jobId === '2000'
-                    ? completeJobDetailsData[0]
-                    : jobId === '2002'
-                      ? completeJobDetailsData[1]
-                      : jobId === '3024'
-                        ? completeJobDetailsData[2]
-                        : jobId === '3034'
-                          ? completeJobDetailsData[3]
-                          : jobId === '3225'
-                            ? completeJobDetailsData[4]
-                            : jobId === '3332'
-                              ? completeJobDetailsData[6]
-                              : completeJobDetailsData[0]
-                }
+                data={requestDetails}
                 dataChunkSize={8}
                 className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2"
+                attachementsDetails={requestDetails}
               />
             </div>
 

@@ -146,14 +146,7 @@ export default function ProgressBarActive({
 
         <div className="-ml-20 mb-4 mt-12 flex flex-col rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl ">
           <div className="w-full max-w-screen-lg">
-            <Timeline
-              data={
-                jobId === '2000' || jobId === '2002'
-                  ? fundiTimelineData
-                  : timelineData
-              }
-              order="desc"
-            />
+            <Timeline data={fundiTimelineData} order="desc" />
           </div>
 
           {/* <div className=''>     

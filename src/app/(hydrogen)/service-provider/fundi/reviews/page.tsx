@@ -15,7 +15,7 @@ export default async function ReviewsPage({
 }: {
   searchParams: any;
 }) {
-  const fetchUserDetails = async () => {
+  const fetchRatingDetails = async () => {
     const session = await getServerSession(authOptions);
 
     const assetId = session?.user.metadata.assetId;
@@ -34,7 +34,7 @@ export default async function ReviewsPage({
     }
   };
 
-  const ratings = await fetchUserDetails();
+  const ratings = await fetchRatingDetails();
   console.log(ratings.results.metadata, 'the ratings');
 
   return (
