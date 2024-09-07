@@ -35,9 +35,6 @@ console.log(request, "req");
     handleDelete(id);
   }, []);
 
-
-
-
   const {
     isLoading,
     isFiltered,

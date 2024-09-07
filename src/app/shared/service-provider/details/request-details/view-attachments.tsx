@@ -41,15 +41,23 @@ const ViewAttachments: React.FC<ViewAttachmentsProps> = ({ attachments }) => {
       <p className="mb-4 ps-4 text-lg font-semibold text-gray-900">
         Attachments
       </p>
+
+      {/* Table Header */}
+      <div className="grid grid-cols-3 gap-0 border-b border-muted dark:border-muted/20 p-2">
+        <div className="col-span-1 text-center font-semibold text-gray-900">#</div>
+        <div className="col-span-1 text-center font-semibold text-gray-900">Attachment Name</div>
+        <div className="col-span-1 text-center font-semibold text-gray-900">Download</div>
+      </div>
+
+      {/* Table Body */}
       {attachments.map((attachment, index) => (
         <div
           key={index}
-          className="b-2 grid min-h-10 grid-cols-2 gap-0 border-b border-muted dark:border-muted/20"
+          className="grid grid-cols-3 gap-0 border-b border-muted dark:border-muted/20"
         >
-          <div className="col-span-1 p-2">
-            <Text className="text-center font-semibold text-gray-900">
-              {attachment.name}
-            </Text>
+          <div className="col-span-1 p-2 text-center">{index + 1}</div>
+          <div className="col-span-1 p-2 text-center">
+            <Text className="font-semibold text-gray-900">{attachment.name}</Text>
           </div>
           <Button
             variant="text"

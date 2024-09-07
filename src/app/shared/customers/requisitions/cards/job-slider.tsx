@@ -1,8 +1,6 @@
 'use client';
 
 import WidgetCard from '@/components/cards/widget-card';
-import TrendingUpIcon from '@/components/icons/trending-up';
-import { Title } from 'rizzui';
 import cn from '@/utils/class-names';
 import {
   ResponsiveContainer,
@@ -16,8 +14,11 @@ import SimpleBar from 'simplebar-react';
 import { formatNumber } from '@/utils/format-number';
 import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
-const data = [
+const initialData = [
   {
     name: 'Requests',
     total: 8,
@@ -31,12 +32,11 @@ const data = [
     link: routes.customers.quotations,
   },
   {
-    name: 'Active Jobs',
-    total: 10,
+    name: 'Jobs',
+    total: 5,
     fill: '#04364A',
     link: routes.customers.active,
   },
-
   {
     name: 'Completed',
     total: 13,
@@ -51,27 +51,66 @@ const data = [
   },
 ];
 
-const viewOptions = [
-  {
-    value: 'Daily',
-    label: 'Daily',
-  },
-  {
-    value: 'Monthly',
-    label: 'Monthly',
-  },
-];
-
 export default function JobSlider({ className }: { className?: string }) {
-  function handleChange(viewType: string) {
-    console.log('viewType', viewType);
-  }
+  const { data: session } = useSession();
+
+  const takerId = session?.user.userId;
+  console.log(takerId,"this is taker id")
+  const [data, setData] = useState(initialData); // State to store the data
+
+  useEffect(() => {
+    // Fetch stats from the API
+    async function fetchStats() {
+      try {
+        const response = await axios.get(
+          `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?takerId=${takerId}`,
+          {
+            headers: {
+              Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            },
+          }
+        );
+  
+        const apiData = response.data.data;
+  
+        console.log(apiData);
+  
+        // Use functional update for setData to always work with the latest data state
+        setData((prevData) =>
+          prevData.map((item) => {
+            switch (item.name) {
+              case 'Requests':
+                return { ...item, total: parseInt(apiData.paid_count) };
+              case 'Quotations':
+                return { ...item, total: parseInt(apiData.quotation_count) };
+              case 'Jobs':
+                return { ...item, total: parseInt(apiData.active_count) };
+              case 'Completed':
+                return { ...item, total: parseInt(apiData.completed_count) };
+              case 'Reviews':
+                return { ...item, total: parseInt(apiData.draft_count) };
+              default:
+                return item;
+            }
+          })
+        );
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    }
+  
+    if (takerId) {
+      fetchStats();
+    }
+  }, [takerId]); // Make sure takerId is available before fetching the data
+  
 
   const router = useRouter();
+
   const handleBarClick = (data: { link: any }) => {
-    const { link } = data; // Access the link property from clicked bar data
+    const { link } = data;
     if (link) {
-      router.push(link); // Use Next.js router to navigate to the linked page
+      router.push(link);
     }
   };
 
@@ -81,24 +120,8 @@ export default function JobSlider({ className }: { className?: string }) {
       titleClassName="text-gray-700 font-bold sm:text-sm "
       headerClassName="items-center"
       className={cn(' @container', className)}
-      //   action={
-      //     <DropdownAction
-      //       className="rounded-lg border"
-      //       options={viewOptions}
-      //       onChange={handleChange}
-      //       dropdownClassName="!z-0"
-      //     />
-      //   }
     >
-      <div className="-mt-2 mb-2 flex items-center  @lg:mt-1">
-        {/* <Title as="h2" className="font-inter font-bold">
-          73,504
-        </Title> */
-        /* <span className="flex items-center gap-1 text-green-dark">
-          <TrendingUpIcon className="h-auto w-5" />
-          <span className="font-semibold leading-none"> +32.40%</span>
-        </span> */}
-      </div>
+      <div className="-mt-2 mb-2 flex items-center  @lg:mt-1"></div>
       <SimpleBar>
         <div className="-mt-4 h-[17rem] w-full pt-1">
           <ResponsiveContainer width="100%" height="100%">
@@ -127,6 +150,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
+                minPointSize={60} 
               >
                 <LabelList
                   position="right"

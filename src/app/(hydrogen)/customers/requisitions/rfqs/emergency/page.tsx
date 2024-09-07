@@ -43,14 +43,15 @@ export default async function RFQEmergencyFundiPage({
   const truncatedId = truncateWithEllipses(customerRequestId, 6);
 
   const customerRequest = await fetchUserTransaction();
+  console.log(customerRequest);
 
   const formattedData = {
+    Description: customerRequest?.metadata.description || 'N/A',
     Category: 'Fundi',
     'Sub-Category': customerRequest?.metadata.skill,
     'Request Type': customerRequest?.metadata.packageType || 'N/A',
-    'Managed By': customerRequest?.metadata.managed || 'N/A',
+    // 'Managed By': customerRequest?.metadata.managed || 'N/A',
     County: customerRequest?.metadata.county || 'N/A',
-    Description: customerRequest?.metadata.description || 'N/A',
     'Sub-County': customerRequest?.metadata.subCounty || 'N/A',
     'Estate/Village': customerRequest?.metadata.village || 'N/A',
     'Request Date': customerRequest?.metadata.date
@@ -65,10 +66,10 @@ export default async function RFQEmergencyFundiPage({
       : 'N/A',
     'Invoice Number': `#INV${truncatedId}`,
     'Payment Status': 'Paid',
-    Uploads: customerRequest?.metadata.uploads,
-    Amount: customerRequest?.metadata.linkageFee
-      ? customerRequest.metadata.linkageFee.toFixed(2)
+    Amount: customerRequest?.metadata.amount
+      ? customerRequest.metadata.linkageFee
       : 'N/A',
+      Uploads: customerRequest?.metadata.uploads,
   };
 
   return (

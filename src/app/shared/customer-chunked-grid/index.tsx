@@ -41,22 +41,19 @@ const CustomerChunkedGrid: React.FC<Props> = ({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
-  // Function to download file from a URL
   const downloadFile = async (url: string) => {
     setDownloadStatus('Downloading...');
     try {
       const response = await axios.get(url, {
-        responseType: 'blob', // Important for binary data
+        responseType: 'blob',
       });
 
-      // Extract filename from content-disposition header, if available
       const contentDisposition = response.headers['content-disposition'];
       const fileNameMatch = contentDisposition?.match(/filename="(.+)"/);
       const fileName = fileNameMatch
         ? fileNameMatch[1]
         : getFileNameFromUrl(url);
 
-      // Create a temporary anchor element to trigger the download
       const urlObject = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = urlObject;
@@ -108,12 +105,10 @@ const CustomerChunkedGrid: React.FC<Props> = ({
         Project Details
       </div>
 
-      {/* <JobDescriptionChunked data={JobDescription} /> */}
-
       <div
         className={cn(
           !className &&
-            'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2',
+            'grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1',
           className
         )}
       >
@@ -123,32 +118,36 @@ const CustomerChunkedGrid: React.FC<Props> = ({
             className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md"
           >
             {chunk.map(([key, value], itemIndex) => (
-              <div key={itemIndex} className="flex items-start">
-                <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
-                  <div className="">
-                    <Title
-                      as="h4"
-                      className="mb-1 whitespace-nowrap text-sm font-semibold"
-                    >
-                      {key}
-                    </Title>
-                    {key === 'Uploads' ? (
-                      <div className="flex flex-wrap gap-6 text-gray-500">
-                        {(value as string[]).map((imgSrc, imgIndex) => (
-                          <button
-                            key={imgIndex}
-                            onClick={() => downloadFile(imgSrc)}
-                          >
-                            <PiDownloadSimple className="h-5 w-5 text-blue-500" />
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-gray-500">{value}</div>
-                    )}
+              key !== 'Uploads' && (
+                <div
+                  key={itemIndex}
+                  className={cn(
+                    'flex items-start',
+                    key === 'Description' && 'col-span-2' // Span the entire width for Description
+                  )}
+                >
+                  <div className="flex w-full items-center justify-between gap-2 ps-3.5">
+                    <div className="w-full">
+                      <Title
+                        as="h4"
+                        className="mb-1 whitespace-nowrap text-sm font-semibold"
+                      >
+                        {key}
+                      </Title>
+                      {key === 'Description' ? (
+                        <div
+                          className="text-gray-500 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded w-full"
+                          style={{ whiteSpace: 'pre-wrap' }} // Preserves line breaks
+                        >
+                          {Array.isArray(value) ? value.join(' ') : value}
+                        </div>
+                      ) : (
+                        <div className="text-gray-500">{value}</div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )
             ))}
           </ul>
         ))}

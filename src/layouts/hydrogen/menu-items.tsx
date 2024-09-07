@@ -210,6 +210,14 @@ export const customerMenu: MenuItem[] = [
     badge: '',
     icon: <PiProjectorScreenChart />,
   },
+
+  {
+    name: 'Jobs',
+    href: routes.customers.active,
+    badge: '',
+    icon: <PiBriefcase/>
+  },
+
   {
     name: ' Reviews',
     href: routes.customers.reviews,

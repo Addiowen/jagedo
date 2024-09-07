@@ -25,10 +25,7 @@ const GenerateInvoiceFundi: React.FC = () => {
   const metric = searchParams.get('metric') || '';
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string | null>(null);
-
-  // State types
   const [description, setDescription] = useState<string>('');
-
   const [date, setDate] = useState<string>('');
   const [value, setValue] = useState<Option | null>(null);
   const [managed, setManaged] = useState<Option | null>(null);
@@ -37,17 +34,29 @@ const GenerateInvoiceFundi: React.FC = () => {
   const [village, setVillage] = useState<string>('');
   const [skill, setSkill] = useState<Option | null>(null);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedPlan, setSelectedPlan] = useState<{
+    title: string;
+    price: string;
+  } | null>(null);
+
+  // Function to handle the selected plan from Pricing component
+  const handlePlanSelect = (title: string, price: string) => {
+    if (selectedPlan?.title !== title || selectedPlan?.price !== price) {
+      setSelectedPlan({ title, price });
+    }
+  };
 
   // Options for select fields
-  const reqType: Option[] = [
-    { label: 'Package 1', value: 'Package 1' },
-    { label: 'Package 2', value: 'Package 2' },
-  ];
+  // const reqType: Option[] = [
+  //   { label: 'Package 1', value: 'Package 1' },
+  //   { label: 'Package 2', value: 'Package 2' },
+  // ];
 
-  const managedByOptions: Record<string, Option> = {
-    'Package 1': { label: 'Jagedo', value: 'Jagedo' },
-    'Package 2': { label: 'Self', value: 'Self' },
-  };
+  // const managedByOptions: Record<string, Option> = {
+  //   'Package 1': { label: 'Jagedo', value: 'Jagedo' },
+  //   'Package 2': { label: 'Self', value: 'Self' },
+  // };
 
   const County: Option[] = [
     { label: 'Nairobi', value: 'Nairobi' },
@@ -72,13 +81,13 @@ const GenerateInvoiceFundi: React.FC = () => {
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
     setUserId(id);
-    // Form validation
+
     const checkFormValidity = () => {
       if (
         description &&
         date &&
-        value &&
-        managed &&
+        // value &&
+        // managed &&
         county &&
         subCounty &&
         village &&
@@ -94,8 +103,8 @@ const GenerateInvoiceFundi: React.FC = () => {
   }, [
     description,
     date,
-    value,
-    managed,
+    // value,
+    // managed,
     county,
     subCounty,
     village,
@@ -103,20 +112,23 @@ const GenerateInvoiceFundi: React.FC = () => {
     session,
   ]);
 
-  useEffect(() => {
-    // Automatically adjust the "Managed By" field based on the selected package type
-    if (value) {
-      setManaged(managedByOptions[value.value] || null);
-    }
-  }, [value]);
+  // useEffect(() => {
+  //   if (value) {
+  //     setManaged(managedByOptions[value.value] || null);
+  //   }
+  // }, [value]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Retrieve the latest uploads from session storage
+    if (!selectedPlan) {
+      alert('Please select a plan before submitting.');
+      return;
+    }
 
-    // Update the state to ensure the form has the latest data
-    console.log(urls);
+    const existingUrls = JSON.parse(
+      sessionStorage.getItem('uploadedUrls') || '[]'
+    ) as string[];
 
     if (urls) {
       if (!isFormValid) {
@@ -128,8 +140,8 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
-        status: [''],
-        packageType: value?.value || '',
+        amount: selectedPlan.price, //pass price here
+        packageType: selectedPlan.title, // pass title here
         managed: managed?.value || '',
         county: county?.value || '',
         subCounty: subCounty?.value || '',
@@ -137,27 +149,27 @@ const GenerateInvoiceFundi: React.FC = () => {
         skill: skill?.value || '',
       };
 
-      const linkageFee =
-        value?.value === 'Package 1'
-          ? 3000
-          : value?.value === 'Package 2'
-            ? 1000
-            : 0;
+      // const linkageFee =
+      //   value?.value === 'Package 1'
+      //     ? 3000
+      //     : value?.value === 'Package 2'
+      //       ? 1000
+      //       : 0;
 
       const formBody = {
         startDate: date,
         takerId: userId,
-        duration: { d: 7 },
+        duration: { d: 1 },
         metadata: {
           ...formData,
           description: description,
-          linkageFee,
+          // linkageFee,
         },
       };
 
-      console.log(formBody);
       try {
-        // Make the API call
+        setLoading(true);
+
         const response = await axios.post(
           `${BASE_URL}/transactions`,
           formBody,
@@ -168,7 +180,6 @@ const GenerateInvoiceFundi: React.FC = () => {
           }
         );
 
-        // Handle successful response
         if (response.data) {
           console.log(response.data, 'my transaction');
           toast.success('Form submitted successfully!');
@@ -181,16 +192,23 @@ const GenerateInvoiceFundi: React.FC = () => {
         toast.error(
           'There was an error submitting the form. Please try again.'
         );
+      } finally {
+        setLoading(false);
       }
     }
   };
 
+  const today = new Date();
+  const nextDay = new Date(today);
+  nextDay.setDate(today.getDate() + 1);
+  const minDate = nextDay.toISOString().split('T')[0];
+
   return (
-    <div className="@container">
-      <h1>Fundi</h1>
-      <div className="w-full rounded-lg bg-white p-4">
+    <div className="relative">
+      <h1 className="text-2xl font-bold">Fundi</h1>
+      <div className="w-full rounded-lg bg-white p-4 shadow-md">
         <div>
-          <Pricing />
+          <Pricing onPlanSelect={handlePlanSelect} />
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -202,7 +220,7 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(selected) => setSkill(selected as Option)}
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <Select
                 label="Request Type"
                 options={reqType}
@@ -218,7 +236,7 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(selected) => setManaged(selected as Option)}
                 disabled // Disable the field
               />
-            </div>
+            </div> */}
             <div className="form-group">
               <Select
                 label="County"
@@ -251,6 +269,8 @@ const GenerateInvoiceFundi: React.FC = () => {
                 label="Date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min={minDate}
+                className="form-control"
               />
             </div>
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
@@ -276,12 +296,19 @@ const GenerateInvoiceFundi: React.FC = () => {
             className={`mx-auto mt-8 block w-full rounded-md ${
               isFormValid
                 ? 'bg-blue-600 hover:bg-blue-700'
-                : 'cursor-not-allowed bg-gray-400'
-            } px-4 py-2 text-white`}
+                : 'cursor-not-allowed bg-gray-500'
+            }`}
             disabled={!isFormValid}
           >
             Generate Invoice
           </Button>
+          {loading && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+              <div className="h-16 w-16 animate-spin rounded-full border-4 border-t-4 border-solid border-blue-600">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </div>
