@@ -17,6 +17,7 @@ import type { Schema } from 'zod';
 // import { signUpFormSchema, SignUpFormSchema } from '@/utils/validators/custom-signup.schema'
 import { MultiStepFormSteps } from '@/types/custom-types';
 import { Button, Stepper } from 'rizzui';
+import { PiArrowRightBold } from 'react-icons/pi';
 // import { PiArrowRightBold, PiArrowLeftBold } from 'react-icons/pi';
 // import { useRouter } from 'next/navigation';
 // import { routes } from '@/config/routes';
@@ -183,7 +184,7 @@ export default function CustomMultiStepForm<
                   // disabled={currentStep === steps.length - 1}
                 >
                   <span>Submit</span>{' '}
-                  {/* <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" /> */}
+                  <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
                 </Button>
               ) : (
                 <Button

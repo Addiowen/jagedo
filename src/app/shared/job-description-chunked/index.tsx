@@ -9,13 +9,14 @@ interface Props {
   className?: string;
 }
 
-const JobDescription =
-  () =>
-  ({ data, className }: Props) => {
-    // Convert the data object to a single concatenated string
-    const dataString = Object.values(data).join(' ');
+const JobDescription = ({ data, className }: Props) => {
+  // Convert the data object to a single concatenated string
+  const dataString = Object.values(data).join(' ');
 
-    return <div className={className}>{dataString}</div>;
-  };
+  return <div className={className}>{dataString}</div>;
+};
+
+// Add the displayName for better debugging
+JobDescription.displayName = 'JobDescription';
 
 export default JobDescription;

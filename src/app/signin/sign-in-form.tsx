@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'; // Spinner icon
 import { Checkbox, Password, Button, Input, Text } from 'rizzui';
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
@@ -17,16 +18,22 @@ const initialValues: LoginSchema = {
 };
 
 export default function SignInForm() {
-  //TODO: why we need to reset it here
+  // State to track form submission
+  const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState({});
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-    console.log(JSON.stringify(data));
-
-    signIn('credentials', {
-      ...data,
-    });
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    // Set loading state to true when the form is submitted
+    setLoading(true);
+    try {
+      await signIn('credentials', { ...data });
+      // Handle successful login, reset loading if needed
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // Reset loading state after completion
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,9 +78,13 @@ export default function SignInForm() {
                 Forget Password?
               </Link>
             </div>
-            <Button className="w-full" type="submit" size="lg">
+            <Button className="w-full" type="submit" size="lg" disabled={loading}>
               <span>Sign in</span>{' '}
-              <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+              {loading ? (
+                <AiOutlineLoading3Quarters className="ms-2 mt-0.5 h-5 w-5 animate-spin" />
+              ) : (
+                <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+              )}
             </Button>
           </div>
         )}
@@ -81,7 +92,6 @@ export default function SignInForm() {
       <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
         Don’t have an account?{' '}
         <Link
-          // href={routes.auth.signUp4}
           href={'/signup'}
           className="font-semibold text-gray-700 transition-colors hover:text-blue"
         >
