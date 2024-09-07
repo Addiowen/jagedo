@@ -56,7 +56,7 @@ export default function ActiveJobDetailsCard({
   return (
     <>
       <div className="mb-4">
-        <UserDetailsCard />
+        {/* <UserDetailsCard /> */}
       </div>
 
       <div className="mb-4">

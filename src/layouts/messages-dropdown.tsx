@@ -39,11 +39,11 @@ function MessagesList({
 }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { data: session } = useSession(); // Call useSession here at the top level
 
   useEffect(() => {
     async function fetchMessages() {
       try {
-        const { data: session } = useSession();
         if (session) {
           const userId = session?.user.userId;
 
@@ -67,8 +67,10 @@ function MessagesList({
       }
     }
 
-    fetchMessages();
-  }, []);
+    if (session) {
+      fetchMessages();
+    }
+  }, [session]); // Add session as a dependency to the useEffect hook
 
   if (loading) return (
     <div className="flex justify-center items-center h-full">
@@ -99,7 +101,7 @@ function MessagesList({
             >
               <div className="relative">
                 <Avatar
-                  src={message.senderId} // You may need to adjust this based on how avatars are handled
+                  src={message.senderId} // Adjust this as needed
                   name={message.senderId}
                   className="h-9 w-9"
                 />
@@ -138,26 +140,5 @@ function MessagesList({
         </div>
       </SimpleBar>
     </div>
-  );
-}
-
-export default function MessagesDropdown({
-  children,
-}: {
-  children: JSX.Element & { ref?: React.RefObject<any> };
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <Popover
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-      shadow="sm"
-      placement="bottom-end"
-    >
-      <Popover.Trigger>{children}</Popover.Trigger>
-      <Popover.Content className="z-[9999] pb-6 pe-6 ps-0 pt-5 dark:bg-gray-100 [&>svg]:hidden [&>svg]:dark:fill-gray-100 sm:[&>svg]:inline-flex">
-        <MessagesList setIsOpen={setIsOpen} />
-      </Popover.Content>
-    </Popover>
   );
 }
