@@ -9,13 +9,18 @@ interface Plan {
   isHighlighted: boolean;
 }
 
-const Pricing: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+interface PricingProps {
+  onPlanSelect: (title: string, price: string) => void; // Prop to pass the selected plan to parent
+}
+
+const Pricing: React.FC<PricingProps> = ({ onPlanSelect }) => {
+  // Update state type to store both title and price
+  const [selectedPlan, setSelectedPlan] = useState<{ title: string; price: string } | null>(null);
 
   const plans: Plan[] = [
     {
       title: 'Managed by Jagedo',
-      price: '3,000',
+      price: '3000',
       description: 'Linkage Fee',
       features: [
         'Fee is inclusive of 1 day labour charges and transport up to a certain radius [15KM from the county designated town]',
@@ -26,7 +31,7 @@ const Pricing: React.FC = () => {
     },
     {
       title: 'Managed by Self',
-      price: '1,000',
+      price: '1000',
       description: 'Linkage Fee',
       features: [
         'Fee is exclusive of labour, transport, and material',
@@ -37,14 +42,15 @@ const Pricing: React.FC = () => {
   ];
 
   useEffect(() => {
-    // Initialize the selectedPlan with the first plan's title
-    if (plans.length > 0) {
-      setSelectedPlan(plans[0].title);
+    if (selectedPlan) {
+      // Notify parent about the selected plan
+      onPlanSelect(selectedPlan.title, selectedPlan.price);
     }
-  }, []); // Empty dependency array means this runs once when the component mounts
+  }, [selectedPlan, onPlanSelect]);
 
-  const handleSelectPlan = (title: string) => {
-    setSelectedPlan(title);
+  // Update function to handle both title and price
+  const handleSelectPlan = (title: string, price: string) => {
+    setSelectedPlan({ title, price });
   };
 
   return (
@@ -57,8 +63,8 @@ const Pricing: React.FC = () => {
           <PlanCard
             key={index}
             {...plan}
-            isSelected={selectedPlan === plan.title}
-            onClick={() => handleSelectPlan(plan.title)}
+            isSelected={selectedPlan?.title === plan.title}
+            onClick={() => handleSelectPlan(plan.title, plan.price)}
           />
         ))}
       </div>

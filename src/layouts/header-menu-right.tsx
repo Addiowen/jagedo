@@ -21,7 +21,7 @@ export default function HeaderMenuRight() {
           className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
         />
       </ActionIcon>
-      <MessagesDropdown>
+      {/* <MessagesDropdown>
         <ActionIcon
           aria-label="Messages"
           variant="text"
@@ -35,7 +35,7 @@ export default function HeaderMenuRight() {
             className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
           />
         </ActionIcon>
-      </MessagesDropdown>
+      </MessagesDropdown> */}
 
       <SettingsButton />
       <ProfileMenu />

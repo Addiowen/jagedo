@@ -5,6 +5,7 @@ interface Metadata {
   county: string;
   managed: string;
   village: string;
+  amount: string;
   subCounty: string;
   description: string;
   packageType: string;
@@ -18,6 +19,7 @@ interface RequestDetails {
   createdDate: string;
   updatedDate: string;
   name: string;
+  amount: string;
   description: string | null;
   ownerId: string | null;
   categoryId: string;

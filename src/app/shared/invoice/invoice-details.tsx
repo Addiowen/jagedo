@@ -54,7 +54,7 @@ export default function InvoiceDetails() {
 
   const requestType = requestDetails?.metadata.packageType;
   const managed = requestDetails?.metadata.managed;
-  const linkageFee = requestDetails?.metadata.linkageFee;
+  const linkageFee = requestDetails?.metadata.amount;
 
   const packageType = `fundi${managed?.toLowerCase()}managedrequest`;
 
@@ -176,24 +176,24 @@ export default function InvoiceDetails() {
           setPaymentStatus('Paid');
 
           // Call the journal entry API
-          const journalEntryResponse = await axios.post(
-            'https://uatapimsz.jagedo.co.ke/createJournalEntry',
-            {
-              customer_id: userZohoId, // Replace with the actual customer_id if dynamic
-              amount: linkageFee,
-              reference_number: `${requestDetails && requestDetails.id}`, // Dynamic reference number
-              requestType: packageType,
-            }
-          );
+          // const journalEntryResponse = await axios.post(
+          //   'https://uatapimsz.jagedo.co.ke/createJournalEntry',
+          //   {
+          //     customer_id: userZohoId, // Replace with the actual customer_id if dynamic
+          //     amount: linkageFee,
+          //     reference_number: `${requestDetails && requestDetails.id}`, // Dynamic reference number
+          //     requestType: packageType,
+          //   }
+          // );
 
-          if (journalEntryResponse.data.success) {
-            toast.success(
-              'Journal Entry Created Successfully: ' +
-                journalEntryResponse.data.data.message
-            );
-          } else {
-            toast.error('Failed to create Journal Entry.');
-          }
+          // if (journalEntryResponse.data.success) {
+          //   toast.success(
+          //     'Journal Entry Created Successfully: ' +
+          //       journalEntryResponse.data.data.message
+          //   );
+          // } else {
+          //   toast.error('Failed to create Journal Entry.');
+          // }
 
           router.push(
             `${routes.customers.requisitions}?transactionId=${transactionId}`
@@ -210,7 +210,7 @@ export default function InvoiceDetails() {
     }
   };
 
-  const randomNumber = Math.floor(100000 + Math.random() * 900000);
+  // const randomNumber = Math.floor(100000 + Math.random() * 900000);
 
   return (
     <>
@@ -253,7 +253,7 @@ export default function InvoiceDetails() {
               <div className="mb-4">
                 <h6>Request Type</h6>
                 <Text className="text-2xs mb-1">
-                  {requestType}: Managed By {managed}
+                  {requestType}
                 </Text>
               </div>
               <div className="mb-4">

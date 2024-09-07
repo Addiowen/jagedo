@@ -2,52 +2,80 @@
 
 import React from 'react';
 import cn from '@/utils/class-names';
-import { PiDownloadSimple } from 'react-icons/pi';
+import {
+  PiAcorn,
+  PiAtDuotone,
+  PiDownloadSimple,
+  PiHammer,
+  PiHammerBold,
+  PiWrench,
+  PiWrenchBold,
+} from 'react-icons/pi';
 import { Title } from 'rizzui';
-import JobDescriptionChunked from '../job-description-chunked';
 import { useSearchParams } from 'next/navigation';
-import { JobDescription, Note } from '@/data/custom-job-details-data';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
 
-// interface Item {
-//   [key: string]: string;
-// }
+export interface Item {
+  'Request Type': string;
+  'Request Date': string;
+  'Request Number'?: string;
+  'Job Description'?: string;
+  County: string;
+  'Sub-County': string;
+  'Estate/Village'?: string;
+  Status?: string;
+  Category: string;
+  Profession?: string;
+  Skill?: string;
+  Contractor?: string;
+  'Managed By'?: string;
 
-interface Item {
-  [key: string]: string | string[];
+  'Sub-Category'?: string;
+  'Deadline for availability'?: string;
+  'Invoice Number'?: string;
+  'Payment Status': string;
+  Rate?: string;
+  'Start Date': string;
+  'End Date': string;
+  Attachments?: string[];
 }
-
-// [key: string]: string | string[];
 
 interface Props {
   data: Item;
+  requestDetails: any;
   className?: string;
   dataChunkSize: number;
 }
 
-interface Data {
-  [key: string]: string;
-}
-
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
-  // const pathname = usePathname()
-  // const requestDetailsPage = pathname.includes('requisitions')
-
+const ChunkedGrid: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+  requestDetails,
+}) => {
   const searchParams = useSearchParams();
+
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
 
   const jobId = searchParams.get('id');
 
-  // const filteredData =
+  const { Attachments, 'Job Description': jobDescription, ...restData } = data;
+
+  // const uploadsData = requestDetails.Uploads;
+
+  // const uploads = uploadsData.map((url: any) => ({
+  //   name: getFileNameFromUrl(url),
+  //   url: url,
+  // }));
 
   // Convert the data object to an array of key-value pairs
-  const dataArray = Object.entries(data);
-  // console.log(dataArray)
+  const dataArray = Object.entries(restData);
+  console.log(dataArray, 'admin data array');
 
   // Helper function to chunk the data into subarrays of a specified size
-  const chunkArray = (
-    array: [string, string | string[]][],
-    chunkSize: number
-  ) => {
+  const chunkArray = (array: [string, string][], chunkSize: number) => {
     const result = [];
     for (let i = 0; i < array.length; i += chunkSize) {
       result.push(array.slice(i, i + chunkSize));
@@ -64,11 +92,14 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         Project Details
       </div>
 
-      <JobDescriptionChunked
-        data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
-        dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      {jobDescription && (
+        <div className="mb-6 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md">
+          <Title as="h4" className="mb-4 text-sm font-semibold text-gray-900">
+            Job Description
+          </Title>
+          <div className="text-gray-500">{jobDescription}</div>
+        </div>
+      )}
 
       <div
         className={cn(
@@ -87,17 +118,17 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
               // <span className="font-semibold text-gray-900 mr-2">{key}:</span>
               // <span className="text-end">{value}</span>
               // </li>
-              <div key={itemIndex} className="flex items-start">
+              <div key={itemIndex} className="flex items-center">
                 {/* <div
-                    className={cn(
-                      'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded',
-                      'bg-gray-100'
-                      // item.fill,
-                      // item.color
-                    )}
-                  >
-                    <PiHammerBold className="w-4 h-4" />
-                  </div> */}
+              className={cn(
+                'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded',
+                'bg-gray-100'
+                // item.fill,
+                // item.color
+              )}
+            >
+              <PiHammerBold className="w-4 h-4" />
+            </div> */}
                 <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
                   <div className="">
                     <Title
@@ -106,8 +137,8 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     >
                       {key}
                     </Title>
-                    {key === 'Attachments' ? (
-                      <div className="flex flex-wrap gap-6 text-gray-500">
+                    {key === 'Uploads' ? (
+                      <div className=" flex flex-wrap gap-6 text-gray-500">
                         {(value as unknown as string[]).map(
                           (imgSrc, imgIndex) => (
                             <a key={imgIndex} href={imgSrc} download>
@@ -119,16 +150,13 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     ) : (
                       <div className="text-gray-500">{value}</div>
                     )}
-                    {/* <div className="text-gray-500">
-                        {value}
-                      </div> */}
                   </div>
                   {/* <div
-                      as="span"
-                      className="font-lexend text-gray-900 dark:text-gray-700"
-                    >
-                      {item.price}
-                    </div> */}
+                as="span"
+                className="font-lexend text-gray-900 dark:text-gray-700"
+              >
+                {item.price}
+              </div> */}
                 </div>
               </div>
             ))}
@@ -136,14 +164,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         ))}
       </div>
 
-      <ViewAttachments />
-
-      <JobDescriptionChunked
-        className="mt-4"
-        data={Note[0]}
-        dataChunkSize={1}
-        // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      {/* <ViewAttachments attachments={uploads} /> */}
     </div>
   );
 };

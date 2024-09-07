@@ -16,7 +16,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiActiveJobsTable({ className }: { className?: string }) {
+export default function FundiActiveJobsTable({ className, request }: { className?: string, request:any }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -48,12 +48,12 @@ export default function FundiActiveJobsTable({ className }: { className?: string
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(fundiActiveJobsData, pageSize, filterState);
+  } = useTable(request, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: fundiActiveJobsData,
+        data: request,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

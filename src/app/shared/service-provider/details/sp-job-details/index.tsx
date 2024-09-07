@@ -22,13 +22,8 @@ export default function ActiveJobDetailsCard() {
 
       <div className='mb-4'>
         {
-          professional? (
-            <ChunkedGrid data={jobId === 'JOB0021'? professionalActiveJobDetailsData[0] : professionalActiveJobDetailsData[1]} dataChunkSize={8} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6' />
-          ) : contractor? (
-            <ChunkedGrid data={jobId === 'JOB0021'? contractorActiveJobDetailsData[0] : contractorActiveJobDetailsData[1]} dataChunkSize={8} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6' />
-          ) : (
-            <ChunkedGrid data={jobId === 'JOB0021'? activeJobDetailsData[0] : activeJobDetailsData[1]} dataChunkSize={8} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6' />
-          )
+
+            <ChunkedGrid data={ professionalActiveJobDetailsData[0]} requestDetails={ professionalActiveJobDetailsData[0]}dataChunkSize={8} className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6' />
         }
       </div>
     </>

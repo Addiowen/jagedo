@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 // Define the metadata for the page
 export const metadata = {
-  ...metaObject('Admin'),
+  ...metaObject('Customers'),
 };
 
 // Fetch data server-side
@@ -15,7 +15,7 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
+      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate&status=paid`,
     });
     return transactionDetails;
   } catch (error) {
@@ -50,13 +50,13 @@ export default async function Requisitions() {
         category: 'Fundi',
         subCategory: item.metadata?.skill || '',
         requestType:
-          `${item.metadata?.packageType} : managed by ${item.metadata?.managed}` ||
+          `${item.metadata?.packageType}` ||
           '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
-        status: 'paid' || '',
+        status: item.status || '',
       };
     }) || [];
 

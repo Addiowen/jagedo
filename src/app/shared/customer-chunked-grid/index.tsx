@@ -113,7 +113,7 @@ const CustomerChunkedGrid: React.FC<Props> = ({
       <div
         className={cn(
           !className &&
-            'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2',
+            'grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1',
           className
         )}
       >
@@ -124,16 +124,31 @@ const CustomerChunkedGrid: React.FC<Props> = ({
           >
             {chunk.map(([key, value], itemIndex) => (
               key !== 'Uploads' && (
-                <div key={itemIndex} className="flex items-start">
-                  <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2 ps-3.5">
-                    <div className="">
+                <div
+                  key={itemIndex}
+                  className={cn(
+                    'flex items-start',
+                    key === 'Description' && 'col-span-2' // Span the entire width for Description
+                  )}
+                >
+                  <div className="flex w-full items-center justify-between gap-2 ps-3.5">
+                    <div className="w-full">
                       <Title
                         as="h4"
                         className="mb-1 whitespace-nowrap text-sm font-semibold"
                       >
                         {key}
                       </Title>
-                      <div className="text-gray-500">{value}</div>
+                      {key === 'Description' ? (
+                        <div
+                          className="text-gray-500 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded w-full"
+                          style={{ whiteSpace: 'pre-wrap' }} // Preserves line breaks
+                        >
+                          {Array.isArray(value) ? value.join(' ') : value}
+                        </div>
+                      ) : (
+                        <div className="text-gray-500">{value}</div>
+                      )}
                     </div>
                   </div>
                 </div>
