@@ -11,7 +11,7 @@ import ViewAttachments from '../service-provider/details/request-details/view-at
 
 // interface Item {
 //   [key: string]: string;
-// }
+// }c
 
 interface Item {
   [key: string]: string | string[];
@@ -21,6 +21,7 @@ interface Item {
 
 interface Props {
   data: Item;
+  attachementsDetails: any;
   className?: string;
   dataChunkSize: number;
 }
@@ -29,9 +30,25 @@ interface Data {
   [key: string]: string;
 }
 
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
+const ChunkedGrid: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+  attachementsDetails,
+}) => {
   // const pathname = usePathname()
   // const requestDetailsPage = pathname.includes('requisitions')
+
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
+
+  const uploadsData = attachementsDetails.Uploads;
+
+  const structuredAttachments = uploadsData.map((url: string) => ({
+    name: getFileNameFromUrl(url),
+    url: url,
+  }));
 
   const searchParams = useSearchParams();
 
@@ -64,11 +81,11 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         Project Details
       </div>
 
-      <JobDescriptionChunked
+      {/* <JobDescriptionChunked
         data={jobId === '3416' ? JobDescription[0] : JobDescription[1]}
         dataChunkSize={1}
         // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      /> */}
 
       <div
         className={cn(
@@ -106,7 +123,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     >
                       {key}
                     </Title>
-                    {key === 'Attachments' ? (
+                    {key === 'Uploads' ? (
                       <div className="flex flex-wrap gap-6 text-gray-500">
                         {(value as unknown as string[]).map(
                           (imgSrc, imgIndex) => (
@@ -136,14 +153,14 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         ))}
       </div>
 
-      <ViewAttachments />
+      <ViewAttachments attachments={structuredAttachments} />
 
-      <JobDescriptionChunked
+      {/* <JobDescriptionChunked
         className="mt-4"
         data={Note[0]}
         dataChunkSize={1}
         // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      />
+      /> */}
     </div>
   );
 };

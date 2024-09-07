@@ -112,6 +112,11 @@ export const adminMenu: MenuItem[] = [
     icon: <PiClipboardDuotone />,
     dropdownItems: [
       {
+        name: 'Requests',
+        href: routes.admin.requisitions,
+        badge: '',
+      },
+      {
         name: 'Active Jobs',
         href: routes.admin.active,
         badge: '',

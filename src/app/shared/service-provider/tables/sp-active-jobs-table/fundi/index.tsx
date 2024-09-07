@@ -16,7 +16,13 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiActiveJobsTable({ className }: { className?: string }) {
+export default function FundiActiveJobsTable({
+  className,
+  requests,
+}: {
+  className?: string;
+  requests: any;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -29,6 +35,37 @@ export default function FundiActiveJobsTable({ className }: { className?: string
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const results = requests.results;
+
+  const jobs = results.map(
+    (
+      result: {
+        id: any;
+        metadata: {
+          date: any;
+          skill: any;
+          county: any;
+          subCounty: any;
+          packageType: any;
+        };
+        assetType: { name: any };
+        status: any;
+      },
+      index: number
+    ) => ({
+      number: (index + 1).toString(), // Use the index to generate the number
+      id: result.id,
+      date: result.metadata.date,
+      category: 'Fundi',
+      subCategory: result.metadata.skill,
+      requestType: result.metadata.packageType,
+      county: result.metadata.county,
+      subCounty: result.metadata.subCounty,
+      status: result.status,
+      requestTypeId: 1, // Static value or could be mapped if there's a logic for it
+    })
+  );
 
   const {
     isLoading,
@@ -48,12 +85,12 @@ export default function FundiActiveJobsTable({ className }: { className?: string
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(fundiActiveJobsData, pageSize, filterState);
+  } = useTable(jobs, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: fundiActiveJobsData,
+        data: jobs,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

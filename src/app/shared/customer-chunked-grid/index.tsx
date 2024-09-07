@@ -5,7 +5,6 @@ import axios from 'axios';
 import cn from '@/utils/class-names';
 import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
-import JobDescriptionChunked from '../job-description-chunked';
 import { useSearchParams } from 'next/navigation';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
 
@@ -75,19 +74,15 @@ const CustomerChunkedGrid: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    const data = sessionStorage.getItem('uploadedUrls');
+    try {
+      const structuredAttachments = uploadsData.map((url) => ({
+        name: getFileNameFromUrl(url),
+        url: url,
+      }));
 
-    if (data) {
-      try {
-        const structuredAttachments = uploadsData.map((url) => ({
-          name: getFileNameFromUrl(url),
-          url: url,
-        }));
-
-        setAttachments(structuredAttachments);
-      } catch (error) {
-        console.error('Failed to parse session storage data', error);
-      }
+      setAttachments(structuredAttachments);
+    } catch (error) {
+      console.error('Failed to parse session storage data', error);
     }
   }, []);
 

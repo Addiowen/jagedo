@@ -1,3 +1,4 @@
+import { counties } from '@/data/counties';
 import {
   FundiSignUpFormSchema,
   RefinedSpSignUpFormSchema,
@@ -111,8 +112,16 @@ export const skill = [
     value: 'welder',
   },
   {
-    label: 'Builder',
-    value: 'builder',
+    label: 'Mason',
+    value: 'mason',
+  },
+  {
+    label: 'Plumber',
+    value: 'plumber',
+  },
+  {
+    label: 'Electrician',
+    value: 'electrician',
   },
 ];
 
@@ -125,6 +134,10 @@ export const gender = [
     label: 'Female',
     value: 'female',
   },
+  {
+    label: 'Rather Not Say',
+    value: 'Rather Not Say',
+  },
 ];
 
 export const country = [
@@ -132,13 +145,9 @@ export const country = [
     label: 'Kenya',
     value: 'kenya',
   },
-  {
-    label: 'Uganda',
-    value: 'uganda',
-  },
 ];
 
-export const county = [
+export const theCounty = [
   {
     label: 'Kisumu',
     value: 'kisumu',
@@ -149,7 +158,7 @@ export const county = [
   },
 ];
 
-export const subCounty = [
+export const thesubCounty = [
   {
     label: 'Kisumu Central',
     value: 'kisumu central',
@@ -159,3 +168,17 @@ export const subCounty = [
     value: 'kisumu east',
   },
 ];
+
+export const county = Object.keys(counties).map((key) => ({
+  label: key,
+  value: key.toLowerCase().replace(/\s+/g, '-'),
+}));
+
+export const subCounty = Object.entries(counties).flatMap(
+  ([countyName, subCountyNames]) =>
+    subCountyNames.map((name) => ({
+      label: name,
+      value: name.toLowerCase().replace(/\s+/g, '-'),
+      county: countyName,
+    }))
+);

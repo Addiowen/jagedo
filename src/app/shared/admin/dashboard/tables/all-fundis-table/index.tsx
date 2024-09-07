@@ -96,7 +96,6 @@ export default function AllFundisTable({
       );
 
       const transaction = res.data;
-      console.log(transaction, 'this');
 
       if (transaction) {
         return transaction as any;

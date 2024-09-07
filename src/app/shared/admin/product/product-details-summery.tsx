@@ -9,10 +9,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Product } from '@/types';
 import { Button, Title, Text } from 'rizzui';
 import { toCurrency } from '@/utils/to-currency';
-import GetSize from '@/app/shared/ecommerce/product/get-size';
 import { calculatePercentage } from '@/utils/calculate-percentage';
-import { GetColor } from '@/app/shared/ecommerce/product/get-color';
-import WishlistButton from '@/app/shared/ecommerce/product/wishlist-button';
 import { useCart } from '@/store/quick-cart/cart.context';
 import {
   ProductDetailsInput,
@@ -49,8 +46,6 @@ export default function ProductDetailsSummery({
       toast.success(<Text as="b">Product added to the cart</Text>);
     }, 600);
   };
-
-  // console.log('errors', methods.formState.errors?.productColor);
 
   return (
     <>
@@ -89,13 +84,9 @@ export default function ProductDetailsSummery({
             </Button>
           </div>
 
-          {!isEmpty(product.sizes) && <GetSize sizes={product.sizes} />}
-
           <Title as="h6" className="mb-3.5 mt-6 font-inter text-sm font-medium">
             Select Color
           </Title>
-
-          <GetColor colors={product?.colors ?? []} />
 
           <div className="grid grid-cols-1 gap-4 pt-7 @md:grid-cols-2 @xl:gap-6">
             <Button
@@ -107,7 +98,6 @@ export default function ProductDetailsSummery({
               <PiShoppingCartSimple className="me-2 h-5 w-5 lg:h-[22px] lg:w-[22px]" />{' '}
               Add To Cart
             </Button>
-            <WishlistButton />
           </div>
         </form>
       </FormProvider>

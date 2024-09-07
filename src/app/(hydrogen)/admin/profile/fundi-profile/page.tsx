@@ -1,31 +1,55 @@
-// import Link from 'next/link';
-// import { PiPlusBold } from 'react-icons/pi';
 import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
-// import { Button } from 'rizzui';
-// import { routes } from '@/config/routes';
-// import CreateEditProduct from '@/app/shared/admin/product/create-edit';
-// import CreateCustomerForm from '@/app/shared/admin/profile/create-profile/customers/page';
-import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
+import CreateOrganizationProfileForm from '@/app/shared/organization';
+import apiRequest from '@/lib/apiService';
+import { BASE_URL } from '@/lib/axios';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import CreateFundiProfileForm from '@/app/shared/profile/profile/create-profile/fundi';
+import CreateFundiProfileFormNew from '@/app/shared/admin/fundi-profile';
 
 export const metadata = {
   ...metaObject('Profile'),
 };
 
 const pageHeader = {
-  title: 'Profile Creation',
+  title: 'Fundi Profile Creation',
   breadcrumb: [
     {
-      href: '/',
-      name: 'Home',
+      href: '',
+      name: 'Service Providers',
     },
     {
-      name: 'Profile',
+      href: '',
+      name: 'Fundi',
+    },
+    {
+      name: 'Create profile',
     },
   ],
 };
 
-export default function FundiCreateProfilePage() {
+const fetchUserDetails = async (userId: string) => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    const userDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/users/${userId}`,
+    });
+    return userDetails;
+  } catch (error) {
+    console.error('Failed to fetch transaction details:', error);
+    return null;
+  }
+};
+
+export default async function OrganizationCreateProfilePage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+  const user = await fetchUserDetails(searchParams.profileId);
   return (
     <>
       <PageHeader
@@ -33,7 +57,7 @@ export default function FundiCreateProfilePage() {
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
 
-      <CreateFundiProfileForm />
+      <CreateFundiProfileFormNew userDetails={user} />
     </>
   );
 }

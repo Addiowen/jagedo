@@ -24,6 +24,7 @@ import {
   customerInitialValues,
   customerSteps,
   type,
+  gender,
   country,
   county,
   subCounty,
@@ -59,6 +60,8 @@ export default function CustomerSteps() {
   const pathname = usePathname();
 
   const [selectedType, setSelectedType] = useState<string | undefined>();
+  const [selectedGender, setSelectedGender] = useState<string | undefined>();
+
   // submit handler
   const onSubmit: SubmitHandler<CustomerSignUpFormSchema> = async (data, e) => {
     e?.preventDefault();
@@ -78,6 +81,7 @@ export default function CustomerSteps() {
       phone: filteredData.phone,
       metadata: {
         role: 'customer',
+        gender: filteredData.gender,
         phone: filteredData.phone,
         county: filteredData.county,
         subCounty: filteredData.subCounty,
@@ -205,6 +209,34 @@ export default function CustomerSteps() {
                     {...register('phone')}
                     error={errors.phone?.message}
                     className="[&>label>span]:font-medium"
+                  />
+
+                  <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        dropdownClassName="!z-10"
+                        inPortal={false}
+                        placeholder="Select gender"
+                        label="Gender"
+                        size="lg"
+                        selectClassName="font-medium text-sm"
+                        optionClassName=""
+                        options={gender}
+                        onChange={(val: any) => {
+                          onChange(val);
+                          setSelectedGender(val);
+                        }}
+                        value={value}
+                        className=""
+                        getOptionValue={(option) => option.value}
+                        displayValue={(selected) =>
+                          gender?.find((r) => r.value === selected)?.label ?? ''
+                        }
+                        error={errors?.gender?.message as string}
+                      />
+                    )}
                   />
                 </div>
               </motion.div>

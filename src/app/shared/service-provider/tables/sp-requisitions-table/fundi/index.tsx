@@ -35,21 +35,34 @@ export default function FundiRequisitionsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const request = {
-    number: 1, // Assuming 'number' maps to 'id'
-    id: requestDetails.id,
-    date: requestDetails.createdDate.split('T')[0], // Extract date from createdDate
-    category: 'Fundi' || '', // Map 'skill' to 'category'
-    subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
-    requestType:
-      `${requestDetails.metadata.packageType} Managed by Jagedo` || '', // Map 'description' to 'requestType'
-    county: requestDetails.metadata.county || '', // Map 'county'
-    subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
-    status: requestDetails.status, // Status is directly mapped
-    requestTypeId: requestDetails.id, // No direct mapping
-  };
-
-  const requests = [request];
+  const transformedRequests = requestDetails.results.map(
+    (
+      requestDetails: {
+        id: any;
+        createdDate: any;
+        metadata: {
+          packageType: string;
+          county: string;
+          subCounty: string;
+          skill: string;
+          managed: string;
+        };
+        status: any;
+      },
+      index: number
+    ) => ({
+      number: index + 1, // Generate sequential number
+      id: requestDetails.id,
+      date: requestDetails.createdDate, // Extract date from createdDate
+      category: 'Fundi', // Use a default value
+      subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+      requestType: `Managed By ${requestDetails.metadata.managed}` || '', // Construct 'requestType'
+      county: requestDetails.metadata.county || '', // Map 'county'
+      subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+      status: requestDetails.status, // Directly map 'status'
+      requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
+    })
+  );
 
   const {
     isLoading,
@@ -69,12 +82,12 @@ export default function FundiRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(requests, pageSize, filterState);
+  } = useTable(transformedRequests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: requests,
+        data: transformedRequests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

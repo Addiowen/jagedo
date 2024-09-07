@@ -4,12 +4,17 @@ import 'next-auth/jwt';
 declare module 'next-auth' {
   interface Session {
     user: {
+      firstname: string;
+      lastname: string;
       id: string;
       accessToken?: string | null;
       role?: string;
+      email: string;
       metadata: {
         role;
         zohoid;
+        assetId?: string;
+        phone;
       };
       assetId?: string;
       userId: string;

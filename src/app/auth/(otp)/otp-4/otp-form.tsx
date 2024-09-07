@@ -146,6 +146,8 @@ export default function OtpForm() {
   const sendOtpSms = async () => {
     const otp = generateOtp();
     setGeneratedOtp(otp);
+    console.log(otp, 'otp');
+
     const smsMessage = `Your verification code is ${otp}.`;
 
     try {
@@ -196,7 +198,7 @@ export default function OtpForm() {
             userDetails.id,
             zohoResponse.data.contact.contact_id
           );
-          await sendWelcomeSms(userPhone);
+          // await sendWelcomeSms(userPhone);
           sessionStorage.clear();
           router.push(`${routes.signIn}`);
         } else {
@@ -387,7 +389,6 @@ export default function OtpForm() {
   };
 
   const validateOtp = async (otp: string) => {
-    console.log(otp, 'otp');
     console.log(generatedOtp);
 
     if (otp === generatedOtp) {

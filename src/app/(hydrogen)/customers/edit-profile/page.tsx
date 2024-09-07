@@ -30,7 +30,6 @@ const fetchUserDetails = async () => {
       method: 'GET',
       endpoint: `/users/${session?.user.userId}`,
     });
-    console.log(userDetails);
     return userDetails;
   } catch (error) {
     console.error('Failed to fetch usr details:', error);

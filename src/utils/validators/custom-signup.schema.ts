@@ -69,6 +69,7 @@ export const customerSignUpFormSchema = z.object({
   confirmPassword: validateConfirmPassword,
   type: z.string().min(1, { message: messages.typeIsRequired }),
   organizationName: z.string().optional(),
+  gender: z.string().min(1, { message: messages.fieldIsRequired }),
 
   phone: z.string().min(1, { message: messages.phoneNumberIsRequired }),
 

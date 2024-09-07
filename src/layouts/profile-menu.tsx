@@ -3,7 +3,7 @@
 import { Title, Text, Avatar, Button, Popover } from 'rizzui';
 import cn from '@/utils/class-names';
 import { routes } from '@/config/routes';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -82,6 +82,8 @@ const menuItems = [
 ];
 
 function DropdownMenu() {
+  const { data: session } = useSession();
+
   return (
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
@@ -91,9 +93,9 @@ function DropdownMenu() {
         />
         <div className="ms-3">
           <Title as="h6" className="font-semibold">
-            Albert Flores
+            {session?.user.firstname} {session?.user.lastname}
           </Title>
-          <Text className="text-gray-600">flores@doe.io</Text>
+          <Text className="text-gray-600">{session?.user.email}</Text>
         </div>
       </div>
       <div className="grid px-3.5 py-3.5 font-medium text-gray-700">

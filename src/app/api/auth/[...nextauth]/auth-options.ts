@@ -63,7 +63,6 @@ export const authOptions: NextAuthOptions = {
           );
 
           const user = res.data;
-          console.log(user, 'this');
 
           if (user) {
             try {

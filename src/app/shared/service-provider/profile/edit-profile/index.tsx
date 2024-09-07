@@ -7,9 +7,6 @@ import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
-import { OrganizationProfileSchema } from '@/utils/validators/custom-profile.schema';
-import { SubmitHandler } from 'react-hook-form';
-import Link from 'next/link';
 import { routes } from '@/config/routes';
 
 interface Data {
@@ -43,8 +40,10 @@ const uploadsKeys = ['ID', 'Certificate', 'Resume/CV'];
 
 export default function EditProfileContactDetails({
   userDetails,
+  editProfileId,
 }: {
   userDetails: any;
+  editProfileId: string;
 }) {
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -52,9 +51,6 @@ export default function EditProfileContactDetails({
   const searchParams = useSearchParams();
   const userId = searchParams.get('id');
   const router = useRouter();
-  console.log(userDetails);
-
-  // Create asset
 
   const onSubmit = async () => {
     try {
@@ -105,10 +101,19 @@ export default function EditProfileContactDetails({
     }
   };
 
+  // if (!userDetails || !userDetails.metadata) {
+  //   return <div>Loading...</div>;
+  // }
+
   const handleEditClick = () => {
     sessionStorage.clear();
-    router.push(routes.customers.createCustomerProfile);
+    router.push(routes.admin.createFundiProfile);
+    router.push(
+      `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
+    );
   };
+
+  //Create asset
 
   const handleSaveAndCreate = async () => {
     try {
@@ -117,6 +122,16 @@ export default function EditProfileContactDetails({
         categoryId: 'ctgy_F7Qaie1ksf1tT8HOksf',
         assetTypeId: 'typ_G5E60le1XBw1tFR9PXBw',
         ownerId: userId,
+        customAttributes: {
+          estate: userDetails.metadata.estate,
+          email: userDetails.metadata.email,
+          phone: userDetails.metadata.phone,
+          subcounty: userDetails.metadata.subCounty,
+          county: userDetails.metadata.county,
+          skill: userDetails.metadata.skill,
+          lastName: userDetails.metadata.lastname,
+          firstName: userDetails.metadata.firstname,
+        },
         metadata: {
           ...userDetails.metadata,
         },
@@ -221,7 +236,7 @@ export default function EditProfileContactDetails({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <div className="items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
+            <div className="flex flex-row items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
               <div className="flex flex-col">
                 <EditProfileCard
                   userDetails={userDetails}
@@ -233,38 +248,41 @@ export default function EditProfileContactDetails({
                 <Button
                   onClick={handleEditClick}
                   as="span"
-                  className="mt-4 h-[38px] cursor-pointer shadow md:h-10"
+                  className="mt-4 h-[38px] w-32 cursor-pointer shadow md:h-10"
                 >
                   Edit Profile
                 </Button>
               </div>
-            </div>
 
-            <div className="col-span-2">
-              <div className="mb-3.5 @5xl:mb-5">
-                <Title as="h3" className="text-base font-semibold @7xl:text-lg">
-                  Personal Details
-                </Title>
-              </div>
-              <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
-                <ProfileChunkedGrid
-                  data={personalDetails}
-                  dataChunkSize={16}
-                  editMode={editMode}
-                />
-              </div>
+              <div className="col-span-2">
+                <div className="mb-3.5 @5xl:mb-5">
+                  <Title
+                    as="h3"
+                    className="text-base font-semibold @7xl:text-lg"
+                  >
+                    Personal Details
+                  </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
+                  <ProfileChunkedGrid
+                    data={personalDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
+                </div>
 
-              {isAdmin && (
-                <Button
-                  onClick={() => {
-                    handleSaveAndCreate();
-                  }}
-                  as="span"
-                  className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
-                >
-                  Approve
-                </Button>
-              )}
+                {isAdmin && (
+                  <Button
+                    onClick={() => {
+                      handleSaveAndCreate();
+                    }}
+                    as="span"
+                    className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                  >
+                    Approve
+                  </Button>
+                )}
+              </div>
             </div>
           </Tab.Panel>
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import cn from '@/utils/class-names';
@@ -12,10 +12,8 @@ import {
   PiWrenchBold,
 } from 'react-icons/pi';
 import { Title } from 'rizzui';
-import JobDescriptionChunked from './job-description-chunked';
 import { useSearchParams } from 'next/navigation';
-import ActiveJobDetailsAttachments from '../admin/add-attachments';
-import ViewAttachmentsBlock from '@/components/view-attachments-block';
+import ViewAttachments from '../service-provider/details/request-details/view-attachments';
 
 export interface Item {
   'Request Type': string;
@@ -44,20 +42,37 @@ export interface Item {
 
 interface Props {
   data: Item;
+  requestDetails: any;
   className?: string;
   dataChunkSize: number;
 }
 
-const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
+const ChunkedGrid: React.FC<Props> = ({
+  data,
+  className,
+  dataChunkSize,
+  requestDetails,
+}) => {
   const searchParams = useSearchParams();
+
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
 
   const jobId = searchParams.get('id');
 
   const { Attachments, 'Job Description': jobDescription, ...restData } = data;
 
+  const uploadsData = requestDetails.Uploads;
+
+  const uploads = uploadsData.map((url: any) => ({
+    name: getFileNameFromUrl(url),
+    url: url,
+  }));
+
   // Convert the data object to an array of key-value pairs
   const dataArray = Object.entries(restData);
-  console.log(dataArray);
+  console.log(dataArray, 'admin data array');
 
   // Helper function to chunk the data into subarrays of a specified size
   const chunkArray = (array: [string, string][], chunkSize: number) => {
@@ -122,7 +137,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
                     >
                       {key}
                     </Title>
-                    {key === 'Attachments' ? (
+                    {key === 'Uploads' ? (
                       <div className=" flex flex-wrap gap-6 text-gray-500">
                         {(value as unknown as string[]).map(
                           (imgSrc, imgIndex) => (
@@ -149,22 +164,7 @@ const ChunkedGrid: React.FC<Props> = ({ data, className, dataChunkSize }) => {
         ))}
       </div>
 
-      {/* {Attachments && Attachments.length > 0 && (
-        <div className="mb-6 mt-6 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md">
-          <Title as="h4" className="mb-4 text-sm font-semibold text-gray-900">
-            Attachments
-          </Title>
-          <div className="flex flex-wrap gap-6 text-gray-500">
-            {Attachments.map((imgSrc, imgIndex) => (
-              <a key={imgIndex} href={imgSrc} download>
-                <PiDownloadSimple className="h-5 w-5 text-blue-500" />
-              </a>
-            ))}
-          </div>
-        </div>
-      )} */}
-
-      <ViewAttachmentsBlock />
+      <ViewAttachments attachments={uploads} />
     </div>
   );
 };

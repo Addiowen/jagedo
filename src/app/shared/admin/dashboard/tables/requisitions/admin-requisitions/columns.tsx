@@ -24,14 +24,14 @@ type Columns = {
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
-    case 'under review':
+    case 'draft':
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot />
           <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
         </div>
       );
-    case 'open':
+    case 'paid':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -97,7 +97,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 250,
+    width: 150,
     render: (requestType: string) => (
       <Text className="font-semibold">{requestType}</Text>
     ),

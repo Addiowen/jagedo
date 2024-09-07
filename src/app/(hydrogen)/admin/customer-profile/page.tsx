@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Fundi Profile Creation',
+  title: 'Customer Profile Creation',
   breadcrumb: [
     {
       href: '',

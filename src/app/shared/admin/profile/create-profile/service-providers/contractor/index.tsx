@@ -39,8 +39,6 @@ export default function CreateContractorProfileForm() {
 
   // submit handler
   const onSubmit: SubmitHandler<ContractorProfileSchema> = (data) => {
-    console.log(data);
-
     window.sessionStorage.setItem('profileCreated', 'true');
     window.location.reload();
     // router.push()

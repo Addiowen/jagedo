@@ -40,7 +40,7 @@ const Reviews: React.FC = () => {
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project);
     setShowModal(true);
-  };  
+  };
 
   // Handle rating change
   const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,9 +49,11 @@ const Reviews: React.FC = () => {
       setRating(value);
     }
   };
-  
+
   // Handle comment change
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setComment(event.target.value);
   };
 
@@ -59,8 +61,6 @@ const Reviews: React.FC = () => {
   const handleSubmitReview = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Handle submission logic (e.g., send review to server)
-    console.log('Rating:', rating);
-    console.log('Comment:', comment);
     // Reset fields after submission
     setRating(null);
     setComment('');
@@ -95,14 +95,16 @@ const Reviews: React.FC = () => {
       {showModal && selectedProject && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+            <span className="close" onClick={() => setShowModal(false)}>
+              &times;
+            </span>
             <h2>Project Review: {selectedProject.status}</h2>
             <form onSubmit={handleSubmitReview}>
               <div className="form-group">
                 <label htmlFor="rating">Rating (1-5):</label>
                 <input
                   type="number"
-                   id="rating"
+                  id="rating"
                   name="rating"
                   min="1"
                   max="5"
@@ -122,7 +124,9 @@ const Reviews: React.FC = () => {
                   required
                 />
               </div>
-              <button type="submit" className="submit-button">Submit Review</button>
+              <button type="submit" className="submit-button">
+                Submit Review
+              </button>
             </form>
           </div>
         </div>

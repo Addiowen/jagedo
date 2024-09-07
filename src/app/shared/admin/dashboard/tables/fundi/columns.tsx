@@ -137,7 +137,7 @@ export const getColumns = ({
     title: <HeaderCell title="Skill" />,
     dataIndex: 'skill',
     key: 'skill',
-    width: 150,
+    width: 100,
     render: (skill: string) => <Text>{skill}</Text>,
   },
 

@@ -114,9 +114,6 @@ const GenerateInvoiceFundi: React.FC = () => {
     event.preventDefault();
 
     // Retrieve the latest uploads from session storage
-    const existingUrls = JSON.parse(
-      sessionStorage.getItem('uploadedUrls') || '[]'
-    ) as string[];
 
     // Update the state to ensure the form has the latest data
     console.log(urls);
@@ -131,6 +128,7 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
+        status: [''],
         packageType: value?.value || '',
         managed: managed?.value || '',
         county: county?.value || '',
@@ -172,6 +170,7 @@ const GenerateInvoiceFundi: React.FC = () => {
 
         // Handle successful response
         if (response.data) {
+          console.log(response.data, 'my transaction');
           toast.success('Form submitted successfully!');
           router.push(
             `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`

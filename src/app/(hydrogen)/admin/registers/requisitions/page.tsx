@@ -10,7 +10,7 @@ const fetchTransactions = async () => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?orderBy=createdDate&order=desc`,
+      endpoint: `/transactions?orderBy=createdDate&order=desc&status=paid`,
     });
     return transactionDetails;
   } catch (error) {
@@ -22,24 +22,24 @@ const fetchTransactions = async () => {
 export default async function AdminRequisitionsPage() {
   const transactions = await fetchTransactions();
 
+  console.log(transactions, 'transactions');
+
   // Format the data if needed
   const formattedData =
     transactions?.results.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
       return {
         number: index + 1,
         id: item.id || '',
-        date: item.metadata?.date || '',
+        date: item.createdDate || '',
         category: 'Fundi',
         subCategory: item.metadata?.skill || '',
-        requestType:
-          `${item.metadata?.packageType} : managed by ${item.metadata?.managed}` ||
-          '',
+        requestType: `Managed by ${item.metadata?.managed}` || '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
-        status: 'paid' || '',
+        status:
+          item.status.charAt(0).toUpperCase() + item.status.slice(1) || '',
       };
     }) || [];
 

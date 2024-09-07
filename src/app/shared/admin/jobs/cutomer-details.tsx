@@ -71,9 +71,7 @@ export default function CustomerDetailsCard({
 }: {
   className?: string;
 }) {
-  function handleChange(viewType: string) {
-    console.log('viewType', viewType);
-  }
+  function handleChange(viewType: string) {}
 
   return (
     <WidgetCard

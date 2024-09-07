@@ -34,9 +34,9 @@ export default function FundisTable({
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('requestId');
-  const router = useRouter();
+  const packageType = searchParams.get('requestType');
 
-  console.log(selectedRowIds);
+  const router = useRouter();
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -74,13 +74,13 @@ export default function FundisTable({
   }, [selectedRowKeys]);
 
   const newBookedRequests = {
+    status: 'assigned',
     metadata: {
-      bookedRequests: [selectedRowIds],
+      bookingRequests: [selectedRowIds],
     },
   };
 
   const assetIds = selectedRowIds;
-  console.log(assetIds);
 
   const assignAssetIdstoTransaction = async () => {
     try {
@@ -96,14 +96,11 @@ export default function FundisTable({
       );
 
       const transaction = res.data;
-      console.log(transaction, 'this');
 
       if (transaction) {
         return transaction as any;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   let responses;
@@ -116,7 +113,11 @@ export default function FundisTable({
       const patchRequests = assetIds.map(async (assetId) => {
         const res = await axios.patch(
           `${BASE_URL}/assets/${assetId}`,
-          { metadata: { requesttransactionId } },
+          {
+            metadata: {
+              bookingRequests: requesttransactionId,
+            },
+          },
           {
             headers: {
               Authorization:
@@ -126,14 +127,12 @@ export default function FundisTable({
         );
 
         setAssets(res.data);
-        console.log(assets, 'this');
 
         if (assets) {
           return assets as any;
         }
       });
       responses = await Promise.all(patchRequests);
-      console.log('All assets updated successfully:', responses);
     } catch (error) {
       console.error('Error updating assets:', error);
     }
@@ -141,10 +140,8 @@ export default function FundisTable({
 
   const handleAssign = async () => {
     const result = await assignAssetIdstoTransaction();
-    console.log(result);
 
     if (result) {
-      console.log('Transaction updated successfully:', result);
       if (transactionId) {
         const updatedAssets = await assignTransactionIdtoAssets(
           selectedRowIds,

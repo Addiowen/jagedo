@@ -73,7 +73,7 @@ export const messages = {
   errorSendingEmail: 'Error sending email',
   emailSentSuccessfully: 'Your email has been sent successfully.',
   invalidPhoneNumber: 'Phone number must be in the format +25412345678',
-
+  fieldRequired: 'This field is mandatory',
   // added these
   // service provider
   idNoIsRequired: 'ID/Passport Number is required',

@@ -17,6 +17,7 @@ export const customerSteps = [
       'lastName',
       'phone',
       'email',
+      'gender',
     ],
   },
 
@@ -42,6 +43,7 @@ export const customerInitialValues: CustomerSignUpFormSchema = {
   firstName: '',
   lastName: '',
   email: '',
+  gender: '',
   password: '',
   confirmPassword: '',
   type: '',
@@ -69,16 +71,20 @@ export const type = [
   },
 ];
 
-// export const gender = [
-//   {
-//     label: 'Male',
-//     value: 'male',
-//   },
-//   {
-//     label: 'Female',
-//     value: 'female',
-//   },
-// ];
+export const gender = [
+  {
+    label: 'Male',
+    value: 'male',
+  },
+  {
+    label: 'Female',
+    value: 'female',
+  },
+  {
+    label: 'Rather not say',
+    value: 'rather not say',
+  },
+];
 
 export const country = [
   {

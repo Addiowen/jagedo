@@ -18,25 +18,25 @@ const categoryOptions = [
   },
 ];
 
-const locationOptions = [
-  {
-    label: 'Homabay',
-    value: 'Homabay',
-  },
-  {
-    label: 'Mombasa',
-    value: 'Mombasa',
-  },
-];
+// const locationOptions = [
+//   {
+//     label: 'Homabay',
+//     value: 'Homabay',
+//   },
+//   {
+//     label: 'Mombasa',
+//     value: 'Mombasa',
+//   },
+// ];
 
 const statusOptions = [
   {
-    label: 'Open',
-    value: 'Open',
+    label: 'Paid',
+    value: 'Paid',
   },
   {
-    label: 'Under Review',
-    value: 'Under Review',
+    label: 'Draft',
+    value: 'Draft',
   },
 ];
 
@@ -72,7 +72,7 @@ export default function FilterElement({
           placement="bottom-start"
         />
 
-        <StatusField
+        {/* <StatusField
           dropdownClassName="!z-10"
           className="w-full min-w-[158px] @[42rem]:w-auto"
           placeholder="Location"
@@ -87,7 +87,7 @@ export default function FilterElement({
               ?.label ?? ''
           }
           placement="bottom-start"
-        />
+        /> */}
         <StatusField
           placeholder="Status"
           dropdownClassName="!z-10"

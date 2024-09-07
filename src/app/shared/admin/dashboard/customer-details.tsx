@@ -13,8 +13,6 @@ import UserColorIcon from '@/components/icons/user-color';
 import UserDetails from '@/components/cards/user-details';
 import SquareBoxIcon from '@/components/icons/square-box';
 
-
-
 const viewOptions = [
   {
     value: 'today',
@@ -31,9 +29,8 @@ export default function CustomerDetailsCard({
   customerDetails,
 }: {
   className?: string;
-  customerDetails: any
+  customerDetails: any;
 }) {
-
   const statData = [
     {
       id: '1',
@@ -60,11 +57,11 @@ export default function CustomerDetailsCard({
       // icon: <RevenueUpIcon className="h-7 w-7" />,
       graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-green',
-      name: customerDetails.phone,
+      name: customerDetails.metadata.phone,
       increased: true,
       percentage: '+32.40',
     },
-  
+
     {
       id: '4',
       title: 'Email Address',
@@ -75,7 +72,6 @@ export default function CustomerDetailsCard({
       percentage: '5.40',
     },
   ];
-
 
   function handleChange(viewType: string) {
     console.log('viewType', viewType);

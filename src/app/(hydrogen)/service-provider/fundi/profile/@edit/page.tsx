@@ -22,11 +22,11 @@ const pageHeader = {
 export default function EditProfileContactDetailsPage() {
   return (
     <>
-    <PageHeader
+      <PageHeader
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-    <EditProfileContactDetails />
+      <EditProfileContactDetails userDetails={undefined} editProfileId={''} />
     </>
   );
 }

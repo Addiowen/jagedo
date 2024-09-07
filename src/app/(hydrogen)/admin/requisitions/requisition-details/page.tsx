@@ -1,5 +1,3 @@
-
-
 import { routes } from '@/config/routes';
 import { Button, Textarea } from 'rizzui';
 import PageHeader from '@/app/shared/commons/page-header';
@@ -10,22 +8,17 @@ import ToastButton from '@/components/buttons/toast-button';
 import Link from 'next/link';
 import ChunkedGrid from '@/app/shared/commons/custom-chunked-grid';
 import apiRequest from '@/lib/apiService';
-
-
+import WidgetCard from '@/components/cards/widget-card';
 
 interface PageProps {
   searchParams: any;
 }
 
-
 export default async function RequisitionDetailsPage({
   searchParams,
-}: PageProps)  {
-  
+}: PageProps) {
+  const requestId = searchParams.id;
 
-const requestId = searchParams.id
-
- 
   const fetchUserTransaction = async () => {
     try {
       const userTransaction = await apiRequest({
@@ -38,23 +31,25 @@ const requestId = searchParams.id
       return null;
     }
   };
-  
-  const customerRequest = await fetchUserTransaction()
+
+  const customerRequest = await fetchUserTransaction();
 
   const fetchCustomerDetails = async () => {
     try {
-      const userTransaction = await apiRequest({
+      const customerDetails = await apiRequest({
         method: 'GET',
         endpoint: `/users/${customerRequest.takerId}`,
       });
-      return userTransaction;
+      return customerDetails;
     } catch (error) {
       console.error('Failed to fetch transaction details:', error);
       return null;
     }
   };
- 
-  const customerDetails = await fetchCustomerDetails()
+
+  const customerDetails = await fetchCustomerDetails();
+
+  console.log(customerDetails, 'customerDetails');
 
   const requestDetails = {
     Category: 'Fundi',
@@ -64,18 +59,26 @@ const requestId = searchParams.id
     County: customerRequest?.metadata.county || 'N/A',
     'Sub-County': customerRequest?.metadata.subCounty || 'N/A',
     'Estate/Village': customerRequest?.metadata.village || 'N/A',
-    'Request Date': customerRequest?.metadata.date ? new Date(customerRequest.metadata.date).toLocaleDateString() : 'N/A',
+    'Request Date': customerRequest?.metadata.date
+      ? new Date(customerRequest.metadata.date).toLocaleDateString()
+      : 'N/A',
     Status: customerRequest?.status || 'N/A',
-    'Start Date': customerRequest?.startDate ? new Date(customerRequest.startDate).toLocaleDateString() : 'N/A',
-    'End Date': customerRequest?.endDate ? new Date(customerRequest.endDate).toLocaleDateString() : 'N/A',
+    'Start Date': customerRequest?.startDate
+      ? new Date(customerRequest.startDate).toLocaleDateString()
+      : 'N/A',
+    'End Date': customerRequest?.endDate
+      ? new Date(customerRequest.endDate).toLocaleDateString()
+      : 'N/A',
     'Invoice Number': '#3454',
-    'Payment Status': 'Paid', 
-    Amount: customerRequest?.metadata.linkageFee ? customerRequest.metadata.linkageFee.toFixed(2) : 'N/A',
+    'Payment Status': 'Paid',
+    Amount: customerRequest?.metadata.linkageFee
+      ? customerRequest.metadata.linkageFee.toFixed(2)
+      : 'N/A',
+    Uploads: customerRequest?.metadata.uploads || 'N/A',
   };
 
-
   const pageHeader = {
-    title: `REQ# ${requestId.slice(0,6)}...`,
+    title: `REQ# ${requestId.toUpperCase()}`,
     breadcrumb: [
       {
         href: routes.admin.dashboard,
@@ -90,6 +93,9 @@ const requestId = searchParams.id
       },
     ],
   };
+
+  console.log(customerDetails);
+
   return (
     <>
       <PageHeader
@@ -103,6 +109,7 @@ const requestId = searchParams.id
       <div className="mt-4">
         <ChunkedGrid
           data={requestDetails}
+          requestDetails={requestDetails}
           dataChunkSize={8}
           // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         />
@@ -112,60 +119,21 @@ const requestId = searchParams.id
         title="NOTES"
         rounded="lg"
         className="mt-4"
-        action={<Textarea size="sm" className="ml-12 flex flex-grow" />}
+        action={<Textarea size="sm" className="ml-12 flex-grow" />}
       ></WidgetCard3>
 
       <div className="mt-6 flex items-center justify-center space-x-6">
-        {/* {jobId === '3420' || jobId === '3419' ? (
-          <>
-            <Link
-              href={{
-                pathname: routes.admin.professionalQuotation,
-                query: { jobId },
-              }}
-            >
-              <ToastButton title="Create Quotation" />
-            </Link>
-            <Link
-              href={{
-                pathname: routes.admin.assignServiceProvider,
-                query: { jobId },
-              }}
-            >
-              <ToastButton title="Assign Professionals" />
-            </Link>
-          </>
-        ) : jobId === '3502' || jobId === '3700' ? (
-          <>
-            <Link
-              href={{
-                pathname: routes.admin.professionalQuotation,
-                query: { jobId, contractor },
-              }}
-            >
-              <ToastButton title="Create Quotation" />
-            </Link>
-            <Link
-              href={{
-                pathname: routes.admin.assignServiceProvider,
-                query: { jobId, contractor },
-              }}
-            >
-              <ToastButton title="Assign Contractors" />
-            </Link>
-          </>
-        ) : ( 
-        )} */}
-
-
-<Link
-            href={{
-              pathname: routes.admin.assignServiceProvider,
-              query: { requestId },
-            }}
-          >
-            <ToastButton title="Assign Fundis" />
-          </Link>
+        <Link
+          href={{
+            pathname: routes.admin.assignServiceProvider,
+            query: {
+              requestId,
+              requestType: customerRequest?.metadata.packageType || 'N/A',
+            },
+          }}
+        >
+          <ToastButton title="Assign Fundis" />
+        </Link>
       </div>
     </>
   );

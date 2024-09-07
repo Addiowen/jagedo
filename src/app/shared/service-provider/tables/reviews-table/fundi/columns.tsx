@@ -27,7 +27,7 @@ type Columns = {
   onDeleteItem: (id: string) => void;
   onHeaderCellClick: (value: string) => void;
   onChecked?: (id: string) => void;
-  setViewReviewsModalState: Dispatch<SetStateAction<boolean>>
+  setViewReviewsModalState: Dispatch<SetStateAction<boolean>>;
 };
 
 function getStatusBadge(status: string) {
@@ -72,9 +72,7 @@ export const getColumns = ({
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {number}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
     ),
   },
 
@@ -84,11 +82,9 @@ export const getColumns = ({
     key: 'id',
     width: 50,
     render: (id: string) => (
-    // <Text>#{id}</Text>
-    <Text className="text-sm text-gray-900 dark:text-gray-700">
-      #{id}
-    </Text>
-  ),
+      // <Text>#{id}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
+    ),
   },
 
   {
@@ -97,9 +93,7 @@ export const getColumns = ({
     key: 'date',
     width: 100,
     render: (date: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {date}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{date}</Text>
     ),
   },
 
@@ -145,9 +139,7 @@ export const getColumns = ({
     key: 'county',
     width: 100,
     render: (county: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {county}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{county}</Text>
     ),
   },
 
@@ -186,7 +178,7 @@ export const getColumns = ({
   //   width: 100,
   //   render: (value: string) => getStatusBadge(value),
   // },
-  
+
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Action" />,
@@ -194,22 +186,24 @@ export const getColumns = ({
     key: 'action',
     width: 100,
     render: (requestType: string, row: any) => (
-        <div className="gap-3 pe-3">        
-          <Link href={routes.serviceProvider.fundi.viewReview}>
-            <Text /*onClick={() => setViewReviewsModalState(true)}*/ className="text-sm text-green-600 cursor-pointer">
-              View
-            </Text>
-          </Link>
-        </div>
-      ),
+      <div className="gap-3 pe-3">
+        <Link
+          href={{
+            pathname: routes.serviceProvider.fundi.viewReview,
+            query: { id: row.id },
+          }}
+        >
+          <Text className="cursor-pointer text-sm text-green-600">View</Text>
+        </Link>
+      </div>
+    ),
   },
 ];
 
-
-
-
-{/* <div className="gap-3 pe-3">        
+{
+  /* <div className="gap-3 pe-3">        
           <Link href={routes.serviceProvider.fundi.viewReview}>
             <Text className="text-sm text-green-600">View Review</Text>
           </Link>
-        </div> */}
+        </div> */
+}

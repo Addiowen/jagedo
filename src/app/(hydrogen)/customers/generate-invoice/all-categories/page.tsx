@@ -93,15 +93,6 @@ const GenerateInvoiceFundi: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Handle form submission logic
-    console.log({
-      description,
-      date,
-      county,
-      subCounty,
-      village,
-      skill,
-      file,
-    });
   };
 
   return (

@@ -33,10 +33,6 @@ export default function CustomTextArea({ className }: { className?: string }) {
 
   const onSubmit: SubmitHandler<PersonalInfoFormTypes> = () => {
     router.push(`${routes.admin.createRFQ}?type=${managedByType}`);
-
-    // console.log('Profile settings data ->', {
-    //   // ...data,
-    // });
   };
 
   return (

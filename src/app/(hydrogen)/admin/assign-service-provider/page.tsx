@@ -8,11 +8,16 @@ export const metadata = {
   ...metaObject('Assign Service Providers'),
 };
 
-const fetchTransactions = async () => {
+const fetchFundiAssets = async () => {
   try {
     const fundis = await apiRequest({
-      method: 'GET',
-      endpoint: `/assets`,
+      method: 'POST',
+      endpoint: `/search`,
+      data: {
+        query: 'Fundi',
+        page: 1,
+        nbResultsPerPage: 40,
+      },
     });
     return fundis;
   } catch (error) {
@@ -30,12 +35,11 @@ export default async function AddtoServiceProviders({
 }: PageProps) {
   const requestId = searchParams.id;
 
-  const fundis = await fetchTransactions();
-  console.log(fundis.results, 'the fundis');
+  const fundis = await fetchFundiAssets();
+  console.log(fundis.results, 'logged Fundis');
 
   const fundilist =
     fundis?.results.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
       return {
         no: index + 1,
         id: item.id || '',
@@ -44,7 +48,7 @@ export default async function AddtoServiceProviders({
         lastName: item.metadata?.lastName,
         phone: item.metadata.phone,
         category: 'Fundi',
-        skill: item.metadata?.subCategory || '',
+        skill: item.metadata?.skill || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
         status: 'paid' || '',

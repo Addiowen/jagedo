@@ -41,7 +41,6 @@ export default async function RFQEmergencyFundiPage({
   // Example usage
   const customerRequestId = '1234567890';
   const truncatedId = truncateWithEllipses(customerRequestId, 6);
-  console.log(truncatedId); // Output: 123456...
 
   const customerRequest = await fetchUserTransaction();
 
@@ -71,7 +70,6 @@ export default async function RFQEmergencyFundiPage({
       ? customerRequest.metadata.linkageFee.toFixed(2)
       : 'N/A',
   };
-  console.log(formattedData, 'formatted data');
 
   return (
     <>

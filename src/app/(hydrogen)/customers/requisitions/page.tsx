@@ -42,11 +42,10 @@ export default async function Requisitions() {
   // Format the data if needed
   const formattedData =
     transactions.results.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
       return {
         number: index + 1,
         id: item.id || '',
-        date: item.metadata?.date || '',
+        date: item.createdDate || '',
         category: 'Fundi',
         subCategory: item.metadata?.skill || '',
         requestType:

@@ -8,7 +8,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null); // Replace `any` with your user type if possible
+  const [user, setUser] = useState<any>(null);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

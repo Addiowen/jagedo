@@ -48,7 +48,6 @@ export default function WaterContractorsTable({
   };
 
   const filteredData = filterContractorData(contractorData, jobId || '');
-  console.log(filteredData);
 
   const {
     isLoading,

@@ -40,15 +40,16 @@ export default async function EditProfileContactDetailsPage({
 
   const user = await fetchUserDetails();
 
-  // console.log(user);
-
   return (
     <>
       <PageHeader
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <EditProfileContactDetails userDetails={user} />
+      <EditProfileContactDetails
+        editProfileId={searchParams.id}
+        userDetails={user}
+      />
     </>
   );
 }

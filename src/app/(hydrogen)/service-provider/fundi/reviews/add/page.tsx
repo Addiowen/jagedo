@@ -6,15 +6,14 @@ export const metadata = {
   ...metaObject(),
 };
 
-export default function ReviewsPage() {
+export default function ReviewsPage({ searchParams }: { searchParams: any }) {
   return (
     <>
-      <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
-        JOB0021
+      <Title as="h4" className="mb-3.5 pb-5 font-semibold @2xl:mb-5">
+        JOB #{searchParams.jobId.toUpperCase()}
       </Title>
 
       <AddReviewComponent />
     </>
-  )
-  
+  );
 }

@@ -16,13 +16,12 @@ export default function ServiceProviderDashboard() {
         <JobSlider />
         {/* <RequisitionAlerts /> */}
         <Notifications />
-        <WalletCard
+        {/* <WalletCard
           balance={'232,000.00'}
           image={walletImage}
-          /* className="h-[300px] @sm:h-[320px]   @7xl:col-span-4 @7xl:col-start-auto @7xl:row-start-auto" */
-        />
-        <BidsStatus /* className="h-[300px] @sm:h-[320px]   @7xl:col-span-4 @7xl:col-start-auto @7xl:row-start-auto" */
-        />
+        /> */}
+        {/* <BidsStatus
+        /> */}
 
         {/* <ReviewSlider /> */}
       </div>

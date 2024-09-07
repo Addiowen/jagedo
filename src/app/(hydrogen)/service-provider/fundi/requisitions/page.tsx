@@ -3,7 +3,6 @@ import FundiRequisitionsTable from '@/app/shared/service-provider/tables/sp-requ
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
-import { Title } from 'rizzui';
 
 export const metadata = {
   ...metaObject(),
@@ -12,13 +11,19 @@ export const metadata = {
 const fetchUserAssetDetails = async () => {
   try {
     const session = await getServerSession(authOptions);
+    console.log(session, 'fundi session');
 
     if (!session || !session.user) {
       throw new Error('User not authenticated');
     }
 
-    const assetId = session.user.assetId;
-    console.log(assetId, 'that asset Id');
+    const assetId = session.user.metadata.assetId;
+
+    if (!assetId) {
+      throw new Error('User does not exist');
+    }
+
+    console.log(assetId, 'asset id');
 
     const assetDetails = await apiRequest({
       method: 'GET',
@@ -37,18 +42,20 @@ export default async function RequisitionsPage() {
   const asset = await fetchUserAssetDetails();
 
   // Check if asset and metadata exist
-  const therequestId = asset?.metadata?.requesttransactionId;
+  const bookingRequests = asset?.metadata?.bookingRequests;
+
+  console.log(asset.metadata, 'metadata');
 
   const fetchRequestDetails = async () => {
-    if (!therequestId) {
+    if (!bookingRequests) {
       console.error('Request transaction ID is missing');
-      return null; // Handle missing ID case
+      return null;
     }
 
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions/${therequestId}`,
+        endpoint: `/transactions?id[]=${bookingRequests}`,
       });
 
       return assetDetails;

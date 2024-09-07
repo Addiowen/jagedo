@@ -13,6 +13,7 @@ import NextProgress from '@/components/next-progress';
 // styles
 import '@/app/globals.css';
 import { UrlsProvider } from './context/urlsContext';
+import { TransactionProvider } from './context/transactionContext';
 
 export const metadata = {
   title: siteConfig.title,
@@ -25,8 +26,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
-  console.log(session, 'the session');
 
   return (
     <html
@@ -41,15 +40,17 @@ export default async function RootLayout({
         className={cn(inter.variable, lexendDeca.variable, 'font-inter')}
       >
         <AuthProvider session={session}>
-          <UrlsProvider>
-            <ThemeProvider>
-              <NextProgress />
-              {children}
-              <Toaster />
-              <GlobalDrawer />
-              <GlobalModal />
-            </ThemeProvider>
-          </UrlsProvider>
+          <TransactionProvider>
+            <UrlsProvider>
+              <ThemeProvider>
+                <NextProgress />
+                {children}
+                <Toaster />
+                <GlobalDrawer />
+                <GlobalModal />
+              </ThemeProvider>
+            </UrlsProvider>
+          </TransactionProvider>
         </AuthProvider>
       </body>
     </html>

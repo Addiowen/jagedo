@@ -11,6 +11,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import toast from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 export default function ConfirmAvailability({
   requestDetails,
@@ -19,6 +21,9 @@ export default function ConfirmAvailability({
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const [assets, setAssets] = useState([]);
+
+  const { data: session } = useSession();
 
   const emergency = pathname.includes('emergency');
   const router = useRouter();
@@ -27,6 +32,8 @@ export default function ConfirmAvailability({
   // const data = requestDetailsData.find((request) => {
   //   request['Request Number'] === requestId
   // })
+
+  const assetId = session?.user.metadata.assetId;
 
   const request = {
     Category: 'Fundi',
@@ -43,40 +50,29 @@ export default function ConfirmAvailability({
     'Invoice Number': '',
     'Payment Status': requestDetails.status,
     Amount: requestDetails.metadata.linkageFee,
+    Uploads: requestDetails.metadata.uploads,
   };
 
   const postBody = {
     transactionIds: [requestId],
   };
 
-  console.log(postBody);
+  const assignedFundis = [requestDetails.metadata.bookingRequests];
 
-  console.log(request);
+  const otherfundis = assignedFundis.filter((id: string) => id !== assetId);
+
+  console.log(assignedFundis);
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${BASE_URL}/orders`,
-        {
-          transactionIds: [requestId],
-        },
-        {
-          headers: {
-            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-          },
-        }
-      );
-
-      console.log('Response:', response.data);
-
-      const orderData = response.data;
-
-      // Make the PATCH request
+      // First, update the transaction
       const updateTransactionResponse = await axios.patch(
         `${BASE_URL}/transactions/${requestId}`,
         {
+          assetId: assetId,
+          status: 'accepted',
           metadata: {
-            requesttransactionId: '',
+            bookingRequests: assetId,
           },
         },
         {
@@ -86,20 +82,53 @@ export default function ConfirmAvailability({
         }
       );
 
-      console.log(' transaction Response:', updateTransactionResponse.data);
-      // Navigate to the completed jobs page after both requests succeed
-      router.push(
-        `${routes.serviceProvider.fundi.completedJobs}?orderId=${orderData.id}`
-      );
+      console.log('Transaction Response:', updateTransactionResponse.data);
+
+      // If the transaction is successfully updated, remove assetId from booking requests
+      const removeAssetIdFromBookingRequests = async () => {
+        const patchRequests = otherfundis.map(async (assetId: any) => {
+          const res = await axios.patch(
+            `${BASE_URL}/assets/${assetId}`,
+            {
+              metadata: {
+                bookingRequests: [], // Adjust this if necessary to filter the correct bookings
+              },
+            },
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+
+          return res.data;
+        });
+
+        const responses = await Promise.all(patchRequests);
+        console.log('Asset update responses:', responses);
+      };
+
+      // Call removeAssetIdFromBookingRequests after transaction update
+      await removeAssetIdFromBookingRequests();
+
+      // Navigate to completed jobs page only after both requests succeed
+      router.push(`${routes.serviceProvider.fundi.completedJobs}`);
     } catch (error) {
+      // Handle the error and avoid redirection
       console.error('Error:', error);
+      alert(
+        'An error occurred while processing the request. Please try again.'
+      );
     }
   };
-
   return (
     <>
       <div className="my-4">
-        <ChunkedGrid data={request} dataChunkSize={8} />
+        <ChunkedGrid
+          attachementsDetails={request}
+          data={request}
+          dataChunkSize={8}
+        />
       </div>
 
       {!emergency && (

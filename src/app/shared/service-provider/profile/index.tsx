@@ -9,7 +9,6 @@ import {
   orderNoteAtom,
   shippingAddressAtom,
 } from '@/store/checkout';
-import OrderViewProducts from '@/app/shared/ecommerce/order/order-products/order-view-products';
 import { useCart } from '@/store/quick-cart/cart.context';
 import { Title, Text, Button } from 'rizzui';
 import cn from '@/utils/class-names';
@@ -106,10 +105,7 @@ export default function EditFundiForm({ slug }: EditFundiFormProps) {
             </div>
           </WidgetCard>
 
-          <Link
-            href={''}
-            className="inline-flex flex-grow"
-          >
+          <Link href={''} className="inline-flex flex-grow">
             <Button as="span" className="h-[38px] shadow md:h-10">
               Edit Profile
             </Button>

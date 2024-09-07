@@ -35,6 +35,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import axios, { axiosAuth, BASE_URL, createUsersAuth } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { counties } from '@/data/counties';
 
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ssr: false,
@@ -46,10 +48,18 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
 });
 
 export default function FundiSteps() {
-  const { data: session } = useSession();
-
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
   const router = useRouter();
   const pathname = usePathname();
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
 
   const containsProfessional = pathname.includes('professional');
   const containsContractor = pathname.includes('contractor');
@@ -262,7 +272,7 @@ export default function FundiSteps() {
                         options={gender}
                         onChange={onChange}
                         value={value}
-                        className="col-span-full"
+                        className="col-span-full mb-12"
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
                           gender?.find((r) => r.value === selected)?.label ?? ''
@@ -327,9 +337,15 @@ export default function FundiSteps() {
                         label="County/State"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
                         options={county}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className="col-span-full"
                         getOptionValue={(option) => option.value}
@@ -352,15 +368,14 @@ export default function FundiSteps() {
                         label="Sub-County/Area"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
+                        options={subCountyOptions}
                         onChange={onChange}
                         value={value}
                         className="col-span-full"
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
+                          subCountyOptions?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.subCounty?.message as string}
                       />
