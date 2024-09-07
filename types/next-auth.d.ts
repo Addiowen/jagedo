@@ -17,6 +17,7 @@ declare module 'next-auth' {
         phone;
       };
       assetId?: string;
+      ownerId?: string;
       userId: string;
 
       // currentTeamId: string | null;

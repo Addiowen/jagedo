@@ -228,10 +228,6 @@ export default function AllFundisTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
-
-      <div className="mt-6">
-        <Button onClick={handleAssign}>Assign</Button>
-      </div>
     </WidgetCard2>
   );
 }

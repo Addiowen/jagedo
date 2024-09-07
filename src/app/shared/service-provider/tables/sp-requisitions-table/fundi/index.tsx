@@ -56,7 +56,7 @@ export default function FundiRequisitionsTable({
       date: requestDetails.createdDate, // Extract date from createdDate
       category: 'Fundi', // Use a default value
       subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
-      requestType: `Managed By ${requestDetails.metadata.managed}` || '', // Construct 'requestType'
+      requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
       county: requestDetails.metadata.county || '', // Map 'county'
       subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
       status: requestDetails.status, // Directly map 'status'

@@ -118,13 +118,13 @@ export const getColumns = ({
     render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
-  // {
-  //   title: <HeaderCell title="Status" />,
-  //   dataIndex: 'status',
-  //   key: 'status',
-  //   width: 50,
-  //   render: (value: string) => getStatusBadge(value),
-  // },
+  {
+    title: <HeaderCell title="Status" />,
+    dataIndex: 'status',
+    key: 'status',
+    width: 50,
+    render: (value: string) => getStatusBadge(value),
+  },
 
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

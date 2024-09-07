@@ -5,7 +5,7 @@ import apiRequest from '@/lib/apiService';
 import { BASE_URL } from '@/lib/axios';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
-import CreateFundiProfileForm from '@/app/shared/profile/profile/create-profile/fundi';
+import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
 import CreateFundiProfileFormNew from '@/app/shared/admin/fundi-profile';
 
 export const metadata = {
@@ -56,8 +56,7 @@ export default async function OrganizationCreateProfilePage({
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-
-      <CreateFundiProfileFormNew userDetails={user} />
+      <CreateFundiProfileForm userDetails={user} />
     </>
   );
 }

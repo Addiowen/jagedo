@@ -53,7 +53,7 @@ export default function EditProfileCard({
   userDetails,
 }: Props) {
   return (
-    <div className="space-y-7 pt-8 @container @5xl:col-span-1 @5xl:space-y-10 @5xl:pt-0 @6xl:col-span-1">
+    <div className="min-w-[250px] space-y-7 pt-8 @container @5xl:col-span-1 @5xl:space-y-10 @5xl:pt-0 @6xl:col-span-1">
       <WidgetCard
         className="mb-7.5 @5xl:mb-5"
         title="User Details"

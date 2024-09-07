@@ -1,8 +1,6 @@
 'use client';
 
 import WidgetCard from '@/components/cards/widget-card';
-import TrendingUpIcon from '@/components/icons/trending-up';
-import { Title } from 'rizzui';
 import cn from '@/utils/class-names';
 import {
   ResponsiveContainer,
@@ -11,15 +9,16 @@ import {
   Bar,
   LabelList,
   ComposedChart,
-  Cell,
 } from 'recharts';
 import SimpleBar from 'simplebar-react';
 import { formatNumber } from '@/utils/format-number';
 import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
-const data = [
+const initialData = [
   {
     name: 'Requests',
     total: 8,
@@ -33,12 +32,11 @@ const data = [
     link: routes.admin.quotations,
   },
   {
-    name: 'Active Jobs',
-    total: 10,
+    name: 'Jobs',
+    total: 5,
     fill: '#04364A',
     link: routes.admin.active,
   },
-
   {
     name: 'Completed',
     total: 13,
@@ -48,28 +46,68 @@ const data = [
   {
     name: 'Reviews',
     total: 5,
-    fill: '#F0CCC5',
+    fill: '#FFC0CB',
     link: routes.admin.reviews,
   },
 ];
 
-const viewOptions = [
-  {
-    value: 'Daily',
-    label: 'Daily',
-  },
-  {
-    value: 'Monthly',
-    label: 'Monthly',
-  },
-];
-
 export default function JobSlider({ className }: { className?: string }) {
-  const [activeBar, setActiveBar] = useState<string | null>(null);
+  const { data: session } = useSession();
+
+  const takerId = session?.user.userId;
+  console.log(takerId, 'this is taker id');
+  const [data, setData] = useState(initialData); // State to store the data
+
+  useEffect(() => {
+    // Fetch stats from the API
+    async function fetchStats() {
+      try {
+        const response = await axios.get(
+          `https://uatapimsz.jagedo.co.ke/transactionAdminStats`,
+          {
+            headers: {
+              Authorization:
+                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            },
+          }
+        );
+
+        const apiData = response.data.data;
+
+        console.log(apiData);
+
+        // Use functional update for setData to always work with the latest data state
+        setData((prevData) =>
+          prevData.map((item) => {
+            switch (item.name) {
+              case 'Requests':
+                return { ...item, total: parseInt(apiData.paid_count) };
+              case 'Quotations':
+                return { ...item, total: parseInt(apiData.quotation_count) };
+              case 'Jobs':
+                return { ...item, total: parseInt(apiData.active_count) };
+              case 'Completed':
+                return { ...item, total: parseInt(apiData.completed_count) };
+              case 'Reviews':
+                return { ...item, total: parseInt(apiData.draft_count) };
+              default:
+                return item;
+            }
+          })
+        );
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    }
+
+    if (takerId) {
+      fetchStats();
+    }
+  }, [takerId]); // Make sure takerId is available before fetching the data
+
   const router = useRouter();
 
-  const handleBarClick = (data: { name: string; link: string }) => {
-    setActiveBar(data.name);
+  const handleBarClick = (data: { link: any }) => {
     const { link } = data;
     if (link) {
       router.push(link);
@@ -83,7 +121,7 @@ export default function JobSlider({ className }: { className?: string }) {
       headerClassName="items-center"
       className={cn(' @container', className)}
     >
-      <div className="mb-2 flex items-center  @lg:mt-1"></div>
+      <div className="-mt-2 mb-2 flex items-center  @lg:mt-1"></div>
       <SimpleBar>
         <div className="-mt-4 h-[17rem] w-full pt-1">
           <ResponsiveContainer width="100%" height="100%">
@@ -105,18 +143,15 @@ export default function JobSlider({ className }: { className?: string }) {
                 tickLine={false}
                 style={{ fontSize: 13, fontWeight: 500 }}
                 width={100}
-                className="rtl:-translate-y-24 [&_.recharts-text]:fill-gray-700"
+                className="rtl:-translate-x-24 [&_.recharts-text]:fill-gray-700"
               />
               <Bar
                 dataKey="total"
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
-                className="cursor-pointer "
+                minPointSize={60}
               >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
-                ))}
                 <LabelList
                   position="right"
                   dataKey="total"

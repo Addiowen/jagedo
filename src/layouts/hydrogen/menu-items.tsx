@@ -77,10 +77,10 @@ export const adminMenu: MenuItem[] = [
             name: 'Individual',
             href: routes.admin.individual,
           },
-          {
-            name: 'Organization',
-            href: routes.admin.organization,
-          },
+          // {
+          //   name: 'Organization',
+          //   href: routes.admin.organization,
+          // },
         ],
       },
 
@@ -93,14 +93,14 @@ export const adminMenu: MenuItem[] = [
             name: 'Fundi',
             href: routes.admin.fundi,
           },
-          {
-            name: 'Professional',
-            href: routes.admin.professional,
-          },
-          {
-            name: 'Contractor',
-            href: routes.admin.contractor,
-          },
+          // {
+          //   name: 'Professional',
+          //   href: routes.admin.professional,
+          // },
+          // {
+          //   name: 'Contractor',
+          //   href: routes.admin.contractor,
+          // },
         ],
       },
     ],
@@ -215,7 +215,7 @@ export const customerMenu: MenuItem[] = [
     name: 'Jobs',
     href: routes.customers.active,
     badge: '',
-    icon: <PiBriefcase/>
+    icon: <PiBriefcase />,
   },
 
   {

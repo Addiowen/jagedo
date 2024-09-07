@@ -3,14 +3,12 @@
 import MetricCard from '@/components/cards/metric-card';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-import { Button, Checkbox } from 'rizzui';
+import { Button, Checkbox, Loader } from 'rizzui'; // Import Loader
 import { requestDetailsData } from '@/data/custom-job-details-data';
 import ChunkedGrid from '../../custom-chunked-grid';
-// import UserDetailsCard from "../../custom-user-details-card";
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
-import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -22,17 +20,13 @@ export default function ConfirmAvailability({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [assets, setAssets] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false); // State for loading
   const { data: session } = useSession();
 
   const emergency = pathname.includes('emergency');
   const router = useRouter();
 
   const requestId = searchParams.get('id');
-  // const data = requestDetailsData.find((request) => {
-  //   request['Request Number'] === requestId
-  // })
-
   const assetId = session?.user.metadata.assetId;
 
   const request = {
@@ -53,24 +47,31 @@ export default function ConfirmAvailability({
     Uploads: requestDetails.metadata.uploads,
   };
 
+  const requestType = request['Request Type'];
+
   const postBody = {
     transactionIds: [requestId],
   };
 
   const assignedFundis = [requestDetails.metadata.bookingRequests];
-
   const otherfundis = assignedFundis.filter((id: string) => id !== assetId);
 
-  console.log(assignedFundis);
-
   const handleSubmit = async () => {
+    setIsLoading(true); // Show loader when submit starts
     try {
+      let status = 'active';
+      if (requestType === 'Managed by Self') {
+        status = 'completed';
+      } else if (requestType === 'Managed by Jagedo') {
+        status = 'active';
+      }
+
       // First, update the transaction
       const updateTransactionResponse = await axios.patch(
         `${BASE_URL}/transactions/${requestId}`,
         {
           assetId: assetId,
-          status: 'accepted',
+          status,
           metadata: {
             bookingRequests: assetId,
           },
@@ -114,13 +115,15 @@ export default function ConfirmAvailability({
       // Navigate to completed jobs page only after both requests succeed
       router.push(`${routes.serviceProvider.fundi.completedJobs}`);
     } catch (error) {
-      // Handle the error and avoid redirection
       console.error('Error:', error);
       alert(
         'An error occurred while processing the request. Please try again.'
       );
+    } finally {
+      setIsLoading(false); // Hide loader when submit completes
     }
   };
+
   return (
     <>
       <div className="my-4">
@@ -142,25 +145,26 @@ export default function ConfirmAvailability({
         <p className="mr-4 text-center font-bold">
           Confirm your availability for this job.
         </p>
-        <Checkbox
-          // {...register('termsAndConditions')}
-          className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
-        />
+        <Checkbox className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium" />
       </div>
 
       <div className="flex justify-center space-x-4 pt-5">
-        {/* <Link href={routes.serviceProvider.fundi.completedJobs}> */}
-        <Button onClick={handleSubmit} className="w-32">
-          Accept Job
-        </Button>
+        {/* Show loader when the submit button is clicked */}
+        {isLoading ? (
+          <Loader className="w-32" />
+        ) : (
+          <>
+            <Button onClick={handleSubmit} className="w-32">
+              Accept Job
+            </Button>
 
-        {/* </Link> */}
-
-        <Link href={routes.serviceProvider.fundi.requisitions}>
-          <Button variant="outline" className="w-32">
-            Back
-          </Button>
-        </Link>
+            <Link href={routes.serviceProvider.fundi.requisitions}>
+              <Button variant="outline" className="w-32">
+                Back
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </>
   );

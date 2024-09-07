@@ -10,7 +10,7 @@ const fetchTransactions = async () => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?orderBy=createdDate&order=desc&status=accepted`,
+      endpoint: `/transactions?orderBy=createdDate&order=desc&status=paid`,
     });
     return transactionDetails;
   } catch (error) {

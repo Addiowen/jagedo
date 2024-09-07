@@ -44,12 +44,8 @@ export default function JobSlider({ className }: { className?: string }) {
 
   let userRole: string | undefined;
 
-  const user = sessionStorage.getItem('userData');
-
-  if (user) {
-    const userObject: any = JSON.parse(user);
-
-    userRole = userObject.metadata?.role;
+  if (session) {
+    userRole = session.user.metadata.role;
   }
 
   switch (userRole) {

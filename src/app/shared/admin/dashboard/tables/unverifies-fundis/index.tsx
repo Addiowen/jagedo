@@ -5,7 +5,7 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Button, Input, Loader } from 'rizzui'; // Import Loader from rizzui
+import { Button, Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
@@ -21,7 +21,7 @@ const filterState = {
   status: '',
 };
 
-export default function FundisTable({
+export default function UnverifiedFundisTable({
   className,
   fundis,
 }: {
@@ -31,13 +31,12 @@ export default function FundisTable({
   const [pageSize, setPageSize] = useState(7);
   const [assets, setAssets] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]); // State to hold selected row IDs
-  const [loading, setLoading] = useState(false); // Loading state
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('requestId');
-  const packageType = searchParams.get('requestType');
-
   const router = useRouter();
+
+  console.log(selectedRowIds);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -75,13 +74,13 @@ export default function FundisTable({
   }, [selectedRowKeys]);
 
   const newBookedRequests = {
-    status: 'assigned',
     metadata: {
-      bookingRequests: [selectedRowIds],
+      bookedRequests: [selectedRowIds],
     },
   };
 
   const assetIds = selectedRowIds;
+  console.log(assetIds);
 
   const assignAssetIdstoTransaction = async () => {
     try {
@@ -101,7 +100,9 @@ export default function FundisTable({
       if (transaction) {
         return transaction as any;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   let responses;
@@ -114,11 +115,7 @@ export default function FundisTable({
       const patchRequests = assetIds.map(async (assetId) => {
         const res = await axios.patch(
           `${BASE_URL}/assets/${assetId}`,
-          {
-            metadata: {
-              bookingRequests: requesttransactionId,
-            },
-          },
+          { metadata: { requesttransactionId } },
           {
             headers: {
               Authorization:
@@ -128,22 +125,25 @@ export default function FundisTable({
         );
 
         setAssets(res.data);
+        console.log(assets, 'this');
 
         if (assets) {
           return assets as any;
         }
       });
       responses = await Promise.all(patchRequests);
+      console.log('All assets updated successfully:', responses);
     } catch (error) {
       console.error('Error updating assets:', error);
     }
   };
 
   const handleAssign = async () => {
-    setLoading(true); // Start loading
     const result = await assignAssetIdstoTransaction();
+    console.log(result);
 
     if (result) {
+      console.log('Transaction updated successfully:', result);
       if (transactionId) {
         const updatedAssets = await assignTransactionIdtoAssets(
           selectedRowIds,
@@ -157,7 +157,6 @@ export default function FundisTable({
     } else {
       console.error('assets update failed');
     }
-    setLoading(false); // End loading
   };
 
   const columns = useMemo(
@@ -229,18 +228,6 @@ export default function FundisTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
-
-      {loading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-200 bg-opacity-50">
-          <Loader /> {/* Use the Loader from rizzui */}
-        </div>
-      )}
-
-      <div className="mt-6">
-        <Button onClick={handleAssign} disabled={loading}>
-          {loading ? 'Assigning...' : 'Assign'}
-        </Button>
-      </div>
     </WidgetCard2>
   );
 }

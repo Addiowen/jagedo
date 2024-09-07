@@ -51,7 +51,6 @@ export default async function AddtoServiceProviders({
         skill: item.metadata?.skill || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
-        status: 'paid' || '',
       };
     }) || [];
 

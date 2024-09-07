@@ -8,6 +8,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
+import { Loader } from 'rizzui';
 
 interface Data {
   [key: string]: string | null;
@@ -51,6 +52,7 @@ export default function EditProfileContactDetails({
   const searchParams = useSearchParams();
   const userId = searchParams.get('id');
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async () => {
     try {
@@ -105,12 +107,23 @@ export default function EditProfileContactDetails({
   //   return <div>Loading...</div>;
   // }
 
-  const handleEditClick = () => {
+  const handleEditClick = async () => {
     sessionStorage.clear();
-    router.push(routes.admin.createFundiProfile);
-    router.push(
-      `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
-    );
+    setIsLoading(true); // Set loading state to true
+
+    try {
+      if (pathname.includes('service-provider')) {
+        await router.push(
+          `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
+        );
+      } else {
+        await router.push(
+          `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
+        );
+      }
+    } finally {
+      setIsLoading(false); // Turn off loading state once the navigation is complete
+    }
   };
 
   //Create asset
@@ -222,6 +235,11 @@ export default function EditProfileContactDetails({
 
   return (
     <div className="@container">
+      {isLoading && (
+        <div className="flex items-center justify-center">
+          <Loader size="lg" /> {/* Assuming rizzui provides a size prop */}
+        </div>
+      )}
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
         <div className="p-20 text-lg font-bold">
           Details saved successfully.
@@ -236,46 +254,41 @@ export default function EditProfileContactDetails({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <div className="flex flex-row items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
-              <div className="flex flex-col">
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 md:space-y-0 lg:grid-cols-3 lg:gap-6">
+              {/* Edit Profile Card and Button */}
+              <div className="flex flex-col space-y-4">
                 <EditProfileCard
                   userDetails={userDetails}
                   editMode={editMode}
                   setEditMode={setEditMode}
                   setModalState={setModalState}
                 />
-
                 <Button
                   onClick={handleEditClick}
                   as="span"
-                  className="mt-4 h-[38px] w-32 cursor-pointer shadow md:h-10"
+                  className="h-[38px] w-32 cursor-pointer shadow md:h-10"
                 >
                   Edit Profile
                 </Button>
               </div>
 
-              <div className="col-span-2">
-                <div className="mb-3.5 @5xl:mb-5">
-                  <Title
-                    as="h3"
-                    className="text-base font-semibold @7xl:text-lg"
-                  >
+              {/* Personal Details */}
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
                     Personal Details
                   </Title>
                 </div>
-                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
                   <ProfileChunkedGrid
                     data={personalDetails}
                     dataChunkSize={16}
                     editMode={editMode}
                   />
                 </div>
-
                 {isAdmin && (
                   <Button
-                    onClick={() => {
-                      handleSaveAndCreate();
-                    }}
+                    onClick={() => handleSaveAndCreate()}
                     as="span"
                     className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
                   >
@@ -287,80 +300,52 @@ export default function EditProfileContactDetails({
           </Tab.Panel>
 
           <Tab.Panel>
-            <div className="items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 lg:grid-cols-3 lg:gap-6">
               <EditProfileCard
                 userDetails={userDetails}
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
               />
-              <div className="col-span-2">
-                <div className="mb-3.5 @5xl:mb-5">
-                  <Title
-                    as="h3"
-                    className="text-base font-semibold @7xl:text-lg"
-                  >
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
                     Account Details
                   </Title>
                 </div>
-                {/* <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
-                  <ProfileChunkedGrid
-                    data={accountDetails}
-                    dataChunkSize={16}
-                    editMode={editMode}
-                  />
-                </div> */}
+                {/* Account details */}
               </div>
             </div>
           </Tab.Panel>
 
           <Tab.Panel>
-            <div className="items-start pt-5 @xl:grid-cols-3 @5xl:grid @5xl:grid-cols-3 @5xl:gap-7 @6xl:grid-cols-3 @7xl:gap-10">
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 lg:grid-cols-3 lg:gap-6">
               <EditProfileCard
                 userDetails={userDetails}
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
               />
-
-              {!editMode ? (
-                <Button
-                  onClick={() => {
-                    setEditMode(true);
-                  }}
-                  as="span"
-                  className="mr-6 h-[38px] cursor-pointer shadow md:h-10"
-                >
-                  Edit Profile
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setEditMode(false);
+              <Button
+                onClick={() => {
+                  setEditMode((prev) => !prev);
+                  if (editMode) {
                     setModalState(true);
-                  }}
-                  as="span"
-                  className="mr-6 h-[38px]  cursor-pointer shadow md:h-10"
-                >
-                  Save Changes
-                </Button>
-              )}
-              <div className="col-span-2">
-                <div className="mb-3.5 @5xl:mb-5">
-                  <Title
-                    as="h3"
-                    className="text-base font-semibold @7xl:text-lg"
-                  >
+                  }
+                }}
+                as="span"
+                className="h-[38px] cursor-pointer shadow md:h-10"
+              >
+                {editMode ? 'Save Changes' : 'Edit Profile'}
+              </Button>
+
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
                     Uploads
                   </Title>
                 </div>
-                {/* <div className="rounded-lg border border-gray-300 bg-gray-0 p-4 py-4">
-                  <ProfileChunkedGrid
-                    data={uploads}
-                    dataChunkSize={16}
-                    editMode={editMode}
-                  />
-                </div> */}
+                {/* Uploads section */}
               </div>
             </div>
           </Tab.Panel>

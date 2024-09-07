@@ -38,6 +38,8 @@ export default function CreateFundiProfileFormNew({
 }) {
   const router = useRouter();
 
+  console.log(userDetails);
+
   const organizationProfileInitialValues: OrganizationProfileSchema = {
     type: userDetails.metadata.type || '',
     orgName: userDetails.metadata.orgName || '',
@@ -63,11 +65,13 @@ export default function CreateFundiProfileFormNew({
         phone: data.phoneNo,
 
         metadata: {
+          firstName: data.firstName,
+          lastName: data.lastName,
           county: data.county,
           orgName: data.orgName,
           subCounty: data.subCounty,
           estate: data.estate,
-          phoneNo: data.phoneNo,
+          phone: data.phoneNo,
           regNo: data.regNo,
           pin: data.pin,
         }, // Add the pin from the form if applicable
@@ -88,10 +92,10 @@ export default function CreateFundiProfileFormNew({
 
       // Handle the response or redirect after successful update
       if (userDetailsRes) {
+        router.refresh();
         console.log(userDetailsRes, 'user details');
 
-        window.sessionStorage.setItem('profileCreated', 'true');
-        router.push(routes.admin.editFundiProfile);
+        router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         // router.push('/service-provider/fundi/profile');
       }
     } catch (error) {
