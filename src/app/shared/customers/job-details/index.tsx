@@ -117,7 +117,7 @@ const fundiTimelineData = [
             </div>
   
             {/* <ActiveJobDetailsViewAttachments /> */}
-            <ViewAttachmentsBlock/>
+            {/* <ViewAttachmentsBlock/> */}
             <Modal isOpen={approvalModalState} onClose={() => setApprovalModalState(false)}>
         <div className="p-10">
           <p className="text-center text-lg font-semibold">

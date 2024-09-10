@@ -103,8 +103,10 @@ export const routes = {
     ongoing: '/customers/ongoing',
     complete: '/customers/jobs/completed-jobs',
     completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
+    completeJobDetails: '/customers/fundi/jobs/completed/report',
+    
 
-    reviews: '/customers/reviews',
+    reviews: '/customers/fundi/reviews',
   },
 
   serviceProvider: {

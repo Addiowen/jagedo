@@ -1,5 +1,5 @@
 import { Badge, ActionIcon } from 'rizzui';
-import MessagesDropdown from '@/layouts/messages-dropdown';
+// import MessagesDropdown from '@/layouts/messages-dropdown';
 import ProfileMenu from '@/layouts/profile-menu';
 import SettingsButton from '@/components/settings/settings-button';
 import RingBellSolidIcon from '@/components/icons/ring-bell-solid';
