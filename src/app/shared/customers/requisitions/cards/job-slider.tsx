@@ -32,7 +32,7 @@ const initialData = [
     link: routes.customers.quotations,
   },
   {
-    name: 'Jobs',
+    name: 'Active',
     total: 5,
     fill: '#04364A',
     link: routes.customers.active,

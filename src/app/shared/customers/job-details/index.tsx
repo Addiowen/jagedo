@@ -128,6 +128,17 @@ export default function JobDetailsComponent({
             <div className="w-full max-w-screen-lg">
               <Timeline data={fundiTimelineData} order="desc" />
             </div>
+<<<<<<< HEAD
+=======
+  
+            {/* <ActiveJobDetailsViewAttachments /> */}
+            {/* <ViewAttachmentsBlock/> */}
+            <Modal isOpen={approvalModalState} onClose={() => setApprovalModalState(false)}>
+        <div className="p-10">
+          <p className="text-center text-lg font-semibold">
+            Do you confirm completion of this job?
+          </p>
+>>>>>>> fcbc0c5bdef335581adae628e31f3af5b3b411eb
 
             {/* <ActiveJobDetailsViewAttachments /> */}
             <ViewAttachments attachments={structuredAttachments} />

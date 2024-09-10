@@ -211,11 +211,40 @@ export const customerMenu: MenuItem[] = [
     icon: <PiProjectorScreenChart />,
   },
 
+//   Requests
+// Quotations
+// Active
+// Completed
+
+
   {
     name: 'Jobs',
-    href: routes.customers.active,
+    href: '#',
     badge: '',
     icon: <PiBriefcase />,
+    dropdownItems: [
+      {
+        name: 'Requests',
+        href: routes.customers.requisitions,
+        badge: '',
+        icon: <PiUserCirclePlus />,
+      },
+      {
+        name: 'Quotations',
+        href: routes.customers.quotations,
+        icon: <PiScrewdriver />,
+      },
+      {
+        name: 'Active',
+        href: routes.customers.active,
+        icon: <PiInfo />,
+      },
+      {
+        name: 'Completed',
+        href: routes.customers.complete,
+        icon: <PiInfo />,
+      },
+    ],
   },
 
   {
