@@ -29,7 +29,7 @@ export default function FilterElement({
   return (
     <div className="flex w-full flex-col items-center gap-3 @[29rem]:flex-row @[42rem]:w-auto @[57rem]:-ms-4">
       <div className="flex w-full flex-col gap-3 @[22rem]:flex-row @[42rem]:w-auto">
-        <StatusField
+        {/* <StatusField
           placeholder="Status"
           dropdownClassName="!z-10"
           className="w-full min-w-[145px] @[42rem]:w-auto"
@@ -39,9 +39,9 @@ export default function FilterElement({
             updateFilter('status', value);
           }}
           getOptionValue={(option) => option.label}
-        />
+        /> */}
       </div>
-      {isFiltered ? (
+      {/* {isFiltered ? (
         <Button
           size="sm"
           onClick={() => {
@@ -52,7 +52,7 @@ export default function FilterElement({
         >
           <PiTrashDuotone className="me-1.5 h-[17px] w-[17px]" /> Clear
         </Button>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

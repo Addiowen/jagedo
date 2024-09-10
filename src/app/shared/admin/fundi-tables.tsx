@@ -23,7 +23,7 @@ export default function FundiTables({ fundis }: PageProps) {
   );
   const filteredFundis = fundis.results.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
-      item.metadata.role === 'fundi' && !item.metadata.assetId // Filter fundis without assetId
+      item.metadata.role === 'fundi' && !item.metadata.assetId
   );
   const allFundis =
     fundisonly?.map((item: any, index: number) => {

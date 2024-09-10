@@ -8,15 +8,18 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { routes } from '@/config/routes';
 import toast from 'react-hot-toast';
+import UserDetails from '@/components/cards/user-details';
 
 type FormValues = {
   otp: string;
 };
 
 export default function OtpForm() {
-  const postData = JSON.parse(sessionStorage.getItem('postData') || '{}');
+  const postData: any = JSON.parse(sessionStorage.getItem('postData') || '{}');
+  const userRole = postData.metadata.role;
 
   console.log(postData);
+  console.log(userRole);
   const searchParams = useSearchParams();
   const fetchedPhone = searchParams.get('phone');
   const fetchedEmail = searchParams.get('email');
@@ -196,7 +199,8 @@ export default function OtpForm() {
         if (zohoResponse.success) {
           await patchUserWithZohoId(
             userDetails.id,
-            zohoResponse.data.contact.contact_id
+            zohoResponse.data.contact.contact_id,
+            userPhone
           );
           // await sendWelcomeSms(userPhone);
           sessionStorage.clear();
@@ -335,10 +339,14 @@ export default function OtpForm() {
   };
 
   const createZohoUser = async (userDetails: any) => {
+    const contactType = userRole === 'fundi' ? 'vendor' : 'customer';
+    const customerSubType = userRole === 'fundi' ? 'business' : 'customer';
+
     const zohoPayload = {
       contact_name: `${userDetails.firstname} ${userDetails.lastname}`,
       company_name: `${userDetails.firstname} ${userDetails.lastname}`,
-      customer_sub_type: 'individual',
+      contact_type: contactType,
+      customer_sub_type: customerSubType,
       city: userDetails.metadata.county,
       state: userDetails.metadata.subCounty,
       country: 'Kenya',
@@ -367,12 +375,16 @@ export default function OtpForm() {
     }
   };
 
-  const patchUserWithZohoId = async (userId: string, zohoId: string) => {
+  const patchUserWithZohoId = async (
+    userId: string,
+    zohoId: string,
+    userPhone: any
+  ) => {
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`,
         {
-          phone: '0723276981',
+          phone: userPhone || fetchedPhone,
           metadata: { zohoid: zohoId },
         },
         {

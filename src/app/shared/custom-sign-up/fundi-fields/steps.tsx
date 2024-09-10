@@ -33,8 +33,6 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
-import axios, { axiosAuth, BASE_URL, createUsersAuth } from '@/lib/axios';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { counties } from '@/data/counties';
 

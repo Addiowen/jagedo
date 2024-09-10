@@ -47,6 +47,8 @@ const GenerateInvoiceFundi: React.FC = () => {
     }
   };
 
+  const customerZohoId = session?.user.metadata.zohoid;
+
   // Options for select fields
   // const reqType: Option[] = [
   //   { label: 'Package 1', value: 'Package 1' },
@@ -146,6 +148,7 @@ const GenerateInvoiceFundi: React.FC = () => {
         county: county?.value || '',
         subCounty: subCounty?.value || '',
         village,
+        customerZohoId: customerZohoId,
         skill: skill?.value || '',
       };
 

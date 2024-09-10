@@ -165,6 +165,7 @@ function AuthFooter() {
           href="#"
           className="font-medium transition-colors hover:text-primary"
         >
+          {' '}
           Jagedo
         </Link>
       </div>

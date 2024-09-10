@@ -23,7 +23,6 @@ const fetchTransactions = async () => {
 export default async function CompletedJobs() {
   const transactions = await fetchTransactions();
 
-  // Format the data if needed
   const formattedData =
     transactions?.results.map((item: any, index: number) => {
       return {

@@ -1,6 +1,11 @@
 import AdminRequisitionsTable from '@/app/shared/admin/dashboard/tables/requisitions/admin-requisitions';
+import DropDownComponent from '@/components/dropdown/dropdown';
+import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
+import Link from 'next/link';
+import { PiPlusBold } from 'react-icons/pi';
+import { Button } from 'rizzui';
 
 export const metadata = {
   ...metaObject('Admin Req'),
@@ -45,9 +50,21 @@ export default async function AdminRequisitionsPage() {
 
   return (
     <div className="@container">
-      {/* <div className="mb-6 flex justify-end">
-        <DropDownComponent />
-      </div> */}
+      <div className="mb-6 flex justify-end">
+        {/* <DropDownComponent /> */}
+
+        <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
+          <Link
+            href={routes.admin.createRequest}
+            className="mt-4 w-full @lg:mt-0 @lg:w-auto"
+          >
+            <Button as="span" className="w-full @lg:w-auto">
+              <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
+              Create Request
+            </Button>
+          </Link>
+        </div>
+      </div>
       <div className="grid grid-cols-1  @4xl:grid-cols-2  3xl:gap-8">
         <AdminRequisitionsTable
           requests={formattedData}

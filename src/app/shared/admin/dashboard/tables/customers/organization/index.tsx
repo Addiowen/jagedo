@@ -18,9 +18,16 @@ const filterState = {
 
 export default function OrganizationsTable({
   className,
+  customers,
 }: {
   className?: string;
+  customers?: any;
 }) {
+  console.log(customers, 'organization customers');
+  const organizationCustomers = customers.results.filter(
+    (item: { metadata: { role: string; assetId?: string; type: string } }) =>
+      item.metadata.type === 'organization'
+  );
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -28,6 +35,23 @@ export default function OrganizationsTable({
       handleSort(value);
     },
   });
+
+  const orgCustomers =
+    organizationCustomers?.map((item: any, index: number) => {
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        firstName: item.firstname || '',
+        lastName: item.lastname || '',
+        email: item.email || '',
+        phone: item.metadata?.phone || '',
+        skill: item.metadata?.skill || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.metadata?.status || '',
+      };
+    }) || [];
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
@@ -52,12 +76,12 @@ export default function OrganizationsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalsData, pageSize, filterState);
+  } = useTable(orgCustomers, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalsData,
+        data: orgCustomers,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

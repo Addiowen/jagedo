@@ -17,6 +17,7 @@ import ViewAttachmentsBlock from '@/app/shared/create-quotation/view-attachments
 import { PiCheckCircle } from 'react-icons/pi';
 import { useParams, useSearchParams } from 'next/navigation';
 import Timeline from '@/app/shared/service-provider/progress-bar-fundi/timeline';
+import ViewAttachments from '../../service-provider/details/request-details/view-attachments';
 
 const timelineData = [
   {
@@ -79,19 +80,33 @@ const fundiTimelineData = [
   },
 ];
 
-  type PageProps = {
-    className: string;
-    requests: any;
-    // other props as needed
-  };
-  
-  export default function JobDetailsComponent({ className, requests }: PageProps) {
-    const [approvalModalState, setApprovalModalState] = useState(false);
-    const searchParams = useSearchParams();
-    const jobId = searchParams.get('id');
+type PageProps = {
+  className: string;
+  requests: any;
+  // other props as needed
+};
 
-    return (
-      <>
+export default function JobDetailsComponent({
+  className,
+  requests,
+}: PageProps) {
+  const [approvalModalState, setApprovalModalState] = useState(false);
+  const searchParams = useSearchParams();
+  const jobId = searchParams.get('id');
+
+  const getFileNameFromUrl = (url: string) => {
+    return url.substring(url.lastIndexOf('/') + 1);
+  };
+
+  const uploadsData = requests.Uploads;
+
+  const structuredAttachments = uploadsData.map((url: string) => ({
+    name: getFileNameFromUrl(url),
+    url: url,
+  }));
+
+  return (
+    <>
       <Tab>
         <Tab.List>
           <Tab.ListItem>Progress Tracker</Tab.ListItem>
@@ -100,7 +115,10 @@ const fundiTimelineData = [
         <Tab.Panels>
           <Tab.Panel>
             <div className="flex justify-end">
-              <Button className="mr-4" onClick={() => setApprovalModalState(true)}>
+              <Button
+                className="mr-4"
+                onClick={() => setApprovalModalState(true)}
+              >
                 Confirm Job Completed
               </Button>
             </div>
@@ -108,55 +126,59 @@ const fundiTimelineData = [
               <ProgressBarActive />
             </div> */}
             <div className="w-full max-w-screen-lg">
-            <Timeline
-              data={
-                  fundiTimelineData
-              }
-              order="desc"
-            />
+              <Timeline data={fundiTimelineData} order="desc" />
             </div>
-  
-            {/* <ActiveJobDetailsViewAttachments /> */}
-            <ViewAttachmentsBlock/>
-            <Modal isOpen={approvalModalState} onClose={() => setApprovalModalState(false)}>
-        <div className="p-10">
-          <p className="text-center text-lg font-semibold">
-            Do you confirm completion of this job?
-          </p>
 
-          <div className="mt-6 flex justify-center">
-            <Button onClick={() => setApprovalModalState(false)} className="w-32">
-              Yes
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setApprovalModalState(false)}
-              className="ml-4 w-32"
+            {/* <ActiveJobDetailsViewAttachments /> */}
+            <ViewAttachments attachments={structuredAttachments} />
+            <Modal
+              isOpen={approvalModalState}
+              onClose={() => setApprovalModalState(false)}
             >
-              No
-            </Button>
-          
-        </div>
-        </div>
-        </Modal>
+              <div className="p-10">
+                <p className="text-center text-lg font-semibold">
+                  Do you confirm completion of this job?
+                </p>
+
+                <div className="mt-6 flex justify-center">
+                  <Button
+                    onClick={() => setApprovalModalState(false)}
+                    className="w-32"
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setApprovalModalState(false)}
+                    className="ml-4 w-32"
+                  >
+                    No
+                  </Button>
+                </div>
+              </div>
+            </Modal>
           </Tab.Panel>
 
-
           <Tab.Panel>
-            <div className={cn('xl:gap-15 w-full grid grid-cols-1 lg:grid-cols-1', className)}>
-              <div className='col-span-2'>
+            <div
+              className={cn(
+                'xl:gap-15 grid w-full grid-cols-1 lg:grid-cols-1',
+                className
+              )}
+            >
+              <div className="col-span-2">
                 <ActiveJobDetailsCard transactionDetails={requests} />
-        
-              <div className="flex  justify-center">
-                <Link href={routes.customers.active}>
-                  <Button className="mt-6">Back</Button>
-                </Link>
-              </div>
+
+                <div className="flex  justify-center">
+                  <Link href={routes.customers.active}>
+                    <Button className="mt-6">Back</Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab>
     </>
-    ) 
-  }
+  );
+}

@@ -77,10 +77,10 @@ export const adminMenu: MenuItem[] = [
             name: 'Individual',
             href: routes.admin.individual,
           },
-          // {
-          //   name: 'Organization',
-          //   href: routes.admin.organization,
-          // },
+          {
+            name: 'Organization',
+            href: routes.admin.organization,
+          },
         ],
       },
 

@@ -55,7 +55,6 @@ export default function JobSlider({ className }: { className?: string }) {
   const { data: session } = useSession();
 
   const takerId = session?.user.userId;
-  console.log(takerId, 'this is taker id');
   const [data, setData] = useState(initialData); // State to store the data
 
   useEffect(() => {
