@@ -17,8 +17,8 @@ import {
 } from '@/app/shared/service-provider/profile/create-profile/professional/data';
 import { useRouter } from 'next/navigation';
 import { organizationProfileSteps } from './data';
-import apiRequest from '@/lib/apiService';
 import axios, { BASE_URL } from '@/lib/axios';
+import { useSession } from 'next-auth/react';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -37,9 +37,14 @@ export default function CreateOrganizationProfileForm({
 }) {
   const router = useRouter();
 
+  const { data: session } = useSession();
+
+  const customerType = session?.user.metadata.type;
+
   const organizationProfileInitialValues: OrganizationProfileSchema = {
     type: userDetails.metadata.type || '',
     orgName: userDetails.metadata.orgName || '',
+    gender: userDetails.metadata.gender || '',
     county: userDetails.metadata.county || '',
     subCounty: userDetails.metadata.subCounty || '',
     estate: userDetails.metadata.estate || '',
@@ -63,6 +68,7 @@ export default function CreateOrganizationProfileForm({
 
         metadata: {
           county: data.county,
+          gender: data.gender,
           orgName: data.orgName,
           subCounty: data.subCounty,
           estate: data.estate,
@@ -132,25 +138,50 @@ export default function CreateOrganizationProfileForm({
 
                 {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <Input
-                    placeholder="Customer Type"
-                    label="Type"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('type')}
-                    error={errors.type?.message}
-                    className="[&>label>span]:font-medium"
-                  />
+                  {customerType === 'individual' && (
+                    <>
+                      <Input
+                        placeholder="First Name"
+                        label="First Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('firstName')}
+                        error={errors.firstName?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
 
-                  <Input
-                    placeholder="Organization Name"
-                    label="Organization Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('orgName')}
-                    error={errors.orgName?.message}
-                    className="[&>label>span]:font-medium"
-                  />
+                      <Input
+                        placeholder="Last Name"
+                        label="Last Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('lastName')}
+                        error={errors.lastName?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
+
+                      <Input
+                        placeholder="Gender"
+                        label="Gender"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('gender')}
+                        error={errors.gender?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
+                    </>
+                  )}
+                  {customerType === 'organization' && (
+                    <Input
+                      placeholder="Organization Name"
+                      label="Organization Name"
+                      size="lg"
+                      inputClassName="text-sm"
+                      {...register('orgName')}
+                      error={errors.orgName?.message}
+                      className="[&>label>span]:font-medium"
+                    />
+                  )}
 
                   <Controller
                     control={control}
@@ -232,26 +263,6 @@ export default function CreateOrganizationProfileForm({
                 {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Input
-                    placeholder="First Name"
-                    label="First Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('firstName')}
-                    error={errors.firstName?.message}
-                    className="flex-grow [&>label>span]:font-medium"
-                  />
-
-                  <Input
-                    placeholder="Last Name"
-                    label="Last Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('lastName')}
-                    error={errors.lastName?.message}
-                    className="flex-grow [&>label>span]:font-medium"
-                  />
-
-                  <Input
                     type="email"
                     placeholder="Email Address"
                     label="Email Address"
@@ -271,11 +282,7 @@ export default function CreateOrganizationProfileForm({
                     error={errors.phoneNo?.message}
                     className="[&>label>span]:font-medium"
                   />
-
-                  {/* <div className="flex"> */}
-                  {/* <div> */}
                 </div>
-                {/* </div> */}
               </motion.div>
             )}
 
@@ -288,8 +295,8 @@ export default function CreateOrganizationProfileForm({
               >
                 {/* Title and description */}
                 <div className="col-span-full pb-10 @4xl:col-span-4">
-                  <h4 className="text-base font-medium">Contact Person</h4>
-                  <p className="mt-2">Please provide required details</p>
+                  <h4 className="text-base font-medium">Additional Details</h4>
+                  <p className="mt-2">Provide the required details</p>
                 </div>
 
                 {/* Inputs */}
@@ -304,46 +311,13 @@ export default function CreateOrganizationProfileForm({
                   <UploadZone
                     label="Registration No."
                     className="flex-grow"
-                    name="pinNo"
+                    name="regNo"
                     getValues={getValues}
                     setValue={setValue}
                   />
                 </div>
-                {/* </div> */}
               </motion.div>
             )}
-
-            {/* {currentStep === 2 && (
-                <motion.div
-                  initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                >
-            
-                  <div className="col-span-full @4xl:col-span-4 pb-10">
-                    <h4 className="text-base font-medium">Contact Person</h4>
-                    <p className="mt-2">Please provide required details</p>
-                  </div>
-
-              
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> 
-                                                
-                    
-
-                     
-                
-                    <UploadZone
-                        label="Registration Number"
-                        className="flex-grow"
-                        name="regNo"
-                        getValues={getValues}
-                        setValue={setValue}
-                    />
-
-                                
-                  </div>
-                </motion.div>
-              )}          */}
           </>
         )}
       </CustomMultiStepForm>

@@ -11,6 +11,7 @@ import {
 export const baseUserFormSchema = z.object({
   firstName: z.string().min(1, { message: messages.firstNameRequired }),
   lastName: z.string().min(1, { message: messages.lastNameRequired }),
+  gender: z.string().min(1, { message: messages.fieldIsRequired }),
   email: validateEmail,
   phoneNo: z.string().min(1, { message: messages.phoneNumberIsRequired }),
   county: z.string().min(1, { message: messages.countyIsRequired }),

@@ -1,3 +1,4 @@
+import { counties } from '@/data/counties';
 import { CustomerSignUpFormSchema } from '@/utils/validators/custom-signup.schema';
 import { FaDoorClosed } from 'react-icons/fa';
 
@@ -43,9 +44,10 @@ export const customerInitialValues: CustomerSignUpFormSchema = {
   firstName: '',
   lastName: '',
   email: '',
-  gender: '',
+  gender: 'male',
   password: '',
   confirmPassword: '',
+  //@ts-ignore
   type: '',
   organizationName: '',
   phone: '',
@@ -91,30 +93,18 @@ export const country = [
     label: 'Kenya',
     value: 'kenya',
   },
-  {
-    label: 'Uganda',
-    value: 'uganda',
-  },
 ];
 
-export const county = [
-  {
-    label: 'Kisumu',
-    value: 'kisumu',
-  },
-  {
-    label: 'Nairobi',
-    value: 'nairobi',
-  },
-];
+export const county = Object.keys(counties).map((key) => ({
+  label: key,
+  value: key.toLowerCase().replace(/\s+/g, '-'),
+}));
 
-export const subCounty = [
-  {
-    label: 'Kisumu Central',
-    value: 'kisumu central',
-  },
-  {
-    label: 'Kisumu East',
-    value: 'kisumu east',
-  },
-];
+export const subCounty = Object.entries(counties).flatMap(
+  ([countyName, subCountyNames]) =>
+    subCountyNames.map((name) => ({
+      label: name,
+      value: name.toLowerCase().replace(/\s+/g, '-'),
+      county: countyName,
+    }))
+);

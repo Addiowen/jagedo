@@ -21,31 +21,31 @@ import { useSession } from 'next-auth/react';
 const initialData = [
   {
     name: 'Requests',
-    total: 8,
+    total: 0,
     fill: '#2B7F75',
     link: routes.admin.requisitions,
   },
   {
     name: 'Quotations',
-    total: 7,
+    total: 0,
     fill: '#FFD66B',
     link: routes.admin.quotations,
   },
   {
-    name: 'Jobs',
-    total: 5,
+    name: 'Active',
+    total: 0,
     fill: '#04364A',
     link: routes.admin.active,
   },
   {
     name: 'Completed',
-    total: 13,
+    total: 0,
     fill: '#64CCC5',
     link: routes.admin.completed,
   },
   {
     name: 'Reviews',
-    total: 5,
+    total: 0,
     fill: '#FFC0CB',
     link: routes.admin.reviews,
   },
@@ -84,7 +84,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 return { ...item, total: parseInt(apiData.paid_count) };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
-              case 'Jobs':
+              case 'Active':
                 return { ...item, total: parseInt(apiData.active_count) };
               case 'Completed':
                 return { ...item, total: parseInt(apiData.completed_count) };

@@ -46,7 +46,7 @@ export default async function EditProfileContactDetailsPage() {
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <EditProfileContactDetails userDetails={user} />
+      <EditProfileContactDetails userDetails={user} editProfileId={''} />
     </>
   );
 }

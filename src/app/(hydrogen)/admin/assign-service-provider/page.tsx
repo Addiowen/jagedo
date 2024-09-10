@@ -15,6 +15,9 @@ const fetchFundiAssets = async () => {
       endpoint: `/search`,
       data: {
         query: 'Fundi',
+        customAttributes: {
+          county: 5,
+        },
         page: 1,
         nbResultsPerPage: 40,
       },

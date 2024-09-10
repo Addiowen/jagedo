@@ -141,6 +141,14 @@ export const getColumns = ({
     render: (skill: string) => <Text>{skill}</Text>,
   },
 
+  {
+    title: <HeaderCell title="Level" />,
+    dataIndex: 'level',
+    key: 'level',
+    width: 100,
+    render: (level: string) => <Text>{level}</Text>,
+  },
+
   // {
   //   title: <HeaderCell title="Category" />,
   //   dataIndex: 'category',

@@ -11,13 +11,17 @@ const maskPhoneNumber = (phoneNumber: string): string => {
 };
 
 export default function OtpPage({ searchParams }: { searchParams: any }) {
+  const queryEmail = searchParams.email;
   const phoneNumber = searchParams.phone;
   const maskedPhoneNumber = maskPhoneNumber(phoneNumber);
+  const otpType = searchParams.otp; // Assuming the query param is `otp`
 
   return (
     <AuthWrapperFour title="OTP Verification" className="md:px-14 lg:px-20">
       <Text className="pb-7 text-center text-[15px] leading-[1.85] text-gray-700 md:text-base md:!leading-loose lg:-mt-5">
-        OTP has been sent to {maskedPhoneNumber}
+        {otpType === 'email'
+          ? `OTP has been sent to ${queryEmail}`
+          : `OTP has been sent to ${maskedPhoneNumber}`}
       </Text>
       <OtpForm />
     </AuthWrapperFour>

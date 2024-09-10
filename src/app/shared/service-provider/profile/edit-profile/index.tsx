@@ -9,6 +9,7 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { Loader } from 'rizzui';
+import { useSession } from 'next-auth/react';
 
 interface Data {
   [key: string]: string | null;
@@ -26,18 +27,25 @@ const splitData = (data: Data, keys: string[]) => {
 
 const uploadsKeys = ['ID', 'Certificate', 'Resume/CV'];
 
-// const contractorAccountDetailsKeys = [
-//   'Category 1',
-//   'Class (Category 1)',
-//   'Category 2',
-//   'Class (Category 2)',
-//   'Registered As',
-// ];
-// const contractorUploadsKeys = [
-//   'Company Profile',
-//   'Business Registration',
-//   'Portfolio',
-// ];
+const thekeys = [
+  'Organization Name',
+  'Email Address',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const personalKeys = [
+  'First Name',
+  'Last Name',
+  'Gender',
+  'Email Address',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+];
 
 export default function EditProfileContactDetails({
   userDetails,
@@ -46,6 +54,7 @@ export default function EditProfileContactDetails({
   userDetails: any;
   editProfileId: string;
 }) {
+  const { data: session } = useSession();
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const pathname = usePathname();
@@ -54,9 +63,10 @@ export default function EditProfileContactDetails({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const customerType = session?.user.metadata.type;
+
   const onSubmit = async () => {
     try {
-      // Prepare the data to be sent to the API
       const updateData = {
         firstname: data.firstName,
         lastname: data.lastName,
@@ -71,12 +81,11 @@ export default function EditProfileContactDetails({
           phoneNo: data.phoneNo,
           regNo: data.regNo,
           pin: data.pin,
-        }, // Add the pin from the form if applicable
+        },
       };
 
       console.log(updateData, 'update data');
 
-      // Fetch additional user details
       const userDetailsRes = await axios.patch(
         `${BASE_URL}/users/${userDetails.id}`,
         updateData,
@@ -88,33 +97,30 @@ export default function EditProfileContactDetails({
         }
       );
 
-      // Handle the response or redirect after successful update
       if (userDetailsRes) {
         console.log(userDetailsRes, 'user details');
 
         setEditMode(false);
         setModalState(true);
         router.push('/customers/edit-profile');
-        // router.push('/service-provider/fundi/profile');
       }
     } catch (error) {
       console.error('Failed to update user details:', error);
-      // Optionally, handle the error (e.g., show a notification)
     }
   };
 
-  // if (!userDetails || !userDetails.metadata) {
-  //   return <div>Loading...</div>;
-  // }
-
   const handleEditClick = async () => {
     sessionStorage.clear();
-    setIsLoading(true); // Set loading state to true
+    setIsLoading(true);
 
     try {
       if (pathname.includes('service-provider')) {
         await router.push(
           `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
+        );
+      } else if (pathname.includes('customer')) {
+        await router.push(
+          `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
         );
       } else {
         await router.push(
@@ -122,11 +128,9 @@ export default function EditProfileContactDetails({
         );
       }
     } finally {
-      setIsLoading(false); // Turn off loading state once the navigation is complete
+      setIsLoading(false);
     }
   };
-
-  //Create asset
 
   const handleSaveAndCreate = async () => {
     try {
@@ -142,6 +146,7 @@ export default function EditProfileContactDetails({
           subcounty: userDetails.metadata.subCounty,
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
+          level: userDetails.metadata.level,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,
         },
@@ -156,12 +161,11 @@ export default function EditProfileContactDetails({
         {
           headers: {
             Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=', // Replace with your actual token
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
           },
         }
       );
       console.log('Asset saved successfully:', createAssetResponse.data);
-      // setAsset(createAssetResponse.data);
 
       const userPayload = {
         phone: userDetails.metadata?.phone,
@@ -176,7 +180,7 @@ export default function EditProfileContactDetails({
         {
           headers: {
             Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=', // Replace with your actual token
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
           },
         }
       );
@@ -191,10 +195,11 @@ export default function EditProfileContactDetails({
   const contractor = pathname.includes('contractor');
   const isAdmin = pathname.includes('admin');
 
-  // Using data from userDetails
   const data: Data = {
     'Phone Number': userDetails.metadata?.phone,
+    'Organization Name': userDetails.firstname,
     'First Name': userDetails.firstname,
+    Gender: userDetails.metadata.gender,
     'Last Name': userDetails.lastname,
     'Email Address': userDetails.email,
     County: userDetails.metadata?.county,
@@ -203,41 +208,18 @@ export default function EditProfileContactDetails({
     Organization: userDetails.metadata?.estate,
   };
 
-  const personalKeys = [
-    'First Name',
-    'Last Name',
-    'Email Address',
-    'Phone Number',
-    'County',
-    'Sub County',
-    'Estate',
-    'Organization',
-  ];
+  // Choose the correct personalKeys based on customerType
+  const currentPersonalKeys =
+    customerType === 'organization' ? thekeys : personalKeys;
 
-  // const accountDetailsKeys = [
-  //   'Gender',
-  //   'Registered As',
-  //   'Level/Class',
-  //   'Years of experience',
-  // ];
-  // const accountDetails = splitData(data, accountDetailsKeys);
   const uploads = splitData(data, uploadsKeys);
-  const personalDetails: any = splitData(data, personalKeys);
-
-  // const otherDetails = Object.keys(data).reduce((acc, key) => {
-  //   if (!accountDetailsKeys.includes(key) && !uploadsKeys.includes(key)) {
-  //     acc[key] = data[key];
-  //   }
-  //   return acc;
-  // }, {} as Data);
-
-  // Similarly, define contractorData using userDetails if applicable
+  const personalDetails: any = splitData(data, currentPersonalKeys);
 
   return (
     <div className="@container">
       {isLoading && (
         <div className="flex items-center justify-center">
-          <Loader size="lg" /> {/* Assuming rizzui provides a size prop */}
+          <Loader size="lg" />
         </div>
       )}
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
@@ -255,7 +237,6 @@ export default function EditProfileContactDetails({
         <Tab.Panels>
           <Tab.Panel>
             <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 md:space-y-0 lg:grid-cols-3 lg:gap-6">
-              {/* Edit Profile Card and Button */}
               <div className="flex flex-col space-y-4">
                 <EditProfileCard
                   userDetails={userDetails}
@@ -272,7 +253,6 @@ export default function EditProfileContactDetails({
                 </Button>
               </div>
 
-              {/* Personal Details */}
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
                   <Title as="h3" className="text-base font-semibold">
@@ -313,7 +293,6 @@ export default function EditProfileContactDetails({
                     Account Details
                   </Title>
                 </div>
-                {/* Account details */}
               </div>
             </div>
           </Tab.Panel>
@@ -345,7 +324,6 @@ export default function EditProfileContactDetails({
                     Uploads
                   </Title>
                 </div>
-                {/* Uploads section */}
               </div>
             </div>
           </Tab.Panel>
