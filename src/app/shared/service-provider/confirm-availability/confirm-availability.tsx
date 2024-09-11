@@ -152,9 +152,9 @@ export default function ConfirmAvailability({
       </div>
 
       <div className="flex justify-center space-x-4 pt-5">
-        {/* Show loader when the submit button is clicked */}
+        {/* {/ Show loader when the submit button is clicked /} */}
         {isLoading ? (
-          <Loader className="w-32" />
+          <Loader className="h-8 w-8 animate-spin text-primary" /> // Adjust size and add animation
         ) : (
           <>
             <Button onClick={handleSubmit} className="w-32">
