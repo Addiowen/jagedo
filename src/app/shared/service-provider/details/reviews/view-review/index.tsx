@@ -156,15 +156,15 @@ export default function ViewReviewComponent({ rating }: { rating: any }) {
 
                         <div className="col-span-1 p-2">
                           <Text className="text-gray-900 dark:text-gray-0">
-                            {field.customerValue
-                              ? `${field.customerValue}`
-                              : '--'}
+                            {field.spValue ? `${field.spValue}` : '--'}
                           </Text>
                         </div>
 
                         <div className="col-span-1 p-2">
                           <Text className="text-gray-900 dark:text-gray-0">
-                            {field.spValue ? `${field.spValue}` : '--'}
+                            {field.customerValue
+                              ? `${field.customerValue}`
+                              : '--'}
                           </Text>
                         </div>
 
@@ -206,14 +206,14 @@ export default function ViewReviewComponent({ rating }: { rating: any }) {
             {fundi ? 'Fundi' : professional ? 'Professional' : 'Contractor'}
           </Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            {rating.metadata.fundicomment || ''}
+            {rating.comment || ''}
           </Text>
         </div>
 
         <div className="mb-4">
           <Text className="font-semibold">Customer</Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            {rating.comment}
+            {rating.metadata.fundiComment}
           </Text>
         </div>
 

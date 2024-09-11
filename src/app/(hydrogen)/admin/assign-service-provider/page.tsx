@@ -57,6 +57,7 @@ export default async function AddtoServiceProviders({
         phone: item.metadata.phone,
         category: 'Fundi',
         skill: item.metadata?.skill || '',
+        level: item.metadata.level || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
       };
