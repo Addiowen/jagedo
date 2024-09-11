@@ -1,7 +1,6 @@
 'use client';
 import { Badge, ActionIcon } from 'rizzui';
 import cn from '@/utils/class-names';
-import MessagesDropdown from '@/layouts/messages-dropdown';
 import NotificationDropdown from '@/layouts/notification-dropdown';
 import ProfileMenu from '@/layouts/profile-menu';
 import SettingsButton from '@/components/settings/settings-button';
@@ -13,25 +12,23 @@ export default function HeaderMenuRight() {
 
   return (
     <div className="ms-auto flex shrink-0 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-5">
-      <MessagesDropdown>
-        <ActionIcon
-          aria-label="Messages"
-          variant="text"
-          className={cn(
-            'relative text-gray-200 dark:text-gray-700',
-            colorPresetName === 'black' &&
-              'hover:text-gray-0 dark:hover:text-gray-900'
-          )}
-        >
-          <PiChatText className="h-5 w-auto xl:h-5 3xl:h-6" />
-          <Badge
-            renderAsDot
-            color="success"
-            enableOutlineRing
-            className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
-          />
-        </ActionIcon>
-      </MessagesDropdown>
+      <ActionIcon
+        aria-label="Messages"
+        variant="text"
+        className={cn(
+          'relative text-gray-200 dark:text-gray-700',
+          colorPresetName === 'black' &&
+            'hover:text-gray-0 dark:hover:text-gray-900'
+        )}
+      >
+        <PiChatText className="h-5 w-auto xl:h-5 3xl:h-6" />
+        <Badge
+          renderAsDot
+          color="success"
+          enableOutlineRing
+          className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
+        />
+      </ActionIcon>
       <NotificationDropdown>
         <ActionIcon
           aria-label="Notification"

@@ -211,11 +211,10 @@ export const customerMenu: MenuItem[] = [
     icon: <PiProjectorScreenChart />,
   },
 
-//   Requests
-// Quotations
-// Active
-// Completed
-
+  //   Requests
+  // Quotations
+  // Active
+  // Completed
 
   {
     name: 'Jobs',
@@ -318,6 +317,11 @@ export const fundiMenu: MenuItem[] = [
     href: '#',
     icon: <PiToolboxDuotone />,
     dropdownItems: [
+      {
+        name: 'Requests',
+        href: routes.serviceProvider.fundi.requisitions,
+        badge: '',
+      },
       {
         name: 'Active',
         href: routes.serviceProvider.fundi.activeJobs,

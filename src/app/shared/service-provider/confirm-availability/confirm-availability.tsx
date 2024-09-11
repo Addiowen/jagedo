@@ -11,6 +11,7 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function ConfirmAvailability({
   requestDetails,
@@ -115,8 +116,9 @@ export default function ConfirmAvailability({
       // Call removeAssetIdFromBookingRequests after transaction update
       await removeAssetIdFromBookingRequests();
 
+      toast.success('Job accepted successfully!');
       // Navigate to completed jobs page only after both requests succeed
-      router.push(`${routes.serviceProvider.fundi.completedJobs}`);
+      router.push(`${routes.serviceProvider.fundi.dashboard}`);
     } catch (error) {
       console.error('Error:', error);
       alert(

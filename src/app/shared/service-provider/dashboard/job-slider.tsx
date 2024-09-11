@@ -155,7 +155,7 @@ export default function JobSlider({ className }: { className?: string }) {
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?assetId=${assetId}`,
+          `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?takerId=${assetId}`,
           {
             headers: {
               Authorization:
@@ -287,7 +287,7 @@ function CustomizedLabel(props: any) {
         dominantBaseline="middle"
       >
         {formatNumber(value)}{' '}
-      </text>{' '}
+      </text>
     </g>
   );
 }

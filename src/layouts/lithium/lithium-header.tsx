@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Badge, ActionIcon } from 'rizzui';
 import cn from '@/utils/class-names';
 import SearchWidget from '@/components/search/search';
-import MessagesDropdown from '@/layouts/messages-dropdown';
 import NotificationDropdown from '@/layouts/notification-dropdown';
 import ProfileMenu from '@/layouts/profile-menu';
 import SettingsButton from '@/components/settings/settings-button';
@@ -23,23 +22,21 @@ import StickyHeader from '@/layouts/sticky-header';
 function HeaderMenuRight() {
   return (
     <div className="ms-auto flex shrink-0 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
-      <MessagesDropdown>
-        <ActionIcon
-          aria-label="Messages"
-          variant="text"
-          className={cn(
-            ' relative h-[34px] w-[34px] overflow-hidden rounded-full md:h-9 md:w-9 3xl:h-10 3xl:w-10 '
-          )}
-        >
-          <PiChatsCircleDuotone className="h-6 w-auto" />
-          <Badge
-            renderAsDot
-            color="success"
-            enableOutlineRing
-            className="absolute right-1 top-2.5 -translate-x-1 -translate-y-1/4"
-          />
-        </ActionIcon>
-      </MessagesDropdown>
+      <ActionIcon
+        aria-label="Messages"
+        variant="text"
+        className={cn(
+          ' relative h-[34px] w-[34px] overflow-hidden rounded-full md:h-9 md:w-9 3xl:h-10 3xl:w-10 '
+        )}
+      >
+        <PiChatsCircleDuotone className="h-6 w-auto" />
+        <Badge
+          renderAsDot
+          color="success"
+          enableOutlineRing
+          className="absolute right-1 top-2.5 -translate-x-1 -translate-y-1/4"
+        />
+      </ActionIcon>
       <NotificationDropdown>
         <ActionIcon
           aria-label="Notification"
@@ -57,7 +54,7 @@ function HeaderMenuRight() {
           />
         </ActionIcon>
       </NotificationDropdown>
-      <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 3xl:h-10 3xl:w-10 dark:bg-gray-100/0">
+      <SettingsButton className="rounded-full text-gray-700 shadow-none backdrop-blur-none hover:text-gray-1000 dark:bg-gray-100/0 3xl:h-10 3xl:w-10">
         <PiGearDuotone className="h-[22px] w-auto animate-spin-slow" />
       </SettingsButton>
       <ProfileMenu
