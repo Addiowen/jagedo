@@ -41,23 +41,23 @@ export default async function Requisitions() {
 
   // Format the data if needed
   const formattedData =
-    transactions.results.map((item: any, index: number) => {
-      return {
-        number: index + 1,
-        id: item.id || '',
-        date: item.createdDate || '',
-        category: 'Fundi',
-        subCategory: item.metadata?.skill || '',
-        requestType:
-          `${item.metadata?.packageType}` ||
-          '',
-        description: item.metadata?.description || '',
-        location: item.metadata?.village || '',
-        county: item.metadata?.county || '',
-        subCounty: item.metadata?.subCounty || '',
-        status: item.status || '',
-      };
-    }) || [];
+    transactions.results
+      .filter((item: any) => item.status === 'paid')
+      .map((item: any, index: number) => {
+        return {
+          number: index + 1,
+          id: item.id || '',
+          date: item.createdDate || '',
+          category: 'Fundi',
+          subCategory: item.metadata?.skill || '',
+          requestType: `${item.metadata?.packageType}` || '',
+          description: item.metadata?.description || '',
+          location: item.metadata?.village || '',
+          county: item.metadata?.county || '',
+          subCounty: item.metadata?.subCounty || '',
+          status: item.status || '',
+        };
+      }) || [];
 
   return (
     <RequisitionsTable
