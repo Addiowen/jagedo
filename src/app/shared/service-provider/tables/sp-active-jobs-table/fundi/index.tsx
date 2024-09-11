@@ -38,34 +38,36 @@ export default function FundiActiveJobsTable({
 
   const results = requests.results;
 
-  const jobs = results.map(
-    (
-      result: {
-        id: any;
-        metadata: {
-          date: any;
-          skill: any;
-          county: any;
-          subCounty: any;
-          packageType: any;
-        };
-        assetType: { name: any };
-        status: any;
-      },
-      index: number
-    ) => ({
-      number: (index + 1).toString(), // Use the index to generate the number
-      id: result.id,
-      date: result.metadata.date,
-      category: 'Fundi',
-      subCategory: result.metadata.skill,
-      requestType: result.metadata.packageType,
-      county: result.metadata.county,
-      subCounty: result.metadata.subCounty,
-      status: result.status,
-      requestTypeId: 1, // Static value or could be mapped if there's a logic for it
-    })
-  );
+  const jobs = results
+    .filter((item: any) => item.status === 'active')
+    .map(
+      (
+        result: {
+          id: any;
+          metadata: {
+            date: any;
+            skill: any;
+            county: any;
+            subCounty: any;
+            packageType: any;
+          };
+          assetType: { name: any };
+          status: any;
+        },
+        index: number
+      ) => ({
+        number: (index + 1).toString(), // Use the index to generate the number
+        id: result.id,
+        date: result.metadata.date,
+        category: 'Fundi',
+        subCategory: result.metadata.skill,
+        requestType: result.metadata.packageType,
+        county: result.metadata.county,
+        subCounty: result.metadata.subCounty,
+        status: result.status,
+        requestTypeId: 1, // Static value or could be mapped if there's a logic for it
+      })
+    );
 
   const {
     isLoading,

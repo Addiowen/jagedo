@@ -60,6 +60,9 @@ export default function ConfirmAvailability({
     setIsLoading(true); // Show loader when submit starts
     try {
       let status = 'active';
+
+      console.log(requestType);
+
       if (requestType === 'Managed by Self') {
         status = 'completed';
       } else if (requestType === 'Managed by Jagedo') {

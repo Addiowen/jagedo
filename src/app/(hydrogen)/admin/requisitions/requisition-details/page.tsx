@@ -80,6 +80,7 @@ export default async function RequisitionDetailsPage({
             pathname: routes.admin.assignServiceProvider,
             query: {
               requestId,
+              county: requestDetails.County,
               requestType: customerRequest?.metadata.packageType || 'N/A',
             },
           }}

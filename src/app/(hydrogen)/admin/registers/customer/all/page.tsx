@@ -1,3 +1,4 @@
+import AllCustomersTable from '@/app/shared/admin/dashboard/tables/customers/all';
 import OrganizationsTable from '@/app/shared/admin/dashboard/tables/customers/organization';
 import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
@@ -23,7 +24,12 @@ const fetchUsers = async () => {
   }
 };
 
-export default async function CustomerPage() {
+export default async function CustomerPage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+  const ids = searchParams.ids || [];
   const users = await fetchUsers();
   return (
     <div className="@container">
@@ -32,14 +38,14 @@ export default async function CustomerPage() {
           href={routes.admin.createOrgCustomerProfile}
           className="mt-4 w-full @lg:mt-0 @lg:w-auto"
         >
-          {/* <Button as="span" className="w-full @lg:w-auto">
+          <Button as="span" className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Customer
-          </Button> */}
+          </Button>
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-        <OrganizationsTable
+        <AllCustomersTable
           customers={users}
           className="relative @4xl:col-span-12  @7xl:col-span-8"
         />

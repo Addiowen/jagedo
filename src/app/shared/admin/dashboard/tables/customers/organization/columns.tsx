@@ -8,6 +8,8 @@ import DateCell from '@/components/ui/date-cell';
 import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -194,7 +196,14 @@ export const getColumns = ({
             aria-label={'View Appointment'}
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-            <EyeIcon className="h-4 w-4" />
+            <Link
+              href={{
+                pathname: routes.admin.editOrgCustomerProfile,
+                query: { id: row.id },
+              }}
+            >
+              <EyeIcon className="h-4 w-4" />
+            </Link>
           </ActionIcon>
         </Tooltip>
         {/* <DeletePopover

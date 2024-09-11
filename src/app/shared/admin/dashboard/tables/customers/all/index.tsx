@@ -5,23 +5,33 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Input } from 'rizzui';
-import { fundiRequisitionData } from '@/data/job-data';
+import { Badge, Button, Input } from 'rizzui';
+import { professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/config/routes';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiRequisitionsTable({
+
+export default function AllCustomersTable({
   className,
-  requestDetails,
+  customers,
 }: {
   className?: string;
-  requestDetails: any;
+  customers: any;
 }) {
+  console.log(customers, 'organization customers');
+  const allCustomers = customers.results.filter(
+    (item: { metadata: { role: string; assetId?: string; type: string } }) =>
+      item.metadata.type === 'organization' ||
+      item.metadata.type === 'individual'
+  );
+  const router = useRouter();
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -30,43 +40,29 @@ export default function FundiRequisitionsTable({
     },
   });
 
+  const filteredCustomers =
+    allCustomers?.map((item: any, index: number) => {
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        type: item.metadata.type || '',
+        firstName: item.firstname || '',
+        lastName: item.lastname || '',
+        organizationName: item.firstName || '',
+        email: item.email || '',
+        phone: item.metadata?.phone || '',
+        skill: item.metadata?.skill || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.metadata?.status || '',
+      };
+    }) || [];
+
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log(requestDetails);
-
-  const transformedRequests = requestDetails.results
-    .filter((item: any) => item.status === 'paid')
-    .map(
-      (
-        requestDetails: {
-          id: any;
-          createdDate: any;
-          metadata: {
-            packageType: string;
-            county: string;
-            subCounty: string;
-            skill: string;
-            managed: string;
-          };
-          status: any;
-        },
-        index: number
-      ) => ({
-        number: index + 1, // Generate sequential number
-        id: requestDetails.id,
-        date: requestDetails.createdDate, // Extract date from createdDate
-        category: 'Fundi', // Use a default value
-        subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
-        requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
-        county: requestDetails.metadata.county || '', // Map 'county'
-        subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
-        status: requestDetails.status, // Directly map 'status'
-        requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
-      })
-    );
 
   const {
     isLoading,
@@ -86,12 +82,12 @@ export default function FundiRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(transformedRequests, pageSize, filterState);
+  } = useTable(filteredCustomers, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: transformedRequests,
+        data: filteredCustomers,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -118,7 +114,7 @@ export default function FundiRequisitionsTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Requests"
+      title=" Customers Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
@@ -143,7 +139,7 @@ export default function FundiRequisitionsTable({
       }
     >
       <ControlledTable
-        variant="minimal"
+        variant="modern"
         data={tableData}
         isLoading={isLoading}
         showLoadingText={true}
@@ -158,6 +154,22 @@ export default function FundiRequisitionsTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
+      {selectedRowKeys.length > 0 && (
+        <div className="mt-4">
+          <Button
+            onClick={() => {
+              const idsQueryString = selectedRowKeys.join(',');
+
+              // Use router to navigate with the query string
+              router.push(
+                `${routes.admin.createRequest}?ids=${idsQueryString}`
+              );
+            }}
+          >
+            Create Request
+          </Button>
+        </div>
+      )}
     </WidgetCard2>
   );
 }

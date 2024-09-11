@@ -63,7 +63,8 @@ export default function FundiTables({ fundis }: PageProps) {
     <div className="@container">
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
         <Link
-          href={routes.admin.createFundiProfile}
+          // href={routes.admin.createFundiProfile}
+          href={''}
           className="mt-4 w-full @lg:mt-0 @lg:w-auto"
         >
           <Button as="span" className="w-full @lg:w-auto">

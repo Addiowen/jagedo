@@ -62,7 +62,7 @@ export default function EditProfileContactDetails({
   const userId = searchParams.get('id');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isApproving, setIsApproving] = useState(false);
   const customerType = session?.user.metadata.type;
 
   const onSubmit = async () => {
@@ -121,6 +121,14 @@ export default function EditProfileContactDetails({
       } else if (pathname.includes('customer')) {
         await router.push(
           `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
+        );
+      } else if (pathname.includes('organization')) {
+        await router.push(
+          `${routes.admin.createOrgCustomerProfile}?profileId=${editProfileId}`
+        );
+      } else if (pathname.includes('individual')) {
+        await router.push(
+          `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
         );
       } else {
         await router.push(
@@ -268,11 +276,15 @@ export default function EditProfileContactDetails({
                 </div>
                 {isAdmin && (
                   <Button
-                    onClick={() => handleSaveAndCreate()}
+                    onClick={handleSaveAndCreate}
                     as="span"
                     className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
                   >
-                    Approve
+                    {isApproving ? (
+                      <Loader size="sm" /> // Display loader when approving
+                    ) : (
+                      'Approve'
+                    )}
                   </Button>
                 )}
               </div>

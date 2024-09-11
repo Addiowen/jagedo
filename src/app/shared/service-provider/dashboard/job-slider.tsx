@@ -1,5 +1,4 @@
 'use client';
-
 import WidgetCard from '@/components/cards/widget-card';
 import TrendingUpIcon from '@/components/icons/trending-up';
 import { Title } from 'rizzui';
@@ -17,214 +16,208 @@ import { formatNumber } from '@/utils/format-number';
 import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useRole } from '@floating-ui/react';
-
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 type JobSliderData = {
   name: string;
   total: number;
   fill: string;
   link: string;
 };
-
-let data: JobSliderData[] = [];
-
-const viewOptions = [
+const initialData: JobSliderData[] = [
   {
-    value: 'Daily',
-    label: 'Daily',
+    name: 'Requests',
+    total: 0,
+    fill: '#2B7F75',
+    link: routes.serviceProvider.fundi.requisitions,
   },
   {
-    value: 'Monthly',
-    label: 'Monthly',
+    name: 'Active Jobs',
+    total: 0,
+    fill: '#04364A',
+    link: routes.serviceProvider.fundi.activeJobs,
+  },
+  {
+    name: 'Completed',
+    total: 0,
+    fill: '#64CCC5',
+    link: routes.serviceProvider.fundi.completedJobs,
+  },
+  {
+    name: 'Reviews',
+    total: 0,
+    fill: '#702963',
+    link: routes.serviceProvider.fundi.reviews,
   },
 ];
-
+const userRoleData: Record<string, JobSliderData[]> = {
+  fundi: [
+    {
+      name: 'Requests',
+      total: 0,
+      fill: '#2B7F75',
+      link: routes.serviceProvider.fundi.requisitions,
+    },
+    {
+      name: 'Active',
+      total: 0,
+      fill: '#04364A',
+      link: routes.serviceProvider.fundi.activeJobs,
+    },
+    {
+      name: 'Completed',
+      total: 0,
+      fill: '#64CCC5',
+      link: routes.serviceProvider.fundi.completedJobs,
+    },
+    {
+      name: 'Reviews',
+      total: 0,
+      fill: '#702963',
+      link: routes.serviceProvider.fundi.reviews,
+    },
+  ],
+  professional: [
+    {
+      name: 'Requests',
+      total: 0,
+      fill: '#2B7F75',
+      link: routes.serviceProvider.professional.requisitions,
+    },
+    {
+      name: 'Quotations',
+      total: 0,
+      fill: '#FFD66B',
+      link: routes.serviceProvider.professional.quotations,
+    },
+    {
+      name: 'Active',
+      total: 0,
+      fill: '#04364A',
+      link: routes.serviceProvider.professional.activeJobs,
+    },
+    {
+      name: 'Completed',
+      total: 0,
+      fill: '#64CCC5',
+      link: routes.serviceProvider.professional.completedJobs,
+    },
+    {
+      name: 'Reviews',
+      total: 0,
+      fill: '#702963',
+      link: routes.serviceProvider.professional.reviews,
+    },
+  ],
+  contractor: [
+    {
+      name: 'Requests',
+      total: 0,
+      fill: '#2B7F75',
+      link: routes.serviceProvider.contractor.requisitions,
+    },
+    {
+      name: 'Quotations',
+      total: 0,
+      fill: '#FFD66B',
+      link: routes.serviceProvider.contractor.quotations,
+    },
+    {
+      name: 'Active',
+      total: 0,
+      fill: '#04364A',
+      link: routes.serviceProvider.contractor.activeJobs,
+    },
+    {
+      name: 'Completed',
+      total: 0,
+      fill: '#64CCC5',
+      link: routes.serviceProvider.contractor.completedJobs,
+    },
+    {
+      name: 'Reviews',
+      total: 0,
+      fill: '#702963',
+      link: routes.serviceProvider.contractor.reviews,
+    },
+  ],
+};
 export default function JobSlider({ className }: { className?: string }) {
   const { data: session } = useSession();
-
-  let userRole: string | undefined;
-
-  if (session) {
-    userRole = session.user.metadata.role;
-  }
-
-  switch (userRole) {
-    case 'fundi':
-      data = [
-        {
-          name: 'Requests',
-          total: 8,
-          fill: '#2B7F75',
-          link: routes.serviceProvider.fundi.requisitions,
-        },
-        // {
-        //   name: 'Quotations',
-        //   total: 7,
-        //   fill: '#FFD66B',
-        //   link: '#',
-        // },
-        {
-          name: 'Active',
-          total: 10,
-          fill: '#04364A',
-          link: routes.serviceProvider.fundi.activeJobs,
-        },
-        {
-          name: 'Completed',
-          total: 13,
-          fill: '#64CCC5',
-          link: routes.serviceProvider.fundi.completedJobs,
-        },
-        {
-          name: 'Reviews',
-          total: 5,
-          fill: '#702963',
-          link: routes.serviceProvider.fundi.reviews,
-        },
-      ];
-      break;
-
-    case 'professional':
-      data = [
-        {
-          name: 'Requests',
-          total: 8,
-          fill: '#2B7F75',
-          link: routes.serviceProvider.professional.requisitions,
-        },
-        {
-          name: 'Quotations',
-          total: 9,
-          fill: '#FFD66B',
-          link: routes.serviceProvider.professional.quotations,
-        },
-        {
-          name: 'Active',
-          total: 7,
-          fill: '#04364A',
-          link: routes.serviceProvider.professional.activeJobs,
-        },
-        {
-          name: 'Completed',
-          total: 10,
-          fill: '#64CCC5',
-          link: routes.serviceProvider.professional.completedJobs,
-        },
-        {
-          name: 'Reviews',
-          total: 7,
-          fill: '#702963',
-          link: routes.serviceProvider.professional.reviews,
-        },
-      ];
-      break;
-
-    case 'contractor':
-      data = [
-        {
-          name: 'Requests',
-          total: 9,
-          fill: '#2B7F75',
-          link: routes.serviceProvider.contractor.requisitions,
-        },
-        {
-          name: 'Quotations',
-          total: 4,
-          fill: '#FFD66B',
-          link: routes.serviceProvider.contractor.quotations,
-        },
-        {
-          name: 'Active',
-          total: 5,
-          fill: '#04364A',
-          link: routes.serviceProvider.contractor.activeJobs,
-        },
-        {
-          name: 'Completed',
-          total: 18,
-          fill: '#64CCC5',
-          link: routes.serviceProvider.contractor.completedJobs,
-        },
-        {
-          name: 'Reviews',
-          total: 7,
-          fill: '#702963',
-          link: routes.serviceProvider.contractor.reviews,
-        },
-      ];
-      break;
-
-    default:
-      data = [
-        {
-          name: 'Requests',
-          total: 8,
-          fill: '#2B7F75',
-          link: routes.serviceProvider.fundi.requisitions,
-        },
-        {
-          name: 'Quotations',
-          total: 7,
-          fill: '#FFD66B',
-          link: '#',
-        },
-        {
-          name: 'Active',
-          total: 10,
-          fill: '#04364A',
-          link: routes.serviceProvider.fundi.activeJobs,
-        },
-        {
-          name: 'Completed',
-          total: 13,
-          fill: '#64CCC5',
-          link: routes.serviceProvider.fundi.completedJobs,
-        },
-        {
-          name: 'Reviews',
-          total: 5,
-          fill: '#702963',
-          link: routes.serviceProvider.fundi.reviews,
-        },
-      ];
-  }
-
+  const router = useRouter();
+  const [data, setData] = useState<JobSliderData[]>(initialData); // State to store the data
+  const takerId = session?.user.userId;
+  const userRole = session?.user.metadata.role;
+  const assetId = session?.user.metadata.assetId;
+  console.log(assetId);
+  useEffect(() => {
+    // Fetch stats from the API
+    async function fetchStats() {
+      try {
+        const response = await axios.get(
+          `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?assetId=${assetId}`,
+          {
+            headers: {
+              Authorization:
+                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            },
+          }
+        );
+        const apiData = response.data.data;
+        console.log(session);
+        console.log(apiData);
+        setData((prevData) =>
+          prevData.map((item) => {
+            switch (item.name) {
+              case 'Requests':
+                return { ...item, total: parseInt(apiData.paid_count) };
+              case 'Quotations':
+                return { ...item, total: parseInt(apiData.quotation_count) };
+              case 'Active Jobs':
+                return { ...item, total: parseInt(apiData.active_count) };
+              case 'Completed':
+                return { ...item, total: parseInt(apiData.completed_count) };
+              case 'Reviews':
+                return { ...item, total: parseInt(apiData.draft_count) };
+              default:
+                return item;
+            }
+          })
+        );
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    }
+    if (takerId) {
+      fetchStats();
+    }
+  }, [takerId]);
+  useEffect(() => {
+    // Update data based on user role
+    if (userRole) {
+      setData(userRoleData[userRole] || initialData);
+    }
+  }, [userRole]);
+  const handleBarClick = (data: { link: any }) => {
+    const { link } = data;
+    if (link) {
+      router.push(link);
+    }
+  };
   function handleChange(viewType: string) {
     console.log('viewType', viewType);
   }
-
-  const router = useRouter();
-  const handleBarClick = (data: { link: any }) => {
-    const { link } = data; // Access the link property from clicked bar data
-    if (link) {
-      router.push(link); // Use Next.js router to navigate to the linked page
-    }
-  };
-
   return (
     <WidgetCard
       title="All Jobs"
       titleClassName="text-gray-800 sm:text-sm font-inter"
       headerClassName="items-center"
       className={cn('@container', className)}
-      //   action={
-      //     <DropdownAction
-      //       className="rounded-lg border"
-      //       options={viewOptions}
-      //       onChange={handleChange}
-      //       dropdownClassName="!z-0"
-      //     />
-      //   }
     >
-      <div className="-mt-2 mb-2 flex items-center  @lg:mt-1">
-        {/* <Title as="h2" className="font-inter font-bold">
-          73,504
-        </Title> */
-        /* <span className="flex items-center gap-1 text-green-dark">
-          <TrendingUpIcon className="h-auto w-5" />
-          <span className="font-semibold leading-none"> +32.40%</span>
-        </span> */}
+      <div className="-mt-2 mb-2 flex items-center @lg:mt-1">
+        {/* Placeholder for additional content */}{' '}
       </div>
+
       <SimpleBar>
         <div className="h-[17rem] w-full pt-1">
           <ResponsiveContainer width="100%" height="100%">
@@ -239,6 +232,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 tickLine={false}
                 hide={true}
               />
+
               <YAxis
                 dataKey="name"
                 type="category"
@@ -248,12 +242,14 @@ export default function JobSlider({ className }: { className?: string }) {
                 width={100}
                 className="rtl:-translate-x-24 [&_.recharts-text]:fill-gray-700"
               />
+
               <Bar
                 dataKey="total"
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
                 className="cursor-pointer"
+                minPointSize={60}
               >
                 <LabelList
                   position="right"
@@ -268,13 +264,12 @@ export default function JobSlider({ className }: { className?: string }) {
     </WidgetCard>
   );
 }
-
 function CustomizedLabel(props: any) {
   const { x, y, width, height, value } = props;
   const radius = 10;
-
   return (
     <g>
+      {' '}
       <rect
         x={x + width - 44}
         y={y + 4}
@@ -282,7 +277,7 @@ function CustomizedLabel(props: any) {
         height={height - 8}
         rx={radius}
         fill="#ffffff"
-      />
+      />{' '}
       <text
         y={y + 1 + height / 2}
         x={x + width - 24}
@@ -291,8 +286,8 @@ function CustomizedLabel(props: any) {
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        {formatNumber(value)}
-      </text>
+        {formatNumber(value)}{' '}
+      </text>{' '}
     </g>
   );
 }

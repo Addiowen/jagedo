@@ -29,12 +29,12 @@ export default async function IndividualPage() {
   return (
     <div className="@container">
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
-        <Link href={routes.admin.createIndividualProfile}>
+        {/* <Link href={routes.admin.createIndividualProfile}>
           <Button>
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Customer
           </Button>
-        </Link>
+        </Link> */}
       </div>
       <div className="grid  gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
         <IndividualsTable

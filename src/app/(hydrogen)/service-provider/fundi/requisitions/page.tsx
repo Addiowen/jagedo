@@ -3,6 +3,8 @@ import FundiRequisitionsTable from '@/app/shared/service-provider/tables/sp-requ
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
+import { Toaster } from 'react-hot-toast';
+import { Modal, Button } from 'rizzui'; // Importing the Modal and Button components
 
 export const metadata = {
   ...metaObject(),
@@ -19,6 +21,8 @@ const fetchUserAssetDetails = async () => {
 
     const assetId = session.user.metadata.assetId;
 
+    console.log(assetId, 'assetId');
+
     if (!assetId) {
       throw new Error('User does not exist');
     }
@@ -33,7 +37,6 @@ const fetchUserAssetDetails = async () => {
     return assetDetails;
   } catch (error) {
     console.error('Error fetching user details:', error);
-    // Handle error accordingly, e.g., show a message to the user
     return null; // Return null in case of error
   }
 };
@@ -41,10 +44,12 @@ const fetchUserAssetDetails = async () => {
 export default async function RequisitionsPage() {
   const asset = await fetchUserAssetDetails();
 
+  if (!asset) {
+    return <>User Not Verified</>;
+  }
+
   // Check if asset and metadata exist
   const bookingRequests = asset?.metadata?.bookingRequests;
-
-  console.log(asset.metadata, 'metadata');
 
   const fetchRequestDetails = async () => {
     if (!bookingRequests) {
@@ -61,7 +66,6 @@ export default async function RequisitionsPage() {
       return assetDetails;
     } catch (error) {
       console.error('Error fetching request details:', error);
-      // Handle error accordingly, e.g., show a message to the user
       return null; // Return null in case of error
     }
   };
@@ -71,10 +75,6 @@ export default async function RequisitionsPage() {
 
   return (
     <>
-      {/* <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
-        Requisitions
-      </Title> */}
-
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           <FundiRequisitionsTable

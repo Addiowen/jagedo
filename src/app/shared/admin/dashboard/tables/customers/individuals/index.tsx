@@ -42,7 +42,7 @@ export default function IndividualsTable({
         id: item.id || '',
         date: item.metadata?.date || '',
         firstName: item.firstname || '',
-        lastName: item.lastname || '',
+        lastName: item.lastname || 'N/A',
         email: item.email || '',
         phone: item.metadata?.phone || '',
         skill: item.metadata?.skill || '',

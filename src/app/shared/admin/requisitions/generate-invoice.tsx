@@ -11,7 +11,6 @@ import FileUpload from '@/app/shared/uploading-images';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
-import { counties } from '@/data/counties';
 
 // Define the Option type
 interface Option {
@@ -19,7 +18,11 @@ interface Option {
   value: string;
 }
 
-const GenerateInvoiceFundi: React.FC = () => {
+export default function GenerateInvoiceFundi({
+  zohoIds,
+}: {
+  zohoIds: string[];
+}) {
   const { urls } = useUrls();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -51,31 +54,6 @@ const GenerateInvoiceFundi: React.FC = () => {
   const customerZohoId = session?.user.metadata.zohoid;
 
   // Options for select fields
-  // const reqType: Option[] = [
-  //   { label: 'Package 1', value: 'Package 1' },
-  //   { label: 'Package 2', value: 'Package 2' },
-  // ];
-
-  // const managedByOptions: Record<string, Option> = {
-  //   'Package 1': { label: 'Jagedo', value: 'Jagedo' },
-  //   'Package 2': { label: 'Self', value: 'Self' },
-  // };
-
-  const theCounty = Object.keys(counties).map((key) => ({
-    label: key,
-    value: key.toLowerCase().replace(/\s+/g, '-'),
-  }));
-
-  const [selectedCounty, setSelectedCounty] = useState<
-    keyof typeof counties | ''
-  >('');
-
-  const subCountyOptions = selectedCounty
-    ? counties[selectedCounty]?.map((subCounty: any) => ({
-        label: subCounty,
-        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
-      }))
-    : [];
   const County: Option[] = [
     { label: 'Nairobi', value: 'Nairobi' },
     { label: 'Busia', value: 'Busia' },
@@ -101,16 +79,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     setUserId(id);
 
     const checkFormValidity = () => {
-      if (
-        description &&
-        date &&
-        // value &&
-        // managed &&
-        county &&
-        subCounty &&
-        village &&
-        skill
-      ) {
+      if (description && date && county && subCounty && village && skill) {
         setIsFormValid(true);
       } else {
         setIsFormValid(false);
@@ -118,23 +87,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     };
 
     checkFormValidity();
-  }, [
-    description,
-    date,
-    // value,
-    // managed,
-    county,
-    subCounty,
-    village,
-    skill,
-    session,
-  ]);
-
-  // useEffect(() => {
-  //   if (value) {
-  //     setManaged(managedByOptions[value.value] || null);
-  //   }
-  // }, [value]);
+  }, [description, date, county, subCounty, village, skill, session]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -143,10 +96,6 @@ const GenerateInvoiceFundi: React.FC = () => {
       alert('Please select a plan before submitting.');
       return;
     }
-
-    const existingUrls = JSON.parse(
-      sessionStorage.getItem('uploadedUrls') || '[]'
-    ) as string[];
 
     if (urls) {
       if (!isFormValid) {
@@ -158,8 +107,8 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
-        amount: selectedPlan.price, //pass price here
-        packageType: selectedPlan.title, // pass title here
+        amount: selectedPlan.price,
+        packageType: selectedPlan.title,
         managed: managed?.value || '',
         county: county?.value || '',
         subCounty: subCounty?.value || '',
@@ -168,13 +117,6 @@ const GenerateInvoiceFundi: React.FC = () => {
         skill: skill?.value || '',
       };
 
-      // const linkageFee =
-      //   value?.value === 'Package 1'
-      //     ? 3000
-      //     : value?.value === 'Package 2'
-      //       ? 1000
-      //       : 0;
-
       const formBody = {
         startDate: date,
         takerId: userId,
@@ -182,30 +124,39 @@ const GenerateInvoiceFundi: React.FC = () => {
         metadata: {
           ...formData,
           description: description,
-          // linkageFee,
         },
       };
 
       try {
         setLoading(true);
-
-        const response = await axios.post(
-          `${BASE_URL}/transactions`,
-          formBody,
-          {
-            headers: {
-              Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
-            },
-          }
+        const requests = zohoIds.map((zohoId) =>
+          axios.post(
+            `${BASE_URL}/transactions`,
+            {
+              ...formBody,
+              metadata: {
+                ...formBody.metadata,
+                customerZohoId: zohoId, // Update metadata with each zohoId
+              },
+            }, // Pass each zohoId
+            {
+              headers: {
+                Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+              },
+            }
+          )
         );
 
-        if (response.data) {
+        const responses = await Promise.all(requests);
+
+        // Handle success
+        responses.forEach((response) => {
           console.log(response.data, 'my transaction');
-          toast.success('Form submitted successfully!');
-          router.push(
-            `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
-          );
-        }
+        });
+
+        router.push(
+          `${routes.admin.details(DUMMY_ID)}?id=${responses[0].data.id}`
+        );
       } catch (error) {
         console.error('Error submitting form:', error);
         toast.error(
@@ -213,6 +164,7 @@ const GenerateInvoiceFundi: React.FC = () => {
         );
       } finally {
         setLoading(false);
+        toast.success('Form submitted successfully for all customers!');
       }
     }
   };
@@ -239,32 +191,12 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(selected) => setSkill(selected as Option)}
               />
             </div>
-            {/* <div className="form-group">
-              <Select
-                label="Request Type"
-                options={reqType}
-                value={value}
-                onChange={(selected) => setValue(selected as Option)}
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                label="Managed By"
-                options={Object.values(managedByOptions)}
-                value={managed}
-                onChange={(selected) => setManaged(selected as Option)}
-                disabled // Disable the field
-              />
-            </div> */}
             <div className="form-group">
               <Select
                 label="County"
-                options={theCounty}
+                options={County}
                 value={county}
-                onChange={(selected) => {
-                  setCounty(selected as Option);
-                  setSelectedCounty(selected as any);
-                }}
+                onChange={(selected) => setCounty(selected as Option)}
               />
             </div>
             <div className="form-group">
@@ -335,6 +267,4 @@ const GenerateInvoiceFundi: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default GenerateInvoiceFundi;
+}

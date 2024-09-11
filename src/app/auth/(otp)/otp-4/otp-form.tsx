@@ -340,7 +340,7 @@ export default function OtpForm() {
 
   const createZohoUser = async (userDetails: any) => {
     const contactType = userRole === 'fundi' ? 'vendor' : 'customer';
-    const customerSubType = userRole === 'fundi' ? 'business' : 'customer';
+    const customerSubType = userRole === 'fundi' ? 'business' : 'individual';
 
     const zohoPayload = {
       contact_name: `${userDetails.firstname} ${userDetails.lastname}`,
