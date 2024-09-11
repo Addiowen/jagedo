@@ -1,0 +1,378 @@
+.header__container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.logo {
+    width: 100px;
+    display: block;
+}
+
+.nav {
+    width: 60%;
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    list-style-type: none;
+}
+
+.main__container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* gap: 20px; */
+    padding: 1rem 0;
+}
+
+.main__container_provider {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 4em 0;
+}
+
+.main__container_provider h3 {
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+}
+
+.main__container_provider_tags {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2em 1em; 
+}
+
+.workTag {
+    padding: 1em 0;
+}
+
+.workTag .logoIcon {
+    /* border: 1px solid #000; */
+    width: 50px;
+    display: block;
+}
+
+.main__container_provider_tags div {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.main__container_provider_tags div .btn {
+    border: 1px solid #000;
+    background-color: #f5f5f5;    
+    padding: 0.5rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    border: '1px solid red';
+}
+
+.main__container_work {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 0;
+}
+
+.main__container_work div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.main__container_work h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 0.5rem;
+}
+
+.main__container_work .process {
+    width: 100%;
+    display: flex;
+    padding: 1rem 0;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+.main__container_work .process .tag {
+    /* font-size: 1rem; */
+    /* min-width: 20%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+    /* border: 1px solid #000; */
+}
+
+/* .main__container_work .process .providers {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+} */
+
+.main__container_work .process .tag span {
+    font-size: 12px;
+}
+
+.main__container_work .process div .logoIcon {
+    width: 50px;
+    display: block;
+}
+
+.request_btn {
+    background-color: #21255e;
+    color: #fff;
+    padding: 0.5rem 2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.provider__container {
+
+}
+
+
+.provider__container .provider__container_one {
+
+}
+
+.provider__container .provider__container_one .provider__container_one_two {
+
+}
+
+.provider__container .provider__container_one .provider__container_one_two h4 {
+    width: 100%;
+    font-size: small;
+    background-color: #21255e;
+    color: #fff;
+    padding: 0.1rem 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.footer {
+    background-color: #21255e;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    color: #fff;
+    padding: 1em;
+}
+
+.copyright {
+    display: inline;
+    color: #fff;
+}
+
+@media (min-width: 400px) {
+    /* CSS code for mobile devices with screen width <= 375px */
+    .header__container {
+        /* Mobile specific styles for header container */
+    }
+
+    .logo {
+        /* Mobile specific styles for logo */
+    }
+
+    .logoIcon {
+        /* Mobile specific styles for logo icon */
+    }
+
+    .nav {
+        /* Mobile specific styles for navigation */
+        width: 40%;
+    }
+
+    .main__container {
+        /* Mobile specific styles for main container */
+    }
+
+    .main__container_provider {
+        /* Mobile specific styles for provider container */
+    }
+
+    .main__container_provider_tags {
+        /* Mobile specific styles for provider tags */
+    }
+
+    .main__container_provider_tags div {
+        /* Mobile specific styles for provider tag div */
+        
+    }
+
+    .main__container_provider_tags div .btn {
+        /* Mobile specific styles for provider tag button */
+    }
+
+    .main__container_work {
+        /* Mobile specific styles for work container */
+    }
+
+    .main__container_work div {
+        /* Mobile specific styles for work div */
+    }
+
+    .main__container_work h1 {
+        /* Mobile specific styles for work heading */
+    }
+
+    .main__container_work .process {
+        /* Mobile specific styles for work process */
+        width: 100%;
+    }
+
+    .main__container_work .process .tag {
+        /* Mobile specific styles for work process tag */
+        /* max-width: 50%;
+        min-width: 45%; */
+        width: 40%;
+    }
+
+    .main__container_work .process .tag span {
+        /* Mobile specific styles for work process tag span */
+    }
+
+    .main__container_work .process div .logoIcon {
+        /* Mobile specific styles for work process logo icon */
+    }
+
+    .request_btn {
+        /* Mobile specific styles for request button */
+    }
+
+    .provider__container {
+        width: 100%;        
+    }
+
+    .provider__container_one {
+        width: 100%;
+        display: flex;
+    }
+
+    .provider__container_one ul {
+        list-style-type: disc;
+    }
+
+    .provider__container_one_two {
+        width: 100%;
+    }
+
+    .provider__container_one_two .services {
+        width: 100%;
+        padding: 0 18px;
+        display: flex;
+        gap: 20px;
+    }
+
+    .footer {
+        padding: 2em 0;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
+@media (min-width: 768px) {
+    /* CSS code for devices with screen width between 376px and 768px */
+    .header__container {
+        /* Styles for header container */
+    }
+
+    .logo {
+        /* Styles for logo */
+    }
+
+    .logoIcon {
+        /* Styles for logo icon */
+    }
+
+    .nav {
+        /* Styles for navigation */
+        width: 20%;
+    }
+
+    .main__container {
+        /* Styles for main container */
+    }
+
+    .main__container_provider {
+        /* Styles for provider container */
+    }
+
+    .main__container_provider_tags {
+        /* Styles for provider tags */
+    }
+
+    .main__container_provider_tags div {
+        /* Styles for provider tag div */
+        width: 24%;
+    }
+
+    .main__container_provider_tags div .btn {
+        /* Styles for provider tag button */
+    }
+
+    .main__container_work {
+        /* Styles for work container */
+    }
+
+    .main__container_work div {
+        /* Styles for work div */
+    }
+
+    .main__container_work h1 {
+        /* Styles for work heading */
+    }
+
+    .main__container_work .process {
+        /* Styles for work process */
+        flex-wrap: nowrap;
+    }
+
+    .main__container_work .process .tag {
+        /* Styles for work process tag */
+        max-width: none;
+        min-width: none;
+    }
+
+    .main__container_work .process .tag span {
+        /* Styles for work process tag span */
+    }
+
+    .main__container_work .process div .logoIcon {
+        /* Styles for work process logo icon */
+    }
+
+    .request_btn {
+        /* Styles for request button */
+    }
+}

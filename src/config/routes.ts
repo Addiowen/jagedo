@@ -353,4 +353,5 @@ export const routes = {
     otp5: '/auth/otp-5',
   },
   signIn: '/signin',
+  home: '/home',
 };
