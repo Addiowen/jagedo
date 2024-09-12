@@ -164,13 +164,13 @@ const HomePage: React.FC = () => {
                             </span>
                         </div>
                     </div>
-                    <div>
+                    {/* <div>
                         <button className='request_btn'>
                             Make a Request
                         </button>
-                    </div>
+                    </div> */}
                 </section>
-                <section className='provider__container'>
+                {/* <section className='provider__container'>
                     <div className='provider__container_one'>
                         <div className='provider__container_one_two'>
                             <h4>Service Provider</h4>
@@ -311,7 +311,7 @@ const HomePage: React.FC = () => {
                             </ul>
                         </div>
                     </div>
-                </section>
+                </section> */}
             </main>
             <LandingFooter />
         </>
