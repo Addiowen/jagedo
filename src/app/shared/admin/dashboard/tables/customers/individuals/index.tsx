@@ -17,8 +17,10 @@ const filterState = {
 };
 export default function IndividualsTable({
   className,
+  customers,
 }: {
   className?: string;
+  customers: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
 
@@ -27,6 +29,28 @@ export default function IndividualsTable({
       handleSort(value);
     },
   });
+
+  const individualCustomers = customers.results.filter(
+    (item: { metadata: { role: string; type: string } }) =>
+      item.metadata.type === 'individual'
+  );
+
+  const individuals =
+    individualCustomers?.map((item: any, index: number) => {
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        firstName: item.firstname || '',
+        lastName: item.lastname || 'N/A',
+        email: item.email || '',
+        phone: item.metadata?.phone || '',
+        skill: item.metadata?.skill || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.metadata?.status || '',
+      };
+    }) || [];
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
@@ -51,12 +75,12 @@ export default function IndividualsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(individualCustomers, pageSize, filterState);
+  } = useTable(individuals, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: individualCustomers,
+        data: individuals,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

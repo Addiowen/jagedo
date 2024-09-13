@@ -1,8 +1,5 @@
 import AdminDashboard from '@/app/shared/admin/dashboard';
 import FundiActiveJobsTable from '@/app/shared/tables/active-jobs';
-import ActiveJobsTable from '@/app/shared/tables/active-jobs';
-import CompleteJobsTable from '@/app/shared/tables/complete-jobs';
-import RequisitionsTable from '@/app/shared/tables/requisitions';
 import { getServerSession } from 'next-auth';
 
 import { metaObject } from '@/config/site.config';
@@ -19,8 +16,10 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate&status=accepted`,
+      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate&`,
     });
+    console.log(transactionDetails, 'transactionDetails');
+
     return transactionDetails;
   } catch (error) {
     console.error('Failed to fetch transaction details:', error);
@@ -42,28 +41,30 @@ export default async function CompleteJobsPage() {
     return <div>Unable to load transactions. Please try again later.</div>;
   }
 
-    // Format the data if needed
-    const formattedData =
-    transactions.results.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
-      return {
-        number: index + 1,
-        id: item.id || '',
-        date: item.createdDate || '',
-        category: 'Fundi',
-        subCategory: item.metadata?.skill || '',
-        requestType:
-          `${item.metadata?.packageType}` ||
-          '',
-        description: item.metadata?.description || '',
-        location: item.metadata?.village || '',
-        county: item.metadata?.county || '',
-        subCounty: item.metadata?.subCounty || '',
-        status: item.status || '',
-      };
-    }) || [];
+  // Format the data if needed
+  const formattedData =
+    transactions.results
+      .filter((item: any) => item.status === 'active') // Filter transactions with status 'paid'
+      .map((item: any, index: number) => {
+        return {
+          number: index + 1,
+          id: item.id || '',
+          date: item.createdDate || '',
+          category: 'Fundi',
+          subCategory: item.metadata?.skill || '',
+          requestType: `${item.metadata?.packageType}` || '',
+          description: item.metadata?.description || '',
+          location: item.metadata?.village || '',
+          county: item.metadata?.county || '',
+          subCounty: item.metadata?.subCounty || '',
+          status: item.status || '',
+        };
+      }) || [];
 
   return (
-    <FundiActiveJobsTable request={formattedData} className="relative @container  @4xl:col-span-2 @7xl:col-span-12" />
+    <FundiActiveJobsTable
+      request={formattedData}
+      className="relative @container  @4xl:col-span-2 @7xl:col-span-12"
+    />
   );
 }

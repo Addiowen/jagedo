@@ -35,6 +35,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { log } from 'console';
+import { counties } from '@/data/counties';
 
 // export type MultiStepFormProps = {
 
@@ -56,6 +57,16 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
 });
 
 export default function CustomerSteps() {
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
   const router = useRouter();
   const pathname = usePathname();
 
@@ -67,6 +78,19 @@ export default function CustomerSteps() {
     e?.preventDefault();
 
     let filteredData = { ...data };
+
+    if (filteredData.type === 'organization') {
+      if (!filteredData.organizationName) {
+        console.error('Organization Name is required for organization type');
+        return;
+      }
+
+      if (selectedType === 'organization') {
+        filteredData.firstName = filteredData.organizationName;
+        filteredData.lastName = filteredData.organizationName;
+        filteredData.gender = 'N/A';
+      }
+    }
 
     let postData;
 
@@ -81,6 +105,7 @@ export default function CustomerSteps() {
       phone: filteredData.phone,
       metadata: {
         role: 'customer',
+        type: filteredData.type,
         gender: filteredData.gender,
         phone: filteredData.phone,
         county: filteredData.county,
@@ -92,8 +117,9 @@ export default function CustomerSteps() {
 
     sessionStorage.setItem('postData', JSON.stringify(postData));
 
+    const firstName = postData.firstname ?? '';
     router.push(
-      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(postData.firstname)}`
+      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(firstName)}`
     );
     console.log(postData);
   };
@@ -182,24 +208,28 @@ export default function CustomerSteps() {
                     error={errors.email?.message}
                     className="[&>label>span]:font-medium"
                   />
-                  <Input
-                    placeholder="First Name"
-                    label="First Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('firstName')}
-                    error={errors.firstName?.message}
-                    className="[&>label>span]:font-medium"
-                  />
-                  <Input
-                    placeholder="Last Name"
-                    label="Last Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('lastName')}
-                    error={errors.lastName?.message}
-                    className="[&>label>span]:font-medium"
-                  />
+                  {selectedType === 'individual' && (
+                    <>
+                      <Input
+                        placeholder="First Name"
+                        label="First Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('firstName')}
+                        error={errors.firstName?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+                      <Input
+                        placeholder="Last Name"
+                        label="Last Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('lastName')}
+                        error={errors.lastName?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+                    </>
+                  )}
 
                   <Input
                     placeholder="Phone Number"
@@ -210,34 +240,36 @@ export default function CustomerSteps() {
                     error={errors.phone?.message}
                     className="[&>label>span]:font-medium"
                   />
-
-                  <Controller
-                    control={control}
-                    name="gender"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="Select gender"
-                        label="Gender"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={gender}
-                        onChange={(val: any) => {
-                          onChange(val);
-                          setSelectedGender(val);
-                        }}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          gender?.find((r) => r.value === selected)?.label ?? ''
-                        }
-                        error={errors?.gender?.message as string}
-                      />
-                    )}
-                  />
+                  {selectedType === 'individual' && (
+                    <Controller
+                      control={control}
+                      name="gender"
+                      render={({ field: { value, onChange } }) => (
+                        <Select
+                          dropdownClassName="!z-10"
+                          inPortal={false}
+                          placeholder="Select gender"
+                          label="Gender"
+                          size="lg"
+                          selectClassName="font-medium text-sm"
+                          optionClassName=""
+                          options={gender}
+                          onChange={(val: any) => {
+                            onChange(val);
+                            setSelectedGender(val);
+                          }}
+                          value={value}
+                          className=""
+                          getOptionValue={(option) => option.value}
+                          displayValue={(selected) =>
+                            gender?.find((r) => r.value === selected)?.label ??
+                            ''
+                          }
+                          error={errors?.gender?.message as string}
+                        />
+                      )}
+                    />
+                  )}
                 </div>
               </motion.div>
             )}
@@ -294,9 +326,15 @@ export default function CustomerSteps() {
                         label="County/State"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
                         options={county}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className="col-span-full"
                         getOptionValue={(option) => option.value}
@@ -319,15 +357,14 @@ export default function CustomerSteps() {
                         label="Sub-County/Area"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
+                        options={subCountyOptions}
                         onChange={onChange}
                         value={value}
                         className="col-span-full"
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
+                          subCountyOptions?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.subCounty?.message as string}
                       />
@@ -409,14 +446,21 @@ export default function CustomerSteps() {
                     control={control}
                     name="accountVerification"
                     render={({ field: { value, onChange } }) => (
-                      <RadioGroup
-                        value={value}
-                        setValue={onChange}
-                        className="flex gap-4"
-                      >
-                        <Radio label="SMS" value="sms" />
-                        <Radio label="Email" value="email" />
-                      </RadioGroup>
+                      <>
+                        <RadioGroup
+                          value={value}
+                          setValue={onChange}
+                          className="flex gap-4"
+                        >
+                          <Radio label="SMS" value="sms" />
+                          <Radio label="Email" value="email" />
+                        </RadioGroup>
+                        {errors.accountVerification && (
+                          <p className="mt-2 text-sm text-red-500">
+                            {errors.accountVerification.message}
+                          </p>
+                        )}
+                      </>
                     )}
                   />
                 </div>
@@ -424,7 +468,7 @@ export default function CustomerSteps() {
                 <p className="mt-2 pt-10 font-semibold text-gray-700">
                   Terms & Policies
                 </p>
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('termsAndConditions')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -440,9 +484,14 @@ export default function CustomerSteps() {
                       </Text>
                     }
                   />
+                  {errors.termsAndConditions && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.termsAndConditions.message}
+                    </p>
+                  )}
                 </div>
 
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('privacyPolicy')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -458,9 +507,15 @@ export default function CustomerSteps() {
                       </Text>
                     }
                   />
+
+                  {errors.privacyPolicy && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.privacyPolicy.message}
+                    </p>
+                  )}
                 </div>
 
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('refundPolicy')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -476,6 +531,11 @@ export default function CustomerSteps() {
                       </Text>
                     }
                   />
+                  {errors.refundPolicy && (
+                    <p className="mt-1 text-sm text-red-500">
+                      {errors.refundPolicy.message}
+                    </p>
+                  )}
                 </div>
               </motion.div>
             )}

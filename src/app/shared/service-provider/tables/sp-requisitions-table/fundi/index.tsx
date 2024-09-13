@@ -35,34 +35,38 @@ export default function FundiRequisitionsTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const transformedRequests = requestDetails.results.map(
-    (
-      requestDetails: {
-        id: any;
-        createdDate: any;
-        metadata: {
-          packageType: string;
-          county: string;
-          subCounty: string;
-          skill: string;
-          managed: string;
-        };
-        status: any;
-      },
-      index: number
-    ) => ({
-      number: index + 1, // Generate sequential number
-      id: requestDetails.id,
-      date: requestDetails.createdDate, // Extract date from createdDate
-      category: 'Fundi', // Use a default value
-      subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
-      requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
-      county: requestDetails.metadata.county || '', // Map 'county'
-      subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
-      status: requestDetails.status, // Directly map 'status'
-      requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
-    })
-  );
+  console.log(requestDetails);
+
+  const transformedRequests = requestDetails.results
+    .filter((item: any) => item.status === 'assigned')
+    .map(
+      (
+        requestDetails: {
+          id: any;
+          createdDate: any;
+          metadata: {
+            packageType: string;
+            county: string;
+            subCounty: string;
+            skill: string;
+            managed: string;
+          };
+          status: any;
+        },
+        index: number
+      ) => ({
+        number: index + 1, // Generate sequential number
+        id: requestDetails.id,
+        date: requestDetails.createdDate, // Extract date from createdDate
+        category: 'Fundi', // Use a default value
+        subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+        requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
+        county: requestDetails.metadata.county || '', // Map 'county'
+        subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+        status: requestDetails.status, // Directly map 'status'
+        requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
+      })
+    );
 
   const {
     isLoading,

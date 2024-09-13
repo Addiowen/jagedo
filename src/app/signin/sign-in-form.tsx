@@ -12,8 +12,8 @@ import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
 
 const initialValues: LoginSchema = {
-  username: 'contractor@email.com',
-  password: 'contractor',
+  username: '',
+  password: '',
   rememberMe: true,
 };
 
@@ -27,11 +27,9 @@ export default function SignInForm() {
     setLoading(true);
     try {
       await signIn('credentials', { ...data });
-      // Handle successful login, reset loading if needed
     } catch (error) {
       console.error(error);
     } finally {
-      // Reset loading state after completion
       setLoading(false);
     }
   };
@@ -78,7 +76,12 @@ export default function SignInForm() {
                 Forget Password?
               </Link>
             </div>
-            <Button className="w-full" type="submit" size="lg" disabled={loading}>
+            <Button
+              className="w-full"
+              type="submit"
+              size="lg"
+              disabled={loading}
+            >
               <span>Sign in</span>{' '}
               {loading ? (
                 <AiOutlineLoading3Quarters className="ms-2 mt-0.5 h-5 w-5 animate-spin" />

@@ -8,6 +8,8 @@ import DateCell from '@/components/ui/date-cell';
 import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -54,33 +56,41 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
+  // {
+  //   title: (
+  //     <div className="ps-3.5">
+  //       <Checkbox
+  //         title={'Select All'}
+  //         onChange={handleSelectAll}
+  //         checked={checkedItems.length === data.length}
+  //         className="cursor-pointer"
+  //       />
+  //     </div>
+  //   ),
+  //   dataIndex: 'checked',
+  //   key: 'checked',
+  //   width: 30,
+  //   render: (_: any, row: any) => (
+  //     <div className="inline-flex ps-3.5">
+  //       <Checkbox
+  //         aria-label={'ID'}
+  //         className="cursor-pointer"
+  //         checked={checkedItems.includes(row.id)}
+  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
+  //       />
+  //     </div>
+  //   ),
+  // },
+
   {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
+    title: <HeaderCell title="Number" />,
+    dataIndex: 'no',
+    key: 'no',
+    width: 90,
+    render: (no: number) => <Text>{no}</Text>,
   },
   {
-    title: <HeaderCell title="JOB ID" />,
+    title: <HeaderCell title="USER ID" />,
     dataIndex: 'id',
     key: 'id',
     width: 90,
@@ -88,27 +98,17 @@ export const getColumns = ({
   },
 
   {
-    title: <HeaderCell title="First Name" />,
+    title: <HeaderCell title="Organization Name" />,
     dataIndex: 'firstName',
     key: 'firstName',
-    width: 200,
+    width: 150,
     render: (firstName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {firstName}
       </Text>
     ),
   },
-  {
-    title: <HeaderCell title="Last Name" />,
-    dataIndex: 'lastName',
-    key: 'lastName',
-    width: 200,
-    render: (lastName: string) => (
-      <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {lastName}
-      </Text>
-    ),
-  },
+
   {
     title: <HeaderCell title="Phone Number" />,
     dataIndex: 'phone',
@@ -123,14 +123,8 @@ export const getColumns = ({
     width: 120,
     render: (email: string) => <Text>{email}</Text>,
   },
-  {
-    title: <HeaderCell title="Gender" />,
-    dataIndex: 'gender',
-    key: 'gender',
-    width: 80,
-    render: (gender: string) => <Text>{gender}</Text>,
-  },
-  // {
+
+  // {s
   //   title: <HeaderCell title="Category" />,
   //   dataIndex: 'category',
   //   key: 'category',
@@ -155,36 +149,37 @@ export const getColumns = ({
   //     );
   //   },
   // },
-  {
-    title: <HeaderCell title="Age" />,
-    dataIndex: 'age',
-    key: 'age',
-    width: 80,
-    render: (age: string) => <Text>{age}</Text>,
-  },
-  {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 120,
-    render: (location: string) => <Text>{location}</Text>,
-  },
 
   {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 230,
-    render: (date: Date) => <DateCell date={date} />,
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 120,
+    render: (county: string) => <Text>{county}</Text>,
+  },
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 120,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (value: string) => getStatusBadge(value),
-  },
+  // {
+  //   title: <HeaderCell title="Joined Date" className="uppercase" />,
+  //   dataIndex: 'date',
+  //   key: 'date',
+  //   width: 230,
+  //   render: (date: Date) => <DateCell date={date} />,
+  // },
+
+  // {
+  //   title: <HeaderCell title="Status" />,
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 120,
+  //   render: (value: string) => getStatusBadge(value),
+  // },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
@@ -192,7 +187,7 @@ export const getColumns = ({
     key: 'action',
     width: 180,
     render: (_: string, row: any) => (
-      <div className="flex items-center justify-end gap-3 pe-3">
+      <div className="flex items-center  gap-3 ">
         <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
@@ -201,7 +196,14 @@ export const getColumns = ({
             aria-label={'View Appointment'}
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-            <EyeIcon className="h-4 w-4" />
+            <Link
+              href={{
+                pathname: routes.admin.editOrgCustomerProfile,
+                query: { id: row.id },
+              }}
+            >
+              <EyeIcon className="h-4 w-4" />
+            </Link>
           </ActionIcon>
         </Tooltip>
         {/* <DeletePopover

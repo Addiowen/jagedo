@@ -117,38 +117,39 @@ const CustomerChunkedGrid: React.FC<Props> = ({
             key={columnIndex}
             className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg border border-gray-300 bg-gray-0 p-4 py-8 shadow-md"
           >
-            {chunk.map(([key, value], itemIndex) => (
-              key !== 'Uploads' && (
-                <div
-                  key={itemIndex}
-                  className={cn(
-                    'flex items-start',
-                    key === 'Description' && 'col-span-2' // Span the entire width for Description
-                  )}
-                >
-                  <div className="flex w-full items-center justify-between gap-2 ps-3.5">
-                    <div className="w-full">
-                      <Title
-                        as="h4"
-                        className="mb-1 whitespace-nowrap text-sm font-semibold"
-                      >
-                        {key}
-                      </Title>
-                      {key === 'Description' ? (
-                        <div
-                          className="text-gray-500 max-h-40 overflow-y-auto p-2 border border-gray-200 rounded w-full"
-                          style={{ whiteSpace: 'pre-wrap' }} // Preserves line breaks
+            {chunk.map(
+              ([key, value], itemIndex) =>
+                key !== 'Uploads' && (
+                  <div
+                    key={itemIndex}
+                    className={cn(
+                      'flex items-start',
+                      key === 'Description' && 'col-span-2' // Span the entire width for Description
+                    )}
+                  >
+                    <div className="flex w-full items-center justify-between gap-2 ps-3.5">
+                      <div className="w-full">
+                        <Title
+                          as="h4"
+                          className="mb-1 whitespace-nowrap text-sm font-semibold"
                         >
-                          {Array.isArray(value) ? value.join(' ') : value}
-                        </div>
-                      ) : (
-                        <div className="text-gray-500">{value}</div>
-                      )}
+                          {key}
+                        </Title>
+                        {key === 'Description' ? (
+                          <div
+                            className="max-h-40 w-full overflow-y-auto rounded border border-gray-200 p-2 text-gray-500"
+                            style={{ whiteSpace: 'pre-wrap' }} // Preserves line breaks
+                          >
+                            {Array.isArray(value) ? value.join(' ') : value}
+                          </div>
+                        ) : (
+                          <div className="text-gray-500">{value}</div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            ))}
+                )
+            )}
           </ul>
         ))}
       </div>

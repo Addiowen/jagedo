@@ -33,8 +33,6 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
-import axios, { axiosAuth, BASE_URL, createUsersAuth } from '@/lib/axios';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { counties } from '@/data/counties';
 
@@ -457,14 +455,22 @@ export default function FundiSteps() {
                     control={control}
                     name="accountVerification"
                     render={({ field: { value, onChange } }) => (
-                      <RadioGroup
-                        value={value}
-                        setValue={onChange}
-                        className="flex gap-4"
-                      >
-                        <Radio label="SMS" value="sms" />
-                        <Radio label="Email" value="email" />
-                      </RadioGroup>
+                      <>
+                        <RadioGroup
+                          value={value}
+                          setValue={onChange}
+                          className="flex gap-4"
+                        >
+                          <Radio label="SMS" value="sms" />
+                          <Radio label="Email" value="email" />
+                        </RadioGroup>
+
+                        {errors.accountVerification && (
+                          <p className="mt-2 text-sm text-red-500">
+                            {errors.accountVerification.message}
+                          </p>
+                        )}
+                      </>
                     )}
                   />
                 </div>
@@ -473,7 +479,7 @@ export default function FundiSteps() {
                 <p className="mt-2 pt-10 font-semibold text-gray-700">
                   Terms & Policies
                 </p>
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('termsAndConditions')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -489,9 +495,14 @@ export default function FundiSteps() {
                       </Text>
                     }
                   />
+                  {errors.termsAndConditions && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.termsAndConditions.message}
+                    </p>
+                  )}
                 </div>
 
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('privacyPolicy')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -507,9 +518,14 @@ export default function FundiSteps() {
                       </Text>
                     }
                   />
+                  {errors.privacyPolicy && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.privacyPolicy.message}
+                    </p>
+                  )}
                 </div>
 
-                <div className="col-span-2 flex items-start pt-3 text-gray-700">
+                <div className="col-span-2 flex flex-col items-start pt-3 text-gray-700">
                   <Checkbox
                     {...register('returnsPolicy')}
                     className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
@@ -525,6 +541,11 @@ export default function FundiSteps() {
                       </Text>
                     }
                   />
+                  {errors.returnsPolicy && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.returnsPolicy.message}
+                    </p>
+                  )}
                 </div>
               </motion.div>
             )}

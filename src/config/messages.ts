@@ -10,6 +10,7 @@ export const messages = {
   confirmPasswordRequired: 'Confirm Password is required',
   passwordsDidNotMatch: "Passwords don't match",
   nameIsRequired: 'Name is required',
+  orgNameIsRequired: 'Organization name is required',
   firstNameRequired: 'First name is required',
   phoneNumberIsRequired: 'Phone Number is required',
   phoneminLength: 'Phone Number must contain at least 10 digits',

@@ -15,6 +15,7 @@ declare module 'next-auth' {
         zohoid;
         assetId?: string;
         phone;
+        type?: string;
       };
       assetId?: string;
       ownerId?: string;

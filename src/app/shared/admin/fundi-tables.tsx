@@ -23,7 +23,7 @@ export default function FundiTables({ fundis }: PageProps) {
   );
   const filteredFundis = fundis.results.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
-      item.metadata.role === 'fundi' && !item.metadata.assetId // Filter fundis without assetId
+      item.metadata.role === 'fundi' && !item.metadata.assetId
   );
   const allFundis =
     fundisonly?.map((item: any, index: number) => {
@@ -63,7 +63,8 @@ export default function FundiTables({ fundis }: PageProps) {
     <div className="@container">
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
         <Link
-          href={routes.admin.createFundiProfile}
+          // href={routes.admin.createFundiProfile}
+          href={''}
           className="mt-4 w-full @lg:mt-0 @lg:w-auto"
         >
           <Button as="span" className="w-full @lg:w-auto">

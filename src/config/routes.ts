@@ -13,9 +13,8 @@ export const routes = {
     createProfessionalProfile: '/admin/profile/professional-profile',
     createOrgCustomerProfile: '/admin/profile/organization-profile',
     createIndividualProfile: '/admin/profile/individual-profile',
-    editIndividualCustomerProfile:
-      '/admin/profile/edit-profile/customer-individual',
-    editOrgCustomerProfile: '/admin/profile/organization-profile',
+    editIndividualCustomerProfile: '/admin/edit/individual',
+    editOrgCustomerProfile: '/admin/edit/organization',
 
     editFundiProfile: '/admin/edit/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
@@ -59,6 +58,8 @@ export const routes = {
     //Reviews
     viewReview: '/admin/reviews/view',
     addReview: '/admin/reviews/add',
+
+    details: (id: string) => `/admin/invoice/${id}`,
   },
 
   customers: {
@@ -103,8 +104,9 @@ export const routes = {
     ongoing: '/customers/ongoing',
     complete: '/customers/jobs/completed-jobs',
     completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
+    completeJobDetails: '/customers/fundi/jobs/completed/report',
 
-    reviews: '/customers/reviews',
+    reviews: '/customers/fundi/reviews',
   },
 
   serviceProvider: {

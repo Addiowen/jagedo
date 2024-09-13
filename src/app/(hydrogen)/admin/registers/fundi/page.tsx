@@ -14,7 +14,7 @@ export const metadata = {
   ...metaObject('Assign Service Providers'),
 };
 
-const fetchTransactions = async () => {
+const fetchUsers = async () => {
   try {
     const fundis = await apiRequest({
       method: 'GET',
@@ -33,7 +33,7 @@ interface PageProps {
 
 export default async function FundisPage({ searchParams }: PageProps) {
   const requestId = searchParams.id;
-  const fundis = await fetchTransactions();
+  const fundis = await fetchUsers();
 
   return (
     <div className="@container">

@@ -11,6 +11,7 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function ConfirmAvailability({
   requestDetails,
@@ -60,6 +61,9 @@ export default function ConfirmAvailability({
     setIsLoading(true); // Show loader when submit starts
     try {
       let status = 'active';
+
+      console.log(requestType);
+
       if (requestType === 'Managed by Self') {
         status = 'completed';
       } else if (requestType === 'Managed by Jagedo') {
@@ -112,8 +116,9 @@ export default function ConfirmAvailability({
       // Call removeAssetIdFromBookingRequests after transaction update
       await removeAssetIdFromBookingRequests();
 
+      toast.success('Job accepted successfully!');
       // Navigate to completed jobs page only after both requests succeed
-      router.push(`${routes.serviceProvider.fundi.completedJobs}`);
+      router.push(`${routes.serviceProvider.fundi.dashboard}`);
     } catch (error) {
       console.error('Error:', error);
       alert(
@@ -149,9 +154,9 @@ export default function ConfirmAvailability({
       </div>
 
       <div className="flex justify-center space-x-4 pt-5">
-        {/* Show loader when the submit button is clicked */}
+        {/* {/ Show loader when the submit button is clicked /} */}
         {isLoading ? (
-          <Loader className="w-32" />
+          <Loader className="h-8 w-8 animate-spin text-primary" /> // Adjust size and add animation
         ) : (
           <>
             <Button onClick={handleSubmit} className="w-32">

@@ -15,6 +15,7 @@ import { PiCheckCircle } from 'react-icons/pi';
 import Timeline from '@/app/shared/service-provider/progress-bar-fundi/timeline';
 import JobDetailsComponent from '@/app/shared/customers/job-details';
 import apiRequest from '@/lib/apiService';
+import { getRequestDetails } from '@/lib/transaction.helper';
 
 const timelineData = [
   {
@@ -77,7 +78,7 @@ const fundiTimelineData = [
   },
 ];
 
-const fetchTransactions = async (searchParams:any) => {
+const fetchTransactions = async (searchParams: any) => {
   try {
     const transactions = await apiRequest({
       method: 'GET',
@@ -90,23 +91,24 @@ const fetchTransactions = async (searchParams:any) => {
   }
 };
 
+type PageProps = {
+  className: string;
+  searchParams: any;
+  // other props as needed
+};
 
-  type PageProps = {
-    className: string;
-    searchParams: any;
-    // other props as needed
-  };
-  
-  export default async function JobDetailsPage({ className, searchParams }: PageProps) {
-    
-    const jobId = searchParams.id;
-    const requisitionDetails = await fetchTransactions(jobId);
+export default async function JobDetailsPage({
+  className,
+  searchParams,
+}: PageProps) {
+  const jobId = searchParams.id;
+  const requisitionDetails = await fetchTransactions(jobId);
 
+  const requestDetails = getRequestDetails(requisitionDetails);
 
-    return (
-      <>
-      <JobDetailsComponent className={''} requests={requisitionDetails}/>
+  return (
+    <>
+      <JobDetailsComponent className={''} requests={requestDetails} />
     </>
-    )
-    
-  }
+  );
+}

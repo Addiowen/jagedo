@@ -35,7 +35,6 @@ export const getRequestDetails = (customerRequest: any) => {
     Category: 'Fundi',
     'Sub-Category': customerRequest?.metadata.skill,
     'Request Type': customerRequest?.metadata.packageType || 'N/A',
-    'Managed By': customerRequest?.metadata.managed || 'N/A',
     County: customerRequest?.metadata.county || 'N/A',
     'Sub-County': customerRequest?.metadata.subCounty || 'N/A',
     'Estate/Village': customerRequest?.metadata.village || 'N/A',

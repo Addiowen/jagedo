@@ -32,7 +32,7 @@ const initialData = [
     link: routes.customers.quotations,
   },
   {
-    name: 'Jobs',
+    name: 'Active',
     total: 5,
     fill: '#04364A',
     link: routes.customers.active,
@@ -55,7 +55,7 @@ export default function JobSlider({ className }: { className?: string }) {
   const { data: session } = useSession();
 
   const takerId = session?.user.userId;
-  console.log(takerId,"this is taker id")
+  console.log(takerId, 'this is taker id');
   const [data, setData] = useState(initialData); // State to store the data
 
   useEffect(() => {
@@ -66,15 +66,16 @@ export default function JobSlider({ className }: { className?: string }) {
           `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?takerId=${takerId}`,
           {
             headers: {
-              Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization:
+                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
             },
           }
         );
-  
+
         const apiData = response.data.data;
-  
+
         console.log(apiData);
-  
+
         // Use functional update for setData to always work with the latest data state
         setData((prevData) =>
           prevData.map((item) => {
@@ -83,7 +84,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 return { ...item, total: parseInt(apiData.paid_count) };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
-              case 'Jobs':
+              case 'Active':
                 return { ...item, total: parseInt(apiData.active_count) };
               case 'Completed':
                 return { ...item, total: parseInt(apiData.completed_count) };
@@ -98,12 +99,11 @@ export default function JobSlider({ className }: { className?: string }) {
         console.error('Error fetching stats:', error);
       }
     }
-  
+
     if (takerId) {
       fetchStats();
     }
   }, [takerId]); // Make sure takerId is available before fetching the data
-  
 
   const router = useRouter();
 
@@ -150,7 +150,7 @@ export default function JobSlider({ className }: { className?: string }) {
                 barSize={28}
                 radius={[50, 50, 50, 50]}
                 onClick={handleBarClick}
-                minPointSize={60} 
+                minPointSize={60}
               >
                 <LabelList
                   position="right"

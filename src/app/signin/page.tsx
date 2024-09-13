@@ -12,7 +12,7 @@ export default function SignInPage() {
       className="max-h-screen"
       title={<>Sign in with your credentials.</>}
       isSignIn
-      isSocialLoginActive={true}
+      isSocialLoginActive={false}
     >
       <SignInForm />
     </AuthWrapperFour>

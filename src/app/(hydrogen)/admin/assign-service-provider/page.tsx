@@ -8,13 +8,16 @@ export const metadata = {
   ...metaObject('Assign Service Providers'),
 };
 
-const fetchFundiAssets = async () => {
+const fetchFundiAssets = async (county: string) => {
   try {
     const fundis = await apiRequest({
       method: 'POST',
       endpoint: `/search`,
       data: {
         query: 'Fundi',
+        // customAttributes: {
+        //   county: county,
+        // },
         page: 1,
         nbResultsPerPage: 40,
       },
@@ -33,10 +36,15 @@ interface PageProps {
 export default async function AddtoServiceProviders({
   searchParams,
 }: PageProps) {
-  const requestId = searchParams.id;
+  const requestId = searchParams.requestId;
+  const county = searchParams.county;
 
-  const fundis = await fetchFundiAssets();
-  console.log(fundis.results, 'logged Fundis');
+  const countyLower = county.toLowerCase();
+
+  console.log(county, 'countyLower');
+
+  const fundis = await fetchFundiAssets(countyLower);
+  console.log(fundis, 'logged Fundis');
 
   const fundilist =
     fundis?.results.map((item: any, index: number) => {
@@ -49,13 +57,14 @@ export default async function AddtoServiceProviders({
         phone: item.metadata.phone,
         category: 'Fundi',
         skill: item.metadata?.skill || '',
+        level: item.metadata.level || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',
       };
     }) || [];
 
   const pageHeader = {
-    title: 'REQ',
+    title: `REQ ${requestId}`,
   };
 
   return (

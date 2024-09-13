@@ -31,7 +31,7 @@ function getStatusBadge(status: string) {
           <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
         </div>
       );
-    case 'completed':
+    case 'active':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -57,16 +57,13 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
-
   {
     title: <HeaderCell title="No." />,
     dataIndex: 'number',
     key: 'number',
     width: 50,
     render: (number: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {number}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{number}</Text>
     ),
   },
 
@@ -76,11 +73,9 @@ export const getColumns = ({
     key: 'id',
     width: 50,
     render: (id: string) => (
-    // <Text>#{id}</Text>
-    <Text className="text-sm text-gray-900 dark:text-gray-700">
-      #{id}
-    </Text>
-  ),
+      // <Text>#{id}</Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">#{id}</Text>
+    ),
   },
 
   {
@@ -89,9 +84,7 @@ export const getColumns = ({
     key: 'date',
     width: 100,
     render: (date: string) => (
-      <Text className="text-sm text-gray-900 dark:text-gray-700">
-        {date}
-      </Text>
+      <Text className="text-sm text-gray-900 dark:text-gray-700">{date}</Text>
     ),
   },
 
@@ -169,14 +162,14 @@ export const getColumns = ({
     width: 150,
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
-          <Link href={{ pathname: routes.customers.activeJobDetails, query: { id } }}>
-            <Text className="text-sm text-green-600">View</Text>
+        <Link
+          href={{ pathname: routes.customers.activeJobDetails, query: { id } }}
+        >
+          <Text className="text-sm text-green-600">View</Text>
         </Link>
       </div>
     ),
   },
-
-
 
   // {
   //   // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.

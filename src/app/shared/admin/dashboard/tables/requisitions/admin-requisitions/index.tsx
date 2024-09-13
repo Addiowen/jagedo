@@ -20,7 +20,7 @@ export default function RequisitionsTable({
   requests,
 }: {
   className?: string;
-  requests:any
+  requests: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
 

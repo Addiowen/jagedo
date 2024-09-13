@@ -11,6 +11,7 @@ import FileUpload from '@/app/shared/uploading-images';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
+import { counties } from '@/data/counties';
 
 // Define the Option type
 interface Option {
@@ -47,6 +48,8 @@ const GenerateInvoiceFundi: React.FC = () => {
     }
   };
 
+  const customerZohoId = session?.user.metadata.zohoid;
+
   // Options for select fields
   // const reqType: Option[] = [
   //   { label: 'Package 1', value: 'Package 1' },
@@ -58,6 +61,21 @@ const GenerateInvoiceFundi: React.FC = () => {
   //   'Package 2': { label: 'Self', value: 'Self' },
   // };
 
+  const theCounty = Object.keys(counties).map((key) => ({
+    label: key,
+    value: key.toLowerCase().replace(/\s+/g, '-'),
+  }));
+
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
   const County: Option[] = [
     { label: 'Nairobi', value: 'Nairobi' },
     { label: 'Busia', value: 'Busia' },
@@ -146,6 +164,7 @@ const GenerateInvoiceFundi: React.FC = () => {
         county: county?.value || '',
         subCounty: subCounty?.value || '',
         village,
+        customerZohoId: customerZohoId,
         skill: skill?.value || '',
       };
 
@@ -240,9 +259,12 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="form-group">
               <Select
                 label="County"
-                options={County}
+                options={theCounty}
                 value={county}
-                onChange={(selected) => setCounty(selected as Option)}
+                onChange={(selected) => {
+                  setCounty(selected as Option);
+                  setSelectedCounty(selected as any);
+                }}
               />
             </div>
             <div className="form-group">

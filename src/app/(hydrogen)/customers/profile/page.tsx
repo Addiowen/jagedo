@@ -10,25 +10,34 @@ export const metadata = {
   ...metaObject('Profile'),
 };
 
-const pageHeader = {
-  title: 'Organization Profile Creation',
-  breadcrumb: [
-    {
-      href: '',
-      name: 'Customers',
-    },
-    {
-      href: '',
-      name: 'Organization',
-    },
-    {
-      name: 'Create profile',
-    },
-  ],
+let pageHeader: { title: any; breadcrumb: any };
+
+const capitalizeFirstLetter = (string: any) => {
+  if (!string) return '';
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 const fetchUserDetails = async () => {
   const session = await getServerSession(authOptions);
+
+  const customerType = capitalizeFirstLetter(session?.user.metadata.type);
+
+  pageHeader = {
+    title: `${customerType} Profile Creation`,
+    breadcrumb: [
+      {
+        href: '',
+        name: 'Customers',
+      },
+      {
+        href: '',
+        name: `${customerType}`,
+      },
+      {
+        name: 'Create profile',
+      },
+    ],
+  };
 
   try {
     const userDetails = await apiRequest({
