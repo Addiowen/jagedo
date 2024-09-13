@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
+import { Button, Checkbox, Input, Select, Textarea, Loader } from 'rizzui'; // Import the Loader component
 import Pricing from '@/app/shared/pricing-package/pricing';
 import axios, { BASE_URL } from '@/lib/axios';
 import FileUpload from '@/app/shared/uploading-images';
@@ -50,25 +50,12 @@ const GenerateInvoiceFundi: React.FC = () => {
 
   const customerZohoId = session?.user.metadata.zohoid;
 
-  // Options for select fields
-  // const reqType: Option[] = [
-  //   { label: 'Package 1', value: 'Package 1' },
-  //   { label: 'Package 2', value: 'Package 2' },
-  // ];
-
-  // const managedByOptions: Record<string, Option> = {
-  //   'Package 1': { label: 'Jagedo', value: 'Jagedo' },
-  //   'Package 2': { label: 'Self', value: 'Self' },
-  // };
-
   const theCounty = Object.keys(counties).map((key) => ({
     label: key,
     value: key.toLowerCase().replace(/\s+/g, '-'),
   }));
 
-  const [selectedCounty, setSelectedCounty] = useState<
-    keyof typeof counties | ''
-  >('');
+  const [selectedCounty, setSelectedCounty] = useState<keyof typeof counties | ''>('');
 
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
@@ -104,8 +91,6 @@ const GenerateInvoiceFundi: React.FC = () => {
       if (
         description &&
         date &&
-        // value &&
-        // managed &&
         county &&
         subCounty &&
         village &&
@@ -121,20 +106,12 @@ const GenerateInvoiceFundi: React.FC = () => {
   }, [
     description,
     date,
-    // value,
-    // managed,
     county,
     subCounty,
     village,
     skill,
     session,
   ]);
-
-  // useEffect(() => {
-  //   if (value) {
-  //     setManaged(managedByOptions[value.value] || null);
-  //   }
-  // }, [value]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -158,7 +135,7 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
-        amount: selectedPlan.price, //pass price here
+        amount: selectedPlan.price, // pass price here
         packageType: selectedPlan.title, // pass title here
         managed: managed?.value || '',
         county: county?.value || '',
@@ -168,13 +145,6 @@ const GenerateInvoiceFundi: React.FC = () => {
         skill: skill?.value || '',
       };
 
-      // const linkageFee =
-      //   value?.value === 'Package 1'
-      //     ? 3000
-      //     : value?.value === 'Package 2'
-      //       ? 1000
-      //       : 0;
-
       const formBody = {
         startDate: date,
         takerId: userId,
@@ -182,7 +152,6 @@ const GenerateInvoiceFundi: React.FC = () => {
         metadata: {
           ...formData,
           description: description,
-          // linkageFee,
         },
       };
 
@@ -239,23 +208,6 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(selected) => setSkill(selected as Option)}
               />
             </div>
-            {/* <div className="form-group">
-              <Select
-                label="Request Type"
-                options={reqType}
-                value={value}
-                onChange={(selected) => setValue(selected as Option)}
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                label="Managed By"
-                options={Object.values(managedByOptions)}
-                value={managed}
-                onChange={(selected) => setManaged(selected as Option)}
-                disabled // Disable the field
-              />
-            </div> */}
             <div className="form-group">
               <Select
                 label="County"
@@ -316,18 +268,19 @@ const GenerateInvoiceFundi: React.FC = () => {
           <Button
             type="submit"
             className={`mx-auto mt-8 block w-full rounded-md ${
-              isFormValid
+              isFormValid && !loading
                 ? 'bg-blue-600 hover:bg-blue-700'
                 : 'cursor-not-allowed bg-gray-500'
             }`}
-            disabled={!isFormValid}
+            disabled={!isFormValid || loading} // Disable if loading or form is not valid
           >
             Generate Invoice
           </Button>
           {loading && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-              <div className="h-16 w-16 animate-spin rounded-full border-4 border-t-4 border-solid border-blue-600">
-                <span className="sr-only">Loading...</span>
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-70">
+              <div className="flex flex-col items-center">
+                <Loader variant='spinner' className="w-12 h-12 mb-4" />
+                <p className="text-white text-lg">Processing...</p>
               </div>
             </div>
           )}
