@@ -49,6 +49,10 @@ const GenerateInvoiceFundi: React.FC = () => {
   };
 
   const customerZohoId = session?.user.metadata.zohoid;
+  const email = session?.user.email;
+  const customerId = session?.user.userId;
+  const phone = session?.user.metadata.phone;
+  const customerName = `${session?.user.firstname} ${session?.user.lastname}`;
 
   // Options for select fields
   // const reqType: Option[] = [
@@ -164,6 +168,10 @@ const GenerateInvoiceFundi: React.FC = () => {
         county: county?.value || '',
         subCounty: subCounty?.value || '',
         village,
+        email,
+        phone,
+        customerId,
+        customerName,
         customerZohoId: customerZohoId,
         skill: skill?.value || '',
       };

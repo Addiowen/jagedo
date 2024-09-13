@@ -128,19 +128,19 @@ export default function Notifications({ className }: { className?: string }) {
           </Text>
         </div>
 
-        <SimpleBar className="max-h-[228px]">
+        <SimpleBar className="max-h-[180px] overflow-y-auto">
           <div className="grid grid-cols-1">
             {messages.length === 0 ? (
               <div className="flex h-full items-center justify-center py-4 text-gray-500">
                 <Text>No messages available</Text>
               </div>
             ) : (
-              messages.map((message) => (
+              messages.slice(0, 5).map((message) => (
                 <div
                   key={message.id}
                   className="group grid cursor-pointer grid-cols-[auto_minmax(0,1fr)] gap-2.5 rounded-md py-2.5 pe-3 ps-3 transition-colors hover:bg-gray-100 dark:hover:bg-gray-50"
                 >
-                  <Text className="w-full truncate pe-7 font-medium text-gray-500">
+                  <Text className="w-full overflow-hidden truncate text-ellipsis pe-7 font-medium text-gray-500">
                     {message.content}
                   </Text>
 

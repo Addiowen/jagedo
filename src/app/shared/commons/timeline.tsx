@@ -14,7 +14,8 @@ const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
 const statusColors: {
   [key: string]: string;
 } = {
-  success: 'text-green',
+  approved: 'text-green',
+  reviewed: 'text-green',
   'pending approval': 'text-orange',
   canceled: 'text-red',
   active: 'text-blue',

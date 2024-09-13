@@ -6,18 +6,15 @@ import { AdvancedCheckbox, Button, Modal, Tooltip, Tab } from 'rizzui';
 // import ReviewForm from "@/app/shared/custom-reviews/review-form";
 // import UserDetailsCard from "@/app/shared/custom-user-details-card";
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
-import { completeJobDetailsData } from '@/data/custom-job-details-data';
 // import ReviewCard from "@/app/shared/custom-reviews/review-card-view";
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
-import ProgressBarActive from '../../../progress-bar-fundi';
-import FundiCompleteJobDetailsAttachments from '../fundi-attachments';
 import ViewAttachments from '../../request-details/view-attachments';
 import { useEffect, useState } from 'react';
 import ReviewForm from '@/app/shared/custom-reviews/review-form';
 import { PiUserCircleDuotone } from 'react-icons/pi';
-import ReviewCard from '@/components/cards/review-card';
+import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 
 export default function FundiCompleteJobDetails({
   requestDetails,
@@ -25,10 +22,11 @@ export default function FundiCompleteJobDetails({
   requestDetails?: any;
 }) {
   const [modalState, setModalState] = useState(false);
+  const [status, setStatus] = useState(requestDetails.status);
+
   const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
   const [requestReviewsModalState, setRequestReviewsModalState] =
     useState(false);
-
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -140,7 +138,7 @@ export default function FundiCompleteJobDetails({
 
         <Tab.Panels>
           <Tab.Panel>
-            <ProgressBarActive />
+            <ProgressBarActive statusValue={status} />
             <ViewAttachments attachments={structuredAttachments} />
           </Tab.Panel>
 
@@ -176,25 +174,6 @@ export default function FundiCompleteJobDetails({
             Add Review
           </Button>
         </Link>
-
-        {/* <Button onClick={() => setModalState(true)} className="ml-4">
-                    Add Review
-                </Button>
-
-                {jobId === 'JOB0021'? (
-                    <Button onClick={() => setViewReviewsModalState(true)} className="ml-4">
-                        View Reviews
-                    </Button>
-                ): jobId === 'JOB0020'? (
-                    <Button onClick={() => setRequestReviewsModalState(true)} className="ml-4">
-                        Request Review
-                    </Button>
-                ): (
-                    <Button onClick={() => setViewReviewsModalState(true)} className="ml-4">
-                        View Reviews
-                    </Button>
-                )}
-                 */}
       </div>
     </div>
   );

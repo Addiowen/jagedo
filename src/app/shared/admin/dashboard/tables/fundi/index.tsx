@@ -32,6 +32,9 @@ export default function FundisTable({
   const [assets, setAssets] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]); // State to hold selected row IDs
   const [loading, setLoading] = useState(false); // Loading state
+  const [selectedRowPhones, setSelectedRowPhones] = useState<string[]>([]); // State for selected phone numbers
+  const [selectedRowEmails, setSelectedRowEmails] = useState<string[]>([]); // State for selected emails
+  const [userAssetIds, setSelectedUserAssetIds] = useState<string[]>([]);
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('requestId');
@@ -69,6 +72,8 @@ export default function FundisTable({
     handleReset,
   } = useTable(fundis, pageSize, filterState);
 
+  console.log(fundis);
+
   // Update selectedRowIds whenever selectedRowKeys changes
   useEffect(() => {
     setSelectedRowIds(selectedRowKeys);
@@ -77,7 +82,10 @@ export default function FundisTable({
   const newBookedRequests = {
     status: 'assigned',
     metadata: {
-      bookingRequests: [selectedRowIds],
+      bookingRequests: selectedRowIds,
+      serviceProviderIds: userAssetIds,
+      serviceProviderPhones: selectedRowPhones,
+      serviceProviderEmails: selectedRowEmails,
     },
   };
 
@@ -138,6 +146,27 @@ export default function FundisTable({
       console.error('Error updating assets:', error);
     }
   };
+
+  useEffect(() => {
+    const selectedPhones = fundis
+      .filter((fundi: any) => {
+        console.log('Filtering fundi:', fundi); // Log fundi object during filter
+        return selectedRowKeys.includes(fundi.id);
+      })
+      .map((fundi: any) => fundi.phone);
+    const selectedEmails = fundis
+      .filter((fundi: any) => selectedRowKeys.includes(fundi.id))
+      .map((fundi: any) => fundi.email);
+
+    const selectedAssetUserIds = fundis
+      .filter((fundi: any) => selectedRowKeys.includes(fundi.id))
+      .map((fundi: any) => fundi.userId);
+
+    setSelectedUserAssetIds(selectedAssetUserIds);
+    setSelectedRowIds(selectedRowKeys);
+    setSelectedRowPhones(selectedPhones);
+    setSelectedRowEmails(selectedEmails);
+  }, [selectedRowKeys, fundis]);
 
   const handleAssign = async () => {
     setLoading(true); // Start loading

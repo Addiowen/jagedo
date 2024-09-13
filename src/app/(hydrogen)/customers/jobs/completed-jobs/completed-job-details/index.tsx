@@ -50,7 +50,10 @@ export default function SpCompleteJobDetails({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
+  const statusValue = requestDetails.Status;
   const uploadsData = requestDetails.Uploads;
+  const customerId = requestDetails.takerId;
+  const fundiId = requestDetails.assetId;
 
   const structuredAttachments = uploadsData.map((url: string) => ({
     name: getFileNameFromUrl(url),
@@ -64,6 +67,7 @@ export default function SpCompleteJobDetails({
   const searchParams = useSearchParams();
 
   const jobId = searchParams.get('id');
+  const assetId = searchParams.get('assetId');
   const querystatus = searchParams.get('status');
   const router = useRouter();
 
@@ -141,7 +145,7 @@ export default function SpCompleteJobDetails({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <ProgressBarActive />
+            <ProgressBarActive statusValue={statusValue} />
             <div className="col-span-full">
               <ViewAttachments attachments={structuredAttachments} />
             </div>
@@ -188,13 +192,24 @@ export default function SpCompleteJobDetails({
           Back
         </Button>
 
-        {querystatus === 'Unreviewed' && (
-          <Link href={routes.admin.addReview}>
-            <Button className="ml-4" type="submit">
-              Add Review
-            </Button>
-          </Link>
-        )}
+        <Link
+          href={{
+            pathname: routes.customers.addReview,
+            query: { jobId, fundiId, customerId, assetId },
+          }}
+        >
+          <Button
+            onClick={() => {
+              sessionStorage.setItem(
+                'transaction',
+                JSON.stringify(requestDetails)
+              );
+            }}
+            className="ml-4"
+          >
+            Add Review
+          </Button>
+        </Link>
       </div>
     </div>
   );

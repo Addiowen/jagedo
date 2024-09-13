@@ -3,7 +3,7 @@
 import ActiveJobDetailsCard from '../customers-job-details';
 import SpActiveJobsTable from '@/app/shared/service-provider/tables/sp-active-jobs-table/professional';
 import { metaObject } from '@/config/site.config';
-import { Button, Modal, Tab, Progressbar } from 'rizzui';
+import { Button, Modal, Tab, Progressbar, Loader } from 'rizzui';
 import Link from 'next/link';
 import cn from '@/utils/class-names';
 import ProgressBarActive from '@/app/shared/service-provider/progress-bar-fundi';
@@ -13,7 +13,9 @@ import { useState } from 'react';
 import ViewAttachments from '@/app/shared/service-provider/details/request-details/view-attachments';
 import { PiCheckCircle } from 'react-icons/pi';
 import { useSearchParams } from 'next/navigation';
-import Timeline from '@/app/shared/service-provider/progress-bar-fundi/timeline';
+import toast from 'react-hot-toast';
+import axios, { BASE_URL } from '@/lib/axios';
+import Timeline from '../../commons/timeline';
 
 const timelineData = [
   {
@@ -54,27 +56,6 @@ const timelineData = [
   },
 ];
 
-const fundiTimelineData = [
-  {
-    title: 'Start',
-    text: '',
-    hightlightedText: '',
-    date: 'April 29, 2023',
-    time: '05:31 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Stop',
-    text: '',
-    hightlightedText: '',
-    date: 'May 29, 2023',
-    time: '05:31 am',
-    icon: '',
-    status: '',
-  },
-];
-
 type PageProps = {
   className: string;
   requests: any;
@@ -84,9 +65,78 @@ export default function JobDetailsComponent({
   className,
   requests,
 }: PageProps) {
+  const statusValue = requests.Status;
+  const fundiTimelineData = [
+    {
+      title: 'Start',
+      text: '',
+      hightlightedText: '',
+      date: 'April 15, 2024',
+      time: '05:31 am',
+      icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+      status: 'ongoing',
+    },
+    {
+      title: 'Stop',
+      text: '',
+      hightlightedText:
+        statusValue === 'approved'
+          ? 'Approved'
+          : statusValue === 'active'
+            ? 'Ongoing'
+            : 'Waiting Approval',
+      date: 'April 16, 2024',
+      time: '05:31 am',
+      icon: (
+        <PiCheckCircle
+          className={`h-6 w-6 ${
+            statusValue === 'approved'
+              ? 'text-green'
+              : statusValue === 'active'
+                ? 'text-blue'
+                : 'text-orange'
+          }`}
+        />
+      ),
+      status: statusValue,
+    },
+  ];
+
   const [approvalModalState, setApprovalModalState] = useState(false);
+  const [status, setStatus] = useState(requests.Status);
+  const [loading, setLoading] = useState(false);
+
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
+
+  const handleCompleteMilestone = async () => {
+    setLoading(true); // Show loader
+    try {
+      const updateTransactionResponse = await axios.patch(
+        `${BASE_URL}/transactions/${jobId}`,
+        {
+          status: 'approved',
+        },
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      if (updateTransactionResponse.status === 200) {
+        toast.success(<p>Request Approved... The Job is now completed.</p>);
+        setStatus('approved');
+        setApprovalModalState(false);
+      } else {
+        toast.error(<p>Something went wrong. Please try again.</p>);
+      }
+    } catch (error) {
+      toast.error(<p>Failed to update the Job. Please try again later.</p>);
+    } finally {
+      setLoading(false); // Hide loader after request completes
+    }
+  };
 
   const getFileNameFromUrl = (url: string) =>
     url.substring(url.lastIndexOf('/') + 1);
@@ -126,12 +176,13 @@ export default function JobDetailsComponent({
                   Do you confirm completion of this job?
                 </p>
                 <div className="mt-6 flex justify-center">
-                  <Button
-                    onClick={() => setApprovalModalState(false)}
-                    className="w-32"
-                  >
-                    Yes
-                  </Button>
+                  {loading ? (
+                    <Loader size="sm" />
+                  ) : (
+                    <Button onClick={handleCompleteMilestone} className="w-32">
+                      Yes
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     onClick={() => setApprovalModalState(false)}

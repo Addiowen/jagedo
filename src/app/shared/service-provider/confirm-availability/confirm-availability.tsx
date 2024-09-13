@@ -29,6 +29,9 @@ export default function ConfirmAvailability({
 
   const requestId = searchParams.get('id');
   const assetId = session?.user.metadata.assetId;
+  const userEmail = session?.user.metadata.email;
+  const userId = session?.user.userId;
+  const userPhone = session?.user.metadata.phone;
 
   const request = {
     Category: 'Fundi',
@@ -55,7 +58,10 @@ export default function ConfirmAvailability({
   };
 
   const assignedFundis = [requestDetails.metadata.bookingRequests];
-  const otherfundis = assignedFundis.filter((id: string) => id !== assetId);
+
+  console.log(assignedFundis);
+
+  const otherfundis = assignedFundis[0].filter((id: string) => id !== assetId);
 
   const handleSubmit = async () => {
     setIsLoading(true); // Show loader when submit starts
@@ -65,7 +71,7 @@ export default function ConfirmAvailability({
       console.log(requestType);
 
       if (requestType === 'Managed by Self') {
-        status = 'completed';
+        status = 'active';
       } else if (requestType === 'Managed by Jagedo') {
         status = 'active';
       }
@@ -78,6 +84,9 @@ export default function ConfirmAvailability({
           status,
           metadata: {
             bookingRequests: assetId,
+            serviceProviderPhones: userPhone,
+            serviceProviderEmails: userEmail,
+            serviceProviderIds: userId,
           },
         },
         {
@@ -118,7 +127,7 @@ export default function ConfirmAvailability({
 
       toast.success('Job accepted successfully!');
       // Navigate to completed jobs page only after both requests succeed
-      router.push(`${routes.serviceProvider.fundi.dashboard}`);
+      router.push(`${routes.serviceProvider.fundi.activeJobs}`);
     } catch (error) {
       console.error('Error:', error);
       alert(

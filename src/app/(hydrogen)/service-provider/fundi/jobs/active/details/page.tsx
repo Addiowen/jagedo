@@ -1,7 +1,6 @@
 import ActiveJobDetailsCard from '@/app/shared/service-provider/details/sp-job-details';
 import { Button, Modal, Tab } from 'rizzui';
 import cn from '@/utils/class-names';
-import ProgressBarActive from '@/app/shared/service-provider/progress-bar-fundi';
 // import ActiveJobDetailsAttachments from '@/app/shared/service-provider/details/sp-job-details/attachments';
 import toast from 'react-hot-toast';
 import SpActiveJobComponent from '@/app/shared/service-provider/active-job';

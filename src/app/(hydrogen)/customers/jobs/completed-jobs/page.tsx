@@ -41,28 +41,33 @@ export default async function CompleteJobsPage() {
     return <div>Unable to load transactions. Please try again later.</div>;
   }
 
-    // Format the data if needed
-    const formattedData =
-    transactions.results.map((item: any, index: number) => {
-      console.log('Index:', index); // Log the index
-      return {
-        number: index + 1,
-        id: item.id || '',
-        date: item.createdDate || '',
-        category: 'Fundi',
-        subCategory: item.metadata?.skill || '',
-        requestType:
-          `${item.metadata?.packageType}` ||
-          '',
-        description: item.metadata?.description || '',
-        location: item.metadata?.village || '',
-        county: item.metadata?.county || '',
-        subCounty: item.metadata?.subCounty || '',
-        status: item.status || '',
-      };
-    }) || [];
-    
+  // Format the data if needed
+  const formattedData =
+    transactions.results
+      .filter(
+        (item: any) => item.status === 'approved' || item.status === 'reviewed'
+      )
+      .map((item: any, index: number) => {
+        return {
+          number: index + 1,
+          id: item.id || '',
+          assetId: item.assetId,
+          date: item.createdDate || '',
+          category: 'Fundi',
+          subCategory: item.metadata?.skill || '',
+          requestType: `${item.metadata?.packageType}` || '',
+          description: item.metadata?.description || '',
+          location: item.metadata?.village || '',
+          county: item.metadata?.county || '',
+          subCounty: item.metadata?.subCounty || '',
+          status: item.status || '',
+        };
+      }) || [];
+
   return (
-    <CompletedJobsTable request={formattedData} className="relative @container  @4xl:col-span-2 @7xl:col-span-12" />
+    <CompletedJobsTable
+      request={formattedData}
+      className="relative @container  @4xl:col-span-2 @7xl:col-span-12"
+    />
   );
 }

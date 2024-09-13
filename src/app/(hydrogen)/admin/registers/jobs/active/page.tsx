@@ -27,7 +27,10 @@ export default async function ActiveJobs() {
 
   const formattedData =
     transactions?.results
-      .filter((item: any) => item.status === 'active')
+      .filter(
+        (item: any) =>
+          item.status === 'active' || item.status === 'pending approval'
+      )
       .map((item: any, index: number) => {
         return {
           number: index + 1,

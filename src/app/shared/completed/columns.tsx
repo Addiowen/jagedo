@@ -21,7 +21,7 @@ function getStatusBadge(review: string) {
           <Text className="ms-2 font-medium text-red-dark">{review}</Text>
         </div>
       );
-    case 'reviewed':
+    case 'approved':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />
@@ -151,13 +151,14 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="gap-3 pe-3">
-        
         <Link
-          href={{ pathname: routes.customers.completedJobDetails, query: { id } }}
+          href={{
+            pathname: routes.customers.completedJobDetails,
+            query: { id, assetId: row.assetId },
+          }}
         >
           <Text className="text-sm text-green-600">View</Text>
         </Link>
-        
 
         {/* <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
@@ -172,7 +173,6 @@ export const getColumns = ({
             </Link>
           </ActionIcon>
         </Tooltip> */}
-
 
         {/* <DeletePopover
           title={`Remove User`}

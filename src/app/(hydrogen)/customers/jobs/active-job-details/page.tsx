@@ -17,67 +17,6 @@ import JobDetailsComponent from '@/app/shared/customers/job-details';
 import apiRequest from '@/lib/apiService';
 import { getRequestDetails } from '@/lib/transaction.helper';
 
-const timelineData = [
-  {
-    title: 'Start',
-    text: '',
-    hightlightedText: '',
-    date: 'April 29, 2023',
-    time: '05:31 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Milestone 1',
-    text: 'Wall Escavations',
-    hightlightedText: '',
-    date: 'May 02, 2023',
-    time: '09:00 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Milestone 2',
-    text: 'Reinforcements',
-    hightlightedText: '',
-    date: 'May 02, 2023',
-    time: '11:00 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Stop',
-    text: '',
-    hightlightedText: '',
-    date: 'May 29, 2023',
-    time: '05:31 am',
-    icon: '',
-    status: '',
-  },
-];
-
-const fundiTimelineData = [
-  {
-    title: 'Start',
-    text: '',
-    hightlightedText: '',
-    date: 'April 29, 2023',
-    time: '05:31 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-
-  {
-    title: 'Stop',
-    text: '',
-    hightlightedText: '',
-    date: 'May 29, 2023',
-    time: '05:31 am',
-    icon: '',
-    status: '',
-  },
-];
-
 const fetchTransactions = async (searchParams: any) => {
   try {
     const transactions = await apiRequest({

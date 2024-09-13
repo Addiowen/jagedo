@@ -36,7 +36,7 @@ function getStatusBadge(status: string) {
           <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
         </div>
       );
-    case 'reviewed':
+    case 'approved':
       return (
         <div className="flex items-center">
           <Badge color="success" renderAsDot />

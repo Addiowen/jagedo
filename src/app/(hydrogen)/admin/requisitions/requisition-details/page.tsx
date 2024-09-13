@@ -67,12 +67,12 @@ export default async function RequisitionDetailsPage({
         />
       </div>
 
-      <WidgetCard3
+      {/* <WidgetCard3
         title="NOTES"
         rounded="lg"
         className="mt-4"
         action={<Textarea size="sm" className="ml-12 flex-grow" />}
-      ></WidgetCard3>
+      ></WidgetCard3> */}
 
       <div className="mt-6 flex items-center justify-center space-x-6">
         <Link

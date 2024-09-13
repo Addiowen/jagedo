@@ -159,6 +159,7 @@ export default function EditProfileContactDetails({
           firstName: userDetails.metadata.firstname,
         },
         metadata: {
+          userId: userDetails.id,
           ...userDetails.metadata,
         },
       };

@@ -1,4 +1,4 @@
-import ViewReviewComponent from '@/app/shared/service-provider/details/reviews/view-review';
+import ViewReviewComponent from '@/app/shared/customers/details/reviews/view-review';
 import Rate from '@/components/ui/rate';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';

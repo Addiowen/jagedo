@@ -3,12 +3,9 @@
 import CustomerDetailsCard from '../../jobs/cutomer-details';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { PiCaretDownBold } from 'react-icons/pi';
 import { Accordion, Button, Tab } from 'rizzui';
 import { activeJobDetailsData, completeJobDetailsData } from '@/data/job-data';
 import FundiDetailsCard from '../../jobs/fundi-details';
-import ChunkedGridActive from '@/app/shared/commons/chunked-grid-active';
-import ActiveJobDetailsAttachments from '../../add-attachments';
 import ProgressBarActive from '../../progress-bar-admin';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
@@ -35,8 +32,10 @@ import ViewAttachments from '@/app/shared/service-provider/details/request-detai
 
 export default function ActiveJobDetailsCard({
   requestDetails,
+  statusValue,
 }: {
   requestDetails: any;
+  statusValue: string;
 }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
@@ -72,7 +71,7 @@ export default function ActiveJobDetailsCard({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <ProgressBarActive />
+            <ProgressBarActive statusValue={statusValue} />
 
             <div className="col-span-full">
               <ViewAttachments attachments={structuredAttachments} />

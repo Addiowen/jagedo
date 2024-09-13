@@ -106,7 +106,10 @@ export const routes = {
     completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
     completeJobDetails: '/customers/fundi/jobs/completed/report',
 
-    reviews: '/customers/fundi/reviews',
+    //Reviews
+    reviews: '/customers/reviews',
+    addReview: '/customers/reviews/add',
+    viewReview: '/customers/reviews/view',
   },
 
   serviceProvider: {
@@ -345,7 +348,7 @@ export const routes = {
     forgotPassword1: '/auth/forgot-password-1',
     forgotPassword2: '/auth/forgot-password-2',
     forgotPassword3: '/auth/forgot-password-3',
-    forgotPassword4: '/auth/forgot-password-4',
+    forgotPassword4: '/auth/forgot-password',
     forgotPassword5: '/auth/forgot-password-5',
     // OTP
     otp1: '/auth/otp-1',

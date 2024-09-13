@@ -1,3 +1,4 @@
+import AddReviewComponentCustomer from '@/app/shared/customers/reviews/add-review';
 import AddReviewComponent from '@/app/shared/service-provider/details/reviews/add-review';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
@@ -32,7 +33,7 @@ export default async function ReviewsPage({
         JOB #{searchParams.jobId.toUpperCase()}
       </Title>
 
-      <AddReviewComponent transactionDetails={transaction} />
+      <AddReviewComponentCustomer transactionDetails={transaction} />
     </>
   );
 }

@@ -28,6 +28,13 @@ function getStatusBadge(review: string) {
           <Text className="ms-2 font-medium text-green-dark">{review}</Text>
         </div>
       );
+    case 'approved':
+      return (
+        <div className="flex items-center">
+          <Badge color="success" renderAsDot />
+          <Text className="ms-2 font-medium text-green-dark">{review}</Text>
+        </div>
+      );
     default:
       return (
         <div className="flex items-center">
@@ -91,7 +98,7 @@ export const getColumns = ({
     title: <HeaderCell title="Request Type" className="uppercase" />,
     dataIndex: 'requestType',
     key: 'requestType',
-    width: 250,
+    width: 150,
     render: (requestType: string) => <Text>{requestType}</Text>,
   },
 

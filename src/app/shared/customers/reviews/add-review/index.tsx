@@ -29,7 +29,7 @@ const data = [
   },
 ];
 
-export default function AddReviewComponent({
+export default function AddReviewComponentCustomer({
   transactionDetails,
 }: {
   transactionDetails: any;
@@ -40,16 +40,18 @@ export default function AddReviewComponent({
   const fundiId = searchParams.get('fundiId');
   const customerId = session?.user.id;
   const jobId = searchParams.get('jobId');
-  const assetId = searchParams.get('fundiId');
+  const assetId = searchParams.get('assetId');
   const pathname = usePathname();
   const professional = pathname.includes('professional');
   const contractor = pathname.includes('contractor');
   const fundi = pathname.includes('fundi');
   const router = useRouter();
-  const role = 'fundi';
+  const role = 'customer';
 
   const [transaction, setTransaction] = useState<any>(null);
   const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
+
+  console.log(transactionDetails, 'transactionDetails');
 
   useEffect(() => {
     const storedTransaction = sessionStorage.getItem('transaction');
@@ -124,14 +126,15 @@ export default function AddReviewComponent({
       const { id } = res.data; // Extract the ID from the response
       console.log('Submitted successfully, rating ID:', id);
 
-      if (!transactionDetails.metadata?.spRatingId) {
+      // Check if the transaction metadata already contains the ratingId
+      if (!transactionDetails.metadata?.customerRatingId) {
         console.log('No existing ratingId, updating transaction...');
 
         // Update the transaction with the rating ID
         const patchPayload = {
-          status: 'reviewed',
           metadata: {
-            spRatingId: id,
+            status: 'reviewed',
+            customerRatingId: id,
           },
         };
 
@@ -146,12 +149,12 @@ export default function AddReviewComponent({
           }
         );
 
-        toast.success('Transaction updated successfully:', patchRes.data);
+        toast.success('Transaction updated successfully:');
         console.log('Transaction updated successfully:', patchRes.data);
-
-        router.push(`${routes.serviceProvider.fundi.reviews}?jobId=${jobId}`);
+        router.push(`${routes.customers.reviews}?jobId=${jobId}`);
       } else {
         toast.error('Transaction already has a ratingId, skipping update.');
+        console.log('Transaction already has a ratingId, skipping update.');
       }
 
       // Clear form after successful submission

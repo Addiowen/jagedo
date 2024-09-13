@@ -50,6 +50,7 @@ const initialData: JobSliderData[] = [
     link: routes.serviceProvider.fundi.reviews,
   },
 ];
+
 const userRoleData: Record<string, JobSliderData[]> = {
   fundi: [
     {
@@ -59,7 +60,7 @@ const userRoleData: Record<string, JobSliderData[]> = {
       link: routes.serviceProvider.fundi.requisitions,
     },
     {
-      name: 'Active',
+      name: 'Active Jobs',
       total: 0,
       fill: '#04364A',
       link: routes.serviceProvider.fundi.activeJobs,
@@ -123,7 +124,7 @@ const userRoleData: Record<string, JobSliderData[]> = {
       link: routes.serviceProvider.contractor.quotations,
     },
     {
-      name: 'Active',
+      name: 'Active Jobs',
       total: 0,
       fill: '#04364A',
       link: routes.serviceProvider.contractor.activeJobs,
@@ -146,16 +147,15 @@ export default function JobSlider({ className }: { className?: string }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [data, setData] = useState<JobSliderData[]>(initialData); // State to store the data
-  const takerId = session?.user.userId;
+  const userId = session?.user.userId;
   const userRole = session?.user.metadata.role;
-  const assetId = session?.user.metadata.assetId;
-  console.log(assetId);
+  console.log(userId);
   useEffect(() => {
     // Fetch stats from the API
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `https://uatapimsz.jagedo.co.ke/transactionCustomerStats?takerId=${assetId}`,
+          `https://uatapimsz.jagedo.co.ke/transactionSPStats?ownerId=${userId}`,
           {
             headers: {
               Authorization:
@@ -166,38 +166,45 @@ export default function JobSlider({ className }: { className?: string }) {
         const apiData = response.data.data;
         console.log(session);
         console.log(apiData);
-        setData((prevData) =>
-          prevData.map((item) => {
+
+        // Update the userRoleData based on the fetched API data
+        if (userRole) {
+          const updatedRoleData = (userRoleData[userRole] || []).map((item) => {
             switch (item.name) {
               case 'Requests':
                 return { ...item, total: parseInt(apiData.paid_count) };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active Jobs':
-                return { ...item, total: parseInt(apiData.active_count) };
+                return { ...item, total: parseInt(apiData.active_count) }; // Assuming this is always set to 1
               case 'Completed':
                 return { ...item, total: parseInt(apiData.completed_count) };
               case 'Reviews':
-                return { ...item, total: parseInt(apiData.draft_count) };
+                return { ...item, total: 0 };
               default:
                 return item;
             }
-          })
-        );
+          });
+
+          setData(updatedRoleData);
+        }
       } catch (error) {
         console.error('Error fetching stats:', error);
       }
     }
-    if (takerId) {
+
+    if (userId) {
       fetchStats();
     }
-  }, [takerId]);
+  }, [userId, userRole]);
+
   useEffect(() => {
     // Update data based on user role
     if (userRole) {
       setData(userRoleData[userRole] || initialData);
     }
   }, [userRole]);
+
   const handleBarClick = (data: { link: any }) => {
     const { link } = data;
     if (link) {
