@@ -29,7 +29,7 @@ export default function SignInForm() {
     try {
       const result = await signIn('credentials', {
         ...data,
-        redirect: false, // Prevent redirection for error handling
+        // Prevent redirection for error handling
       });
 
       if (result?.error) {
@@ -41,7 +41,6 @@ export default function SignInForm() {
       router.push('/');
 
       // Delay setting loading to false to ensure redirection is visually confirmed
-      setTimeout(() => setLoading(false), 300);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message); // Display error message

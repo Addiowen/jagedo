@@ -2,10 +2,10 @@ import { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
-import axios from 'axios';
-import { BASE_URL } from '@/lib/axios';
 import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
 
 export const authOptions: NextAuthOptions = {
   // debug: true,
@@ -23,11 +23,22 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user }) {
       if (user) {
+        // return user as JWT
+        // token.user = user
+
         return { ...token, ...user };
       }
+
       return token;
     },
     async redirect({ url, baseUrl }) {
+      // const parsedUrl = new URL(url, baseUrl);
+      // if (parsedUrl.searchParams.has('callbackUrl')) {
+      //   return `${baseUrl}${parsedUrl.searchParams.get('callbackUrl')}`;
+      // }
+      // if (parsedUrl.origin === baseUrl) {
+      //   return url;
+      // }
       return baseUrl;
     },
   },
@@ -51,10 +62,11 @@ export const authOptions: NextAuthOptions = {
             }
           );
 
-          if (res.status === 200) {
-            const user = res.data;
+          const user = res.data;
 
+          if (user) {
             try {
+              // Fetch additional user details
               const userDetailsRes = await axios.get(
                 `${BASE_URL}/users/${user.userId}`,
                 {
@@ -64,7 +76,6 @@ export const authOptions: NextAuthOptions = {
                   },
                 }
               );
-
               const role = userDetailsRes.data.metadata.role;
 
               const completeUser = {
@@ -75,45 +86,13 @@ export const authOptions: NextAuthOptions = {
 
               return completeUser;
             } catch (error) {
-              if (axios.isAxiosError(error)) {
-                console.error(
-                  'Error fetching user details:',
-                  error.response?.status,
-                  error.message
-                );
-              } else {
-                console.error('Unexpected error:', error);
-              }
-              throw new Error('Error fetching additional user details.');
+              console.error('Error fetching user details:', error);
             }
-          } else {
-            // Handle specific HTTP status codes if needed
-            switch (res.status) {
-              case 401:
-                throw new Error(
-                  'Unauthorized: Incorrect username or password.'
-                );
-              case 403:
-                throw new Error('Forbidden: Access denied.');
-              case 500:
-                throw new Error('Server Error: Please try again later.');
-              default:
-                throw new Error('Unexpected error occurred.');
-            }
+
+            return user as any;
           }
         } catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.error(
-              'Error during login request:',
-              error.response?.status,
-              error.message
-            );
-          } else {
-            console.error('Unexpected error:', error);
-          }
-          throw new Error(
-            'Login failed: Please check your credentials and try again.'
-          );
+          console.log(error);
         }
 
         return null;
