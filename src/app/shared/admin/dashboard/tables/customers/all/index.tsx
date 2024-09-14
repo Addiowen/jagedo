@@ -40,6 +40,8 @@ export default function AllCustomersTable({
     },
   });
 
+  console.log(allCustomers);
+
   const filteredCustomers =
     allCustomers?.map((item: any, index: number) => {
       return {
@@ -47,9 +49,14 @@ export default function AllCustomersTable({
         id: item.id || '',
         date: item.metadata?.date || '',
         type: item.metadata.type || '',
-        firstName: item.firstname || '',
-        lastName: item.lastname || '',
-        organizationName: item.firstName || '',
+        firstName:
+          item.metadata.type === 'individual' ? item.firstname || '' : 'N/A', // Set firstname only for individuals
+        lastName:
+          item.metadata.type === 'individual' ? item.lastname || '' : 'N/A', // Set lastname only for individuals
+        organizationName:
+          item.metadata.type === 'organization'
+            ? item.organizationName || ''
+            : 'N/A', // Set organizationName only for organizations
         email: item.email || '',
         phone: item.metadata?.phone || '',
         skill: item.metadata?.skill || '',

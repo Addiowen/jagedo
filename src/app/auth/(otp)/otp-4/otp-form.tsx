@@ -192,6 +192,7 @@ export default function OtpForm() {
 
       if (response.status >= 200 && response.status < 300) {
         const userDetails = response.data;
+        console.log(userDetails, 'userDetails');
 
         const userPhone = userDetails.metadata.phone || fetchedPhone;
 
@@ -217,11 +218,10 @@ export default function OtpForm() {
           toast.error(`Failed to create user: ${errorMessage}`);
         } else {
           sessionStorage.clear();
-          toast.error('Failed to create user.');
+          toast.error('Failed to else create user.');
         }
       }
     } catch (error) {
-      sessionStorage.clear();
       console.error('Error:', error);
       toast.error('An error occurred while creating the user.');
     }

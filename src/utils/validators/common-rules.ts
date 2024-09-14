@@ -9,6 +9,10 @@ export const fileSchema = z.object({
 
 export type FileSchema = z.infer<typeof fileSchema>;
 
+export const validateToken = z
+  .string()
+  .min(1, { message: messages.emailIsRequired });
+
 export const validateEmail = z
   .string()
   .min(1, { message: messages.emailIsRequired })

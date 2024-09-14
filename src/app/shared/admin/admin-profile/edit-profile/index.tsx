@@ -2,8 +2,9 @@
 
 import { Title, Button, Modal, Tab } from 'rizzui';
 import { useState } from 'react';
-import EditProfileCard from './edit-profile-card';
 import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
+import EditProfileCard from '@/app/shared/service-provider/profile/edit-profile/edit-profile-card';
+
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
@@ -48,7 +49,7 @@ const personalKeys = [
   'Approval Status',
 ];
 
-export default function EditProfileContactDetails({
+export default function EditAdminProfileContactDetails({
   userDetails,
   editProfileId,
 }: {
@@ -114,31 +115,9 @@ export default function EditProfileContactDetails({
     sessionStorage.clear();
     setIsLoading(true);
 
-    try {
-      if (pathname.includes('service-provider')) {
-        router.push(
-          `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
-        );
-      } else if (pathname.includes('customer')) {
-        router.push(
-          `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
-        );
-      } else if (pathname.includes('organization')) {
-        router.push(
-          `${routes.admin.createOrgCustomerProfile}?profileId=${editProfileId}`
-        );
-      } else if (pathname.includes('individual')) {
-        router.push(
-          `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
-        );
-      } else {
-        router.push(
-          `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
-        );
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    router.push(
+      `${routes.admin.createAdminProfile}?profileId=${editProfileId}`
+    );
   };
 
   const handleSaveAndCreate = async () => {
@@ -285,21 +264,19 @@ export default function EditProfileContactDetails({
                     editMode={editMode}
                   />
                 </div>
-                {isAdmin &&
-                  !isCustomer &&
-                  personalDetails['Approval Status'] !== 'approved' && (
-                    <Button
-                      onClick={handleSaveAndCreate}
-                      as="span"
-                      className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
-                    >
-                      {isApproving ? (
-                        <Loader size="sm" /> // Display loader when approving
-                      ) : (
-                        'Approve'
-                      )}
-                    </Button>
-                  )}
+                {!isAdmin && (
+                  <Button
+                    onClick={handleSaveAndCreate}
+                    as="span"
+                    className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                  >
+                    {isApproving ? (
+                      <Loader size="sm" /> // Display loader when approving
+                    ) : (
+                      'Approve'
+                    )}
+                  </Button>
+                )}
               </div>
             </div>
           </Tab.Panel>

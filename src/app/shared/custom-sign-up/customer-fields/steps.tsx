@@ -36,6 +36,7 @@ import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { log } from 'console';
 import { counties } from '@/data/counties';
+import toast from 'react-hot-toast';
 
 // export type MultiStepFormProps = {
 
@@ -81,7 +82,7 @@ export default function CustomerSteps() {
 
     if (filteredData.type === 'organization') {
       if (!filteredData.organizationName) {
-        console.error('Organization Name is required for organization type');
+        toast.error('Organization Name is required for organization type');
         return;
       }
 
@@ -112,6 +113,10 @@ export default function CustomerSteps() {
         subCounty: filteredData.subCounty,
         estate: filteredData.estate,
         otp: filteredData.accountVerification,
+        organizationName:
+          filteredData.type === 'organization'
+            ? filteredData.organizationName
+            : undefined,
       },
     };
 

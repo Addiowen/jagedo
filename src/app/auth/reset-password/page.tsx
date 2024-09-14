@@ -1,5 +1,5 @@
 import AuthWrapperFour from '@/app/shared/auth-layout/auth-wrapper-four';
-import ForgetPasswordForm from './forgot-password-form';
+import ResetPasswordForm from './reset-password-form';
 
 export default function ForgotPassword() {
   return (
@@ -11,7 +11,7 @@ export default function ForgotPassword() {
         </>
       }
     >
-      <ForgetPasswordForm />
+      <ResetPasswordForm />
     </AuthWrapperFour>
   );
 }

@@ -7,31 +7,30 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
 import CreateFundiProfileFormNew from '@/app/shared/admin/fundi-profile';
+import CreateAdminProfileForm from '@/app/shared/admin/admin-profile';
 
 export const metadata = {
   ...metaObject('Profile'),
 };
 
 const pageHeader = {
-  title: 'Fundi Profile',
+  title: 'Admin Profile',
   breadcrumb: [
     {
       href: '',
-      name: 'Service Providers',
+      name: 'Create profile',
     },
     {
       href: '',
-      name: 'Fundi',
+      name: '',
     },
     {
-      name: 'Create profile',
+      name: '',
     },
   ],
 };
 
 const fetchUserDetails = async (userId: string) => {
-  const session = await getServerSession(authOptions);
-
   try {
     const userDetails = await apiRequest({
       method: 'GET',
@@ -56,7 +55,7 @@ export default async function FundiCreateProfilePage({
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <CreateFundiProfileForm userDetails={user} />
+      <CreateAdminProfileForm userDetails={user} />
     </>
   );
 }

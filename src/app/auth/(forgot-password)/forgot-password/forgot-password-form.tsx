@@ -4,7 +4,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Button, Input, Text } from 'rizzui';
+import { Button, Input, Text, Loader } from 'rizzui'; // Import Loader from rizzui
 import { useMedia } from '@/hooks/use-media';
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
@@ -12,6 +12,8 @@ import {
   forgetPasswordSchema,
   ForgetPasswordSchema,
 } from '@/utils/validators/forget-password.schema';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const initialValues = {
   email: '',
@@ -20,16 +22,45 @@ const initialValues = {
 export default function ForgetPasswordForm() {
   const isMedium = useMedia('(max-width: 1200px)', false);
   const [reset, setReset] = useState({});
-  const onSubmit: SubmitHandler<ForgetPasswordSchema> = (data) => {
-    toast.success(
-      <Text>
-        Reset link sent to this email:{' '}
-        <Text as="b" className="font-semibold">
-          {data.email}
-        </Text>
-      </Text>
-    );
-    setReset(initialValues);
+  const [loading, setLoading] = useState(false); // Add loading state
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<ForgetPasswordSchema> = async (data) => {
+    setLoading(true); // Set loading to true when request starts
+    try {
+      const response = await axios.post(
+        'https://uatapi.jagedo.co.ke/password/reset/request',
+        {
+          username: data.email,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN, // If you need to pass an authorization token
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success(
+          <Text>
+            Reset link sent to this email:{' '}
+            <Text as="b" className="font-semibold">
+              {data.email}
+            </Text>
+          </Text>
+        );
+        setReset(initialValues); // Reset the form fields
+
+        router.push(routes.auth.passwordReset);
+      } else {
+        toast.error('Failed to send reset link. Please try again.');
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please check the email and try again.');
+    } finally {
+      setLoading(false); // Set loading to false after request completes
+    }
   };
 
   return (
@@ -57,8 +88,10 @@ export default function ForgetPasswordForm() {
               className="w-full"
               type="submit"
               size={isMedium ? 'lg' : 'xl'}
+              disabled={loading} // Disable button while loading
             >
-              Reset Password
+              {loading ? <Loader /> : 'Reset Password'}{' '}
+              {/* Show loader if loading */}
             </Button>
           </div>
         )}

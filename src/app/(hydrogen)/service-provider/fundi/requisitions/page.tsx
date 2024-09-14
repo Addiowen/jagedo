@@ -3,6 +3,7 @@ import FundiRequisitionsTable from '@/app/shared/service-provider/tables/sp-requ
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
+import toast from 'react-hot-toast';
 
 export const metadata = {
   ...metaObject(),
@@ -17,10 +18,10 @@ const fetchUserAssetDetails = async () => {
       throw new Error('User not authenticated');
     }
 
-    const assetId = session.user.metadata.assetId;
+    const assetId = session?.user?.metadata?.assetId;
 
     if (!assetId) {
-      throw new Error('User does not exist');
+      throw new Error('User does not exist or asset ID is missing');
     }
 
     console.log(assetId, 'asset id');
@@ -32,17 +33,28 @@ const fetchUserAssetDetails = async () => {
 
     return assetDetails;
   } catch (error) {
-    console.error('Error fetching user details:', error);
-    // Handle error accordingly, e.g., show a message to the user
-    return null; // Return null in case of error
+    // Assert that 'error' is of type 'Error'
+    if (error instanceof Error) {
+      console.error('Error fetching user details:', error.message);
+      // toast.error(error.message);
+    } else {
+      console.error('Unexpected error:', error);
+    }
+
+    return null; // Return null to signify an error occurred
   }
 };
 
 export default async function RequisitionsPage() {
   const asset = await fetchUserAssetDetails();
 
-  // Check if asset and metadata exist
+  // Use optional chaining to safely access metadata
   const bookingRequests = asset?.metadata?.bookingRequests;
+
+  if (!asset || !asset.metadata) {
+    console.error('Asset or metadata is missing');
+    return <p>You have not been approved!.</p>; // Render an error message
+  }
 
   console.log(asset.metadata, 'metadata');
 
@@ -61,8 +73,8 @@ export default async function RequisitionsPage() {
       return assetDetails;
     } catch (error) {
       console.error('Error fetching request details:', error);
-      // Handle error accordingly, e.g., show a message to the user
-      return null; // Return null in case of error
+      // Handle error accordingly
+      return null;
     }
   };
 
@@ -71,10 +83,6 @@ export default async function RequisitionsPage() {
 
   return (
     <>
-      {/* <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
-        Requisitions
-      </Title> */}
-
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           <FundiRequisitionsTable

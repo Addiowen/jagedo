@@ -16,7 +16,7 @@ import type { Schema } from 'zod';
 
 // import { signUpFormSchema, SignUpFormSchema } from '@/utils/validators/custom-signup.schema'
 import { MultiStepFormSteps } from '@/types/custom-types';
-import { Button, Stepper } from 'rizzui';
+import { Button, Loader, Stepper } from 'rizzui';
 import { PiArrowRightBold } from 'react-icons/pi';
 // import { PiArrowRightBold, PiArrowLeftBold } from 'react-icons/pi';
 // import { useRouter } from 'next/navigation';
@@ -44,6 +44,8 @@ type FormProps<TFormValues extends FieldValues> = {
   ) => React.ReactNode;
   useFormProps?: UseFormProps<TFormValues>;
   validationSchema?: Schema<TFormValues>;
+  loading: any;
+
   // fieldErrors?: any[] | null;
   // formError?: string | string[] | null | any;
   // serverError?: ServerErrors<Partial<TFormValues>> | null;
@@ -55,6 +57,7 @@ type FormProps<TFormValues extends FieldValues> = {
 export default function CustomMultiStepForm<
   TFormValues extends Record<string, any> = Record<string, any>,
 >({
+  loading,
   onSubmit,
   children,
   useFormProps,
@@ -179,12 +182,17 @@ export default function CustomMultiStepForm<
                   size="lg"
                   onClick={() => {
                     methods.handleSubmit(onSubmit)();
-                    // console.log('Clicked')
                   }}
-                  // disabled={currentStep === steps.length - 1}
+                  disabled={loading} // Disable the button when loading
                 >
-                  <span>Submit</span>{' '}
-                  <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+                  {loading ? (
+                    <Loader variant="spinner" size="sm" />
+                  ) : (
+                    <>
+                      <span>Submit</span>{' '}
+                      <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+                    </>
+                  )}
                 </Button>
               ) : (
                 <Button

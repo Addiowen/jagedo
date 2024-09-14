@@ -131,12 +131,12 @@ export const getColumns = ({
 
   {
     title: <HeaderCell title="Organization Name" />,
-    dataIndex: 'firstName',
-    key: 'firstName',
+    dataIndex: 'organizationName',
+    key: 'organizationName',
     width: 150,
-    render: (firstName: string) => (
+    render: (organizationName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
-        {firstName}
+        {organizationName}
       </Text>
     ),
   },

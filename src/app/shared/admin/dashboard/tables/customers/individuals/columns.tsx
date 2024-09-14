@@ -98,7 +98,7 @@ export const getColumns = ({
     title: <HeaderCell title="Email" />,
     dataIndex: 'email',
     key: 'email',
-    width: 100,
+    width: 50,
     render: (email: string) => <Text>{email}</Text>,
   },
 

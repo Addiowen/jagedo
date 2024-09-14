@@ -5,9 +5,12 @@ export const routes = {
     dashboard: '/admin',
     rfq: '/admin/rfq',
 
+    //User Management
+    userMgt: '/admin/user-management',
+
     //Profile
     createCustomerProfile: '/admin/profile/create-profile/customers',
-
+    createAdminProfile: '/admin/profile/admin-profile',
     createFundiProfile: '/admin/profile/fundi-profile',
     createContractorProfile: '/admin/profile/contractor-profile',
     createProfessionalProfile: '/admin/profile/professional-profile',
@@ -16,6 +19,7 @@ export const routes = {
     editIndividualCustomerProfile: '/admin/edit/individual',
     editOrgCustomerProfile: '/admin/edit/organization',
 
+    editAdminProfile: '/admin/edit/admin-profile',
     editFundiProfile: '/admin/edit/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
     editProfessionalProfile: '/admin/profile/edit-profile/professional',
@@ -356,6 +360,9 @@ export const routes = {
     otp3: '/auth/otp-3',
     otp4: '/auth/otp-4',
     otp5: '/auth/otp-5',
+
+    //Password Reset
+    passwordReset: '/auth/reset-password',
   },
   signIn: '/signin',
 };

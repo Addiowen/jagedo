@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Individual Profile Creation',
+  title: 'Individual Profile ',
   breadcrumb: [
     {
       href: '',

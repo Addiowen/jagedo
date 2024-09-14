@@ -10,6 +10,8 @@ import { Checkbox, Password, Button, Input, Text } from 'rizzui';
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const initialValues: LoginSchema = {
   username: '',
@@ -18,19 +20,35 @@ const initialValues: LoginSchema = {
 };
 
 export default function SignInForm() {
-  // State to track form submission
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState({});
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    // Set loading state to true when the form is submitted
     setLoading(true);
     try {
-      await signIn('credentials', { ...data });
+      const result = await signIn('credentials', {
+        ...data,
+        redirect: false, // Prevent redirection for error handling
+      });
+
+      if (result?.error) {
+        throw new Error(result.error); // Throw error to be caught in the catch block
+      }
+
+      // Handle successful sign in
+      toast.success('Sign in successful!');
+      router.push('/');
+
+      // Delay setting loading to false to ensure redirection is visually confirmed
+      setTimeout(() => setLoading(false), 300);
     } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
+      if (error instanceof Error) {
+        toast.error(error.message); // Display error message
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
+      setLoading(false); // Set loading state to false if an error occurs
     }
   };
 

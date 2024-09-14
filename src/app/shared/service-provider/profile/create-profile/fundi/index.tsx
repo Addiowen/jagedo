@@ -22,13 +22,14 @@ import {
   subCounty,
   booleanQuestion,
 } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { routes } from '@/config/routes';
 import UploadButtonOutlined from '@/components/buttons/upload-button-outlined';
 import { FileInput } from '@/app/shared/commons/custom-file-input';
 import FundiEvaluationFormAttachments from './attachments';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -51,6 +52,7 @@ export default function CreateFundiProfileForm({
 }) {
   const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter();
+  const pathname = usePathname();
 
   const fundiInitialValues: FundiProfileSchema = {
     firstName: userDetails.firstname || '',
@@ -84,7 +86,6 @@ export default function CreateFundiProfileForm({
         lastname: data.lastName,
         email: data.email,
         phone: data.phoneNo,
-
         // Add skill, level, years, gender, and questions to the metadata
         metadata: {
           firstName: data.firstName,
@@ -108,8 +109,6 @@ export default function CreateFundiProfileForm({
         },
       };
 
-      console.log(updateData, 'update data');
-
       // Fetch additional user details
       const userDetailsRes = await axios.patch(
         `${BASE_URL}/users/${userDetails.id}`,
@@ -121,18 +120,39 @@ export default function CreateFundiProfileForm({
         }
       );
 
-      // Handle the response or redirect after successful update
+      // If the user profile update is successful
       if (userDetailsRes) {
-        router.refresh();
         console.log(userDetailsRes, 'user details');
 
-        router.push(
-          `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+        // Send the updated user details as the payload to the external endpoint
+        const profileUpdateRes = await axios.post(
+          'http://54.221.116.218:4100/sendUserProfileUpdate',
+          userDetailsRes.data,
+          {
+            headers: {
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+            },
+          }
         );
-        // router.push('/service-provider/fundi/profile');
+
+        // Log the result of the second request
+        console.log(
+          'Second request - Profile update response:',
+          profileUpdateRes.data
+        );
+        // Refresh and redirect after successful profile update
+        router.refresh();
+        // Determine the redirection based on the pathname
+        if (pathname.includes('admin')) {
+          router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
+        } else {
+          router.push(
+            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+          );
+        }
       }
-    } catch (error) {
-      console.error('Failed to update user details:', error);
+    } catch (error: any) {
+      toast.error('Failed to update user details:', error);
       // Optionally, handle the error (e.g., show a notification)
     } finally {
       setLoading(false); // Set loading to false
@@ -142,6 +162,7 @@ export default function CreateFundiProfileForm({
   return (
     <>
       <CustomMultiStepForm<FundiProfileSchema>
+        loading={loading}
         validationSchema={fundiProfileSchema}
         onSubmit={onSubmit}
         useFormProps={{
