@@ -62,7 +62,7 @@ export default function JobSlider({ className }: { className?: string }) {
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `https://uatapimsz.jagedo.co.ke/transactionAdminStats`,
+          `${process.env.NEXT_PUBLIC_DOMAIN}/transactionAdminStats`,
           {
             headers: {
               Authorization:

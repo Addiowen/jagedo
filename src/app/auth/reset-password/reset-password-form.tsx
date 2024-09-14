@@ -34,7 +34,7 @@ export default function ResetPasswordForm() {
     setLoading(true); // Set loading to true when request starts
     try {
       const response = await axios.post(
-        'https://uatapi.jagedo.co.ke/password/reset/confirm',
+        `${process.env.NEXT_PUBLIC_BASE_URL}/password/reset/confirm`,
         {
           resetToken,
           newPassword: password,

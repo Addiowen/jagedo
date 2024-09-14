@@ -155,11 +155,10 @@ export default function JobSlider({ className }: { className?: string }) {
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `https://uatapimsz.jagedo.co.ke/transactionSPStats?ownerId=${userId}`,
+          `${process.env.NEXT_PUBLIC_DOMAIN}/transactionSPStats?ownerId=${userId}`,
           {
             headers: {
-              Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
             },
           }
         );

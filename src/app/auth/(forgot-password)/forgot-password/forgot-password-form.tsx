@@ -29,7 +29,7 @@ export default function ForgetPasswordForm() {
     setLoading(true); // Set loading to true when request starts
     try {
       const response = await axios.post(
-        'https://uatapi.jagedo.co.ke/password/reset/request',
+        `${process.env.NEXT_PUBLIC_BASE_URL}/password/reset/request`,
         {
           username: data.email,
         },

@@ -48,10 +48,10 @@ export const getRequestDetails = (customerRequest: any) => {
     'End Date': customerRequest?.endDate
       ? new Date(customerRequest.endDate).toLocaleDateString()
       : 'N/A',
-    'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
-    Amount: customerRequest?.metadata.linkageFee
-      ? customerRequest.metadata.linkageFee.toFixed(2)
+    'Invoice Number': `${customerRequest.id.slice(0, 9).toUpperCase()}...`,
+    'Payment Status': customerRequest.status,
+    Amount: customerRequest?.metadata.amount
+      ? customerRequest.metadata.amount
       : 'N/A',
     Uploads: customerRequest?.metadata.uploads || 'N/A',
   };

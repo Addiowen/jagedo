@@ -30,6 +30,8 @@ export default async function RequisitionDetailsPage({
     ? await fetchCustomerDetails(customerRequest.takerId)
     : null;
 
+  console.log(customerRequest, 'customer Request');
+
   // Generate request details for the ChunkedGrid component
   const requestDetails = getRequestDetails(customerRequest);
 

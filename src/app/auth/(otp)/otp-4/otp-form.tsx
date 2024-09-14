@@ -154,10 +154,13 @@ export default function OtpForm() {
     const smsMessage = `Your verification code is ${otp}.`;
 
     try {
-      const res = await axios.post('https://uatapimsz.jagedo.co.ke/sendSms', {
-        phoneNumber: fetchedPhone,
-        message: smsMessage,
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSms`,
+        {
+          phoneNumber: fetchedPhone,
+          message: smsMessage,
+        }
+      );
 
       if (res.data.success) {
         setOtpSent(true);
@@ -232,10 +235,13 @@ export default function OtpForm() {
     const welcomeMessage = `Welcome to JaGedo. Thanks for Signing up. Start Exploring your Account now. Need help? We're here for you.`;
 
     try {
-      const res = await axios.post('https://uatapimsz.jagedo.co.ke/sendSms', {
-        phoneNumber: phoneNumber,
-        message: welcomeMessage,
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSms`,
+        {
+          phoneNumber: phoneNumber,
+          message: welcomeMessage,
+        }
+      );
 
       if (res.data.success) {
         console.log('Welcome SMS sent successfully:', res.data);
@@ -358,7 +364,7 @@ export default function OtpForm() {
 
     try {
       const response = await axios.post(
-        'https://uatapimsz.jagedo.co.ke/createZohoUser',
+        `${process.env.NEXT_PUBLIC_DOMAIN}/createZohoUser`,
         zohoPayload
       );
 

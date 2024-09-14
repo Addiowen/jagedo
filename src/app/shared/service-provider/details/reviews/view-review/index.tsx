@@ -201,7 +201,7 @@ export default function ViewReviewComponent({
                   : 'Contractor'}
           </Text>
           <Text className="rounded-lg border border-muted p-2 pb-12 shadow-sm sm:rounded-sm xl:rounded-lg">
-            {spRating?.metadata?.customerComment || ''}
+            {spRating?.metadata?.fundiComment || ''}
           </Text>
         </div>
 

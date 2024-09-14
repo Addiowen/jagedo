@@ -15,7 +15,7 @@ import type { Schema } from 'zod';
 
 import { MultiStepFormSteps } from '@/types/custom-types';
 import { Button, Loader, Stepper } from 'rizzui';
-import { PiArrowRightBold } from 'react-icons/pi';
+import { PiArrowLeftBold, PiArrowRightBold } from 'react-icons/pi';
 // import { PiArrowRightBold, PiArrowLeftBold } from 'react-icons/pi';
 // import { useRouter } from 'next/navigation';
 // import { routes } from '@/config/routes';

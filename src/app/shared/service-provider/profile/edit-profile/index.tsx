@@ -10,6 +10,7 @@ import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { Loader } from 'rizzui';
 import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 interface Data {
   [key: string]: string | null;
@@ -141,7 +142,7 @@ export default function EditProfileContactDetails({
     }
   };
 
-  const handleSaveAndCreate = async () => {
+  const createAndAssignAssettoUser = async () => {
     setIsApproving(true);
     try {
       const assetPayload = {
@@ -176,13 +177,14 @@ export default function EditProfileContactDetails({
           },
         }
       );
+
       console.log('Asset saved successfully:', createAssetResponse.data);
 
       const userPayload = {
         phone: userDetails.metadata?.phone,
         metadata: {
-          status: 'approved',
           assetId: createAssetResponse.data.id,
+          approvalStatus: 'approved',
         },
       };
 
@@ -197,6 +199,17 @@ export default function EditProfileContactDetails({
         }
       );
       console.log('User updated successfully:', userResponse.data);
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`,
+        userResponse.data,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
 
       setModalState(true);
 
@@ -231,8 +244,6 @@ export default function EditProfileContactDetails({
 
   const uploads = splitData(data, uploadsKeys);
   const personalDetails: any = splitData(data, currentPersonalKeys);
-
-  console.log(personalDetails);
 
   return (
     <div className="@container">
@@ -289,7 +300,7 @@ export default function EditProfileContactDetails({
                   !isCustomer &&
                   personalDetails['Approval Status'] !== 'approved' && (
                     <Button
-                      onClick={handleSaveAndCreate}
+                      onClick={createAndAssignAssettoUser}
                       as="span"
                       className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
                     >

@@ -18,18 +18,19 @@ import {
   gender,
   level,
   years,
-  county,
-  subCounty,
   booleanQuestion,
 } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
 import { useRouter, usePathname } from 'next/navigation';
 import { routes } from '@/config/routes';
-import UploadButtonOutlined from '@/components/buttons/upload-button-outlined';
-import { FileInput } from '@/app/shared/commons/custom-file-input';
 import FundiEvaluationFormAttachments from './attachments';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import {
+  county,
+  subCounty,
+} from '@/app/shared/custom-sign-up/fundi-fields/data';
+import { counties } from '@/data/counties';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -50,6 +51,16 @@ export default function CreateFundiProfileForm({
 }: {
   userDetails: any;
 }) {
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
   const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter();
   const pathname = usePathname();
@@ -106,6 +117,7 @@ export default function CreateFundiProfileForm({
           certificates: data.certificates,
           ncaCard: data.ncaCard,
           resume: data.resume,
+          approvalStatus: 'approved',
         },
       };
 
@@ -126,7 +138,7 @@ export default function CreateFundiProfileForm({
 
         // Send the updated user details as the payload to the external endpoint
         const profileUpdateRes = await axios.post(
-          'http://54.221.116.218:4100/sendUserProfileUpdate',
+          `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
           userDetailsRes.data,
           {
             headers: {
@@ -235,31 +247,6 @@ export default function CreateFundiProfileForm({
 
                   <Controller
                     control={control}
-                    name="gender"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="Gender"
-                        label="Gender"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={gender}
-                        onChange={onChange}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          gender?.find((r) => r.value === selected)?.label ?? ''
-                        }
-                        error={errors?.gender?.message as string}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
                     name="county"
                     render={({ field: { value, onChange } }) => (
                       <Select
@@ -271,7 +258,14 @@ export default function CreateFundiProfileForm({
                         selectClassName="font-medium text-sm"
                         optionClassName=""
                         options={county}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
@@ -294,15 +288,14 @@ export default function CreateFundiProfileForm({
                         label="Sub-County/Area"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
+                        options={subCountyOptions}
                         onChange={onChange}
                         value={value}
-                        className="flex-grow"
+                        className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
+                          subCountyOptions?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.subCounty?.message as string}
                       />
@@ -317,6 +310,31 @@ export default function CreateFundiProfileForm({
                     {...register('estate')}
                     error={errors.estate?.message}
                     className="flex-grow [&>label>span]:font-medium"
+                  />
+
+                  <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        dropdownClassName="!z-10"
+                        inPortal={false}
+                        placeholder="Gender"
+                        label="Gender"
+                        size="lg"
+                        selectClassName="font-medium text-sm"
+                        optionClassName=""
+                        options={gender}
+                        onChange={onChange}
+                        value={value}
+                        className=""
+                        getOptionValue={(option) => option.value}
+                        displayValue={(selected) =>
+                          gender?.find((r) => r.value === selected)?.label ?? ''
+                        }
+                        error={errors?.gender?.message as string}
+                      />
+                    )}
                   />
                 </div>
               </motion.div>
@@ -509,7 +527,14 @@ export default function CreateFundiProfileForm({
                         selectClassName="font-medium text-sm"
                         optionClassName=""
                         options={years}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}

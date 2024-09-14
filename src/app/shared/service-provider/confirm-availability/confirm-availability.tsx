@@ -32,12 +32,12 @@ export default function ConfirmAvailability({
   const userEmail = session?.user.metadata.email;
   const userId = session?.user.userId;
   const userPhone = session?.user.metadata.phone;
+  const serviceProviderName = `${session?.user.firstname} ${session?.user.lastname}`;
 
   const request = {
     Category: 'Fundi',
     'Sub-Category': requestDetails.metadata.skill,
     'Request Type': requestDetails.metadata.packageType,
-    'Managed By': requestDetails.metadata.managed,
     County: requestDetails.metadata.county,
     'Sub-County': requestDetails.metadata.subCounty,
     'Estate/Village': requestDetails.metadata.village,
@@ -45,9 +45,9 @@ export default function ConfirmAvailability({
     Status: requestDetails.status,
     'Start Date': requestDetails.startDate,
     'End Date': requestDetails.endDate,
-    'Invoice Number': '',
+    'Invoice Number': requestDetails.id,
     'Payment Status': requestDetails.status,
-    Amount: requestDetails.metadata.linkageFee,
+    Amount: requestDetails.metadata.amount,
     Uploads: requestDetails.metadata.uploads,
   };
 
@@ -83,6 +83,7 @@ export default function ConfirmAvailability({
           assetId: assetId,
           status,
           metadata: {
+            serviceProviderName,
             bookingRequests: assetId,
             serviceProviderPhones: userPhone,
             serviceProviderEmails: userEmail,

@@ -14,7 +14,9 @@ import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 
 export default function InvoiceDetails() {
-  const [requestDetails, setRequestDetails] = useState<RequestDetails | null>(null);
+  const [requestDetails, setRequestDetails] = useState<RequestDetails | null>(
+    null
+  );
   const [loading, setLoading] = useState(false); // Loading state for data fetch
   const [paymentLoading, setPaymentLoading] = useState(false); // Loading state for payment
   const [paymentStatus, setPaymentStatus] = useState('Unpaid');
@@ -141,7 +143,7 @@ export default function InvoiceDetails() {
 
     try {
       const mpesaResponse = await axios.post(
-        'https://uatapimsz.jagedo.co.ke/stkpush',
+        `${process.env.NEXT_PUBLIC_DOMAIN}/stkpush`,
         {
           phoneNumber: `254${phoneNumber.slice(1)}`, // Convert to international format
           amount: linkageFee,
@@ -158,7 +160,8 @@ export default function InvoiceDetails() {
           paidRequest,
           {
             headers: {
-              Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization:
+                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
             },
           }
         );
@@ -169,7 +172,9 @@ export default function InvoiceDetails() {
         if (transactionDetails) {
           toast.success(<Text as="b">Transaction Completed Successfully</Text>);
           setPaymentStatus('Paid');
-          router.push(`${routes.customers.requisitions}?transactionId=${transactionId}`);
+          router.push(
+            `${routes.customers.requisitions}?transactionId=${transactionId}`
+          );
         }
       } else {
         toast.error(data.ResultDesc || message);
@@ -185,9 +190,9 @@ export default function InvoiceDetails() {
   return (
     <div className="w-full rounded-xl border border-muted p-3 text-xs">
       {loading ? (
-        <div className="flex items-center justify-center h-64">
+        <div className="flex h-64 items-center justify-center">
           <svg
-            className="animate-spin h-8 w-8 text-blue-500"
+            className="h-8 w-8 animate-spin text-blue-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
@@ -282,7 +287,8 @@ export default function InvoiceDetails() {
                 Additional Information
               </Title>
               <Text className="text-2xs">
-                Amount to be paid for linkage management & Service provision fee.
+                Amount to be paid for linkage management & Service provision
+                fee.
               </Text>
             </div>
 
