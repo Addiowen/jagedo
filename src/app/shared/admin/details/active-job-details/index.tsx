@@ -98,9 +98,7 @@ export default function ActiveJobDetailsCard({
 
             {/* Fundi Job Details */}
 
-            <div className="mb-4">
-              <FundiDetailsCard />
-            </div>
+            <div className="mb-4">{/* <FundiDetailsCard /> */}</div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab>

@@ -41,7 +41,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     price: string;
   } | null>(null);
 
-  // Function to handle the selected plan from Pricing component
+  // Handle plan selection from Pricing component
   const handlePlanSelect = (title: string, price: string) => {
     if (selectedPlan?.title !== title || selectedPlan?.price !== price) {
       setSelectedPlan({ title, price });
@@ -56,30 +56,20 @@ const GenerateInvoiceFundi: React.FC = () => {
 
   const theCounty = Object.keys(counties).map((key) => ({
     label: key,
-    value: key.toLowerCase().replace(/\s+/g, '-'),
+    value: key,
   }));
 
-  const [selectedCounty, setSelectedCounty] = useState<keyof typeof counties | ''>('');
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
 
+  // Get sub-county options dynamically based on the selected county
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
         label: subCounty,
-        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+        value: subCounty,
       }))
     : [];
-  const County: Option[] = [
-    { label: 'Nairobi', value: 'Nairobi' },
-    { label: 'Busia', value: 'Busia' },
-    { label: 'Kisumu', value: 'Kisumu' },
-    { label: 'Kakamega', value: 'Kakamega' },
-  ];
-
-  const SubCounty: Option[] = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
 
   const Skill: Option[] = [
     { label: 'New Construction', value: 'New Construction' },
@@ -98,9 +88,6 @@ const GenerateInvoiceFundi: React.FC = () => {
     { label: 'Carpenter', value: 'Carpenter' },
     { label: 'Painter', value: 'Painter' },
     { label: 'Glass fitter', value: 'Glass fitter' },
-
-
-
   ];
 
   useEffect(() => {
@@ -108,14 +95,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     setUserId(id);
 
     const checkFormValidity = () => {
-      if (
-        description &&
-        date &&
-        county &&
-        subCounty &&
-        village &&
-        skill
-      ) {
+      if (description && date && county && subCounty && village && skill) {
         setIsFormValid(true);
       } else {
         setIsFormValid(false);
@@ -123,15 +103,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     };
 
     checkFormValidity();
-  }, [
-    description,
-    date,
-    county,
-    subCounty,
-    village,
-    skill,
-    session,
-  ]);
+  }, [description, date, county, subCounty, village, skill, session]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -155,8 +127,8 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
-        amount: selectedPlan.price, // pass price here
-        packageType: selectedPlan.title, // pass title here
+        amount: selectedPlan.price,
+        packageType: selectedPlan.title,
         managed: managed?.value || '',
         county: county?.value || '',
         subCounty: subCounty?.value || '',
@@ -238,17 +210,22 @@ const GenerateInvoiceFundi: React.FC = () => {
                 options={theCounty}
                 value={county}
                 onChange={(selected) => {
-                  setCounty(selected as Option);
-                  setSelectedCounty(selected as any);
+                  const selectedOption = selected as Option; // Cast 'selected' to 'Option'
+                  setCounty(selectedOption);
+                  setSelectedCounty(
+                    selectedOption.label as keyof typeof counties
+                  ); // Ensure the label is used as the county key
+                  setSubCounty(null); // Reset the sub-county when county changes
                 }}
               />
             </div>
             <div className="form-group">
               <Select
                 label="Sub-County"
-                options={SubCounty}
+                options={subCountyOptions}
                 value={subCounty}
                 onChange={(selected) => setSubCounty(selected as Option)}
+                disabled={!selectedCounty} // Disable sub-county until a county is selected
               />
             </div>
             <div className="form-group">
@@ -285,29 +262,17 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="col-span-1 md:col-span-2 lg:col-span-4">
               <FileUpload />
             </div>
-            <div className="form-group col-span-1 flex items-center md:col-span-2">
-              <Checkbox label="I agree to Fundi Agreement" />
-            </div>
           </div>
-          <Button
-            type="submit"
-            className={`mx-auto mt-8 block w-full rounded-md ${
-              isFormValid && !loading
-                ? 'bg-blue-600 hover:bg-blue-700'
-                : 'cursor-not-allowed bg-gray-500'
-            }`}
-            disabled={!isFormValid || loading} // Disable if loading or form is not valid
-          >
-            Generate Invoice
-          </Button>
-          {loading && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-70">
-              <div className="flex flex-col items-center">
-                <Loader variant='spinner' className="w-12 h-12 mb-4" />
-                <p className="text-white text-lg">Processing...</p>
-              </div>
-            </div>
-          )}
+          <div className="form-group mt-6">
+            <Button
+              color="primary"
+              type="submit"
+              className="w-full"
+              disabled={!isFormValid || loading} // Disable while loading
+            >
+              {loading ? <Loader /> : 'Submit'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

@@ -27,16 +27,26 @@ export default async function JobDetailsPage({
   const requestId = searchParams.id;
   const customerRequest = await fetchUserTransaction(requestId);
 
+  console.log(customerRequest, 'customerRequest');
+
   // Fetch customer details using takerId from the customerRequest
   const customerDetails = customerRequest
     ? await fetchCustomerDetails(customerRequest.takerId)
+    : null;
+
+  const fundiDetails = customerRequest
+    ? await fetchCustomerDetails(customerRequest.ownerId)
     : null;
 
   // Generate request details for the ChunkedGrid component
   const requestDetails = getRequestDetails(customerRequest);
   return (
     <>
-      <ActiveJobDetails requestDetails={requestDetails} className={''} />
+      <ActiveJobDetails
+        fundiDetails={fundiDetails}
+        requestDetails={requestDetails}
+        className={''}
+      />
     </>
   );
 }

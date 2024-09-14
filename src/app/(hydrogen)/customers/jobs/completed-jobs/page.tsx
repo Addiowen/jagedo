@@ -18,7 +18,7 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate&status=accepted`,
+      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
@@ -36,6 +36,8 @@ export default async function CompleteJobsPage() {
   }
 
   const transactions = await fetchTransactions(session.user.id);
+
+  console.log(transactions.results, 'transactions');
 
   if (!transactions) {
     return <div>Unable to load transactions. Please try again later.</div>;

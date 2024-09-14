@@ -16,12 +16,14 @@ import axios, { BASE_URL } from '@/lib/axios';
 type PageProps = {
   className: string;
   requestDetails: any;
+  fundiDetails: any;
   // other props as needed
 };
 
 export default function ActiveJobDetails({
   className,
   requestDetails,
+  fundiDetails,
 }: PageProps) {
   const [modalState, setModalState] = useState(false);
   const [approvalModalState, setApprovalModalState] = useState(false);

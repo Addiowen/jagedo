@@ -29,6 +29,20 @@ export const fetchCustomerDetails = async (takerId: string) => {
   }
 };
 
+// Fetch customer details based on the owner
+export const fetchFundiDetails = async (ownerId: string) => {
+  try {
+    const customerDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/users/${ownerId}`,
+    });
+    return customerDetails;
+  } catch (error) {
+    console.error('Failed to fetch customer details:', error);
+    return null;
+  }
+};
+
 // Construct request details object
 export const getRequestDetails = (customerRequest: any) => {
   return {
