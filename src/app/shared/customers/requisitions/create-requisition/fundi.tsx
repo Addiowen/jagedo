@@ -78,9 +78,25 @@ const GenerateInvoiceFundi: React.FC = () => {
   ];
 
   const Skill: Option[] = [
+    { label: 'New Construction', value: 'New Construction' },
+    { label: 'Repairs', value: 'Repairs' },
+    { label: 'Demolitions', value: 'Demolitions' },
     { label: 'Plumber', value: 'Plumber' },
     { label: 'Mason', value: 'Mason' },
-    { label: 'Construction', value: 'Construction' },
+    { label: 'Electrician', value: 'Electrician' },
+    { label: 'Welder', value: 'Welder' },
+    { label: 'Roofer', value: 'Roofer' },
+    { label: 'Foreman', value: 'Foreman' },
+    { label: 'Fitter', value: 'Fitter' },
+    { label: 'Tile fixer', value: 'Tile fixer' },
+    { label: 'Steel fixer', value: 'Steel fixer' },
+    { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
+    { label: 'Carpenter', value: 'Carpenter' },
+    { label: 'Painter', value: 'Painter' },
+    { label: 'Glass fitter', value: 'Glass fitter' },
+
+
+
   ];
 
   useEffect(() => {
