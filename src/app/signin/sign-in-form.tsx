@@ -37,6 +37,7 @@ export default function SignInForm() {
       }
 
       toast.success('Sign in successful!');
+
       window.location.href = '/'; // Redirect after success
     } catch (error) {
       toast.error(
