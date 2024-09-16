@@ -37,7 +37,9 @@ export default function FundiRequisitionsTable({
 
   console.log(requestDetails);
 
-  const transformedRequests = requestDetails.results
+  const requests = requestDetails?.results || [];
+
+  const transformedRequests = requests
     .filter((item: any) => item.status === 'assigned')
     .map(
       (

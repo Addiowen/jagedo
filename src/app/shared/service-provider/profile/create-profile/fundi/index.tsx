@@ -117,7 +117,6 @@ export default function CreateFundiProfileForm({
           certificates: data.certificates,
           ncaCard: data.ncaCard,
           resume: data.resume,
-          approvalStatus: 'approved',
         },
       };
 

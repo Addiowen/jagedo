@@ -20,7 +20,6 @@ const fetchTransactions = async (userId: string) => {
     return transactionDetails;
   } catch (error) {
     console.error('Failed to fetch transaction details:', error);
-    toast.error('Failed to fetch transaction details');
     return null;
   }
 };

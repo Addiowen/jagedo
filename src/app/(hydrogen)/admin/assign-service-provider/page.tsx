@@ -12,6 +12,7 @@ const fetchFundiAssets = async (county: string) => {
   try {
     const fundis = await apiRequest({
       method: 'POST',
+
       endpoint: `/search`,
       data: {
         query: 'Fundi',

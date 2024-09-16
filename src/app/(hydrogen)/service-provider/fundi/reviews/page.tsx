@@ -17,11 +17,12 @@ export default async function ReviewsPage({
 }) {
   const fetchRatingDetails = async () => {
     const session = await getServerSession(authOptions);
+    const assetId = session?.user.metadata.assetId;
 
     try {
       const transactions = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions`,
+        endpoint: `/transactions?assetId=${assetId}`,
       });
       return transactions;
     } catch (error) {
@@ -31,7 +32,6 @@ export default async function ReviewsPage({
   };
 
   const transactionsDetails = await fetchRatingDetails();
-  console.log(transactionsDetails.results.metadata, 'transactions');
 
   return (
     <>
