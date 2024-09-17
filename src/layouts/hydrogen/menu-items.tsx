@@ -22,6 +22,7 @@ import {
   PiScrewdriver,
   PiStar,
   PiUserCirclePlus,
+  PiUsersDuotone,
 } from 'react-icons/pi';
 
 export interface MenuItem {
@@ -61,6 +62,12 @@ export const adminMenu: MenuItem[] = [
     name: 'Sales',
     href: routes.comingSoon,
     icon: <PiMoneyDuotone />,
+  },
+
+  {
+    name: 'User Management',
+    href: routes.admin.userMgt,
+    icon: <PiUsersDuotone />,
   },
 
   {

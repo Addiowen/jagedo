@@ -4,12 +4,13 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
+  validateToken,
 } from '@/utils/validators/common-rules';
 
 // form zod validation schema
 export const resetPasswordSchema = z
   .object({
-    email: validateEmail,
+    resetToken: validateToken,
     password: validatePassword,
     confirmPassword: validateConfirmPassword,
   })

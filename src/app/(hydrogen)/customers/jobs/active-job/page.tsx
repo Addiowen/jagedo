@@ -44,7 +44,10 @@ export default async function CompleteJobsPage() {
   // Format the data if needed
   const formattedData =
     transactions.results
-      .filter((item: any) => item.status === 'active') // Filter transactions with status 'paid'
+      .filter(
+        (item: any) =>
+          item.status === 'active' || item.status === 'pending approval'
+      ) // Filter transactions with status 'paid'
       .map((item: any, index: number) => {
         return {
           number: index + 1,

@@ -9,7 +9,7 @@ import {
 import { SubmitHandler, Controller } from 'react-hook-form';
 import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import dynamic from 'next/dynamic';
-import UploadZone from '@/components/ui/file-upload/upload-zone';
+// import UploadZone from '@/components/ui/file-upload/upload-zone';
 // import Link from 'next/link';
 import {
   county,
@@ -19,6 +19,10 @@ import { useRouter } from 'next/navigation';
 import { organizationProfileSteps } from './data';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
+// import UploadButton from '../commons/upload-button';
+import UploadButton from '../upload-button/upload-btn';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -38,6 +42,7 @@ export default function CreateOrganizationProfileForm({
   const router = useRouter();
 
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(false);
 
   const customerType = session?.user.metadata.type;
 
@@ -58,13 +63,13 @@ export default function CreateOrganizationProfileForm({
 
   // submit handler
   const onSubmit: SubmitHandler<OrganizationProfileSchema> = async (data) => {
+    setLoading(true);
     try {
       // Prepare the data to be sent to the API
       const updateData = {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        phone: data.phoneNo,
 
         metadata: {
           county: data.county,
@@ -98,11 +103,19 @@ export default function CreateOrganizationProfileForm({
 
         window.sessionStorage.setItem('profileCreated', 'true');
         router.push('/customers/edit-profile');
+        toast.success('Profile updated successfully!');
+        setLoading(false);
         // router.push('/service-provider/fundi/profile');
       }
     } catch (error) {
-      console.error('Failed to update user details:', error);
-      // Optionally, handle the error (e.g., show a notification)
+      if (error instanceof Error) {
+        console.error('Failed to update user details:', error.message);
+        toast.error(error.message);
+      } else {
+        console.error('An unexpected error occurred:', error);
+        toast.error('An unexpected error occurred');
+      }
+      setLoading(false);
     }
   };
 
@@ -116,6 +129,7 @@ export default function CreateOrganizationProfileForm({
           defaultValues: organizationProfileInitialValues,
         }}
         steps={organizationProfileSteps}
+        loading={loading}
       >
         {(
           { register, formState: { errors }, control, getValues, setValue },
@@ -301,20 +315,33 @@ export default function CreateOrganizationProfileForm({
 
                 {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <UploadZone
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      PIN No.
+                    </label>
+                    <UploadButton />
+                  </div>
+                  <div>
+                    <label className="mb-4" htmlFor="Registration No.">
+                      Registration No.
+                    </label>
+                    <UploadButton />
+                  </div>
+
+                  {/* <UploadZone
                     label="PIN No."
                     className="flex-grow"
                     name="pinNo"
                     getValues={getValues}
                     setValue={setValue}
-                  />
-                  <UploadZone
+                  /> */}
+                  {/* <UploadZone
                     label="Registration No."
                     className="flex-grow"
                     name="regNo"
                     getValues={getValues}
                     setValue={setValue}
-                  />
+                  /> */}
                 </div>
               </motion.div>
             )}

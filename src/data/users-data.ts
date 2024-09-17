@@ -7,10 +7,11 @@ export type User = {
   avatar: string;
   fullName: string;
   email: string;
-  role: keyof typeof ROLES;
-  createdAt: Date;
-  permissions: keyof typeof PERMISSIONS;
-  status: keyof typeof STATUSES;
+  role: string;
+  createdAt: any;
+  phone: string;
+  // permissions: keyof typeof PERMISSIONS;
+  // status: keyof typeof STATUSES;
 };
 
 export const PERMISSIONS = {

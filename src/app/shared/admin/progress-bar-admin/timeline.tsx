@@ -14,10 +14,11 @@ const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
 const statusColors: {
   [key: string]: string;
 } = {
-  success: 'text-green',
+  approved: 'text-green',
   pending: 'text-orange',
   canceled: 'text-red',
   ongoing: 'text-blue',
+  active: 'text-blue',
 };
 
 export default function Timeline({
@@ -80,7 +81,7 @@ export default function Timeline({
               </Title>
               <div className="relative -ms-10">
                 <div className="ps-10">
-                  <Text className=" text-sm font-normal leading-loose text-gray-500">
+                  <Text className=" text-sm font-normal leading-loose">
                     {timeline.text}
                     <Text as="span" className="block font-medium text-gray-700">
                       {timeline.hightlightedText}

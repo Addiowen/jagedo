@@ -45,6 +45,7 @@ const personalKeys = [
   'County',
   'Sub County',
   'Estate',
+  'Approval Status',
 ];
 
 export default function EditProfileContactDetails({
@@ -64,6 +65,11 @@ export default function EditProfileContactDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const customerType = session?.user.metadata.type;
+  console.log(userDetails.metadata.level);
+
+  const fundiLevel = userDetails.metadata.level;
+
+  console.log(userDetails.metadata.approvalStatus);
 
   const onSubmit = async () => {
     try {
@@ -115,23 +121,23 @@ export default function EditProfileContactDetails({
 
     try {
       if (pathname.includes('service-provider')) {
-        await router.push(
+        router.push(
           `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
         );
       } else if (pathname.includes('customer')) {
-        await router.push(
+        router.push(
           `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
         );
       } else if (pathname.includes('organization')) {
-        await router.push(
+        router.push(
           `${routes.admin.createOrgCustomerProfile}?profileId=${editProfileId}`
         );
       } else if (pathname.includes('individual')) {
-        await router.push(
+        router.push(
           `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
         );
       } else {
-        await router.push(
+        router.push(
           `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
         );
       }
@@ -140,7 +146,8 @@ export default function EditProfileContactDetails({
     }
   };
 
-  const handleSaveAndCreate = async () => {
+  const createAndAssignAssettoUser = async () => {
+    setIsApproving(true);
     try {
       const assetPayload = {
         name: 'Fundi',
@@ -154,12 +161,14 @@ export default function EditProfileContactDetails({
           subcounty: userDetails.metadata.subCounty,
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
-          level: userDetails.metadata.level,
+          level: fundiLevel,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,
         },
         metadata: {
+          userId: userDetails.id,
           ...userDetails.metadata,
+          level: fundiLevel,
         },
       };
 
@@ -173,12 +182,14 @@ export default function EditProfileContactDetails({
           },
         }
       );
+
       console.log('Asset saved successfully:', createAssetResponse.data);
 
       const userPayload = {
         phone: userDetails.metadata?.phone,
         metadata: {
           assetId: createAssetResponse.data.id,
+          approvalStatus: 'approved',
         },
       };
 
@@ -194,7 +205,20 @@ export default function EditProfileContactDetails({
       );
       console.log('User updated successfully:', userResponse.data);
 
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`,
+        userResponse.data,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
       setModalState(true);
+
+      setIsApproving(false);
     } catch (error) {
       console.error('Error saving data:', error);
     }
@@ -202,6 +226,8 @@ export default function EditProfileContactDetails({
 
   const contractor = pathname.includes('contractor');
   const isAdmin = pathname.includes('admin');
+  const isCustomer =
+    pathname.includes('individual') || pathname.includes('organization');
 
   const data: Data = {
     'Phone Number': userDetails.metadata?.phone,
@@ -214,6 +240,7 @@ export default function EditProfileContactDetails({
     'Sub County': userDetails.metadata?.subCounty,
     Estate: userDetails.metadata?.estate,
     Organization: userDetails.metadata?.estate,
+    'Approval Status': userDetails.metadata.status,
   };
 
   // Choose the correct personalKeys based on customerType
@@ -232,7 +259,7 @@ export default function EditProfileContactDetails({
       )}
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
         <div className="p-20 text-lg font-bold">
-          Details saved successfully.
+          Fundi approved successfully.
         </div>
       </Modal>
 
@@ -274,19 +301,21 @@ export default function EditProfileContactDetails({
                     editMode={editMode}
                   />
                 </div>
-                {isAdmin && (
-                  <Button
-                    onClick={handleSaveAndCreate}
-                    as="span"
-                    className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
-                  >
-                    {isApproving ? (
-                      <Loader size="sm" /> // Display loader when approving
-                    ) : (
-                      'Approve'
-                    )}
-                  </Button>
-                )}
+                {isAdmin &&
+                  !isCustomer &&
+                  userDetails.metadata.approvalStatus !== 'approved' && (
+                    <Button
+                      onClick={createAndAssignAssettoUser}
+                      as="span"
+                      className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                    >
+                      {isApproving ? (
+                        <Loader size="sm" /> // Display loader when approving
+                      ) : (
+                        'Approve'
+                      )}
+                    </Button>
+                  )}
               </div>
             </div>
           </Tab.Panel>
@@ -317,18 +346,6 @@ export default function EditProfileContactDetails({
                 setEditMode={setEditMode}
                 setModalState={setModalState}
               />
-              <Button
-                onClick={() => {
-                  setEditMode((prev) => !prev);
-                  if (editMode) {
-                    setModalState(true);
-                  }
-                }}
-                as="span"
-                className="h-[38px] cursor-pointer shadow md:h-10"
-              >
-                {editMode ? 'Save Changes' : 'Edit Profile'}
-              </Button>
 
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">

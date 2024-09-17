@@ -51,8 +51,10 @@ const FileUpload: React.FC = () => {
         });
       });
 
-      // Process accepted files
-      const filesWithProgress = acceptedFiles.map((file) => {
+      // Process accepted files only if under 10MB
+      const validFiles = acceptedFiles.filter(file => file.size <= maxSize);
+
+      const filesWithProgress = validFiles.map((file) => {
         const fileNameParts = file.name.split('.');
         const extension = fileNameParts.length > 1 ? fileNameParts.pop() : '';
         const baseName = fileNameParts.join('.');
@@ -167,8 +169,6 @@ const FileUpload: React.FC = () => {
 
   return (
     <div className="mx-auto rounded-lg border border-gray-300 bg-gray-100 p-4">
-      {/* <ToastContainer />  */}
-
       <div
         {...getRootProps()}
         className="cursor-pointer rounded-lg border-2 border-dashed border-blue-500 bg-white p-8 text-center"

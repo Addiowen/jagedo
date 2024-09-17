@@ -5,9 +5,12 @@ export const routes = {
     dashboard: '/admin',
     rfq: '/admin/rfq',
 
+    //User Management
+    userMgt: '/admin/user-management',
+
     //Profile
     createCustomerProfile: '/admin/profile/create-profile/customers',
-
+    createAdminProfile: '/admin/profile/admin-profile',
     createFundiProfile: '/admin/profile/fundi-profile',
     createContractorProfile: '/admin/profile/contractor-profile',
     createProfessionalProfile: '/admin/profile/professional-profile',
@@ -16,6 +19,7 @@ export const routes = {
     editIndividualCustomerProfile: '/admin/edit/individual',
     editOrgCustomerProfile: '/admin/edit/organization',
 
+    editAdminProfile: '/admin/edit/admin-profile',
     editFundiProfile: '/admin/edit/fundi',
     editContractorProfile: '/admin/profile/edit-profile/contractor',
     editProfessionalProfile: '/admin/profile/edit-profile/professional',
@@ -106,7 +110,10 @@ export const routes = {
     completedJobDetails: '/customers/jobs/completed-jobs/completed-job-details',
     completeJobDetails: '/customers/fundi/jobs/completed/report',
 
-    reviews: '/customers/fundi/reviews',
+    //Reviews
+    reviews: '/customers/reviews',
+    addReview: '/customers/reviews/add',
+    viewReview: '/customers/reviews/view',
   },
 
   serviceProvider: {
@@ -345,7 +352,7 @@ export const routes = {
     forgotPassword1: '/auth/forgot-password-1',
     forgotPassword2: '/auth/forgot-password-2',
     forgotPassword3: '/auth/forgot-password-3',
-    forgotPassword4: '/auth/forgot-password-4',
+    forgotPassword4: '/auth/forgot-password',
     forgotPassword5: '/auth/forgot-password-5',
     // OTP
     otp1: '/auth/otp-1',
@@ -353,6 +360,9 @@ export const routes = {
     otp3: '/auth/otp-3',
     otp4: '/auth/otp-4',
     otp5: '/auth/otp-5',
+
+    //Password Reset
+    passwordReset: '/auth/reset-password',
   },
   signIn: '/signin',
   home: '/home',

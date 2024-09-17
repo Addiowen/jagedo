@@ -40,7 +40,7 @@ export default function FundiCompletedJobsTable({
   const results = requests.results;
 
   const jobs = results
-    .filter((item: any) => item.status === 'completed')
+    .filter((item: any) => item.status === 'approved')
     .map(
       (
         result: {

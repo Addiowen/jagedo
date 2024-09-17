@@ -29,12 +29,15 @@ export default function ConfirmAvailability({
 
   const requestId = searchParams.get('id');
   const assetId = session?.user.metadata.assetId;
+  const userEmail = session?.user.metadata.email;
+  const userId = session?.user.userId;
+  const userPhone = session?.user.metadata.phone;
+  const serviceProviderName = `${session?.user.firstname} ${session?.user.lastname}`;
 
   const request = {
     Category: 'Fundi',
     'Sub-Category': requestDetails.metadata.skill,
     'Request Type': requestDetails.metadata.packageType,
-    'Managed By': requestDetails.metadata.managed,
     County: requestDetails.metadata.county,
     'Sub-County': requestDetails.metadata.subCounty,
     'Estate/Village': requestDetails.metadata.village,
@@ -42,9 +45,9 @@ export default function ConfirmAvailability({
     Status: requestDetails.status,
     'Start Date': requestDetails.startDate,
     'End Date': requestDetails.endDate,
-    'Invoice Number': '',
+    'Invoice Number': requestDetails.id,
     'Payment Status': requestDetails.status,
-    Amount: requestDetails.metadata.linkageFee,
+    Amount: requestDetails.metadata.amount,
     Uploads: requestDetails.metadata.uploads,
   };
 
@@ -55,7 +58,10 @@ export default function ConfirmAvailability({
   };
 
   const assignedFundis = [requestDetails.metadata.bookingRequests];
-  const otherfundis = assignedFundis.filter((id: string) => id !== assetId);
+
+  console.log(assignedFundis);
+
+  const otherfundis = assignedFundis[0].filter((id: string) => id !== assetId);
 
   const handleSubmit = async () => {
     setIsLoading(true); // Show loader when submit starts
@@ -65,7 +71,7 @@ export default function ConfirmAvailability({
       console.log(requestType);
 
       if (requestType === 'Managed by Self') {
-        status = 'completed';
+        status = 'active';
       } else if (requestType === 'Managed by Jagedo') {
         status = 'active';
       }
@@ -77,7 +83,11 @@ export default function ConfirmAvailability({
           assetId: assetId,
           status,
           metadata: {
+            serviceProviderName,
             bookingRequests: assetId,
+            serviceProviderPhones: userPhone,
+            serviceProviderEmails: userEmail,
+            serviceProviderIds: userId,
           },
         },
         {
@@ -118,7 +128,7 @@ export default function ConfirmAvailability({
 
       toast.success('Job accepted successfully!');
       // Navigate to completed jobs page only after both requests succeed
-      router.push(`${routes.serviceProvider.fundi.dashboard}`);
+      router.push(`${routes.serviceProvider.fundi.activeJobs}`);
     } catch (error) {
       console.error('Error:', error);
       alert(

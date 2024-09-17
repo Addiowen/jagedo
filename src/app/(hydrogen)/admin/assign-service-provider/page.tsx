@@ -12,6 +12,7 @@ const fetchFundiAssets = async (county: string) => {
   try {
     const fundis = await apiRequest({
       method: 'POST',
+
       endpoint: `/search`,
       data: {
         query: 'Fundi',
@@ -44,17 +45,19 @@ export default async function AddtoServiceProviders({
   console.log(county, 'countyLower');
 
   const fundis = await fetchFundiAssets(countyLower);
-  console.log(fundis, 'logged Fundis');
+  console.log(fundis.results[0], 'logged Fundis');
 
   const fundilist =
     fundis?.results.map((item: any, index: number) => {
       return {
         no: index + 1,
         id: item.id || '',
+        userId: item.metadata.userId,
         date: item.metadata?.date || '',
         firstName: item.metadata.firstName,
         lastName: item.metadata?.lastName,
         phone: item.metadata.phone,
+        email: item.metadata.email || '',
         category: 'Fundi',
         skill: item.metadata?.skill || '',
         level: item.metadata.level || '',

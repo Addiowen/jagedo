@@ -10,6 +10,8 @@ import { Checkbox, Password, Button, Input, Text } from 'rizzui';
 import { Form } from '@/components/ui/form';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/utils/validators/login.schema';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const initialValues: LoginSchema = {
   username: '',
@@ -18,19 +20,31 @@ const initialValues: LoginSchema = {
 };
 
 export default function SignInForm() {
-  // State to track form submission
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState({});
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    // Set loading state to true when the form is submitted
     setLoading(true);
     try {
-      await signIn('credentials', { ...data });
+      const result = await signIn('credentials', {
+        ...data,
+        redirect: false, // Keep it false to handle manually
+      });
+
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      toast.success('Sign in successful!');
+
+      window.location.href = '/'; // Redirect after success
     } catch (error) {
-      console.error(error);
+      toast.error(
+        error instanceof Error ? error.message : 'An unexpected error occurred.'
+      );
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -70,7 +84,7 @@ export default function SignInForm() {
                 className="[&>label>span]:font-medium"
               />
               <Link
-                href={routes.auth.forgotPassword1}
+                href={routes.auth.forgotPassword4}
                 className="h-auto p-0 text-sm font-semibold text-blue underline transition-colors hover:text-gray-900 hover:no-underline"
               >
                 Forget Password?
@@ -82,7 +96,7 @@ export default function SignInForm() {
               size="lg"
               disabled={loading}
             >
-              <span>Sign in</span>{' '}
+              <span>Log in</span>{' '}
               {loading ? (
                 <AiOutlineLoading3Quarters className="ms-2 mt-0.5 h-5 w-5 animate-spin" />
               ) : (

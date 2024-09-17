@@ -2,37 +2,31 @@
 
 import { HeaderCell } from '@/components/ui/table';
 import { Text, Checkbox, ActionIcon, Tooltip, Select, Badge } from 'rizzui';
-import PencilIcon from '@/components/icons/pencil';
-import EyeIcon from '@/components/icons/eye';
-import DeletePopover from '@/app/shared/commons/delete-popover';
 import DateCell from '@/components/ui/date-cell';
-import { useState } from 'react';
-import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
-import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
 
-function getStatusBadge(review: string) {
-  switch (review.toLowerCase()) {
-    case 'unreviewed':
+function getStatusBadge(status: string) {
+  switch (status.toLowerCase()) {
+    case 'active':
       return (
         <div className="flex items-center">
-          <Badge color="danger" renderAsDot />
-          <Text className="ms-2 font-medium text-red-dark">{review}</Text>
+          <Badge color="primary" renderAsDot />
+          <Text className="ms-2 font-medium text-blue-dark">{status}</Text>
         </div>
       );
-    case 'reviewed':
+    case 'pending approval':
       return (
         <div className="flex items-center">
-          <Badge color="success" renderAsDot />
-          <Text className="ms-2 font-medium text-green-dark">{review}</Text>
+          <Badge color="warning" renderAsDot />
+          <Text className="ms-2 font-medium text-orange-dark">{status}</Text>
         </div>
       );
     default:
       return (
         <div className="flex items-center">
           <Badge color="warning" renderAsDot className="bg-gray-400" />
-          <Text className="ms-2 font-medium text-gray-600">{review}</Text>
+          <Text className="ms-2 font-medium text-gray-600">{status}</Text>
         </div>
       );
   }

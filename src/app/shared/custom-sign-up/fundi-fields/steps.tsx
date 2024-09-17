@@ -16,7 +16,7 @@ import {
   refinedSpSignUpFormSchema,
   RefinedSpSignUpFormSchema,
 } from '@/utils/validators/custom-signup.schema';
-import { SubmitHandler, Controller } from 'react-hook-form';
+import { SubmitHandler, Controller, useForm } from 'react-hook-form';
 import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -30,11 +30,15 @@ import {
   country,
   county,
   subCounty,
+  fundiSkills,
+  level,
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { usePathname, useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { useState } from 'react';
 import { counties } from '@/data/counties';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ssr: false,
@@ -46,6 +50,67 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
 });
 
 export default function FundiSteps() {
+  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean | null>(
+    null
+  );
+
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const {
+    register,
+    formState: { errors },
+    setError,
+  } = useForm();
+
+  const checkEmailAvailability = debounce(async (email: string) => {
+    if (!email) {
+      setIsEmailAvailable(true);
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/check-availability?username=${email}`,
+        {
+          headers: {
+            Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      );
+      const { available } = response.data;
+      setIsEmailAvailable(available);
+
+      if (!available) {
+        // Set custom error in react-hook-form
+        setError('email', {
+          type: 'manual',
+          message: 'Email is already taken',
+        });
+      } else {
+        // Clear error if email becomes available
+        setError('email', { type: 'manual', message: '' });
+      }
+    } catch (error) {
+      console.error('Error checking email availability:', error);
+      toast.error('Failed to check email availability');
+    }
+  }, 500); // 500ms debounce delay
+
+  const emailError: any =
+    errors.email?.message ||
+    (isEmailAvailable === false ? 'Email is already taken' : '');
+
+  const [loading, setLoading] = useState(false);
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
@@ -70,6 +135,7 @@ export default function FundiSteps() {
   ) => {
     e?.preventDefault();
     // console.log(e)
+    setLoading(true);
 
     let filteredData = { ...data };
     let postData;
@@ -106,7 +172,7 @@ export default function FundiSteps() {
     sessionStorage.setItem('postData', JSON.stringify(postData));
 
     console.log(postData);
-
+    setLoading(false);
     router.push(
       `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(postData.firstname)}`
     );
@@ -122,6 +188,7 @@ export default function FundiSteps() {
           defaultValues: spInitialValues,
         }}
         steps={fundiSteps}
+        loading={loading}
       >
         {({ register, formState: { errors }, control }, currentStep, delta) => (
           <>
@@ -161,7 +228,7 @@ export default function FundiSteps() {
                       render={({ field: { value, onChange } }) => (
                         <Select
                           dropdownClassName="!z-10"
-                          inPortal={false}
+                          inPortal={true}
                           placeholder="Select Category"
                           label="Category"
                           size="lg"
@@ -181,31 +248,60 @@ export default function FundiSteps() {
                       )}
                     />
                   ) : (
-                    <Controller
-                      control={control}
-                      name="skill"
-                      render={({ field: { value, onChange } }) => (
-                        <Select
-                          dropdownClassName="!z-10"
-                          inPortal={false}
-                          placeholder="Select Skill"
-                          label="Skill"
-                          size="lg"
-                          selectClassName="font-medium text-sm"
-                          optionClassName=""
-                          options={skill}
-                          onChange={onChange}
-                          value={value}
-                          className=""
-                          getOptionValue={(option) => option.value}
-                          displayValue={(selected) =>
-                            skill?.find((r) => r.value === selected)?.label ??
-                            ''
-                          }
-                          error={errors?.skill?.message as string}
-                        />
-                      )}
-                    />
+                    <>
+                      <Controller
+                        control={control}
+                        name="skill"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            placeholder="Select Skill"
+                            inPortal={true}
+                            label="Skill"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            optionClassName=""
+                            options={fundiSkills}
+                            onChange={onChange}
+                            value={value}
+                            className=""
+                            getOptionValue={(option) => option.value}
+                            displayValue={(selected) =>
+                              fundiSkills?.find((r) => r.value === selected)
+                                ?.label ?? ''
+                            }
+                            error={errors?.skill?.message as string}
+                            placement="bottom"
+                          />
+                        )}
+                      />
+
+                      <Controller
+                        control={control}
+                        name="level"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            inPortal={true}
+                            placeholder="Select Level"
+                            label="Level"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            optionClassName=""
+                            options={level}
+                            onChange={onChange}
+                            value={value}
+                            className=""
+                            getOptionValue={(option) => option.value}
+                            displayValue={(selected) =>
+                              level?.find((r) => r.value === selected)?.label ??
+                              ''
+                            }
+                            error={errors?.level?.message as string}
+                          />
+                        )}
+                      />
+                    </>
                   )}
 
                   <Input
@@ -214,8 +310,12 @@ export default function FundiSteps() {
                     label="Email Address"
                     size="lg"
                     inputClassName="text-sm"
-                    {...register('email')}
-                    error={errors.email?.message}
+                    {...register('email', {
+                      onChange: (e) => {
+                        checkEmailAvailability(e.target.value);
+                      },
+                    })}
+                    error={emailError}
                     className="[&>label>span]:font-medium"
                   />
                   <Input
@@ -270,7 +370,7 @@ export default function FundiSteps() {
                         options={gender}
                         onChange={onChange}
                         value={value}
-                        className="col-span-full mb-12"
+                        className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
                           gender?.find((r) => r.value === selected)?.label ?? ''

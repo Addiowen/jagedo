@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
+import { Button, Checkbox, Input, Select, Textarea, Loader } from 'rizzui'; // Import the Loader component
 import Pricing from '@/app/shared/pricing-package/pricing';
 import axios, { BASE_URL } from '@/lib/axios';
 import FileUpload from '@/app/shared/uploading-images';
@@ -41,7 +41,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     price: string;
   } | null>(null);
 
-  // Function to handle the selected plan from Pricing component
+  // Handle plan selection from Pricing component
   const handlePlanSelect = (title: string, price: string) => {
     if (selectedPlan?.title !== title || selectedPlan?.price !== price) {
       setSelectedPlan({ title, price });
@@ -49,51 +49,45 @@ const GenerateInvoiceFundi: React.FC = () => {
   };
 
   const customerZohoId = session?.user.metadata.zohoid;
-
-  // Options for select fields
-  // const reqType: Option[] = [
-  //   { label: 'Package 1', value: 'Package 1' },
-  //   { label: 'Package 2', value: 'Package 2' },
-  // ];
-
-  // const managedByOptions: Record<string, Option> = {
-  //   'Package 1': { label: 'Jagedo', value: 'Jagedo' },
-  //   'Package 2': { label: 'Self', value: 'Self' },
-  // };
+  const email = session?.user.email;
+  const customerId = session?.user.userId;
+  const phone = session?.user.metadata.phone;
+  const customerName = `${session?.user.firstname} ${session?.user.lastname}`;
 
   const theCounty = Object.keys(counties).map((key) => ({
     label: key,
-    value: key.toLowerCase().replace(/\s+/g, '-'),
+    value: key,
   }));
 
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
 
+  // Get sub-county options dynamically based on the selected county
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
         label: subCounty,
-        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+        value: subCounty,
       }))
     : [];
-  const County: Option[] = [
-    { label: 'Nairobi', value: 'Nairobi' },
-    { label: 'Busia', value: 'Busia' },
-    { label: 'Kisumu', value: 'Kisumu' },
-    { label: 'Kakamega', value: 'Kakamega' },
-  ];
-
-  const SubCounty: Option[] = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
 
   const Skill: Option[] = [
+    { label: 'New Construction', value: 'New Construction' },
+    { label: 'Repairs', value: 'Repairs' },
+    { label: 'Demolitions', value: 'Demolitions' },
     { label: 'Plumber', value: 'Plumber' },
     { label: 'Mason', value: 'Mason' },
-    { label: 'Construction', value: 'Construction' },
+    { label: 'Electrician', value: 'Electrician' },
+    { label: 'Welder', value: 'Welder' },
+    { label: 'Roofer', value: 'Roofer' },
+    { label: 'Foreman', value: 'Foreman' },
+    { label: 'Fitter', value: 'Fitter' },
+    { label: 'Tile fixer', value: 'Tile fixer' },
+    { label: 'Steel fixer', value: 'Steel fixer' },
+    { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
+    { label: 'Carpenter', value: 'Carpenter' },
+    { label: 'Painter', value: 'Painter' },
+    { label: 'Glass fitter', value: 'Glass fitter' },
   ];
 
   useEffect(() => {
@@ -101,16 +95,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     setUserId(id);
 
     const checkFormValidity = () => {
-      if (
-        description &&
-        date &&
-        // value &&
-        // managed &&
-        county &&
-        subCounty &&
-        village &&
-        skill
-      ) {
+      if (description && date && county && subCounty && village && skill) {
         setIsFormValid(true);
       } else {
         setIsFormValid(false);
@@ -118,23 +103,7 @@ const GenerateInvoiceFundi: React.FC = () => {
     };
 
     checkFormValidity();
-  }, [
-    description,
-    date,
-    // value,
-    // managed,
-    county,
-    subCounty,
-    village,
-    skill,
-    session,
-  ]);
-
-  // useEffect(() => {
-  //   if (value) {
-  //     setManaged(managedByOptions[value.value] || null);
-  //   }
-  // }, [value]);
+  }, [description, date, county, subCounty, village, skill, session]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -158,22 +127,19 @@ const GenerateInvoiceFundi: React.FC = () => {
         description,
         date,
         uploads: urls,
-        amount: selectedPlan.price, //pass price here
-        packageType: selectedPlan.title, // pass title here
+        amount: selectedPlan.price,
+        packageType: selectedPlan.title,
         managed: managed?.value || '',
         county: county?.value || '',
         subCounty: subCounty?.value || '',
         village,
+        email,
+        phone,
+        customerId,
+        customerName,
         customerZohoId: customerZohoId,
         skill: skill?.value || '',
       };
-
-      // const linkageFee =
-      //   value?.value === 'Package 1'
-      //     ? 3000
-      //     : value?.value === 'Package 2'
-      //       ? 1000
-      //       : 0;
 
       const formBody = {
         startDate: date,
@@ -182,7 +148,6 @@ const GenerateInvoiceFundi: React.FC = () => {
         metadata: {
           ...formData,
           description: description,
-          // linkageFee,
         },
       };
 
@@ -239,40 +204,28 @@ const GenerateInvoiceFundi: React.FC = () => {
                 onChange={(selected) => setSkill(selected as Option)}
               />
             </div>
-            {/* <div className="form-group">
-              <Select
-                label="Request Type"
-                options={reqType}
-                value={value}
-                onChange={(selected) => setValue(selected as Option)}
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                label="Managed By"
-                options={Object.values(managedByOptions)}
-                value={managed}
-                onChange={(selected) => setManaged(selected as Option)}
-                disabled // Disable the field
-              />
-            </div> */}
             <div className="form-group">
               <Select
                 label="County"
                 options={theCounty}
                 value={county}
                 onChange={(selected) => {
-                  setCounty(selected as Option);
-                  setSelectedCounty(selected as any);
+                  const selectedOption = selected as Option; // Cast 'selected' to 'Option'
+                  setCounty(selectedOption);
+                  setSelectedCounty(
+                    selectedOption.label as keyof typeof counties
+                  ); // Ensure the label is used as the county key
+                  setSubCounty(null); // Reset the sub-county when county changes
                 }}
               />
             </div>
             <div className="form-group">
               <Select
                 label="Sub-County"
-                options={SubCounty}
+                options={subCountyOptions}
                 value={subCounty}
                 onChange={(selected) => setSubCounty(selected as Option)}
+                disabled={!selectedCounty} // Disable sub-county until a county is selected
               />
             </div>
             <div className="form-group">
@@ -309,28 +262,17 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="col-span-1 md:col-span-2 lg:col-span-4">
               <FileUpload />
             </div>
-            <div className="form-group col-span-1 flex items-center md:col-span-2">
-              <Checkbox label="I agree to Fundi Agreement" />
-            </div>
           </div>
-          <Button
-            type="submit"
-            className={`mx-auto mt-8 block w-full rounded-md ${
-              isFormValid
-                ? 'bg-blue-600 hover:bg-blue-700'
-                : 'cursor-not-allowed bg-gray-500'
-            }`}
-            disabled={!isFormValid}
-          >
-            Generate Invoice
-          </Button>
-          {loading && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-              <div className="h-16 w-16 animate-spin rounded-full border-4 border-t-4 border-solid border-blue-600">
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          )}
+          <div className="form-group mt-6">
+            <Button
+              color="primary"
+              type="submit"
+              className="w-full"
+              disabled={!isFormValid || loading} // Disable while loading
+            >
+              {loading ? <Loader /> : 'Submit'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

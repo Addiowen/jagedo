@@ -62,7 +62,7 @@ export default function JobSlider({ className }: { className?: string }) {
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `https://uatapimsz.jagedo.co.ke/transactionAdminStats`,
+          `${process.env.NEXT_PUBLIC_DOMAIN}/transactionAdminStats`,
           {
             headers: {
               Authorization:
@@ -88,7 +88,7 @@ export default function JobSlider({ className }: { className?: string }) {
               case 'Completed':
                 return { ...item, total: parseInt(apiData.completed_count) };
               case 'Reviews':
-                return { ...item, total: parseInt(apiData.draft_count) };
+                return { ...item, total: 0 };
               default:
                 return item;
             }

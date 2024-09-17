@@ -26,6 +26,15 @@ export const fundiProfileSchema = baseUserFormSchema.extend({
   question4: z.string().min(1, { message: messages.fieldIsRequired }),
 });
 
+export const adminProfileSchema = baseUserFormSchema.extend({
+  // skill: z.string().optional(),
+  // level: z.string().optional(),
+  // years: z.string().optional(),
+  idPic: z.any().refine((value) => value !== undefined, {
+    message: messages.idPicIsRequired,
+  }),
+});
+
 export const organizationProfileSchema = baseUserFormSchema.extend({
   orgName: z.string().min(1, { message: messages.fieldIsRequired }),
   regNo: z.string().min(1, { message: messages.fieldIsRequired }),
@@ -90,3 +99,5 @@ export type ContractorProfileSchema = z.infer<typeof contractorProfileSchema>;
 export type ProfessionalProfileSchema = z.infer<
   typeof professionalProfileSchema
 >;
+
+export type AdminProfileSchema = z.infer<typeof adminProfileSchema>;

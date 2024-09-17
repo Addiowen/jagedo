@@ -1,7 +1,7 @@
 'use client';
 
 import ActiveJobDetailsCard from '@/app/shared/service-provider/details/sp-job-details';
-import { Button, Modal, Tab } from 'rizzui';
+import { Button, Loader, Modal, Tab } from 'rizzui';
 import cn from '@/utils/class-names';
 import ProgressBarActive from '@/app/shared/service-provider/progress-bar-fundi';
 import { useState } from 'react';
@@ -10,6 +10,8 @@ import toast from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 import FundiActiveJobDetailsAttachments from '@/app/shared/service-provider/details/sp-job-details/fundi-attachments';
 import ViewAttachments from '../details/request-details/view-attachments';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
 
 // export const metadata = {
 //     ...metaObject(),
@@ -22,23 +24,48 @@ type PageProps = {
 
 export default function SpActiveJobComponent({ className, jobs }: PageProps) {
   const [modalState, setModalState] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(jobs.status);
   const router = useRouter();
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
+  const [loading, setLoading] = useState(false);
 
   const handleBackBtn = () => router.back();
-  const handleCompleteMilestone = () => {
-    toast.success(<p>Request Submitted... Waiting Approval.</p>);
-    setStatus('pending');
-    setModalState(false);
+  const handleCompleteMilestone = async () => {
+    setLoading(true); // Show loader
+    try {
+      const updateTransactionResponse = await axios.patch(
+        `${BASE_URL}/transactions/${jobId}`,
+        {
+          status: 'pending approval',
+        },
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      if (updateTransactionResponse.status === 200) {
+        toast.success(<p>Request Sent... Awaiting approval.</p>);
+        setStatus('pending approval');
+        setModalState(false);
+      } else {
+        toast.error(<p>Something went wrong. Please try again.</p>);
+      }
+    } catch (error) {
+      toast.error(<p>Approval Request Failed. Please try again later.</p>);
+    } finally {
+      setLoading(false); // Hide loader after request completes
+    }
   };
+
+  console.log(jobs);
 
   const request = {
     Category: 'Fundi',
     'Sub-Category': jobs.metadata.skill,
     'Request Type': jobs.metadata.packageType,
-    'Managed By': jobs.metadata.managed,
     County: jobs.metadata.county,
     'Sub-County': jobs.metadata.subCounty,
     'Estate/Village': jobs.metadata.village,
@@ -46,15 +73,17 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
     Status: jobs.status,
     'Start Date': jobs.startDate,
     'End Date': jobs.endDate,
-    'Invoice Number': '',
+    'Invoice Number': jobs.id.toUpperCase(),
     'Payment Status': jobs.status,
-    Amount: jobs.metadata.linkageFee,
+    Amount: jobs.metadata.amount,
     Uploads: jobs.metadata.uploads,
   };
 
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
   };
+
+  console.log(status);
 
   const uploadsData = request.Uploads;
 
@@ -68,7 +97,9 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
       <div className="flex justify-between">
         <h3 className="mb-4">JOB # {jobId?.toUpperCase()}</h3>
         <div className="">
-          <Button onClick={() => setModalState(true)}>Complete Job</Button>
+          {status !== 'approved' && status !== 'pending approval' && (
+            <Button onClick={handleCompleteMilestone}>Complete Job</Button>
+          )}
         </div>
       </div>
 
@@ -82,9 +113,13 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
             </p>
 
             <div className="mt-6 flex justify-center">
-              <Button onClick={handleCompleteMilestone} className="w-32">
-                Yes
-              </Button>
+              {loading ? (
+                <Loader size="sm" />
+              ) : (
+                <Button onClick={handleCompleteMilestone} className="w-32">
+                  Yes
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={() => setModalState(false)}

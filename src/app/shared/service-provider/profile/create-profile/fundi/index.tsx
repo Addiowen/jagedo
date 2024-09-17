@@ -18,17 +18,19 @@ import {
   gender,
   level,
   years,
-  county,
-  subCounty,
   booleanQuestion,
 } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { routes } from '@/config/routes';
-import UploadButtonOutlined from '@/components/buttons/upload-button-outlined';
-import { FileInput } from '@/app/shared/commons/custom-file-input';
 import FundiEvaluationFormAttachments from './attachments';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import {
+  county,
+  subCounty,
+} from '@/app/shared/custom-sign-up/fundi-fields/data';
+import { counties } from '@/data/counties';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -49,8 +51,19 @@ export default function CreateFundiProfileForm({
 }: {
   userDetails: any;
 }) {
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
   const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter();
+  const pathname = usePathname();
 
   const fundiInitialValues: FundiProfileSchema = {
     firstName: userDetails.firstname || '',
@@ -84,7 +97,6 @@ export default function CreateFundiProfileForm({
         lastname: data.lastName,
         email: data.email,
         phone: data.phoneNo,
-
         // Add skill, level, years, gender, and questions to the metadata
         metadata: {
           firstName: data.firstName,
@@ -108,8 +120,6 @@ export default function CreateFundiProfileForm({
         },
       };
 
-      console.log(updateData, 'update data');
-
       // Fetch additional user details
       const userDetailsRes = await axios.patch(
         `${BASE_URL}/users/${userDetails.id}`,
@@ -121,18 +131,39 @@ export default function CreateFundiProfileForm({
         }
       );
 
-      // Handle the response or redirect after successful update
+      // If the user profile update is successful
       if (userDetailsRes) {
-        router.refresh();
         console.log(userDetailsRes, 'user details');
 
-        router.push(
-          `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+        // Send the updated user details as the payload to the external endpoint
+        const profileUpdateRes = await axios.post(
+          `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
+          userDetailsRes.data,
+          {
+            headers: {
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+            },
+          }
         );
-        // router.push('/service-provider/fundi/profile');
+
+        // Log the result of the second request
+        console.log(
+          'Second request - Profile update response:',
+          profileUpdateRes.data
+        );
+        // Refresh and redirect after successful profile update
+        router.refresh();
+        // Determine the redirection based on the pathname
+        if (pathname.includes('admin')) {
+          router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
+        } else {
+          router.push(
+            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+          );
+        }
       }
-    } catch (error) {
-      console.error('Failed to update user details:', error);
+    } catch (error: any) {
+      toast.error('Failed to update user details:', error);
       // Optionally, handle the error (e.g., show a notification)
     } finally {
       setLoading(false); // Set loading to false
@@ -142,6 +173,7 @@ export default function CreateFundiProfileForm({
   return (
     <>
       <CustomMultiStepForm<FundiProfileSchema>
+        loading={loading}
         validationSchema={fundiProfileSchema}
         onSubmit={onSubmit}
         useFormProps={{
@@ -214,31 +246,6 @@ export default function CreateFundiProfileForm({
 
                   <Controller
                     control={control}
-                    name="gender"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="Gender"
-                        label="Gender"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={gender}
-                        onChange={onChange}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          gender?.find((r) => r.value === selected)?.label ?? ''
-                        }
-                        error={errors?.gender?.message as string}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
                     name="county"
                     render={({ field: { value, onChange } }) => (
                       <Select
@@ -250,7 +257,14 @@ export default function CreateFundiProfileForm({
                         selectClassName="font-medium text-sm"
                         optionClassName=""
                         options={county}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
@@ -273,15 +287,14 @@ export default function CreateFundiProfileForm({
                         label="Sub-County/Area"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
+                        options={subCountyOptions}
                         onChange={onChange}
                         value={value}
-                        className="flex-grow"
+                        className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
+                          subCountyOptions?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.subCounty?.message as string}
                       />
@@ -296,6 +309,31 @@ export default function CreateFundiProfileForm({
                     {...register('estate')}
                     error={errors.estate?.message}
                     className="flex-grow [&>label>span]:font-medium"
+                  />
+
+                  <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field: { value, onChange } }) => (
+                      <Select
+                        dropdownClassName="!z-10"
+                        inPortal={false}
+                        placeholder="Gender"
+                        label="Gender"
+                        size="lg"
+                        selectClassName="font-medium text-sm"
+                        optionClassName=""
+                        options={gender}
+                        onChange={onChange}
+                        value={value}
+                        className=""
+                        getOptionValue={(option) => option.value}
+                        displayValue={(selected) =>
+                          gender?.find((r) => r.value === selected)?.label ?? ''
+                        }
+                        error={errors?.gender?.message as string}
+                      />
+                    )}
                   />
                 </div>
               </motion.div>
@@ -488,7 +526,14 @@ export default function CreateFundiProfileForm({
                         selectClassName="font-medium text-sm"
                         optionClassName=""
                         options={years}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}

@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Fundi Profile Creation',
+  title: 'Fundi Profile',
   breadcrumb: [
     {
       href: '',
@@ -44,7 +44,7 @@ const fetchUserDetails = async (userId: string) => {
   }
 };
 
-export default async function OrganizationCreateProfilePage({
+export default async function FundiCreateProfilePage({
   searchParams,
 }: {
   searchParams: any;

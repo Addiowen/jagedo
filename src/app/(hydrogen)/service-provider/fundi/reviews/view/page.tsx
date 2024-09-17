@@ -8,7 +8,9 @@ export const metadata = {
   ...metaObject(),
 };
 
-const fetchRating = async (ratingId: any) => {
+// Function to fetch ratings based on rating ID
+const fetchRating = async (ratingId: string | null) => {
+  if (!ratingId) return null; // Handle empty query parameter
   try {
     const ratings = await apiRequest({
       method: 'GET',
@@ -16,7 +18,7 @@ const fetchRating = async (ratingId: any) => {
     });
     return ratings;
   } catch (error) {
-    console.error('Failed to fetch transaction details:', error);
+    console.error('Failed to fetch rating details:', error);
     return null;
   }
 };
@@ -26,27 +28,52 @@ export default async function ReviewsPage({
 }: {
   searchParams: any;
 }) {
-  const rating = await fetchRating(searchParams.id);
+  // Extract the rating IDs from the query parameters
+  const { customerRatingId, spRatingId } = searchParams;
 
-  console.log(rating, 'rating');
+  // Fetch both customer and service provider ratings
+  const customerRating = await fetchRating(customerRatingId);
+  const spRating = await fetchRating(spRatingId);
 
   return (
     <>
       <div className="flex justify-between">
-        <Title as="h4" className="mb-3.5 pb-5 font-semibold @2xl:mb-5">
-          RATING# {searchParams.id.toUpperCase()}
-        </Title>
-        <Rate
-          size="sm"
-          allowHalf={true}
-          defaultValue={rating.score / 20}
-          disabled={true}
-          className="mb-3.5 mt-3 pb-5 font-semibold @2xl:mb-5"
-          // tooltips={['terrible', 'bad', 'normal', 'good', 'wonderful']}
-        />
+        {customerRating && (
+          <div>
+            <Title as="h4" className="mb-3.5 pb-5 font-semibold @2xl:mb-5">
+              CUSTOMER RATING# {customerRatingId.toUpperCase()}
+            </Title>
+            <Rate
+              size="sm"
+              allowHalf={true}
+              defaultValue={customerRating.score / 20}
+              disabled={true}
+              className="mb-3.5 mt-3 pb-5 font-semibold @2xl:mb-5"
+            />
+          </div>
+        )}
+
+        {spRating && (
+          <div>
+            <Title as="h4" className="mb-3.5 pb-5 font-semibold @2xl:mb-5">
+              RATING# {spRatingId.toUpperCase()}
+            </Title>
+            <Rate
+              size="sm"
+              allowHalf={true}
+              defaultValue={spRating.score / 20}
+              disabled={true}
+              className="mb-3.5 mt-3 pb-5 font-semibold @2xl:mb-5"
+            />
+          </div>
+        )}
       </div>
 
-      <ViewReviewComponent rating={rating} />
+      {/* Pass both ratings to the ViewReviewComponent */}
+      <ViewReviewComponent
+        customerRating={customerRating}
+        spRating={spRating}
+      />
     </>
   );
 }

@@ -17,25 +17,21 @@ export default async function ReviewsPage({
 }) {
   const fetchRatingDetails = async () => {
     const session = await getServerSession(authOptions);
-
     const assetId = session?.user.metadata.assetId;
 
-    console.log(assetId, 'asset ifsds');
-
     try {
-      const ratings = await apiRequest({
+      const transactions = await apiRequest({
         method: 'GET',
-        endpoint: `/ratings?assetId=${assetId}`,
+        endpoint: `/transactions?assetId=${assetId}`,
       });
-      return ratings;
+      return transactions;
     } catch (error) {
       console.error('Failed to fetch transaction details:', error);
       return null;
     }
   };
 
-  const ratings = await fetchRatingDetails();
-  console.log(ratings.results.metadata, 'the ratings');
+  const transactionsDetails = await fetchRatingDetails();
 
   return (
     <>
@@ -46,7 +42,7 @@ export default async function ReviewsPage({
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           <FundiReviewsTable
-            ratings={ratings}
+            transactions={transactionsDetails}
             className="relative @4xl:col-span-12  @7xl:col-span-8"
           />
         </div>

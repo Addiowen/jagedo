@@ -19,42 +19,54 @@ const filterState = {
 };
 export default function FundiReviewsTable({
   className,
-  ratings,
+  transactions,
 }: {
   className?: string;
-  ratings: any;
+  transactions: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
   const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
 
-  const mappedRatings = ratings.results.map(
-    (
-      result: {
-        metadata: {
-          transaction: {
-            [x: string]: any;
-            transactionId: any;
-            Category: any;
-            County: any;
-          };
-        };
-        id: any;
-        score: any;
-      },
-      index: number
-    ) => ({
-      number: (index + 1).toString() || '',
-      id: result.id,
-      date: result.metadata.transaction?.['Request Date'] || '',
-      category: result.metadata.transaction?.Category || '',
-      subCategory: result.metadata.transaction?.['Sub-Category'] || '',
-      requestType: result.metadata.transaction?.['Request Type'] || '',
-      county: result.metadata.transaction?.County || '',
-      subCounty: result.metadata.transaction?.['Sub-County'] || '',
-      rating: (result.score / 20).toFixed(1),
-      requestTypeId: 0,
-    })
+  console.log(transactions, 'transactions');
+
+  const mappedtTransactions = transactions.results.filter(
+    (item: any) => item.status === 'reviewed'
   );
+
+  const mappedTransactions = transactions.results
+    .filter((item: any) => item.status === 'reviewed')
+    .map(
+      (
+        result: {
+          id: any;
+          createdDate: { [x: string]: any };
+          metadata: {
+            customerRatingId: string;
+            spRatingId: string;
+            category: string;
+            skill: string;
+            packageType: string;
+            county: string;
+            subCounty: string;
+          };
+        },
+        index: number
+      ) => ({
+        number: (index + 1).toString() || '',
+        id: result.id,
+        date: result.createdDate || '',
+        category: 'Fundi',
+        subCategory: result.metadata.skill || '',
+        spRatingId: result.metadata.spRatingId || '',
+        customerRatingId: result.metadata.customerRatingId || '',
+        requestType: result.metadata.packageType || '',
+        county: result.metadata.county || '',
+        subCounty: result.metadata.subCounty || '',
+        requestTypeId: 0,
+      })
+    );
+
+  console.log(mappedTransactions);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -85,12 +97,12 @@ export default function FundiReviewsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(mappedRatings, pageSize, filterState);
+  } = useTable(mappedTransactions, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: mappedRatings,
+        data: mappedTransactions,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

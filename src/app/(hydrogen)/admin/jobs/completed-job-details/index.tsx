@@ -57,6 +57,8 @@ export default function SpCompleteJobDetails({
     url: url,
   }));
   const [modalState, setModalState] = useState(false);
+  const [status, setStatus] = useState(requestDetails.Status);
+
   const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
   const [requestReviewsModalState, setRequestReviewsModalState] =
     useState(false);
@@ -141,7 +143,7 @@ export default function SpCompleteJobDetails({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <ProgressBarActive />
+            <ProgressBarActive statusValue={status} />
             <div className="col-span-full">
               <ViewAttachments attachments={structuredAttachments} />
             </div>

@@ -7,6 +7,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { routes } from '@/config/routes';
 import { BASE_URL } from '@/lib/axios';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
 
 const data = [
   {
@@ -27,16 +29,24 @@ const data = [
   },
 ];
 
-export default function AddReviewComponent() {
+export default function AddReviewComponent({
+  transactionDetails,
+}: {
+  transactionDetails: any;
+}) {
+  const { data: session } = useSession();
+
   const searchParams = useSearchParams();
   const fundiId = searchParams.get('fundiId');
-  const customerId = searchParams.get('customerId');
+  const customerId = session?.user.id;
   const jobId = searchParams.get('jobId');
+  const assetId = searchParams.get('fundiId');
   const pathname = usePathname();
   const professional = pathname.includes('professional');
   const contractor = pathname.includes('contractor');
   const fundi = pathname.includes('fundi');
   const router = useRouter();
+  const role = 'fundi';
 
   const [transaction, setTransaction] = useState<any>(null);
   const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
@@ -89,24 +99,60 @@ export default function AddReviewComponent() {
       score: percentageRating,
       targetId: customerId,
       comment: comments,
-      assetId: fundiId,
+      assetId,
       transactionId: jobId,
       metadata: {
         answers,
         transaction,
+        role,
+        [`${role}Comment`]: comments,
+        [`${role}Rating`]: percentageRating,
+        [`${role}Answers`]: answers,
       },
     };
 
     console.log('Submitting payload:', payload);
 
     try {
+      // Make POST request to submit the rating
       const res = await axios.post(`${BASE_URL}/ratings`, payload, {
         headers: {
           Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
         },
       });
 
-      console.log('Submitted successfully:', res.data);
+      const { id } = res.data; // Extract the ID from the response
+      console.log('Submitted successfully, rating ID:', id);
+
+      if (!transactionDetails.metadata?.spRatingId) {
+        console.log('No existing ratingId, updating transaction...');
+
+        // Update the transaction with the rating ID
+        const patchPayload = {
+          status: 'reviewed',
+          metadata: {
+            spRatingId: id,
+          },
+        };
+
+        // Make PATCH request to update the transaction
+        const patchRes = await axios.patch(
+          `${BASE_URL}/transactions/${jobId}`,
+          patchPayload,
+          {
+            headers: {
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+            },
+          }
+        );
+
+        toast.success('Transaction updated successfully:', patchRes.data);
+        console.log('Transaction updated successfully:', patchRes.data);
+
+        router.push(`${routes.serviceProvider.fundi.reviews}?jobId=${jobId}`);
+      } else {
+        toast.error('Transaction already has a ratingId, skipping update.');
+      }
 
       // Clear form after successful submission
       setAnswers(
@@ -118,11 +164,11 @@ export default function AddReviewComponent() {
       setComments('');
 
       // Navigate to another page and pass jobId as a query param
-      router.push(`${routes.serviceProvider.fundi.reviews}?jobId=${jobId}`);
     } catch (error) {
-      console.error('Error submitting review:', error);
+      console.error('Error submitting review or updating transaction:', error);
     }
   };
+
   return (
     <>
       <div className="relative rounded-lg border border-muted bg-gray-0 px-2 pb-8 pt-6 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl xl:rounded-2xl">

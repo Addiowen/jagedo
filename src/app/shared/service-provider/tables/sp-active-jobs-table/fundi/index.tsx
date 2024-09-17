@@ -39,7 +39,11 @@ export default function FundiActiveJobsTable({
   const results = requests.results;
 
   const jobs = results
-    .filter((item: any) => item.status === 'active')
+    .filter(
+      (item: any) =>
+        item.status === 'active' || item.status === 'pending approval'
+    )
+
     .map(
       (
         result: {

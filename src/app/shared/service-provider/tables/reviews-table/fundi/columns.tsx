@@ -185,12 +185,16 @@ export const getColumns = ({
     dataIndex: 'status',
     key: 'action',
     width: 100,
-    render: (requestType: string, row: any) => (
+    render: (status: string, row: any) => (
       <div className="gap-3 pe-3">
         <Link
           href={{
             pathname: routes.serviceProvider.fundi.viewReview,
-            query: { id: row.id },
+            query: {
+              id: row.id,
+              customerRatingId: row.customerRatingId || '',
+              spRatingId: row.spRatingId || '',
+            },
           }}
         >
           <Text className="cursor-pointer text-sm text-green-600">View</Text>

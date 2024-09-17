@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-// import { useForm, SubmitHandler } from 'react-hook-form'
 import {
   useForm,
   SubmitHandler,
@@ -14,10 +13,9 @@ import {
 } from 'react-hook-form';
 import type { Schema } from 'zod';
 
-// import { signUpFormSchema, SignUpFormSchema } from '@/utils/validators/custom-signup.schema'
 import { MultiStepFormSteps } from '@/types/custom-types';
-import { Button, Stepper } from 'rizzui';
-import { PiArrowRightBold } from 'react-icons/pi';
+import { Button, Loader, Stepper } from 'rizzui';
+import { PiArrowLeftBold, PiArrowRightBold } from 'react-icons/pi';
 // import { PiArrowRightBold, PiArrowLeftBold } from 'react-icons/pi';
 // import { useRouter } from 'next/navigation';
 // import { routes } from '@/config/routes';
@@ -44,17 +42,24 @@ type FormProps<TFormValues extends FieldValues> = {
   ) => React.ReactNode;
   useFormProps?: UseFormProps<TFormValues>;
   validationSchema?: Schema<TFormValues>;
+  loading: any;
+
   // fieldErrors?: any[] | null;
   // formError?: string | string[] | null | any;
   // serverError?: ServerErrors<Partial<TFormValues>> | null;
   resetValues?: any | null;
   steps: MultiStepFormSteps[];
-  // className?: string;
 };
+
+// Spinner component
+const Spinner = () => (
+  <div className="h-6 w-6 animate-spin rounded-full border-4 border-t-4 border-solid border-blue-500"></div>
+);
 
 export default function CustomMultiStepForm<
   TFormValues extends Record<string, any> = Record<string, any>,
 >({
+  loading,
   onSubmit,
   children,
   useFormProps,
@@ -63,61 +68,21 @@ export default function CustomMultiStepForm<
 }: FormProps<TFormValues>) {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state for loading
   const delta = currentStep - previousStep;
-
-  // const router = useRouter()
-
-  // function redirect() {
-  //   router.push(routes.auth.otp4)
-  // }
-
-  // react hook form
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   reset,
-  //   trigger,
-  //   formState: { errors }
-  // } = useForm<SignUpFormSchema>({
-  //   defaultValues: initialValues,
-  //   resolver: zodResolver(signUpFormSchema)
-  // })
 
   const methods = useForm<TFormValues>({
     ...useFormProps,
     ...(validationSchema && { resolver: zodResolver(validationSchema) }),
   });
 
-  // form submit handler
-  // const handleFormSubmit: SubmitHandler<TFormValues> = data => {
-  //   console.log(data)
-  //   methods.reset()
-  // }
-
-  // type FieldName = keyof TFormValues
-
-  // step functions
   const next = async () => {
     const fields = steps[currentStep].fields as Path<TFormValues>[];
     const output = await methods.trigger(fields, { shouldFocus: true });
 
-    // console.log('before output')
-    // console.log(`Output: ${output}`)
-    // console.log(`Fields: ${fields}`)
-
-    // run the console.log below to check the errors if the stepper is not working
-    // console.log(methods.formState.errors)
-
     if (!output) return;
 
-    // console.log('after output')
-
     if (currentStep < steps.length - 1) {
-      // if (currentStep === steps.length - 2) {
-      //   await methods.handleSubmit(onSubmit)()
-      // }
-
       setPreviousStep(currentStep);
       setCurrentStep((step) => step + 1);
     }
@@ -130,12 +95,16 @@ export default function CustomMultiStepForm<
     }
   };
 
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    await methods.handleSubmit(onSubmit)();
+    setIsSubmitting(false);
+  };
+
   return (
     <section className="inset-0 flex flex-col justify-between">
       {/* steps */}
       <nav aria-label="Progress" className="relative">
-        {/* <div className="-ml-20 w-full"> */}
-        {/* <ol role='list' className='space-y-4 md:flex md:space-x-8 md:space-y-0'> */}
         <Stepper currentIndex={currentStep}>
           {steps.map((step, index) => (
             <Stepper.Step
@@ -143,19 +112,13 @@ export default function CustomMultiStepForm<
               title={step.id}
               description={step.name}
             />
-            //     <li key={step.name} className='md:flex-1'>
-            // </li>
           ))}
         </Stepper>
-        {/* </ol> */}
-        {/* </div> */}
       </nav>
 
       <FormProvider {...methods}>
         {/* Form */}
-        <form
-          className="mt-8 py-3" /*onSubmit={methods.handleSubmit(onSubmit)}*/
-        >
+        <form className="mt-8 py-3">
           {children(methods, currentStep, delta)}
 
           {/* Navigation */}
@@ -168,34 +131,33 @@ export default function CustomMultiStepForm<
                 onClick={prev}
                 disabled={currentStep === 0}
               >
-                {/* <PiArrowLeftBold className="ms-2 mt-0.5 h-5 w-5" /> */}
-                <span>Back</span>{' '}
+                <PiArrowLeftBold className="ms-2 mt-0.5 h-5 w-5" />
+                <span>Back</span>
               </Button>
 
               {currentStep === steps.length - 1 ? (
                 <Button
-                  className="w-32"
+                  className="flex w-32 items-center justify-center"
                   type="button"
                   size="lg"
                   onClick={() => {
                     methods.handleSubmit(onSubmit)();
-                    // console.log('Clicked')
                   }}
-                  // disabled={currentStep === steps.length - 1}
+                  disabled={loading} // Disable the button when loading
                 >
-                  <span>Submit</span>{' '}
-                  <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+                  {loading ? (
+                    <Loader variant="spinner" size="sm" />
+                  ) : (
+                    <>
+                      <span>Submit</span>{' '}
+                      <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
+                    </>
+                  )}
                 </Button>
               ) : (
-                <Button
-                  className="w-32"
-                  type="button"
-                  size="lg"
-                  onClick={next}
-                  // disabled={currentStep === steps.length - 1}
-                >
-                  <span>Next</span>{' '}
-                  {/* <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" /> */}
+                <Button className="w-32" type="button" size="lg" onClick={next}>
+                  <span>Next</span>
+                  <PiArrowRightBold className="ms-2 mt-0.5 h-5 w-5" />
                 </Button>
               )}
             </div>

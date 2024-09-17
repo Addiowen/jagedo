@@ -9,6 +9,24 @@ import {
 // the output variable inside custom-multi-step-form/index.tsx will be false,
 // and it won't take you to the next step
 
+export const fundiSkills = [
+  { label: 'New Construction', value: 'New Construction' },
+  { label: 'Repairs', value: 'Repairs' },
+  { label: 'Demolitions', value: 'Demolitions' },
+  { label: 'Plumber', value: 'Plumber' },
+  { label: 'Mason', value: 'Mason' },
+  { label: 'Electrician', value: 'Electrician' },
+  { label: 'Welder', value: 'Welder' },
+  { label: 'Roofer', value: 'Roofer' },
+  { label: 'Foreman', value: 'Foreman' },
+  { label: 'Fitter', value: 'Fitter' },
+  { label: 'Tile fixer', value: 'Tile fixer' },
+  { label: 'Steel fixer', value: 'Steel fixer' },
+  { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
+  { label: 'Carpenter', value: 'Carpenter' },
+  { label: 'Painter', value: 'Painter' },
+  { label: 'Glass fitter', value: 'Glass fitter' },
+];
 export const fundiSteps = [
   {
     id: 'Step 1',
@@ -122,6 +140,17 @@ export const skill = [
   {
     label: 'Electrician',
     value: 'electrician',
+  },
+];
+
+export const level = [
+  {
+    label: 'MasterFundi',
+    value: 'masterfundi',
+  },
+  {
+    label: 'Intermediate',
+    value: 'intermediate',
   },
 ];
 

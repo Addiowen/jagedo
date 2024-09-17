@@ -29,6 +29,20 @@ export const fetchCustomerDetails = async (takerId: string) => {
   }
 };
 
+// Fetch customer details based on the owner
+export const fetchFundiDetails = async (ownerId: string) => {
+  try {
+    const customerDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/users/${ownerId}`,
+    });
+    return customerDetails;
+  } catch (error) {
+    console.error('Failed to fetch customer details:', error);
+    return null;
+  }
+};
+
 // Construct request details object
 export const getRequestDetails = (customerRequest: any) => {
   return {
@@ -48,10 +62,10 @@ export const getRequestDetails = (customerRequest: any) => {
     'End Date': customerRequest?.endDate
       ? new Date(customerRequest.endDate).toLocaleDateString()
       : 'N/A',
-    'Invoice Number': '#3454',
-    'Payment Status': 'Paid',
-    Amount: customerRequest?.metadata.linkageFee
-      ? customerRequest.metadata.linkageFee.toFixed(2)
+    'Invoice Number': `${customerRequest.id.slice(0, 9).toUpperCase()}...`,
+    'Payment Status': customerRequest.status,
+    Amount: customerRequest?.metadata.amount
+      ? customerRequest.metadata.amount
       : 'N/A',
     Uploads: customerRequest?.metadata.uploads || 'N/A',
   };
