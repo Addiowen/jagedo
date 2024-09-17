@@ -162,7 +162,6 @@ export default function FundiSteps() {
       description: 'fundi',
       username: filteredData.email,
       password: filteredData.password,
-      phone: filteredData.phone,
       metadata: {
         role: getRole(),
         ...userDetails,

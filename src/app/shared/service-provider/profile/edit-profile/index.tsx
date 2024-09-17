@@ -65,11 +65,8 @@ export default function EditProfileContactDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const customerType = session?.user.metadata.type;
-  console.log(userDetails.metadata.level);
 
   const fundiLevel = userDetails.metadata.level;
-
-  console.log(userDetails.metadata.approvalStatus);
 
   const onSubmit = async () => {
     try {
@@ -77,7 +74,6 @@ export default function EditProfileContactDetails({
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        phone: data.phoneNo,
 
         metadata: {
           county: data.county,
@@ -186,7 +182,6 @@ export default function EditProfileContactDetails({
       console.log('Asset saved successfully:', createAssetResponse.data);
 
       const userPayload = {
-        phone: userDetails.metadata?.phone,
         metadata: {
           assetId: createAssetResponse.data.id,
           approvalStatus: 'approved',
@@ -204,6 +199,10 @@ export default function EditProfileContactDetails({
         }
       );
       console.log('User updated successfully:', userResponse.data);
+
+      if (userResponse) {
+        router.refresh();
+      }
 
       await axios.post(
         `${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`,
@@ -243,6 +242,9 @@ export default function EditProfileContactDetails({
     'Approval Status': userDetails.metadata.status,
   };
 
+  const approvalStatus = userDetails.metadata.approvalStatus;
+  console.log(approvalStatus);
+
   // Choose the correct personalKeys based on customerType
   const currentPersonalKeys =
     customerType === 'organization' ? thekeys : personalKeys;
@@ -278,6 +280,7 @@ export default function EditProfileContactDetails({
                   editMode={editMode}
                   setEditMode={setEditMode}
                   setModalState={setModalState}
+                  isApproved={approvalStatus}
                 />
                 <Button
                   onClick={handleEditClick}
@@ -327,6 +330,7 @@ export default function EditProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={approvalStatus}
               />
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
@@ -345,6 +349,7 @@ export default function EditProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={approvalStatus}
               />
 
               <div className="space-y-4 lg:col-span-2">

@@ -153,7 +153,6 @@ export default function CustomerSteps() {
       description: 'customer',
       username: filteredData.email,
       password: filteredData.password,
-      phone: filteredData.phone,
       metadata: {
         role: 'customer',
         type: filteredData.type,
