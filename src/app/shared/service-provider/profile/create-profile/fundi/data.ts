@@ -182,12 +182,12 @@ export const subCounty = [
 
 export const level = [
   {
-    label: 'Masterfundi',
+    label: 'MasterFundi',
     value: 'masterfundi',
   },
   {
-    label: 'Intermediatefundi',
-    value: 'intermediatefundi',
+    label: 'Intermediate',
+    value: 'intermediate',
   },
 ];
 

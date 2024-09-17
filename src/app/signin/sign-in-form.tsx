@@ -29,25 +29,22 @@ export default function SignInForm() {
     try {
       const result = await signIn('credentials', {
         ...data,
-        // Prevent redirection for error handling
+        redirect: false, // Keep it false to handle manually
       });
 
       if (result?.error) {
-        throw new Error(result.error); // Throw error to be caught in the catch block
+        throw new Error(result.error);
       }
 
-      // Handle successful sign in
       toast.success('Sign in successful!');
-      router.push('/');
 
-      // Delay setting loading to false to ensure redirection is visually confirmed
+      window.location.href = '/'; // Redirect after success
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message); // Display error message
-      } else {
-        toast.error('An unexpected error occurred.');
-      }
-      setLoading(false); // Set loading state to false if an error occurs
+      toast.error(
+        error instanceof Error ? error.message : 'An unexpected error occurred.'
+      );
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -99,7 +96,7 @@ export default function SignInForm() {
               size="lg"
               disabled={loading}
             >
-              <span>Sign in</span>{' '}
+              <span>Log in</span>{' '}
               {loading ? (
                 <AiOutlineLoading3Quarters className="ms-2 mt-0.5 h-5 w-5 animate-spin" />
               ) : (

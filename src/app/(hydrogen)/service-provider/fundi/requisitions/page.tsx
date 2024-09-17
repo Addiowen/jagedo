@@ -1,9 +1,13 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import FundiRequisitionsTable from '@/app/shared/service-provider/tables/sp-requisitions-table/fundi';
+import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { Alert, Badge, Button } from 'rizzui';
+import { Text } from 'rizzui';
 
 export const metadata = {
   ...metaObject(),
@@ -15,21 +19,36 @@ const fetchUserAssetDetails = async () => {
     console.log(session, 'fundi session');
 
     if (!session || !session.user) {
-      throw new Error('User not authenticated');
+      // throw new Error('User not authenticated');
+      toast.error('User not authenticated');
     }
 
     const assetId = session?.user?.metadata?.assetId;
 
     if (!assetId) {
-      throw new Error('User does not exist or asset ID is missing');
+      return (
+        <Alert variant="flat" color="warning">
+          <Text className="font-semibold">Unverified</Text>
+          <Text>
+            Verification pending! Please{' '}
+            <Link
+              className="text-blue-500 underline"
+              href={routes.serviceProvider.fundi.profile}
+            >
+              complete your profile
+            </Link>{' '}
+            to request approval.
+          </Text>
+        </Alert>
+      );
     }
-
-    console.log(assetId, 'asset id');
 
     const assetDetails = await apiRequest({
       method: 'GET',
       endpoint: `/assets/${assetId}`,
     });
+
+    console.log(assetDetails, 'assetDetails');
 
     return assetDetails;
   } catch (error) {
@@ -52,8 +71,21 @@ export default async function RequisitionsPage() {
   const bookingRequests = asset?.metadata?.bookingRequests;
 
   if (!asset || !asset.metadata) {
-    console.error('Asset or metadata is missing');
-    return <p>You have not been approved!.</p>; // Render an error message
+    return (
+      <Alert variant="flat" color="warning">
+        <Text className="font-semibold">Unverified</Text>
+        <Text>
+          Verification pending! Please{' '}
+          <Link
+            className="text-blue-500 underline"
+            href={routes.serviceProvider.fundi.profile}
+          >
+            complete your profile
+          </Link>{' '}
+          to request approval.
+        </Text>
+      </Alert>
+    );
   }
 
   console.log(asset.metadata, 'metadata');

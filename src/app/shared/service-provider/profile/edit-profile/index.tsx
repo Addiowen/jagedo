@@ -10,7 +10,6 @@ import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { Loader } from 'rizzui';
 import { useSession } from 'next-auth/react';
-import toast from 'react-hot-toast';
 
 interface Data {
   [key: string]: string | null;
@@ -66,6 +65,11 @@ export default function EditProfileContactDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
   const customerType = session?.user.metadata.type;
+  console.log(userDetails.metadata.level);
+
+  const fundiLevel = userDetails.metadata.level;
+
+  console.log(userDetails.metadata.approvalStatus);
 
   const onSubmit = async () => {
     try {
@@ -157,13 +161,14 @@ export default function EditProfileContactDetails({
           subcounty: userDetails.metadata.subCounty,
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
-          level: userDetails.metadata.level,
+          level: fundiLevel,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,
         },
         metadata: {
           userId: userDetails.id,
           ...userDetails.metadata,
+          level: fundiLevel,
         },
       };
 
@@ -298,7 +303,7 @@ export default function EditProfileContactDetails({
                 </div>
                 {isAdmin &&
                   !isCustomer &&
-                  personalDetails['Approval Status'] !== 'approved' && (
+                  userDetails.metadata.approvalStatus !== 'approved' && (
                     <Button
                       onClick={createAndAssignAssettoUser}
                       as="span"

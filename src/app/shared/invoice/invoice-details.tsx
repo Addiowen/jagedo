@@ -171,6 +171,7 @@ export default function InvoiceDetails() {
 
         if (transactionDetails) {
           toast.success(<Text as="b">Transaction Completed Successfully</Text>);
+          router.refresh();
           setPaymentStatus('Paid');
           router.push(
             `${routes.customers.requisitions}?transactionId=${transactionId}`

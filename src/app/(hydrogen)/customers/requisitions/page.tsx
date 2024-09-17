@@ -15,12 +15,11 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate&status=paid`,
+      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
     console.error('Failed to fetch transaction details:', error);
-    toast.error('Failed to fetch transaction details');
     return null;
   }
 };
@@ -33,6 +32,8 @@ export default async function Requisitions() {
     return <div>Loading...</div>; // You can replace this with a spinner or other loading indicator
   }
 
+  console.log(session.user.id, 'this userId');
+
   const transactions = await fetchTransactions(session.user.id);
 
   if (!transactions) {
@@ -42,7 +43,7 @@ export default async function Requisitions() {
   // Format the data if needed
   const formattedData =
     transactions.results
-      .filter((item: any) => item.status === 'paid')
+      .filter((item: any) => item.status === 'paid' || item.status === 'draft')
       .map((item: any, index: number) => {
         return {
           number: index + 1,

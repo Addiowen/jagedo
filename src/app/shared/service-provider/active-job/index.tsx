@@ -75,7 +75,7 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
     'End Date': jobs.endDate,
     'Invoice Number': jobs.id.toUpperCase(),
     'Payment Status': jobs.status,
-    Amount: jobs.metadata.linkageFee,
+    Amount: jobs.metadata.amount,
     Uploads: jobs.metadata.uploads,
   };
 

@@ -1,7 +1,5 @@
 'use client';
 
-// import { MultiStepFormProps } from "@/types/custom-types";
-
 import { motion } from 'framer-motion';
 import {
   Input,
@@ -34,20 +32,10 @@ import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
-import { log } from 'console';
-import { counties } from '@/data/counties';
 import toast from 'react-hot-toast';
+import { counties } from '@/data/counties';
 
-// export type MultiStepFormProps = {
-
-//     currentStep: number,
-//     delta: number,
-//     register: UseFormRegister<SignUpFormSchema>,
-//     errors: FieldErrors<SignUpFormSchema>,
-
-//   }
-
-// dynamic import Select component from rizzui
+// dynamic import Select component from rizzuid
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ssr: false,
   loading: () => (
@@ -61,6 +49,9 @@ export default function CustomerSteps() {
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
+  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean | null>(
+    null
+  );
 
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
@@ -68,14 +59,74 @@ export default function CustomerSteps() {
         value: subCounty.toLowerCase().replace(/\s+/g, '-'),
       }))
     : [];
+
+  const debounce = (func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const {
+    register,
+    formState: { errors },
+    setError,
+  } = useForm();
+
+  const checkEmailAvailability = debounce(async (email: string) => {
+    if (!email) {
+      setIsEmailAvailable(true);
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/check-availability?username=${email}`,
+        {
+          headers: {
+            Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      );
+      const { available } = response.data;
+      setIsEmailAvailable(available);
+
+      if (!available) {
+        // Set custom error in react-hook-form
+        setError('email', {
+          type: 'manual',
+          message: 'Email is already taken',
+        });
+      } else {
+        // Clear error if email becomes available
+        setError('email', { type: 'manual', message: '' });
+      }
+    } catch (error) {
+      console.error('Error checking email availability:', error);
+      toast.error('Failed to check email availability');
+    }
+  }, 500); // 500ms debounce delay
+
+  // Combine Zod validation error with custom error
+  const emailError: any =
+    errors.email?.message ||
+    (isEmailAvailable === false ? 'Email is already taken' : '');
+
   const router = useRouter();
   const pathname = usePathname();
 
   const [selectedType, setSelectedType] = useState<string | undefined>();
   const [selectedGender, setSelectedGender] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
 
   // submit handler
   const onSubmit: SubmitHandler<CustomerSignUpFormSchema> = async (data, e) => {
+    setLoading(true);
     e?.preventDefault();
 
     let filteredData = { ...data };
@@ -83,6 +134,7 @@ export default function CustomerSteps() {
     if (filteredData.type === 'organization') {
       if (!filteredData.organizationName) {
         toast.error('Organization Name is required for organization type');
+        setLoading(false);
         return;
       }
 
@@ -93,9 +145,7 @@ export default function CustomerSteps() {
       }
     }
 
-    let postData;
-
-    postData = {
+    let postData = {
       displayName: filteredData.firstName,
       firstname: filteredData.firstName,
       lastname: filteredData.lastName,
@@ -124,9 +174,12 @@ export default function CustomerSteps() {
 
     const firstName = postData.firstname ?? '';
     router.push(
-      `${routes.auth.otp4}?phone=${encodeURIComponent(filteredData.phone)}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(filteredData.email)}&firstname=${encodeURIComponent(firstName)}`
+      `${routes.auth.otp4}?phone=${encodeURIComponent(
+        filteredData.phone
+      )}&otp=${encodeURIComponent(filteredData.accountVerification)}&email=${encodeURIComponent(
+        filteredData.email
+      )}&firstname=${encodeURIComponent(firstName)}`
     );
-    console.log(postData);
   };
 
   return (
@@ -139,6 +192,7 @@ export default function CustomerSteps() {
           defaultValues: customerInitialValues,
         }}
         steps={customerSteps}
+        loading={loading}
       >
         {(
           { register, watch, formState: { errors }, control },
@@ -174,14 +228,12 @@ export default function CustomerSteps() {
                         label="Type"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
                         options={type}
                         onChange={(val: any) => {
                           onChange(val);
                           setSelectedType(val);
                         }}
                         value={value}
-                        className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
                           type?.find((r) => r.value === selected)?.label ?? ''
@@ -209,10 +261,15 @@ export default function CustomerSteps() {
                     label="Email Address"
                     size="lg"
                     inputClassName="text-sm"
-                    {...register('email')}
-                    error={errors.email?.message}
+                    {...register('email', {
+                      onChange: (e) => {
+                        checkEmailAvailability(e.target.value);
+                      },
+                    })}
+                    error={emailError}
                     className="[&>label>span]:font-medium"
                   />
+
                   {selectedType === 'individual' && (
                     <>
                       <Input
