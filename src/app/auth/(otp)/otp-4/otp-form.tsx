@@ -386,7 +386,7 @@ export default function OtpForm() {
     if (enteredotp === generatedOtp) {
       setOtpStatus('correct');
       await createUser();
-
+      toast.success('Verification Successful!');
       setLoading(false);
     } else {
       setOtpStatus('incorrect');

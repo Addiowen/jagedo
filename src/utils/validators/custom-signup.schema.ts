@@ -53,7 +53,6 @@ export const contractorSignUpFormSchema = signUpSchema.extend({
 });
 
 export const spSignUpFormSchema = signUpSchema.extend({
-  level: z.string().optional(),
   skill: z.string().optional(),
   profession: z.string().optional(),
   category: z.string().optional(),
@@ -61,7 +60,7 @@ export const spSignUpFormSchema = signUpSchema.extend({
 
 export const refinedSpSignUpFormSchema = spSignUpFormSchema.refine(
   (data) => {
-    return (data.skill && data.level) || data.profession || data.category;
+    return data.skill || data.profession || data.category;
   },
   {
     message: 'Field is required',
