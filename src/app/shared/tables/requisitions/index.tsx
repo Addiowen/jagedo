@@ -18,10 +18,15 @@ const filterState = {
   status: '',
 };
 
-export default  function RequisitionsTable({ className,request }: { className?: string; request: Requisition[]; }) {
-
-console.log(requisitions, "requist");
-console.log(request, "req");
+export default function RequisitionsTable({
+  className,
+  request,
+}: {
+  className?: string;
+  request: Requisition[];
+}) {
+  console.log(requisitions, 'requist');
+  console.log(request, 'req');
 
   const [pageSize, setPageSize] = useState(7);
 
@@ -67,7 +72,8 @@ console.log(request, "req");
         handleSelectAll,
       }),
     [
-   
+      request,
+      sortConfig,
       selectedRowKeys,
       onHeaderCellClick,
       sortConfig.key,

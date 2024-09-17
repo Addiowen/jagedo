@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { Title, Text, Button, Modal } from 'rizzui';
+import { Title, Text, Button, Modal, Badge } from 'rizzui';
 import cn from '@/utils/class-names';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
 import Rate from '@/components/ui/rate';
+import { PiCheckCircle } from 'react-icons/pi';
 
 function WidgetCard({
   title,
@@ -44,6 +45,7 @@ interface Props {
   setEditMode: Dispatch<SetStateAction<boolean>>;
   setModalState: Dispatch<SetStateAction<boolean>>;
   userDetails: any;
+  isApproved: string;
 }
 
 export default function EditProfileCard({
@@ -51,6 +53,7 @@ export default function EditProfileCard({
   setEditMode,
   setModalState,
   userDetails,
+  isApproved,
 }: Props) {
   return (
     <div className="min-w-[250px] space-y-7 pt-8 @container @5xl:col-span-1 @5xl:space-y-10 @5xl:pt-0 @6xl:col-span-1">
@@ -70,12 +73,29 @@ export default function EditProfileCard({
         </div>
 
         <div className="ps-4 @5xl:ps-6">
-          <Title
-            as="h3"
-            className="mb-2.5 text-base font-semibold @7xl:text-lg"
-          >
-            {userDetails.firstname} {userDetails.lastname}
-          </Title>
+          <div className="flex w-full items-center justify-between">
+            <div className="mr-4">
+              <Title
+                as="h3"
+                className="mb-2.5 text-base font-semibold @7xl:text-lg"
+              >
+                {userDetails.firstname} {userDetails.lastname}
+              </Title>
+            </div>
+
+            <div className="-mt-2.5 flex flex-row items-center">
+              {isApproved === 'approved' && (
+                <>
+                  <Text className="text-green-600">Approved</Text>
+                  <PiCheckCircle
+                    size="lg"
+                    className="ml-2 h-5 w-5 text-green-600"
+                  />
+                </>
+              )}
+            </div>
+          </div>
+
           <Text as="p" className="mb-2 break-all last:mb-0">
             {userDetails.email}
           </Text>

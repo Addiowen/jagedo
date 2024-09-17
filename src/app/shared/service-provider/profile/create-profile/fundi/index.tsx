@@ -87,6 +87,10 @@ export default function CreateFundiProfileForm({
     ncaCard: userDetails.metadata.ncaCard || '',
   };
 
+  const [subCounty, setSubCounty] = useState<string>(
+    userDetails.metadata.subCounty || ''
+  );
+
   // submit handler
   const onSubmit: SubmitHandler<FundiProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
@@ -96,7 +100,6 @@ export default function CreateFundiProfileForm({
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        phone: data.phoneNo,
         // Add skill, level, years, gender, and questions to the metadata
         metadata: {
           firstName: data.firstName,
@@ -288,14 +291,11 @@ export default function CreateFundiProfileForm({
                         size="lg"
                         selectClassName="font-medium text-sm"
                         options={subCountyOptions}
-                        onChange={onChange}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          subCountyOptions?.find((r) => r.value === selected)
-                            ?.label ?? ''
-                        }
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          setSubCounty(selectedValue as any); // Update subCounty state when changed
+                        }}
+                        value={subCounty || value} // Use state or form value
                         error={errors?.subCounty?.message as string}
                       />
                     )}

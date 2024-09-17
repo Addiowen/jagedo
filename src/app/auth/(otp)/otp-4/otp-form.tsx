@@ -9,6 +9,7 @@ import axios from 'axios';
 import { routes } from '@/config/routes';
 import toast from 'react-hot-toast';
 import UserDetails from '@/components/cards/user-details';
+import { FaDribbbleSquare } from 'react-icons/fa';
 
 type FormValues = {
   otp: string;
@@ -28,6 +29,7 @@ export default function OtpForm() {
   const fetchedFirstname = searchParams.get('firstname');
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [generatedOtp, setGeneratedOtp] = useState<string | null>(null);
   const [otpStatus, setOtpStatus] = useState<
@@ -55,8 +57,7 @@ export default function OtpForm() {
 
   const sendEmailOtp = async () => {
     const otp = generateOtp(); // Generate the OTP
-    setGeneratedOtp(otp); // Store the generated OTP
-    console.log(generatedOtp, 'generated otp');
+    setGeneratedOtp(otp);
 
     const emailBody = {
       html: `<html>
@@ -97,7 +98,7 @@ export default function OtpForm() {
           <div class="email-container">
             <div class="content">
               <p>Dear ${fetchedFirstname},</p>
-              <p>Please use the following One-Time Password (OTP) to verify your account. This code is valid for 2 minutes:</p>
+              <p>Please use the following One-Time Password ${otp} to verify your account. This code is valid for 2 minutes:</p>
               <p class="otp-code">${otp}</p>
               <p>Please do not share this code with anyone.</p>
               <p>If you did not request this code, please ignore this email and contact our support team immediately.</p>
@@ -108,11 +109,11 @@ export default function OtpForm() {
           </div>
         </body>
       </html>`,
-      text: `Dear ${fetchedFirstname},\n\nPlease use the following One-Time Password (OTP) to verify your account. This code is valid for 2 minutes:\n\nOTP Code: ${otp}\n\nPlease do not share this code with anyone.\n\nIf you did not request this code, please ignore this email and contact our support team immediately.`,
-      from: `"JaGedo" <notifications@jagedo.co.ke>`,
+      text: `Dear ${fetchedFirstname},\n\nPlease use the following One-Time Password ${otp} to verify your account. This code is valid for 2 minutes:\n\nOTP Code: ${otp}\n\nPlease do not share this code with anyone.\n\nIf you did not request this code, please ignore this email and contact our support team immediately.`,
+      from: `"JaGedo" <noreply@jagedo.co.ke>`,
       to: fetchedEmail,
       subject: 'Your Jagedo OTP Code',
-      replyTo: 'notifications@jagedo.co.ke',
+      replyTo: 'alerts@jagedo.co.ke',
     };
 
     try {
@@ -207,51 +208,25 @@ export default function OtpForm() {
             userPhone
           );
           // await sendWelcomeSms(userPhone);
-          sessionStorage.clear();
           router.push(`${routes.signIn}`);
         } else {
           sessionStorage.clear();
           toast.error('Failed to create Zoho user.');
         }
       } else {
-        sessionStorage.clear();
+        // sessionStorage.clear();
         if (response.status >= 400 && response.status < 500) {
           const errorMessage =
             response.data.message || 'Failed to create user.';
           toast.error(`Failed to create user: ${errorMessage}`);
         } else {
-          sessionStorage.clear();
+          // sessionStorage.clear();
           toast.error('Failed to else create user.');
         }
       }
     } catch (error) {
       console.error('Error:', error);
       toast.error('An error occurred while creating the user.');
-    }
-  };
-
-  // Function to send the Welcome SMS
-  const sendWelcomeSms = async (phoneNumber: string) => {
-    const welcomeMessage = `Welcome to JaGedo. Thanks for Signing up. Start Exploring your Account now. Need help? We're here for you.`;
-
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSms`,
-        {
-          phoneNumber: phoneNumber,
-          message: welcomeMessage,
-        }
-      );
-
-      if (res.data.success) {
-        console.log('Welcome SMS sent successfully:', res.data);
-        await sendWelcomeEmail(); // Call the function to send the welcome email after SMS
-      } else {
-        toast.error('Failed to send Welcome SMS.');
-      }
-    } catch (error) {
-      console.error('Error sending Welcome SMS:', error);
-      toast.error('An error occurred while sending the Welcome SMS.');
     }
   };
 
@@ -314,10 +289,9 @@ export default function OtpForm() {
       </body>
     </html>`,
       text: `Dear ${fetchedFirstname},\n\nYour account with JaGedo has been successfully created. You can now log in to create your profile and access our services.\n\nLogin Here: https://uat.jagedo.co.ke/signin\n\nIf you have any questions or need assistance, contact our support team for help.\n\nThank you for choosing JaGedo.`,
-      from: `"JaGedo" <notifications@jagedo.co.ke>`,
+      from: `"JaGedo" <noreply@jagedo.co.ke>`,
       to: fetchedEmail,
       subject: 'Welcome to Jagedo',
-      replyTo: 'notifications@jagedo.co.ke',
     };
 
     try {
@@ -390,7 +364,6 @@ export default function OtpForm() {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/${userId}`,
         {
-          phone: userPhone || fetchedPhone,
           metadata: { zohoid: zohoId },
         },
         {
@@ -406,14 +379,19 @@ export default function OtpForm() {
     }
   };
 
-  const validateOtp = async (otp: string) => {
+  const validateOtp = async (enteredotp: string) => {
+    setLoading(true);
     console.log(generatedOtp);
 
-    if (otp === generatedOtp) {
+    if (enteredotp === generatedOtp) {
       setOtpStatus('correct');
       await createUser();
+      toast.success('Verification Successful!');
+      setLoading(false);
     } else {
       setOtpStatus('incorrect');
+      setLoading(false);
+
       toast.error('Incorrect OTP. Please try again.');
     }
   };
@@ -461,6 +439,7 @@ export default function OtpForm() {
             type="submit"
             size="xl"
             rounded="lg"
+            isLoading={loading}
           >
             Verify OTP
           </Button>

@@ -142,7 +142,7 @@ const Notifications = ({ className }: { className?: string }) => {
             </Text>
           </div>
 
-          <SimpleBar className="max-h-[228px] overflow-y-auto">
+          <SimpleBar className="max-h-[160px] overflow-y-auto">
             <div className="grid grid-cols-1">
               {messages.length === 0 ? (
                 <div className="flex h-full items-center justify-center py-4 text-gray-500">

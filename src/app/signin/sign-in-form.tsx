@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
@@ -23,6 +23,10 @@ export default function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     setLoading(true);

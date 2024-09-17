@@ -101,7 +101,7 @@ const eComDashboardStatData = [
     style: 'text-[#3872FA]',
     fill: '#3872FA',
     chart: orderData,
-    link: routes.maintenance, // Link for Shop Now card with query parameter
+    link: '', // Link for Shop Now card with query parameter
   },
 ];
 

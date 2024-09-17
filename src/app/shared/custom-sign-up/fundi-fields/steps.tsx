@@ -162,7 +162,6 @@ export default function FundiSteps() {
       description: 'fundi',
       username: filteredData.email,
       password: filteredData.password,
-      phone: filteredData.phone,
       metadata: {
         role: getRole(),
         ...userDetails,
@@ -275,32 +274,6 @@ export default function FundiSteps() {
                           />
                         )}
                       />
-
-                      <Controller
-                        control={control}
-                        name="level"
-                        render={({ field: { value, onChange } }) => (
-                          <Select
-                            dropdownClassName="!z-10"
-                            inPortal={true}
-                            placeholder="Select Level"
-                            label="Level"
-                            size="lg"
-                            selectClassName="font-medium text-sm"
-                            optionClassName=""
-                            options={level}
-                            onChange={onChange}
-                            value={value}
-                            className=""
-                            getOptionValue={(option) => option.value}
-                            displayValue={(selected) =>
-                              level?.find((r) => r.value === selected)?.label ??
-                              ''
-                            }
-                            error={errors?.level?.message as string}
-                          />
-                        )}
-                      />
                     </>
                   )}
 
@@ -361,7 +334,7 @@ export default function FundiSteps() {
                     render={({ field: { value, onChange } }) => (
                       <Select
                         dropdownClassName="!z-10"
-                        inPortal={false}
+                        inPortal={true}
                         placeholder="Gender"
                         label="Gender"
                         size="lg"

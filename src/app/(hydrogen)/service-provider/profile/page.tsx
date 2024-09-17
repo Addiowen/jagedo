@@ -37,7 +37,7 @@ export default function FundiCreateProfilePage() {
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
 
-      <CreateFundiProfileForm />
+      <CreateFundiProfileForm userDetails={undefined} />
     </>
   );
 }

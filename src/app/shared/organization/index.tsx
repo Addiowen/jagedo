@@ -11,18 +11,17 @@ import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import dynamic from 'next/dynamic';
 // import UploadZone from '@/components/ui/file-upload/upload-zone';
 // import Link from 'next/link';
-import {
-  county,
-  subCounty,
-} from '@/app/shared/service-provider/profile/create-profile/professional/data';
+import { subCounty } from '@/app/shared/service-provider/profile/create-profile/professional/data';
 import { useRouter } from 'next/navigation';
 import { organizationProfileSteps } from './data';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
 // import UploadButton from '../commons/upload-button';
 import UploadButton from '../upload-button/upload-btn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { counties } from '@/data/counties';
+import { county } from '../custom-sign-up/fundi-fields/data';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -39,6 +38,21 @@ export default function CreateOrganizationProfileForm({
 }: {
   userDetails?: any;
 }) {
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  const [subCounty, setSubCounty] = useState<string>(
+    userDetails.metadata.subCounty || ''
+  );
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty.toLowerCase().replace(/\s+/g, '-'),
+      }))
+    : [];
+
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -210,7 +224,14 @@ export default function CreateOrganizationProfileForm({
                         selectClassName="font-medium text-sm"
                         optionClassName=""
                         options={county}
-                        onChange={onChange}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          // Update selectedCounty with the corresponding label
+                          const selectedCountyLabel = county.find(
+                            (county) => county.value === selectedValue
+                          )?.label as keyof typeof counties;
+                          setSelectedCounty(selectedCountyLabel);
+                        }}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
@@ -233,16 +254,12 @@ export default function CreateOrganizationProfileForm({
                         label="Sub-County/Area"
                         size="lg"
                         selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
-                        onChange={onChange}
-                        value={value}
-                        className="flex-grow"
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
-                        }
+                        options={subCountyOptions}
+                        onChange={(selectedValue) => {
+                          onChange(selectedValue);
+                          setSubCounty(selectedValue as any); // Update subCounty state when changed
+                        }}
+                        value={subCounty || value} // Use state or form value
                         error={errors?.subCounty?.message as string}
                       />
                     )}
