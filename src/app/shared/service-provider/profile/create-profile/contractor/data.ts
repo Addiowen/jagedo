@@ -36,6 +36,7 @@ export const contractorInitialValues: ContractorProfileSchema = {
     companyName: 'Company A',  
     firstName: 'Olive',
     lastName: 'Wangari',
+    gender: 'male',
     email: 'olivewangari@gmail.com',
     phoneNo: '0734932467',
     companyNumber: '07438298934',

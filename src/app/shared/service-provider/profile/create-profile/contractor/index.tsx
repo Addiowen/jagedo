@@ -7,6 +7,9 @@ import { SubmitHandler, Controller } from "react-hook-form";
 import CustomMultiStepForm from "@/app/shared/custom-multi-step";
 import dynamic from "next/dynamic";
 import UploadZone from '@/components/ui/file-upload/upload-zone';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import axios, { BASE_URL } from '@/lib/axios';
 
 // import Link from 'next/link';
 import { 
@@ -32,27 +35,98 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateContractorProfileForm() {
-  // const router = useRouter()
+export default function CreateContractorProfileForm({userDetails,}: {
+  userDetails?: any;
+}) {
+  const router = useRouter();
 
+  const { data: session } = useSession();
+
+  const customerType = session?.user.metadata.type;
+  const contractorProfileSchema: ContractorProfileSchema = {
+    // accountVerification: userDetails.metadata.accountVerification || '',
+    // category: userDetails.metadata.category || '',
+    gender: userDetails.metadata.gender || '',
+    county: userDetails.metadata.county || '',
+    subCounty: userDetails.metadata.subCounty || '',
+    estate: userDetails.metadata.estate || '',
+    firstName: userDetails.firstname || '',
+    lastName: userDetails.lastname || '',
+    email: userDetails.email || '',
+    phoneNo: userDetails.metadata.phone || '',
+    companyName: userDetails.metadata.companyName || '',
+    companyNumber: userDetails.metadata.companyNumber || '',
+    registrationNumber: userDetails.metadata.registrationNumber || '',
+    categoriesTable: userDetails.metadata.categoriesTable || [],
+  };
+  // const router = useRouter()
+  console.log(userDetails);
   // submit handler
-  const onSubmit: SubmitHandler<ContractorProfileSchema> = (data) => {
+  const onSubmit: SubmitHandler<ContractorProfileSchema> = async (data) => {
+    try {
+      // Prepare the data to be sent to the API
+      const updateData = {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+        phone: data.phoneNo,
+
+        metadata: {
+          county: data.county,
+          gender: data.gender,
+          companyName: data.companyName,
+          subCounty: data.subCounty,
+          estate: data.estate,
+          phoneNo: data.phoneNo,
+        }, // Add the pin from the form if applicable
+      };
+
+      console.log(updateData, 'update data');
+
+      // Fetch additional user details
+      const userDetailsRes = await axios.patch(
+        `${BASE_URL}/users/${userDetails.id}`,
+        updateData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
+      // Handle the response or redirect after successful update
+      if (userDetailsRes) {
+        console.log(userDetailsRes, 'user details');
+
+        window.sessionStorage.setItem('profileCreated', 'true');
+        router.push('/service-provider/contractor/profile');
+        // router.push('/service-provider/fundi/profile');
+      }
+    } catch (error) {
+      console.error('Failed to update user details:', error);
+      // Optionally, handle the error (e.g., show a notification)
+    }
     console.log(data);
 
     window.sessionStorage.setItem('profileCreated', 'true')
     window.location.reload()
     // router.push()
+    
+  };
 
+  const onSubmit1 = async (data: any) => {
+    console.log(data);
   };
 
     return (
         <>
         <CustomMultiStepForm<ContractorProfileSchema>
-          validationSchema={contractorProfileSchema}
+          // validationSchema={contractorProfileSchema}
           onSubmit={onSubmit}
           useFormProps={{
             mode: 'onChange',
-            defaultValues: contractorInitialValues,
+            defaultValues: contractorProfileSchema,
           }}
           steps={contractorProfileSteps}
         >
