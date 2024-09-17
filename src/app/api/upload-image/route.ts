@@ -12,6 +12,9 @@ const s3Client = new S3Client({
   },
 });
 
+// Define the maximum file size (10MB)
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -24,6 +27,11 @@ export async function POST(request: Request) {
 
     if (!userId) {
       return NextResponse.json({ error: 'No user ID provided.' }, { status: 400 });
+    }
+
+    // Check if file exceeds the maximum size
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: 'File size exceeds the 10MB limit.' }, { status: 400 });
     }
 
     const bucketName = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME!;
