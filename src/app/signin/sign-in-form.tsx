@@ -19,14 +19,14 @@ const initialValues: LoginSchema = {
   rememberMe: true,
 };
 
-useEffect(() => {
-  sessionStorage.clear();
-}, []);
-
 export default function SignInForm() {
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     setLoading(true);
