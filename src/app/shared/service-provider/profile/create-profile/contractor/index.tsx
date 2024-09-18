@@ -39,6 +39,7 @@ export default function CreateContractorProfileForm({userDetails,}: {
   userDetails?: any;
 }) {
   const router = useRouter();
+  
 
   const { data: session } = useSession();
 
@@ -62,14 +63,16 @@ export default function CreateContractorProfileForm({userDetails,}: {
   // const router = useRouter()
   console.log(userDetails);
   // submit handler
-  const onSubmit: SubmitHandler<ContractorProfileSchema> = async (data) => {
+  const onSubmit: SubmitHandler<ContractorProfileSchema> = async (data, e) => {
+    if (e !== undefined) {
+      e.preventDefault();
+    }
     try {
       // Prepare the data to be sent to the API
       const updateData = {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        phone: data.phoneNo,
 
         metadata: {
           county: data.county,
@@ -78,6 +81,10 @@ export default function CreateContractorProfileForm({userDetails,}: {
           subCounty: data.subCounty,
           estate: data.estate,
           phoneNo: data.phoneNo,
+          phone: data.phoneNo,
+          companyNumber: data.companyNumber,
+          registrationNumber: data.registrationNumber,
+          categoriesTable: data.categoriesTable,
         }, // Add the pin from the form if applicable
       };
 
@@ -98,7 +105,7 @@ export default function CreateContractorProfileForm({userDetails,}: {
       // Handle the response or redirect after successful update
       if (userDetailsRes) {
         console.log(userDetailsRes, 'user details');
-
+        router.refresh();
         window.sessionStorage.setItem('profileCreated', 'true');
         router.push('/service-provider/contractor/profile');
         // router.push('/service-provider/fundi/profile');
@@ -129,6 +136,7 @@ export default function CreateContractorProfileForm({userDetails,}: {
             defaultValues: contractorProfileSchema,
           }}
           steps={contractorProfileSteps}
+          loading={false}
         >
           {({ register, formState: { errors }, control, getValues, setValue }, currentStep, delta) => (
             <>

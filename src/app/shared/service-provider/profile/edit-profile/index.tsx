@@ -117,9 +117,22 @@ export default function EditProfileContactDetails({
 
     try {
       if (pathname.includes('service-provider')) {
-        router.push(
-          `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
-        );
+        if (pathname.includes('contractor')) {
+          router.push(
+            `${routes.serviceProvider.contractor.profile}?profileId=${editProfileId}`
+          );
+        }
+        else if (pathname.includes('professional')) {
+          router.push(
+            `${routes.serviceProvider.professional.profile}?profileId=${editProfileId}`
+          );
+        }
+        else if (pathname.includes('fundi')) {
+          router.push(
+            `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
+          );
+        }
+        
       } else if (pathname.includes('customer')) {
         router.push(
           `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
@@ -132,7 +145,9 @@ export default function EditProfileContactDetails({
         router.push(
           `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
         );
-      } else {
+      }
+      
+      else {
         router.push(
           `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
         );
