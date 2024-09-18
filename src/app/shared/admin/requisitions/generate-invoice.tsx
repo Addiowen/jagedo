@@ -11,6 +11,7 @@ import FileUpload from '@/app/shared/uploading-images';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
+import { counties } from '@/data/counties';
 
 // Define the Option type
 interface Option {
@@ -51,6 +52,25 @@ export default function GenerateInvoiceFundi({
     }
   };
 
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  useEffect(() => {
+    const id: string | null = session?.user?.userId || null;
+    setUserId(id);
+
+    const checkFormValidity = () => {
+      if (description && date && county && subCounty && village && skill) {
+        setIsFormValid(true);
+      } else {
+        setIsFormValid(false);
+      }
+    };
+
+    checkFormValidity();
+  }, [description, date, county, subCounty, village, skill, session]);
+
   const customerZohoId = session?.user.metadata.zohoid;
 
   // Options for select fields
@@ -61,17 +81,35 @@ export default function GenerateInvoiceFundi({
     { label: 'Kakamega', value: 'Kakamega' },
   ];
 
-  const SubCounty: Option[] = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
+  const theCounty = Object.keys(counties).map((key) => ({
+    label: key,
+    value: key,
+  }));
+
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty,
+      }))
+    : [];
 
   const Skill: Option[] = [
+    { label: 'New Construction', value: 'New Construction' },
+    { label: 'Repairs', value: 'Repairs' },
+    { label: 'Demolitions', value: 'Demolitions' },
     { label: 'Plumber', value: 'Plumber' },
     { label: 'Mason', value: 'Mason' },
-    { label: 'Construction', value: 'Construction' },
+    { label: 'Electrician', value: 'Electrician' },
+    { label: 'Welder', value: 'Welder' },
+    { label: 'Roofer', value: 'Roofer' },
+    { label: 'Foreman', value: 'Foreman' },
+    { label: 'Fitter', value: 'Fitter' },
+    { label: 'Tile fixer', value: 'Tile fixer' },
+    { label: 'Steel fixer', value: 'Steel fixer' },
+    { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
+    { label: 'Carpenter', value: 'Carpenter' },
+    { label: 'Painter', value: 'Painter' },
+    { label: 'Glass fitter', value: 'Glass fitter' },
   ];
 
   useEffect(() => {
@@ -155,7 +193,8 @@ export default function GenerateInvoiceFundi({
         });
 
         router.push(
-          `${routes.admin.details(DUMMY_ID)}?id=${responses[0].data.id}`
+          // `${routes.admin.details(DUMMY_ID)}?id=${responses[0].data.id}`
+          routes.admin.dashboard
         );
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -164,7 +203,7 @@ export default function GenerateInvoiceFundi({
         );
       } finally {
         setLoading(false);
-        toast.success('Form submitted successfully for all customers!');
+        toast.success('Form submitted successfully invoice sent to customers!');
       }
     }
   };
@@ -194,17 +233,25 @@ export default function GenerateInvoiceFundi({
             <div className="form-group">
               <Select
                 label="County"
-                options={County}
+                options={theCounty}
                 value={county}
-                onChange={(selected) => setCounty(selected as Option)}
+                onChange={(selected) => {
+                  const selectedOption = selected as Option; // Cast 'selected' to 'Option'
+                  setCounty(selectedOption);
+                  setSelectedCounty(
+                    selectedOption.label as keyof typeof counties
+                  ); // Ensure the label is used as the county key
+                  setSubCounty(null); // Reset the sub-county when county changes
+                }}
               />
             </div>
             <div className="form-group">
               <Select
                 label="Sub-County"
-                options={SubCounty}
+                options={subCountyOptions}
                 value={subCounty}
                 onChange={(selected) => setSubCounty(selected as Option)}
+                disabled={!selectedCounty} // Disable sub-county until a county is selected
               />
             </div>
             <div className="form-group">

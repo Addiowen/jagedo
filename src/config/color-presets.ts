@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes';
 export const presetLight = {
   lighter: '#f1f1f1',
   light: '#666666',
-  default: '#111111',
+  default: '#3872fa',
   dark: '#000000',
   foreground: '#ffffff',
 };

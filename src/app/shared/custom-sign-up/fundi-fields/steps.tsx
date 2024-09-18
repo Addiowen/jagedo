@@ -427,7 +427,6 @@ export default function FundiSteps() {
                       />
                     )}
                   />
-
                   <Controller
                     control={control}
                     name="subCounty"

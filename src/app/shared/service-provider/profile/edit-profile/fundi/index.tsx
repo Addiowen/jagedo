@@ -46,7 +46,7 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateFundiProfileForm({
+export default function FundiEditFundiProfileForm({
   userDetails,
 }: {
   userDetails: any;
@@ -141,24 +141,6 @@ export default function CreateFundiProfileForm({
 
       // If the user profile update is successful
       if (userDetailsRes) {
-        console.log(userDetailsRes, 'user details');
-
-        // Send the updated user details as the payload to the external endpoint
-        const profileUpdateRes = await axios.post(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
-          userDetailsRes.data,
-          {
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-            },
-          }
-        );
-
-        // Log the result of the second request
-        console.log(
-          'Second request - Profile update response:',
-          profileUpdateRes.data
-        );
         // Refresh and redirect after successful profile update
         router.refresh();
         // Determine the redirection based on the pathname

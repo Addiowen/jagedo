@@ -118,7 +118,7 @@ export default function EditProfileContactDetails({
     try {
       if (pathname.includes('service-provider')) {
         router.push(
-          `${routes.serviceProvider.fundi.profile}?profileId=${editProfileId}`
+          `${routes.serviceProvider.fundi.editFundiProfile}?profileId=${editProfileId}`
         );
       } else if (pathname.includes('customer')) {
         router.push(
@@ -243,7 +243,7 @@ export default function EditProfileContactDetails({
   };
 
   const approvalStatus = userDetails.metadata.approvalStatus;
-  console.log(approvalStatus);
+  console.log(userDetails);
 
   // Choose the correct personalKeys based on customerType
   const currentPersonalKeys =

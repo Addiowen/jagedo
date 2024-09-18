@@ -144,6 +144,7 @@ export const routes = {
 
       // profile
       profile: '/service-provider/fundi/profile',
+      editFundiProfile: '/service-provider/fundi/profile/edit-profile',
 
       // create profile
       createProfile: '/service-provider/profile/create/fundi',

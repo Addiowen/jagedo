@@ -43,8 +43,10 @@ const reviewsData = [
 
 export default function SpCompleteJobDetails({
   requestDetails,
+  isAlreadyRated,
 }: {
   requestDetails: any;
+  isAlreadyRated: any;
 }) {
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
@@ -198,17 +200,19 @@ export default function SpCompleteJobDetails({
             query: { jobId, fundiId, customerId, assetId },
           }}
         >
-          <Button
-            onClick={() => {
-              sessionStorage.setItem(
-                'transaction',
-                JSON.stringify(requestDetails)
-              );
-            }}
-            className="ml-4"
-          >
-            Add Review
-          </Button>
+          {!isAlreadyRated && (
+            <Button
+              onClick={() => {
+                sessionStorage.setItem(
+                  'transaction',
+                  JSON.stringify(requestDetails)
+                );
+              }}
+              className="ml-4"
+            >
+              Add Review
+            </Button>
+          )}
         </Link>
       </div>
     </div>

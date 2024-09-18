@@ -149,11 +149,11 @@ export default function AddReviewComponentCustomer({
           }
         );
 
-        toast.success('Transaction updated successfully:');
+        toast.success('Thank you for sharing your review.:');
         console.log('Transaction updated successfully:', patchRes.data);
         router.push(`${routes.customers.reviews}?jobId=${jobId}`);
       } else {
-        toast.error('Transaction already has a ratingId, skipping update.');
+        toast.error('The job has already been reviewed.');
         console.log('Transaction already has a ratingId, skipping update.');
       }
 
