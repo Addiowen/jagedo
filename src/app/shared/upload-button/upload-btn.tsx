@@ -3,7 +3,12 @@ import axios from 'axios';
 import { FaPaperclip, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
-const UploadButton: React.FC = () => {
+interface UploadButtonProps {
+  labelText: string;
+  htmlFor: string;
+}
+
+const UploadButton: React.FC<UploadButtonProps> = ({ labelText, htmlFor }) => {
   const [fileName, setFileName] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState<number>(0);
@@ -104,12 +109,12 @@ const UploadButton: React.FC = () => {
     <div className="flex flex-col items-center bg-white border rounded-lg p-4 shadow-md w-full max-w-md mx-auto">
       <div className="flex flex-col items-center w-full mb-4">
         <label
-          htmlFor="file-upload"
+          htmlFor={htmlFor}
           className={`flex items-center space-x-2 cursor-pointer px-4 py-2 border rounded-lg bg-gray-100 hover:bg-gray-200 transition ${uploadSuccessful ? 'pointer-events-none' : ''}`}
           style={{ width: '100%' }}
         >
           <FaPaperclip className="text-gray-600" />
-          <span className="text-gray-600 truncate">{fileName || 'Attach a file'}</span>
+          <span className="text-gray-600 truncate">{fileName || `Attach a ${labelText}`}</span>
           {selectedFile && !uploadSuccessful && (
             <button
               type="button"
@@ -122,7 +127,7 @@ const UploadButton: React.FC = () => {
           )}
         </label>
         <input
-          id="file-upload"
+          id={htmlFor}
           type="file"
           onChange={handleFileChange}
           className="hidden"
@@ -139,8 +144,8 @@ const UploadButton: React.FC = () => {
           >
             {isUploading ? (
               <span className="relative inline-flex items-center">
-                <span>Uploading</span>
-                <span className="absolute top-0 right-0 h-full w-1.5 bg-gray-200 animate-ellipsis"></span>
+                <span>Uploading...</span>
+                <span className="absolute top-0 right-0 h-full w-1.5 bg-gray-200"></span>
               </span>
             ) : (
               'Upload'
