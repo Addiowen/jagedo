@@ -27,13 +27,37 @@ const splitData = (data: Data, keys: string[]) => {
 
 const uploadsKeys = ['ID', 'Certificate', 'Resume/CV'];
 
-const thekeys = [
+//organization keys
+const orgCompanyDetailsKeys = [
+  'Type',
   'Organization Name',
   'Email Address',
-  'Phone Number',
   'County',
   'Sub County',
   'Estate',
+];
+
+const orgContactPersonKeys = [
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Phone Number',
+];
+
+//individual address details
+const individualAddressKeys = [
+  'Type',
+  'Email Address',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const individualContactKeys = [
+  'First Name',
+  'Last Name',
+  'Phone Number',
+  'Gender',
 ];
 
 const personalKeys = [
@@ -64,7 +88,6 @@ export default function EditProfileContactDetails({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
-  const customerType = session?.user.metadata.type;
 
   const fundiLevel = userDetails.metadata.level;
 
@@ -230,7 +253,7 @@ export default function EditProfileContactDetails({
 
   const data: Data = {
     'Phone Number': userDetails.metadata?.phone,
-    'Organization Name': userDetails.firstname,
+    'Organization Name': userDetails.metadata.organizationName,
     'First Name': userDetails.firstname,
     Gender: userDetails.metadata.gender,
     'Last Name': userDetails.lastname,
@@ -238,19 +261,36 @@ export default function EditProfileContactDetails({
     County: userDetails.metadata?.county,
     'Sub County': userDetails.metadata?.subCounty,
     Estate: userDetails.metadata?.estate,
-    Organization: userDetails.metadata?.estate,
     'Approval Status': userDetails.metadata.status,
+    Type: userDetails.metadata.type,
   };
+
+  const customerType = userDetails?.metadata.type;
 
   const approvalStatus = userDetails.metadata.approvalStatus;
   console.log(userDetails);
 
   // Choose the correct personalKeys based on customerType
-  const currentPersonalKeys =
-    customerType === 'organization' ? thekeys : personalKeys;
+  const firstTileKeys =
+    customerType === 'organization'
+      ? orgCompanyDetailsKeys
+      : customerType === 'individual'
+        ? individualAddressKeys
+        : personalKeys;
+
+  const secondTileKeys =
+    customerType === 'organization'
+      ? orgContactPersonKeys
+      : customerType === 'individual'
+        ? individualContactKeys
+        : personalKeys;
 
   const uploads = splitData(data, uploadsKeys);
-  const personalDetails: any = splitData(data, currentPersonalKeys);
+  const personalDetails: any = splitData(data, firstTileKeys);
+
+  const firstTileDetails: any = splitData(data, firstTileKeys);
+  const secondTileDetails: any = splitData(data, secondTileKeys);
+  const uploadDetails: any = splitData(data, uploadsKeys);
 
   return (
     <div className="@container">
@@ -267,8 +307,17 @@ export default function EditProfileContactDetails({
 
       <Tab>
         <Tab.List>
-          <Tab.ListItem>Personal Details</Tab.ListItem>
-          <Tab.ListItem>Account Details</Tab.ListItem>
+          <Tab.ListItem>
+            {customerType === 'individual'
+              ? 'Address Details'
+              : 'Company Details'}
+          </Tab.ListItem>
+          <Tab.ListItem>
+            {' '}
+            {customerType === 'individual'
+              ? 'Contact Details'
+              : 'Contact Person'}
+          </Tab.ListItem>
           <Tab.ListItem>Uploads</Tab.ListItem>
         </Tab.List>
         <Tab.Panels>
@@ -294,12 +343,14 @@ export default function EditProfileContactDetails({
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
                   <Title as="h3" className="text-base font-semibold">
-                    Personal Details
+                    {customerType === 'individual'
+                      ? 'Address Details'
+                      : 'Company Details'}
                   </Title>
                 </div>
                 <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
                   <ProfileChunkedGrid
-                    data={personalDetails}
+                    data={firstTileDetails}
                     dataChunkSize={16}
                     editMode={editMode}
                   />
@@ -335,8 +386,17 @@ export default function EditProfileContactDetails({
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
                   <Title as="h3" className="text-base font-semibold">
-                    Account Details
+                    {customerType === 'individual'
+                      ? 'Contact Details'
+                      : 'Contact Person'}
                   </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={secondTileDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
                 </div>
               </div>
             </div>
@@ -357,6 +417,13 @@ export default function EditProfileContactDetails({
                   <Title as="h3" className="text-base font-semibold">
                     Uploads
                   </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={uploadDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
                 </div>
               </div>
             </div>

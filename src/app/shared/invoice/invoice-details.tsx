@@ -55,6 +55,10 @@ export default function InvoiceDetails() {
   const requestType = requestDetails?.metadata.packageType;
   const managed = requestDetails?.metadata.managed;
   const linkageFee = requestDetails?.metadata.amount;
+  const requestId =
+    requestDetails && requestDetails.id && typeof requestDetails.id === 'string'
+      ? requestDetails.id.toUpperCase()
+      : 'NA';
 
   const packageType = `fundi${managed?.toLowerCase()}managedrequest`;
 
@@ -237,11 +241,7 @@ export default function InvoiceDetails() {
                 />
               </div>
               <div className="-mt-6 mb-6">
-                <h2>
-                  {' '}
-                  INV - #
-                  {(requestDetails && requestDetails.id.toUpperCase()) || 'NA'}
-                </h2>
+                <h2> INV - #{requestId}</h2>
               </div>
             </div>
 
@@ -274,7 +274,7 @@ export default function InvoiceDetails() {
               <div className="flex-end ">
                 <h6 className="mt-4">Estate</h6>
                 <Text className="text-2xs">
-                  {requestDetails?.metadata.subCounty}
+                  {requestDetails?.metadata.estate}
                 </Text>
               </div>
             </div>

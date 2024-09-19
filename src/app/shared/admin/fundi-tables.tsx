@@ -17,6 +17,12 @@ interface PageProps {
 }
 
 export default function FundiTables({ fundis }: PageProps) {
+  const fundisonlyt = fundis.results.filter(
+    (item: { metadata: { role: string; assetId?: string } }) =>
+      item.metadata.role === 'fundi'
+  );
+  console.log(fundisonlyt);
+
   const profiledFundis = fundis.results.filter(
     (item: {
       metadata: {

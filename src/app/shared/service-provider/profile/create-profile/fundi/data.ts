@@ -71,73 +71,6 @@ export const fundiInitialValues: FundiProfileSchema = {
 };
 
 // if there's any 'Select' inputs, specify the values here
-export const skill = [
-  {
-    label: 'Foreman',
-    value: 'foreman',
-  },
-  {
-    label: 'Welder',
-    value: 'welder',
-  },
-  {
-    label: 'Builder',
-    value: 'builder',
-  },
-  {
-    label: 'New Construction',
-    value: 'newConstruction',
-  },
-  {
-    label: 'Repairs',
-    value: 'repairs',
-  },
-  {
-    label: 'Demolitions',
-    value: 'demolitions',
-  },
-  {
-    label: 'Mason',
-    value: 'mason',
-  },
-  {
-    label: 'Electrician',
-    value: 'electrician',
-  },
-
-  {
-    label: 'Roofer',
-    value: 'roofer',
-  },
-  {
-    label: 'Fitter',
-    value: 'fitter',
-  },
-  {
-    label: 'Tile Fixer',
-    value: 'tilefixer',
-  },
-  {
-    label: 'Steel Fixer',
-    value: 'steelFixer',
-  },
-  {
-    label: 'Skimmers/Wall Masters',
-    value: 'skimmers',
-  },
-  {
-    label: 'Carpenter',
-    value: 'carpenter',
-  },
-  {
-    label: 'Painter',
-    value: 'painter',
-  },
-  {
-    label: 'Glass Fitter',
-    value: 'glassFitter',
-  },
-];
 
 export const gender = [
   {
@@ -179,12 +112,20 @@ export const subCounty = [
 
 export const level = [
   {
-    label: 'MasterFundi',
+    label: 'Master Fundi',
     value: 'masterfundi',
   },
   {
     label: 'Intermediate',
     value: 'intermediate',
+  },
+  {
+    label: 'Semi skilled',
+    value: 'semiSkilled',
+  },
+  {
+    label: 'Unskilled',
+    value: 'unskilled',
   },
 ];
 

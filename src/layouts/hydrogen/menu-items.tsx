@@ -213,7 +213,7 @@ export const customerMenu: MenuItem[] = [
 
   {
     name: 'My Projects',
-    href: routes.admin.customers,
+    href: routes.comingSoon,
     badge: '',
     icon: <PiProjectorScreenChart />,
   },
@@ -305,17 +305,17 @@ export const fundiMenu: MenuItem[] = [
 
   {
     name: 'Shop App',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiTrolleyDuotone />,
   },
   {
     name: 'My Projects',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiBriefcaseDuotone />,
   },
   {
     name: 'Sales',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiMoneyDuotone />,
   },
 
@@ -415,12 +415,12 @@ export const contractorMenu: MenuItem[] = [
   },
   {
     name: 'My Projects',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiBriefcaseDuotone />,
   },
   {
     name: 'Sales',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiMoneyDuotone />,
   },
 
@@ -498,17 +498,17 @@ export const professionalMenu: MenuItem[] = [
 
   {
     name: 'Shop App',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiTrolleyDuotone />,
   },
   {
     name: 'My Projects',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiBriefcaseDuotone />,
   },
   {
     name: 'Sales',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiMoneyDuotone />,
   },
 
@@ -598,17 +598,17 @@ export const spDefault: MenuItem[] = [
 
   {
     name: 'Shop App',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiTrolleyDuotone />,
   },
   {
     name: 'My Projects',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiBriefcaseDuotone />,
   },
   {
     name: 'Sales',
-    href: '#',
+    href: routes.comingSoon,
     icon: <PiMoneyDuotone />,
   },
 

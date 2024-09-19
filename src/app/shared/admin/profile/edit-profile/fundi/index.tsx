@@ -94,6 +94,7 @@ export default function AdminEditFundiProfileForm({
     idPic: userDetails.metadata.idPic || '',
     certificates: userDetails.metadata.certificates || '',
     ncaCard: userDetails.metadata.ncaCard || '',
+    idNo: userDetails.metadata.idNo || '',
   };
 
   // submit handler

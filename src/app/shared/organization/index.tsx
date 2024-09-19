@@ -12,7 +12,7 @@ import dynamic from 'next/dynamic';
 // import UploadZone from '@/components/ui/file-upload/upload-zone';
 // import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { organizationProfileSteps } from './data';
+import { individualProfileSteps, organizationProfileSteps } from './data';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
 // import UploadButton from '../commons/upload-button';
@@ -72,6 +72,7 @@ export default function CreateOrganizationProfileForm({
     phoneNo: userDetails.metadata.phone || '',
     regNo: '',
     pin: '',
+    idNo: userDetails.metadata.idNo || '',
   };
 
   // submit handler
@@ -135,13 +136,17 @@ export default function CreateOrganizationProfileForm({
   return (
     <>
       <CustomMultiStepForm<OrganizationProfileSchema>
-        // validationSchema={organizationProfileSchema}x
+        // validationSchema={organizationProfileSchema}
         onSubmit={onSubmit}
         useFormProps={{
           mode: 'onChange',
           defaultValues: organizationProfileInitialValues,
         }}
-        steps={organizationProfileSteps}
+        steps={
+          customerType === 'individual'
+            ? individualProfileSteps
+            : organizationProfileSteps
+        }
         loading={loading}
       >
         {(
@@ -159,11 +164,244 @@ export default function CreateOrganizationProfileForm({
               >
                 {/* Title and description */}
                 <div className="col-span-full pb-10 @4xl:col-span-4">
-                  <h4 className="text-base font-medium">Company Details</h4>
+                  <h4 className="text-base font-medium">
+                    {customerType === 'individual'
+                      ? individualProfileSteps[0].name
+                      : organizationProfileSteps[0].name}
+                  </h4>
                   <p className="mt-2">Provide the details below.</p>
                 </div>
 
                 {/* Inputs */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  {customerType === 'individual' && (
+                    <>
+                      <Input
+                        placeholder="Customer Type"
+                        label="Type"
+                        disabled={true}
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('type')}
+                        error={errors.type?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Email Address"
+                        label="Email Address"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('email')}
+                        error={errors.email?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+
+                      <Controller
+                        control={control}
+                        name="county"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            inPortal={false}
+                            placeholder="County/State"
+                            label="County/State"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            optionClassName=""
+                            options={county}
+                            onChange={(selectedValue) => {
+                              onChange(selectedValue);
+                              // Update selectedCounty with the corresponding label
+                              const selectedCountyLabel = county.find(
+                                (county) => county.value === selectedValue
+                              )?.label as keyof typeof counties;
+
+                              setSelectedCounty(selectedCountyLabel);
+
+                              // Reset the subCounty value when a different county is selected
+                              setValue('subCounty', '');
+                              setSubCounty(''); // Clear the local subCounty state as well
+                            }}
+                            value={value}
+                            className=""
+                            getOptionValue={(option) => option.value}
+                            displayValue={(selected) =>
+                              county?.find((r) => r.value === selected)
+                                ?.label ?? ''
+                            }
+                            error={errors?.county?.message as string}
+                          />
+                        )}
+                      />
+
+                      <Controller
+                        control={control}
+                        name="subCounty"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            inPortal={false}
+                            placeholder="Sub-County/Area"
+                            label="Sub-County/Area"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            options={subCountyOptions}
+                            onChange={(selectedOption) => {
+                              // Ensure selectedOption is typed properly
+                              const selectedValue = (
+                                selectedOption as {
+                                  label: string;
+                                  value: string;
+                                }
+                              ).value;
+                              onChange(selectedValue);
+                              setSubCounty(selectedValue); // Update state with the value only
+                            }}
+                            value={subCounty || value} // Use state or form value
+                            error={errors?.subCounty?.message as string}
+                            disabled={!selectedCounty}
+                          />
+                        )}
+                      />
+                    </>
+                  )}
+
+                  {customerType === 'organization' && (
+                    <>
+                      <Input
+                        placeholder="Customer Type"
+                        label="Type"
+                        disabled={true}
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('type')}
+                        error={errors.type?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+                      <Input
+                        placeholder="Organization Name"
+                        label="Organization Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('orgName')}
+                        error={errors.orgName?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+
+                      <Input
+                        type="email"
+                        placeholder="Email Address"
+                        label="Email Address"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('email')}
+                        error={errors.email?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+
+                      <Controller
+                        control={control}
+                        name="county"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            inPortal={false}
+                            placeholder="County/State"
+                            label="County/State"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            optionClassName=""
+                            options={county}
+                            onChange={(selectedValue) => {
+                              onChange(selectedValue);
+                              // Update selectedCounty with the corresponding label
+                              const selectedCountyLabel = county.find(
+                                (county) => county.value === selectedValue
+                              )?.label as keyof typeof counties;
+
+                              setSelectedCounty(selectedCountyLabel);
+
+                              // Reset the subCounty value when a different county is selected
+                              setValue('subCounty', '');
+                              setSubCounty(''); // Clear the local subCounty state as well
+                            }}
+                            value={value}
+                            className=""
+                            getOptionValue={(option) => option.value}
+                            displayValue={(selected) =>
+                              county?.find((r) => r.value === selected)
+                                ?.label ?? ''
+                            }
+                            error={errors?.county?.message as string}
+                          />
+                        )}
+                      />
+
+                      <Controller
+                        control={control}
+                        name="subCounty"
+                        render={({ field: { value, onChange } }) => (
+                          <Select
+                            dropdownClassName="!z-10"
+                            inPortal={false}
+                            placeholder="Sub-County/Area"
+                            label="Sub-County/Area"
+                            size="lg"
+                            selectClassName="font-medium text-sm"
+                            options={subCountyOptions}
+                            onChange={(selectedOption) => {
+                              // Ensure selectedOption is typed properly
+                              const selectedValue = (
+                                selectedOption as {
+                                  label: string;
+                                  value: string;
+                                }
+                              ).value;
+                              onChange(selectedValue);
+                              setSubCounty(selectedValue); // Update state with the value only
+                            }}
+                            value={subCounty || value} // Use state or form value
+                            error={errors?.subCounty?.message as string}
+                            disabled={!selectedCounty}
+                          />
+                        )}
+                      />
+                    </>
+                  )}
+
+                  <Input
+                    placeholder="Estate"
+                    label="Estate"
+                    size="lg"
+                    inputClassName="text-sm"
+                    {...register('estate')}
+                    error={errors.estate?.message}
+                    className="flex-grow [&>label>span]:font-medium"
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2 */}
+            {currentStep === 1 && (
+              <motion.div
+                initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+              >
+                {/* Title and description */}
+                <div className="col-span-full pb-10 @4xl:col-span-4">
+                  <h4 className="text-base font-medium">
+                    {customerType === 'individual'
+                      ? individualProfileSteps[1].name
+                      : organizationProfileSteps[1].name}
+                  </h4>
+                  <p className="mt-2">Please provide required details</p>
+                </div>
+
+                {/* Inputs */}
+
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   {customerType === 'individual' && (
                     <>
@@ -188,6 +426,15 @@ export default function CreateOrganizationProfileForm({
                       />
 
                       <Input
+                        placeholder="Phone Number"
+                        label="Phone Number"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('phoneNo')}
+                        error={errors.phoneNo?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
+                      <Input
                         placeholder="Gender"
                         label="Gender"
                         size="lg"
@@ -198,130 +445,53 @@ export default function CreateOrganizationProfileForm({
                       />
                     </>
                   )}
-                  {customerType === 'organization' && (
-                    <Input
-                      placeholder="Organization Name"
-                      label="Organization Name"
-                      size="lg"
-                      inputClassName="text-sm"
-                      {...register('orgName')}
-                      error={errors.orgName?.message}
-                      className="[&>label>span]:font-medium"
-                    />
-                  )}
-
-                  <Controller
-                    control={control}
-                    name="county"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="County/State"
-                        label="County/State"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={county}
-                        onChange={(selectedValue) => {
-                          onChange(selectedValue);
-                          // Update selectedCounty with the corresponding label
-                          const selectedCountyLabel = county.find(
-                            (county) => county.value === selectedValue
-                          )?.label as keyof typeof counties;
-
-                          setSelectedCounty(selectedCountyLabel);
-
-                          // Reset the subCounty value when a different county is selected
-                          setValue('subCounty', '');
-                          setSubCounty(''); // Clear the local subCounty state as well
-                        }}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          county?.find((r) => r.value === selected)?.label ?? ''
-                        }
-                        error={errors?.county?.message as string}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="subCounty"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="Sub-County/Area"
-                        label="Sub-County/Area"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        options={subCountyOptions}
-                        onChange={(selectedOption) => {
-                          // Ensure selectedOption is typed properly
-                          const selectedValue = (
-                            selectedOption as { label: string; value: string }
-                          ).value;
-                          onChange(selectedValue);
-                          setSubCounty(selectedValue); // Update state with the value only
-                        }}
-                        value={subCounty || value} // Use state or form value
-                        error={errors?.subCounty?.message as string}
-                        disabled={!selectedCounty}
-                      />
-                    )}
-                  />
-
-                  <Input
-                    placeholder="Estate"
-                    label="Estate"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('estate')}
-                    error={errors.estate?.message}
-                    className="flex-grow [&>label>span]:font-medium"
-                  />
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 2 */}
-            {currentStep === 1 && (
-              <motion.div
-                initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                {/* Title and description */}
-                <div className="col-span-full pb-10 @4xl:col-span-4">
-                  <h4 className="text-base font-medium">Contact Person</h4>
-                  <p className="mt-2">Please provide required details</p>
                 </div>
 
-                {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <Input
-                    type="email"
-                    placeholder="Email Address"
-                    label="Email Address"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('email')}
-                    error={errors.email?.message}
-                    className="[&>label>span]:font-medium"
-                  />
+                  {customerType === 'organization' && (
+                    <>
+                      <Input
+                        placeholder="First Name"
+                        label="First Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('firstName')}
+                        error={errors.firstName?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
 
-                  <Input
-                    placeholder="Phone  Number"
-                    label="Phone  Number"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('phoneNo')}
-                    error={errors.phoneNo?.message}
-                    className="[&>label>span]:font-medium"
-                  />
+                      <Input
+                        placeholder="Last Name"
+                        label="Last Name"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('lastName')}
+                        error={errors.lastName?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
+
+                      <Input
+                        type="email"
+                        placeholder="Email Address"
+                        label="Email Address"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('email')}
+                        error={errors.email?.message}
+                        className="[&>label>span]:font-medium"
+                      />
+
+                      <Input
+                        placeholder="Phone Number"
+                        label="Phone Number"
+                        size="lg"
+                        inputClassName="text-sm"
+                        {...register('phoneNo')}
+                        error={errors.phoneNo?.message}
+                        className="flex-grow [&>label>span]:font-medium"
+                      />
+                    </>
+                  )}
                 </div>
               </motion.div>
             )}
@@ -335,7 +505,11 @@ export default function CreateOrganizationProfileForm({
               >
                 {/* Title and description */}
                 <div className="col-span-full pb-10 @4xl:col-span-4">
-                  <h4 className="text-base font-medium">Additional Details</h4>
+                  <h4 className="text-base font-medium">
+                    {customerType === 'individual'
+                      ? individualProfileSteps[2].name
+                      : organizationProfileSteps[2].name}
+                  </h4>
                   <p className="mt-2">Provide the required details</p>
                 </div>
 

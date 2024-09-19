@@ -14,44 +14,6 @@ import CategoriesCard from '@/components/cards/categories-card';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
 
-const orderData = [
-  {
-    day: 'Sunday',
-    sale: 4000,
-    cost: 2400,
-  },
-  {
-    day: 'Monday',
-    sale: 3000,
-    cost: 1398,
-  },
-  {
-    day: 'Tuesday',
-    sale: 2000,
-    cost: 9800,
-  },
-  {
-    day: 'Wednesday',
-    sale: 2780,
-    cost: 3908,
-  },
-  {
-    day: 'Thursday',
-    sale: 1890,
-    cost: 4800,
-  },
-  {
-    day: 'Friday',
-    sale: 2390,
-    cost: 3800,
-  },
-  {
-    day: 'Saturday',
-    sale: 3490,
-    cost: 4300,
-  },
-];
-
 const eComDashboardStatData = [
   {
     id: '1',
@@ -63,7 +25,6 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
     link: `${routes.customers.generateInvoiceFundi}?metric=Fundi`, // Link for Fundi card with query parameter
   },
   {
@@ -76,8 +37,8 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: `${routes.customers.generateInvoiceProfessional}?metric=Professional`, // Link for Professional card with query parameter
+    link: routes.comingSoon,
+    // link: `${routes.customers.generateInvoiceProfessional}?metric=Professional`,
   },
   {
     id: '3',
@@ -89,8 +50,8 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: `${routes.customers.generateInvoiceContractor}?metric=Contractor`, // Link for Contractor card with query parameter
+    link: routes.comingSoon,
+    // link: `${routes.customers.generateInvoiceContractor}?metric=Contractor`,
   },
   {
     id: '4',
@@ -100,8 +61,7 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: '', // Link for Shop Now card with query parameter
+    link: routes.comingSoon, // Link for Shop Now card with query parameter
   },
 ];
 

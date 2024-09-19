@@ -25,15 +25,19 @@ export default async function RequisitionDetailsPage({
   // Fetch user transaction details
   const customerRequest = await fetchUserTransaction(requestId);
 
+  console.log(customerRequest, 'customerRequest');
+
   // Fetch customer details using takerId from the customerRequest
   const customerDetails = customerRequest
-    ? await fetchCustomerDetails(customerRequest.takerId)
-    : null;
+    ? (await fetchCustomerDetails(customerRequest.takerId)) || []
+    : [];
 
-  console.log(customerRequest, 'customer Request');
+  console.log(customerDetails, 'customer Details');
 
   // Generate request details for the ChunkedGrid component
   const requestDetails = getRequestDetails(customerRequest);
+
+  const county = requestDetails.County;
 
   const pageHeader = {
     title: `REQ# ${requestId.toUpperCase()}`,

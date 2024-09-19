@@ -21,31 +21,31 @@ import { useSession } from 'next-auth/react';
 const initialData = [
   {
     name: 'Requests',
-    total: 8,
+    total: 0,
     fill: '#2B7F75',
     link: routes.customers.requisitions,
   },
   {
     name: 'Quotations',
-    total: 7,
+    total: 0,
     fill: '#FFD66B',
     link: routes.customers.quotations,
   },
   {
     name: 'Active',
-    total: 5,
+    total: 0,
     fill: '#04364A',
     link: routes.customers.active,
   },
   {
     name: 'Completed',
-    total: 13,
+    total: 0,
     fill: '#64CCC5',
     link: routes.customers.complete,
   },
   {
     name: 'Reviews',
-    total: 5,
+    total: 0,
     fill: '#FFC0CB',
     link: routes.customers.reviews,
   },
