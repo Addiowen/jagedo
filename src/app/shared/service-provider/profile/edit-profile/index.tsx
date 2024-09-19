@@ -25,7 +25,7 @@ const splitData = (data: Data, keys: string[]) => {
   return result;
 };
 
-const uploadsKeys = ['ID', 'Certificate', 'Resume/CV'];
+const uploadsKeys = ['Pin', 'Registration Certificate', 'Resume/CV'];
 
 //organization keys
 const orgCompanyDetailsKeys = [
@@ -263,6 +263,8 @@ export default function EditProfileContactDetails({
     Estate: userDetails.metadata?.estate,
     'Approval Status': userDetails.metadata.status,
     Type: userDetails.metadata.type,
+    'Registration Certificate': userDetails.metadata.regNo,
+    Pin: userDetails.metadata.pin,
   };
 
   const customerType = userDetails?.metadata.type;

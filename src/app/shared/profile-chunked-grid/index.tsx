@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from '@/utils/class-names';
-// import { PiAcorn, PiHammer, PiHammerBold, PiWrench, PiWrenchBold } from "react-icons/pi";
 import { Input, Title } from 'rizzui';
+import Image from 'next/image';
 
 interface Item {
   [key: string]: string;
@@ -20,8 +20,6 @@ const ProfileChunkedGrid: React.FC<Props> = ({
   dataChunkSize,
   editMode,
 }) => {
-  // const filteredData =
-
   // Convert the data object to an array of key-value pairs
   const dataArray = Object.entries(data);
 
@@ -34,13 +32,16 @@ const ProfileChunkedGrid: React.FC<Props> = ({
     return result;
   };
 
-  // Chunk data into subarrays of 4
+  // Chunk data into subarrays of `dataChunkSize`
   const chunkedData = chunkArray(dataArray, dataChunkSize);
+
+  // Helper function to check if the value is an image URL
+  const isImageUrl = (value: string) => {
+    return /\.(jpeg|jpg|gif|png|webp)$/i.test(value);
+  };
 
   return (
     <div className="rounded-lg bg-gray-0 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl xl:rounded-2xl">
-      {/* <div className="text-gray-900 font-semibold sm:text-lg pb-4">Project Details</div> */}
-
       <div
         className={cn(
           !className &&
@@ -54,21 +55,7 @@ const ProfileChunkedGrid: React.FC<Props> = ({
             className="grid max-w-full grid-cols-2 justify-between gap-6 gap-x-4 rounded-lg bg-gray-0"
           >
             {chunk.map(([key, value], itemIndex) => (
-              // <li key={itemIndex} className="flex items-start justify-between mb-4 last:mb-0">
-              // <span className="font-semibold text-gray-900 mr-2">{key}:</span>
-              // <span className="text-end">{value}</span>
-              // </li>
               <div key={itemIndex} className="flex items-center">
-                {/* <div
-              className={cn(
-                'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded',
-                'bg-gray-100'
-                // item.fill,
-                // item.color
-              )}
-            >
-              <PiHammerBold className="w-4 h-4" />
-            </div> */}
                 <div className="flex w-[calc(100%-44px)] items-center justify-between gap-2">
                   {editMode ? (
                     <div>
@@ -79,41 +66,33 @@ const ProfileChunkedGrid: React.FC<Props> = ({
                         {key}
                       </Title>
                       <Input
-                        placeholder="Gender"
+                        placeholder="Value"
                         size="md"
                         inputClassName="text-sm"
                         defaultValue={value}
-                        // {...register('email')}
-                        // error={errors.email?.message}
                         className="[&>label>span]:font-medium"
                       />
                     </div>
                   ) : (
-                    <div className="">
+                    <div>
                       <Title
                         as="h4"
                         className="mb-1 whitespace-nowrap text-sm font-semibold"
                       >
                         {key}
                       </Title>
-                      <div className="text-gray-500">{value}</div>
+                      {isImageUrl(value) ? (
+                        <img
+                          src={value}
+                          alt={key}
+                          className="rounded-lg object-cover"
+                          sizes="(max-width: 768px) 100vw"
+                        />
+                      ) : (
+                        <div className="text-gray-500">{value}</div>
+                      )}
                     </div>
                   )}
-                  {/* <div className="">
-                <Title as="h4" className="mb-1 text-sm font-semibold whitespace-nowrap">
-                  {key}
-                </Title>
-                <div className="text-gray-500">
-                  {value}
-                </div>
-              </div> */}
-
-                  {/* <div
-                as="span"
-                className="font-lexend text-gray-900 dark:text-gray-700"
-              >
-                {item.price}
-              </div> */}
                 </div>
               </div>
             ))}

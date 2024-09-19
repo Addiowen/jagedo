@@ -1,13 +1,6 @@
-import AllFundisTable from '@/app/shared/admin/dashboard/tables/all-fundis-table';
-import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
-import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
-import { Tab } from 'rizzui';
 
-import Link from 'next/link';
-import { PiPlusBold } from 'react-icons/pi';
-import { Button } from 'rizzui';
 import FundiTables from '@/app/shared/admin/fundi-tables';
 
 export const metadata = {

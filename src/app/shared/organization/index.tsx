@@ -37,6 +37,19 @@ export default function CreateOrganizationProfileForm({
 }: {
   userDetails?: any;
 }) {
+  const [file1Url, setFile1Url] = useState<string | null>(null);
+  const [file2Url, setFile2Url] = useState<string | null>(null);
+
+  const handleFile1Upload = (url: string) => {
+    setFile1Url(url);
+    console.log('pinNO:', url);
+  };
+
+  const handleFile2Upload = (url: string) => {
+    setFile2Url(url);
+    console.log('regNo:', url);
+  };
+
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
@@ -70,8 +83,8 @@ export default function CreateOrganizationProfileForm({
     lastName: userDetails.lastname || '',
     email: userDetails.email || '',
     phoneNo: userDetails.metadata.phone || '',
-    regNo: '',
-    pin: '',
+    regNo: userDetails.metadata.regNo || '',
+    pin: userDetails.metadata.pin || '',
     idNo: userDetails.metadata.idNo || '',
   };
 
@@ -92,8 +105,8 @@ export default function CreateOrganizationProfileForm({
           subCounty: data.subCounty,
           estate: data.estate,
           phoneNo: data.phoneNo,
-          regNo: data.regNo,
-          pin: data.pin,
+          regNo: file1Url,
+          pin: file2Url,
         }, // Add the pin from the form if applicable
       };
 
@@ -519,13 +532,23 @@ export default function CreateOrganizationProfileForm({
                     <label className="mb-4" htmlFor="PIN No.">
                       PIN No.
                     </label>
-                    <UploadButton labelText="PIN No." htmlFor="pinNo" />
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="PIN No."
+                      htmlFor="pinNo"
+                      onUploadSuccess={handleFile1Upload}
+                    />
                   </div>
                   <div>
                     <label className="mb-4" htmlFor="Registration No.">
                       Registration No.
                     </label>
-                    <UploadButton labelText="Registration No." htmlFor="registrationNo" />
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Registration No."
+                      htmlFor="registrationNo"
+                      onUploadSuccess={handleFile2Upload}
+                    />
                   </div>
 
                   {/* <UploadZone
