@@ -162,7 +162,7 @@ const GenerateInvoiceFundi: React.FC = () => {
 
         if (response.data) {
           console.log(response.data, 'my transaction');
-          toast.success('Form submitted successfully!');
+          toast.success('Your job request has been created!');
           router.push(
             `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
           );
