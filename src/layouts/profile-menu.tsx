@@ -27,10 +27,14 @@ export default function ProfileMenu({
           )}
         >
           <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name="John Doe"
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
+            src="/user1.png"
+            name="User"
+            className={cn(
+              '!h-9 w-9 sm:!h-10 sm:!w-10 rounded-full border-2 border-gray-300 shadow-md hover:shadow-lg transition-shadow',
+              avatarClassName
+            )}
           />
+
           {!!username && (
             <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
               Hi, Andry

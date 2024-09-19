@@ -66,11 +66,12 @@ export default function EditProfileCard({
           <Image
             fill
             alt="avatar"
-            className="object-cover"
+            className="object-cover rounded-full"
             sizes="(max-width: 768px) 100vw"
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatar.png"
+            src="/user1.png"
           />
         </div>
+
 
         <div className="ps-4 @5xl:ps-6">
           <div className="flex w-full items-center justify-between">
