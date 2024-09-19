@@ -92,8 +92,8 @@ function DropdownMenu() {
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
         <Avatar
-          src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-11.webp"
-          name="Albert Flores"
+          src="/user1.png"
+          name=""
         />
         <div className="ms-3">
           <Title as="h6" className="font-semibold">
