@@ -40,7 +40,7 @@ export default function SettingsButton({
   // to apply color preset value in css variable
 
   // useApplyColorPreset<any>(applyColorPreset);
-  useApplyColorPreset<any>(colorPresets ?? COLOR_PRESETS[0].colors);
+  useApplyColorPreset<any>(COLOR_PRESETS[0].colors);
 
   // to set html dir attribute on direction change
   useEffect(() => {

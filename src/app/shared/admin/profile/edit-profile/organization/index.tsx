@@ -11,16 +11,17 @@ import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import dynamic from 'next/dynamic';
 // import UploadZone from '@/components/ui/file-upload/upload-zone';
 // import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { organizationProfileSteps } from './data';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useSession } from 'next-auth/react';
 // import UploadButton from '../commons/upload-button';
-import UploadButton from '../upload-button/upload-btn';
+import UploadButton from '@/app/shared/upload-button/upload-btn';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { counties } from '@/data/counties';
-import { county } from '../custom-sign-up/fundi-fields/data';
+import { county } from '@/app/shared/custom-sign-up/fundi-fields/data';
+import { routes } from '@/config/routes';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -32,7 +33,7 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateOrganizationProfileForm({
+export default function AdminEditOrganizationProfileForm({
   userDetails,
 }: {
   userDetails?: any;
@@ -44,6 +45,10 @@ export default function CreateOrganizationProfileForm({
   const [subCounty, setSubCounty] = useState<string>(
     userDetails.metadata.subCounty || ''
   );
+  const pathname = usePathname();
+
+  const individualPath = pathname.includes('individual-profile');
+  const organizationPath = pathname.includes('organization-profile');
 
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
@@ -57,11 +62,13 @@ export default function CreateOrganizationProfileForm({
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
-  const customerType = session?.user.metadata.type;
+  const customerType = userDetails.metadata.type;
+
+  console.log(userDetails);
 
   const organizationProfileInitialValues: OrganizationProfileSchema = {
     type: userDetails.metadata.type || '',
-    orgName: userDetails.metadata.orgName || '',
+    orgName: userDetails.metadata.organizationName || '',
     gender: userDetails.metadata.gender || '',
     county: userDetails.metadata.county || '',
     subCounty: userDetails.metadata.subCounty || '',
@@ -87,7 +94,7 @@ export default function CreateOrganizationProfileForm({
         metadata: {
           county: data.county,
           gender: data.gender,
-          orgName: data.orgName,
+          organizationName: data.orgName,
           subCounty: data.subCounty,
           estate: data.estate,
           phoneNo: data.phoneNo,
@@ -114,8 +121,15 @@ export default function CreateOrganizationProfileForm({
       if (userDetailsRes) {
         console.log(userDetailsRes, 'user details');
 
-        window.sessionStorage.setItem('profileCreated', 'true');
-        router.push('/customers/edit-profile');
+        if (individualPath) {
+          router.push(
+            `${routes.admin.editIndividualCustomerProfile}?id=${userDetails.id}`
+          );
+        } else if (organizationPath) {
+          router.push(
+            `${routes.admin.editOrgCustomerProfile}?id=${userDetails.id}`
+          );
+        }
         toast.success('Profile updated successfully!');
         setLoading(false);
         // router.push('/service-provider/fundi/profile');

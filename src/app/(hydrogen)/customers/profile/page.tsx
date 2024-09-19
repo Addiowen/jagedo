@@ -2,7 +2,6 @@ import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
 import CreateOrganizationProfileForm from '@/app/shared/organization';
 import apiRequest from '@/lib/apiService';
-import { BASE_URL } from '@/lib/axios';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 

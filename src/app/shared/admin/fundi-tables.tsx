@@ -17,11 +17,21 @@ interface PageProps {
 }
 
 export default function FundiTables({ fundis }: PageProps) {
-  const fundisonly = fundis.results.filter(
+  const profiledFundis = fundis.results.filter(
+    (item: {
+      metadata: {
+        profileCreated: boolean;
+        role: string;
+        assetId?: string;
+      };
+    }) => item.metadata.profileCreated === true
+  );
+
+  const fundisonly = profiledFundis.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
       item.metadata.role === 'fundi'
   );
-  const filteredFundis = fundis.results.filter(
+  const unverifiedFundis = profiledFundis.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
       item.metadata.role === 'fundi' && !item.metadata.assetId
   );
@@ -43,7 +53,7 @@ export default function FundiTables({ fundis }: PageProps) {
     }) || [];
 
   const fundilist =
-    filteredFundis?.map((item: any, index: number) => {
+    unverifiedFundis?.map((item: any, index: number) => {
       return {
         no: index + 1,
         id: item.id || '',
@@ -51,7 +61,7 @@ export default function FundiTables({ fundis }: PageProps) {
         firstName: item.firstname || '',
         lastName: item.lastname || '',
         phone: item.metadata?.phone || '', // Add fallback
-        category: 'Fundi', // Static value
+        category: 'Fundi',
         skill: item.metadata?.skill || '',
         county: item.metadata?.county || '',
         subCounty: item.metadata?.subCounty || '',

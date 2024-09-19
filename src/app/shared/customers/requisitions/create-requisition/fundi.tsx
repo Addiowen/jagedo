@@ -113,10 +113,6 @@ const GenerateInvoiceFundi: React.FC = () => {
       return;
     }
 
-    const existingUrls = JSON.parse(
-      sessionStorage.getItem('uploadedUrls') || '[]'
-    ) as string[];
-
     if (urls) {
       if (!isFormValid) {
         toast.error('Please fill in all required fields and upload an image.');
