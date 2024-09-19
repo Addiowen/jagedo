@@ -3,15 +3,15 @@ import { useDropzone, FileRejection } from 'react-dropzone';
 import axios from 'axios';
 import {
   FaCheck,
-  FaRedo,
   FaTimes,
   FaCloudUploadAlt,
-  FaEdit,
   FaSave,
+  FaUpload,
 } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
+import { Button } from 'rizzui';
 
 interface FileWithProgress {
   file: File;
@@ -20,7 +20,7 @@ interface FileWithProgress {
   url?: string;
   editedName: string;
   extension: string;
-  isEditing: boolean;
+  isNameValid: boolean;
 }
 
 const FileUpload: React.FC = () => {
@@ -28,8 +28,6 @@ const FileUpload: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const { urls, addUrl } = useUrls();
   const { data: session } = useSession();
-
-  const uploads: string[] = [];
 
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
@@ -40,7 +38,7 @@ const FileUpload: React.FC = () => {
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const maxSize = 10 * 1024 * 1024; // 10 MB
 
-      // Check for file rejections due to size
+      // Handle file rejections due to size
       fileRejections.forEach(({ file, errors }) => {
         errors.forEach((error) => {
           if (error.code === 'file-too-large') {
@@ -51,13 +49,13 @@ const FileUpload: React.FC = () => {
         });
       });
 
-      // Process accepted files only if under 10MB
-      const validFiles = acceptedFiles.filter(file => file.size <= maxSize);
+      // Only accept valid files under 10MB
+      const validFiles = acceptedFiles.filter((file) => file.size <= maxSize);
 
       const filesWithProgress = validFiles.map((file) => {
         const fileNameParts = file.name.split('.');
         const extension = fileNameParts.length > 1 ? fileNameParts.pop() : '';
-        const baseName = fileNameParts.join('.');
+        const baseName = '';
 
         return {
           file,
@@ -65,7 +63,7 @@ const FileUpload: React.FC = () => {
           status: 'pending' as const,
           editedName: baseName,
           extension: extension ? `.${extension}` : '',
-          isEditing: false,
+          isNameValid: false,
         };
       });
       setFiles((prevFiles) => [...prevFiles, ...filesWithProgress]);
@@ -75,21 +73,11 @@ const FileUpload: React.FC = () => {
 
   const handleEditName = (index: number, newName: string) => {
     setFiles((prevFiles) =>
-      prevFiles.map((f, i) => (i === index ? { ...f, editedName: newName } : f))
-    );
-  };
-
-  const toggleEditMode = (index: number) => {
-    setFiles((prevFiles) =>
       prevFiles.map((f, i) =>
-        i === index ? { ...f, isEditing: !f.isEditing } : f
+        i === index
+          ? { ...f, editedName: newName, isNameValid: newName.trim().length > 0 }
+          : f
       )
-    );
-  };
-
-  const saveEditedName = (index: number) => {
-    setFiles((prevFiles) =>
-      prevFiles.map((f, i) => (i === index ? { ...f, isEditing: false } : f))
     );
   };
 
@@ -137,16 +125,9 @@ const FileUpload: React.FC = () => {
         )
       );
 
-      // Store URLs in session storage
-      uploads.push(url);
-
-      addUrl(uploads);
-
-      const existingUrls = JSON.parse(
-        sessionStorage.getItem('uploadedUrls') || '[]'
-      ) as string[];
-      existingUrls.push(url);
-      sessionStorage.setItem('uploadedUrls', JSON.stringify(existingUrls));
+      const uploadedUrls = urls.concat([url]);
+      addUrl(uploadedUrls);
+      sessionStorage.setItem('uploadedUrls', JSON.stringify(uploadedUrls));
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file.');
@@ -158,8 +139,13 @@ const FileUpload: React.FC = () => {
     }
   };
 
-  const startUpload = () => {
-    files.forEach(uploadFile);
+  const startUpload = (index: number) => {
+    const file = files[index];
+    if (file.isNameValid) {
+      uploadFile(file);
+    } else {
+      toast.error('Please provide a valid name for each file.');
+    }
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -179,95 +165,93 @@ const FileUpload: React.FC = () => {
         <p className="text-sm text-gray-500">Maximum file size 10 MB.</p>
       </div>
 
-      <div className="mt-4 space-y-4">
-        {files.map(
-          (
-            { file, progress, status, url, editedName, extension, isEditing },
-            index
-          ) => (
-            <div
-              key={file.name}
-              className="rounded-lg border border-gray-300 p-4"
-            >
-              <div className="mb-2 flex items-center justify-between">
-                <div className="flex items-center">
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={editedName}
-                      onChange={(e) => handleEditName(index, e.target.value)}
-                      className="mr-1 border p-1"
-                    />
-                  ) : (
-                    <span className="font-medium text-gray-800">
-                      {editedName}
-                    </span>
-                  )}
-                  <span className="text-gray-500">{extension}</span>
-                </div>
-                <div className="flex items-center">
-                  {status === 'success' ? (
-                    <FaCheck className="text-green-500" />
-                  ) : status === 'failed' ? (
-                    <FaRedo />
-                  ) : (
-                    <>
-                      {isEditing ? (
+      {files.length > 0 && (
+        <div className="mt-6">
+          <table className="table-auto w-full text-left border-collapse border border-gray-400">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 px-4 py-2">#</th>
+                <th className="border border-gray-300 px-4 py-2">File Name (required)</th>
+                <th className="border border-gray-300 px-4 py-2">Upload Status</th>
+                <th className="border border-gray-300 px-4 py-2">Progress</th>
+                <th className="border border-gray-300 px-4 py-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {files.map(({ file, progress, status, editedName, extension, isNameValid }, index) => (
+                <tr key={file.name}>
+                  <td className="border px-4 py-2">{index + 1}</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex items-center">
+                      <input
+                        type="text"
+                        value={editedName}
+                        onChange={(e) => handleEditName(index, e.target.value)}
+                        placeholder="Enter file name"
+                        className={`border p-1 rounded-lg mr-2 w-full ${
+                          !isNameValid && status !== 'success' ? 'border-red-500' : 'border-gray-300'
+                        } ${status === 'success' ? 'bg-gray-200 cursor-not-allowed' : 'focus:outline-none focus:ring focus:border-blue-300'}`}
+                        readOnly={status === 'success'}
+                      />
+                      <span>{extension}</span>
+                      {isNameValid && (
                         <FaSave
-                          onClick={() => saveEditedName(index)}
-                          className="mx-2 cursor-pointer text-blue-500 hover:text-blue-700"
-                        />
-                      ) : (
-                        <FaEdit
-                          onClick={() => toggleEditMode(index)}
-                          className="mx-2 cursor-pointer text-gray-500 hover:text-gray-700"
+                          className={`ml-2 cursor-pointer ${
+                            status === 'success' ? 'text-gray-400' : 'text-green-500'
+                          }`}
+                          title="Save"
                         />
                       )}
-                      <FaTimes
-                        onClick={() =>
-                          setFiles((prevFiles) =>
-                            prevFiles.filter((f) => f.file !== file)
-                          )
-                        }
-                        className="cursor-pointer text-red-500 hover:text-red-700"
+                    </div>
+                    {!isNameValid && status !== 'success' && (
+                      <p className="text-red-500 text-sm mt-1">Name is required</p>
+                    )}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {status === 'success' ? (
+                      <FaCheck className="text-green-500" />
+                    ) : status === 'failed' ? (
+                      'Failed'
+                    ) : (
+                      'Pending'
+                    )}
+                  </td>
+                  <td className="border px-4 py-2">
+                    <div className="h-2 bg-gray-200">
+                      <div
+                        className="h-full bg-blue-500"
+                        style={{ width: `${progress}%` }}
                       />
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {status === 'success' && url && (
-                <div className="mb-2">
-                  <a href={url} className="text-blue-500" download>
-                    Download
-                  </a>
-                </div>
-              )}
-
-              {status === 'failed' && (
-                <div className="text-red-500">Upload failed</div>
-              )}
-
-              <div className="h-2 bg-gray-200">
-                <div
-                  className="h-full bg-blue-500"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-          )
-        )}
-      </div>
-
-      {files.length > 0 && (
-        <div className="mt-4 flex justify-center">
-          <button
-            onClick={startUpload}
-            type="button"
-            className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-white"
-          >
-            Upload
-          </button>
+                    </div>
+                  </td>
+                  <td className="border px-4 py-2 flex items-center">
+                    <Button
+                      onClick={() => startUpload(index)}
+                      disabled={!isNameValid || status === 'success'}
+                      className={`flex items-center rounded-lg px-4 py-2 text-white ${
+                        isNameValid && status !== 'success' ? 'bg-blue-500' : 'bg-gray-300 cursor-not-allowed'
+                      }`}
+                    >
+                      <FaUpload className="mr-2" />
+                      Upload
+                    </Button>
+                    <Button
+                      onClick={() => setFiles((prevFiles) =>
+                        prevFiles.filter((_, i) => i !== index)
+                      )}
+                      disabled={status === 'success'}
+                      className={`ml-2 flex items-center rounded-lg px-4 py-2 text-white ${
+                        status === 'success' ? 'bg-gray-300 cursor-not-allowed' : 'bg-red-500'
+                      }`}
+                    >
+                      <FaTimes className="mr-2" />
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

@@ -247,6 +247,7 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
               <Textarea
                 id="description"
+                label="Description"
                 clearable
                 placeholder="Add description"
                 value={description}
