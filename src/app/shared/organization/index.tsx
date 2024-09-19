@@ -345,13 +345,13 @@ export default function CreateOrganizationProfileForm({
                     <label className="mb-4" htmlFor="PIN No.">
                       PIN No.
                     </label>
-                    <UploadButton />
+                    <UploadButton labelText="PIN No." htmlFor="pinNo" />
                   </div>
                   <div>
                     <label className="mb-4" htmlFor="Registration No.">
                       Registration No.
                     </label>
-                    <UploadButton />
+                    <UploadButton labelText="Registration No." htmlFor="registrationNo" />
                   </div>
 
                   {/* <UploadZone
