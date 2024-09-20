@@ -1,18 +1,18 @@
-'use client'
-import React, { useEffect, useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
-import html2pdf from "html2pdf.js";
-import PrintButton from "../commons/print-button";
-import { Badge, Button, Input, Text, Title } from "rizzui";
-import { siteConfig } from "@/config/site.config";
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import html2pdf from 'html2pdf.js';
+import PrintButton from '../commons/print-button';
+import { Badge, Button, Input, Text, Title } from 'rizzui';
+import { siteConfig } from '@/config/site.config';
 import Image from 'next/image';
-import { FaDownload } from "react-icons/fa";
-import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import apiRequest from "@/lib/apiService";
-import toast from "react-hot-toast";
-import { routes } from "@/config/routes";
-import axios, { BASE_URL } from "@/lib/axios";
+import { FaDownload } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import apiRequest from '@/lib/apiService';
+import toast from 'react-hot-toast';
+import { routes } from '@/config/routes';
+import axios, { BASE_URL } from '@/lib/axios';
 
 // Explicitly type the functional component
 const InvoiceComponent: React.FC = () => {
@@ -155,8 +155,7 @@ const InvoiceComponent: React.FC = () => {
           paidRequest,
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );
@@ -193,16 +192,16 @@ const InvoiceComponent: React.FC = () => {
     const element = componentRef.current;
     if (element) {
       // Temporarily hide buttons during PDF generation
-      const buttons = document.querySelectorAll(".hidden-print");
-      buttons.forEach((button) => (button.classList.add("invisible")));
+      const buttons = document.querySelectorAll('.hidden-print');
+      buttons.forEach((button) => button.classList.add('invisible'));
 
       // PDF generation options
       const opt = {
         margin: 0.5,
-        filename: "invoice.pdf",
-        image: { type: "jpeg", quality: 0.98 },
+        filename: 'invoice.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
       };
 
       html2pdf()
@@ -211,34 +210,45 @@ const InvoiceComponent: React.FC = () => {
         .save()
         .then(() => {
           // Show buttons again after PDF generation
-          buttons.forEach((button) => button.classList.remove("invisible"));
+          buttons.forEach((button) => button.classList.remove('invisible'));
         });
     }
   };
 
   return (
     <div className="p-6">
-        <div className=" flex justify-end items-center gap-3 @lg:mt-0 px-8 pt-2"> {/* Added px-4 for padding */}
-        <PrintButton onClick={handlePrint} className="w-auto mb-4 @lg:w-auto text-sm p-2">
+      <div className=" flex items-center justify-end gap-3 px-8 pt-2 @lg:mt-0">
+        {' '}
+        {/* Added px-4 for padding */}
+        <PrintButton
+          onClick={handlePrint}
+          className="mb-4 w-auto p-2 text-sm @lg:w-auto"
+        >
           <i className="me-1.5 h-[12px] w-[12px]" />
           Print
         </PrintButton>
-        <Button onClick={handleDownload} className="w-auto mb-4 @lg:w-auto text-sm p-2">
-          <FaDownload className="me-1.5 h-[12px] w-[12px]"/>
+        <Button
+          onClick={handleDownload}
+          className="mb-4 w-auto p-2 text-sm @lg:w-auto"
+        >
+          <FaDownload className="me-1.5 h-[12px] w-[12px]" />
           Download
         </Button>
       </div>
-      <div className="w-full rounded-xl border border-muted p-3 text-xs" ref={componentRef}>
+      <div
+        className="w-full rounded-xl border border-muted p-3 text-xs"
+        ref={componentRef}
+      >
         {/* Invoice Header */}
-        <div className="flex justify-between items-center mb-4 mt-6">
+        <div className="mb-4 mt-6 flex items-center justify-between">
           <div className="h-24 w-24">
             <Image
-                src={siteConfig.logo}
-                alt={siteConfig.title}
-                className="dark:invert"
-                priority
+              src={siteConfig.logo}
+              alt={siteConfig.title}
+              className="dark:invert"
+              priority
             />
-            </div>
+          </div>
           <div className="text-right">
             {/* <p className="text-green-600 text-2xl font-bold uppercase tracking-wider mb-4">{paymentStatus}</p> */}
             <div className="mb-3 md:mb-0">
@@ -259,37 +269,55 @@ const InvoiceComponent: React.FC = () => {
 
         {/* Recipient and Details */}
         <div className="mb-6">
-         <p className="text-gray-600">Request Type: <strong>{requestType}</strong></p>
-          <p className="text-gray-600">Invoice To: <strong>Jagedo</strong></p>
+          <p className="text-gray-600">
+            Request Type: <strong>{requestType}</strong>
+          </p>
+          <p className="text-gray-600">
+            Invoice To: <strong>Jagedo</strong>
+          </p>
           <br />
-          <p className="text-gray-600">County: <strong>{requestDetails?.metadata.county}</strong></p>
-          <p className="text-gray-600">Sub-County: <strong>{requestDetails?.metadata.subCounty}</strong></p>
-          <p className="text-gray-600">Description: <strong>{requestDetails?.metadata.description}</strong></p>
+          <p className="text-gray-600">
+            County: <strong>{requestDetails?.metadata.county}</strong>
+          </p>
+          <p className="text-gray-600">
+            Sub-County: <strong>{requestDetails?.metadata.subCounty}</strong>
+          </p>
+          <p className="text-gray-600">
+            Description: <strong>{requestDetails?.metadata.description}</strong>
+          </p>
           {/* <p className="text-gray-600">Start: Funzi Road (2022-12-09 18:10)</p> */}
         </div>
 
         {/* Table */}
-        <table className="w-full border border-gray-300 mb-6">
+        <table className="mb-6 w-full border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 p-2 text-left">#</th>
-              <th className="border border-gray-300 p-2 text-right">Sum (KES)</th>
+              <th className="border border-gray-300 p-2 text-right">
+                Sum (KES)
+              </th>
               <th className="border border-gray-300 p-2 text-right">VAT 0%</th>
-              <th className="border border-gray-300 p-2 text-right">Total sum (KES)</th>
+              <th className="border border-gray-300 p-2 text-right">
+                Total sum (KES)
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td className="border border-gray-300 p-2">Linkage fee</td>
-              <td className="border border-gray-300 p-2 text-right">{linkageFee}</td>
+              <td className="border border-gray-300 p-2 text-right">
+                {linkageFee}
+              </td>
               <td className="border border-gray-300 p-2 text-right">00</td>
-              <td className="border border-gray-300 p-2 text-right">{linkageFee}</td>
+              <td className="border border-gray-300 p-2 text-right">
+                {linkageFee}
+              </td>
             </tr>
           </tbody>
         </table>
 
         {/* Summary */}
-        <div className="text-right mb-6">
+        <div className="mb-6 text-right">
           <p>Total (KES): {linkageFee}</p>
           <p>VAT 0%: 00</p>
           <p className="font-bold">Total including VAT (KES): {linkageFee}</p>
@@ -298,61 +326,61 @@ const InvoiceComponent: React.FC = () => {
         {/* Actions (hidden during print/download) */}
       </div>
       <div className="flex flex-col xs:flex-row xs:items-center xs:gap-2">
-              <div className="mb-1 xs:mb-0">
-                <Input
-                  type="text"
-                  placeholder="Phone Number"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                  className={`border ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
-                />
-              </div>
+        <div className="mb-1 xs:mb-0">
+          <Input
+            type="text"
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+            className={`border ${!isPhoneNumberValid ? 'border-red-500' : ''}`}
+          />
+        </div>
 
-              <Button
-                className="w-full xs:w-auto"
-                onClick={handlePayment}
-                disabled={paymentLoading} // Disable button when payment is loading
+        <Button
+          className="w-full xs:w-auto"
+          onClick={handlePayment}
+          disabled={paymentLoading} // Disable button when payment is loading
+        >
+          {paymentLoading ? (
+            <span className="flex items-center">
+              <svg
+                className="mr-3 h-8 w-8 animate-spin text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
               >
-                {paymentLoading ? (
-                  <span className="flex items-center">
-                    <svg
-                      className="mr-3 h-8 w-8 animate-spin text-blue-500"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        className="text-blue-500"
-                        fill="none"
-                      />
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeDasharray="63"
-                        strokeDashoffset="50"
-                        className="text-gray-200"
-                        fill="none"
-                        transform="rotate(-90 12 12)"
-                      />
-                    </svg>
-                    <span>Processing...</span>
-                  </span>
-                ) : (
-                  'Pay'
-                )}
-              </Button>
-            </div>
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  className="text-blue-500"
+                  fill="none"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeDasharray="63"
+                  strokeDashoffset="50"
+                  className="text-gray-200"
+                  fill="none"
+                  transform="rotate(-90 12 12)"
+                />
+              </svg>
+              <span>Processing...</span>
+            </span>
+          ) : (
+            'Pay'
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

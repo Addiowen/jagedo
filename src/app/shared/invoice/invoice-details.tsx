@@ -164,8 +164,7 @@ export default function InvoiceDetails() {
           paidRequest,
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

@@ -17,7 +17,7 @@ const apiRequest = async (options: RequestOptions) => {
     method: method.toLowerCase(),
     url: `${BASE_URL}${endpoint}`,
     headers: {
-      Authorization: 
+      Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
       ...headers,
     },
   };

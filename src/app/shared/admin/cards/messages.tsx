@@ -56,8 +56,7 @@ const Notifications = ({ className }: { className?: string }) => {
           `${BASE_URL}/messages?page=1&nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${receiverId}`,
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

@@ -98,8 +98,8 @@ export default function FundisTable({
         newBookedRequests,
         {
           headers: {
-                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-              },
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
         }
       );
 
@@ -128,8 +128,7 @@ export default function FundisTable({
           },
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

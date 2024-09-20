@@ -89,8 +89,8 @@ export default function UnverifiedFundisTable({
         newBookedRequests,
         {
           headers: {
-                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-              },
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
         }
       );
 
@@ -117,8 +117,7 @@ export default function UnverifiedFundisTable({
           { metadata: { requesttransactionId } },
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

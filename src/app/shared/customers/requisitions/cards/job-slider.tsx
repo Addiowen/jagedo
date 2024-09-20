@@ -66,8 +66,7 @@ export default function JobSlider({ className }: { className?: string }) {
           `${process.env.NEXT_PUBLIC_DOMAIN}/transactionCustomerStats?takerId=${takerId}`,
           {
             headers: {
-              Authorization:
-                
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );
