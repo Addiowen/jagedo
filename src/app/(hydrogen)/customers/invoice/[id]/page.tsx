@@ -5,6 +5,7 @@ import PageHeader from '@/app/shared/commons/page-header';
 import { metaObject } from '@/config/site.config';
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
+import InvoiceComponent from '@/app/shared/custom-invoice-test';
 
 export const metadata = {
   ...metaObject('Invoice'),
@@ -40,7 +41,8 @@ export default function InvoiceDetailsPage() {
         </div>
       </PageHeader>
 
-      <InvoiceDetails />
+      {/* <InvoiceDetails /> */}
+      <InvoiceComponent/>
     </>
   );
 }

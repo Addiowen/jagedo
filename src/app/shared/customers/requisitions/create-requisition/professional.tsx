@@ -4,192 +4,233 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, Input, Select, Textarea } from 'rizzui';
-import ActiveJobDetailsAttachments from '@/app/shared/add-attachments';
-import PricingProfessional from '@/app/shared/pricing-package/pricing-professional';
+import { Button, Checkbox, Input, Select, Textarea, Loader } from 'rizzui'; // Import the Loader component
+import Pricing from '@/app/shared/pricing-package/pricing';
+import axios, { BASE_URL } from '@/lib/axios';
+import FileUpload from '@/app/shared/uploading-images';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import { useUrls } from '@/app/context/urlsContext';
+import { counties } from '@/data/counties';
 
+// Define the Option type
 interface Option {
   label: string;
   value: string;
 }
 
 const GenerateInvoiceProfessional: React.FC = () => {
+  const { urls } = useUrls();
   const router = useRouter();
   const searchParams = useSearchParams();
   const metric = searchParams.get('metric') || '';
-
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-  const [file, setFile] = useState<File | null>(null);
+  const { data: session } = useSession();
+  const [userId, setUserId] = useState<string | null>(null);
+  const [description, setDescription] = useState<string>('');
+  const [date, setDate] = useState<string>('');
   const [value, setValue] = useState<Option | null>(null);
   const [managed, setManaged] = useState<Option | null>(null);
   const [county, setCounty] = useState<Option | null>(null);
   const [subCounty, setSubCounty] = useState<Option | null>(null);
-  const [village, setVillage] = useState<Option | null>(null);
-  const [profession, setProfession] = useState<Option | null>(null);
-  const [state, setState] = useState('Add description');
-  const [buttonText, setButtonText] = useState('Generate Invoice');
-  const [buttonLink, setButtonLink] = useState(routes.invoice.details(DUMMY_ID));
+  const [village, setVillage] = useState<string>('');
+  const [skill, setSkill] = useState<Option | null>(null);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedPlan, setSelectedPlan] = useState<{
+    title: string;
+    price: string;
+  } | null>(null);
 
-  const reqType = [
-    { label: 'Package 1', value: 'Package 1' },
-    { label: 'Package 2', value: 'Package 2' },
-  ];
-
-  const managedBy = [
-    { label: 'Jagedo', value: 'Jagedo' },
-    { label: 'Self', value: 'Self' },
-  ];
-
-  const County = [
-    { label: 'Nairobi', value: 'Nairobi' },
-    { label: 'Busia', value: 'Busia' },
-    { label: 'Kisumu', value: 'Kisumu' },
-    { label: 'Kakamega', value: 'Kakamega' },
-  ];
-  const SubCounty = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
-  const Village = [
-    { label: 'Nambale', value: 'Nambale' },
-    { label: 'Muranga', value: 'Muranga' },
-    { label: 'Bondo', value: 'Bondo' },
-    { label: 'Bunyala', value: 'Bunyala' },
-  ];
-  const Profession = [
-    { label: 'Architect', value: 'Architect' },
-    { label: 'Surveyor', value: 'Surveyor' },
-  ];
-
-  useEffect(() => {
-    if (value?.value === 'Package 1') {
-      setManaged({ label: 'Jagedo', value: 'Jagedo' });
-      setButtonText('Request for Quotation');
-      setButtonLink(routes.customers.requisitions);
-    } else if (value?.value === 'Package 2') {
-      setManaged({ label: 'Self', value: 'Self' });
-      setButtonText('Generate Invoice');
-      setButtonLink(routes.customers.details(DUMMY_ID));
+  // Handle plan selection from Pricing component
+  const handlePlanSelect = (title: string, price: string) => {
+    if (selectedPlan?.title !== title || selectedPlan?.price !== price) {
+      setSelectedPlan({ title, price });
     }
-  }, [value]);
-
-  // Set default selected package
-  useEffect(() => {
-    if (!value) {
-      setValue(reqType[0]);
-      setManaged(managedBy[0]);
-    }
-  }, []);
-
-  const handlePackageSelect = (selectedPackage: Option) => {
-    setValue(selectedPackage);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const customerZohoId = session?.user.metadata.zohoid;
+  const email = session?.user.email;
+  const customerId = session?.user.userId;
+  const phone = session?.user.metadata.phone;
+  const customerName = `${session?.user.firstname} ${session?.user.lastname}`;
+
+  const theCounty = Object.keys(counties).map((key) => ({
+    label: key,
+    value: key,
+  }));
+
+  const [selectedCounty, setSelectedCounty] = useState<
+    keyof typeof counties | ''
+  >('');
+
+  // Get sub-county options dynamically based on the selected county
+  const subCountyOptions = selectedCounty
+    ? counties[selectedCounty]?.map((subCounty: any) => ({
+        label: subCounty,
+        value: subCounty,
+      }))
+    : [];
+
+  const Skill: Option[] = [
+    { label: 'New Construction', value: 'New Construction' },
+    { label: 'Repairs', value: 'Repairs' },
+    { label: 'Demolitions', value: 'Demolitions' },
+    { label: 'Plumber', value: 'Plumber' },
+    { label: 'Mason', value: 'Mason' },
+    { label: 'Electrician', value: 'Electrician' },
+    { label: 'Welder', value: 'Welder' },
+    { label: 'Roofer', value: 'Roofer' },
+    { label: 'Foreman', value: 'Foreman' },
+    { label: 'Fitter', value: 'Fitter' },
+    { label: 'Tile fixer', value: 'Tile fixer' },
+    { label: 'Steel fixer', value: 'Steel fixer' },
+    { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
+    { label: 'Carpenter', value: 'Carpenter' },
+    { label: 'Painter', value: 'Painter' },
+    { label: 'Glass fitter', value: 'Glass fitter' },
+  ];
+
+  useEffect(() => {
+    const id: string | null = session?.user?.userId || null;
+    setUserId(id);
+
+    const checkFormValidity = () => {
+      if (description && date && county && subCounty && village && skill) {
+        setIsFormValid(true);
+      } else {
+        setIsFormValid(false);
+      }
+    };
+
+    checkFormValidity();
+  }, [description, date, county, subCounty, village, skill, session]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({
-      description,
-      date,
-      county,
-      subCounty,
-      village,
-      profession,
-      file,
-    });
+
+    if (!selectedPlan) {
+      alert('Please select a plan before submitting.');
+      return;
+    }
+
+    if (urls) {
+      if (!isFormValid) {
+        toast.error('Please fill in all required fields and upload an image.');
+        return;
+      }
+
+      const formData = {
+        description,
+        date,
+        uploads: urls,
+        amount: selectedPlan.price,
+        packageType: selectedPlan.title,
+        managed: managed?.value || '',
+        county: county?.value || '',
+        subCounty: subCounty?.value || '',
+        village,
+        email,
+        phone,
+        customerId,
+        customerName,
+        customerZohoId: customerZohoId,
+        skill: skill?.value || '',
+      };
+
+      const formBody = {
+        startDate: date,
+        takerId: userId,
+        duration: { d: 1 },
+        metadata: {
+          ...formData,
+          description: description,
+        },
+      };
+
+      try {
+        setLoading(true);
+
+        const response = await axios.post(
+          `${BASE_URL}/transactions`,
+          formBody,
+          {
+            headers: {
+              Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+            },
+          }
+        );
+
+        if (response.data) {
+          console.log(response.data, 'my transaction');
+          toast.success('Your job request has been created!');
+          router.push(
+            `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
+          );
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        toast.error(
+          'There was an error submitting the form. Please try again.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
   };
+
+  const today = new Date();
+  const nextDay = new Date(today);
+  nextDay.setDate(today.getDate() + 1);
+  const minDate = nextDay.toISOString().split('T')[0];
 
   return (
-    <div className="@container">
-      <h1>Professional</h1>
-      <div className="w-full rounded-lg bg-white p-4">
-        {/* <div className="mb-4">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Packages:</h3>
-          <div className="mt-1 flex space-x-8">
-            {reqType.map((pkg) => (
-              <div
-                key={pkg.value}
-                className={`package w-1/2 rounded-lg p-4 shadow-md cursor-pointer transition-transform duration-300 ${
-                  value?.value === pkg.value ? 'bg-blue-100 border border-blue-500 transform translate-y-[-4px]' : 'bg-white'
-                }`}
-                onClick={() => handlePackageSelect(pkg)}
-              >
-                <h5 className="text-md font-semibold">
-                  {pkg.label}: {pkg.label === 'Package 1' ? 'Managed by Jagedo' : 'Managed by Self'}
-                </h5>
-                <ul className="mt-1 ml-4 list-square list-disc text-sm">
-                  {pkg.value === 'Package 1' ? (
-                    <>
-                      <li>Management commission is payable by Professional</li>
-                      <li>Fee is based on Professional Quotation</li>
-                      <li>Single Sourcing</li>
-                      <li>Response time 3 days</li>
-                      <li>Managed by JaGedo</li>
-                    </>
-                  ) : (
-                    <>
-                      <li>Ksh 5,000 linkage fee is payable by You</li>
-                      <li>Professional Fee is based on Professional Quotation</li>
-                      <li>Sourcing through Competitive Bidding</li>
-                      <li>Response time 7 days</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div> */}
+    <div className="relative">
+      <h1 className="text-2xl font-bold">Fundi</h1>
+      <div className="w-full rounded-lg bg-white p-4 shadow-md">
         <div>
-          <PricingProfessional/>
+          <Pricing onPlanSelect={handlePlanSelect} />
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 mt-6 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div className="form-group">
               <Select
-                label="Profession"
-                options={Profession}
-                value={profession}
-                onChange={(selected) => setProfession(selected as Option)}
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                label="Request Type"
-                options={reqType}
-                value={value}
-                onChange={(selected) => setValue(selected as Option)}
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                label="Managed By"
-                options={managedBy}
-                value={managed}
-                onChange={(selected) => setManaged(selected as Option)}
+                label="Skill"
+                options={Skill}
+                value={skill}
+                onChange={(selected) => setSkill(selected as Option)}
               />
             </div>
             <div className="form-group">
               <Select
                 label="County"
-                options={County}
+                options={theCounty}
                 value={county}
-                onChange={(selected) => setCounty(selected as Option)}
+                onChange={(selected) => {
+                  const selectedOption = selected as Option; // Cast 'selected' to 'Option'
+                  setCounty(selectedOption);
+                  setSelectedCounty(
+                    selectedOption.label as keyof typeof counties
+                  ); // Ensure the label is used as the county key
+                  setSubCounty(null); // Reset the sub-county when county changes
+                }}
               />
             </div>
             <div className="form-group">
               <Select
                 label="Sub-County"
-                options={SubCounty}
+                options={subCountyOptions}
                 value={subCounty}
                 onChange={(selected) => setSubCounty(selected as Option)}
+                disabled={!selectedCounty} // Disable sub-county until a county is selected
               />
             </div>
             <div className="form-group">
               <Input
+                id="village"
                 type="text"
                 label="Estate/Village"
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
               />
             </div>
             <div className="form-group">
@@ -199,33 +240,36 @@ const GenerateInvoiceProfessional: React.FC = () => {
                 label="Date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                min={minDate}
+                className="form-control"
               />
             </div>
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
               <Textarea
                 id="description"
+                label="Description"
                 clearable
                 placeholder="Add description"
-                value={state}
-                onClear={() => setState('')}
-                onChange={(e) => setState(e.target.value)}
+                value={description}
+                onClear={() => setDescription('')}
+                onChange={(e) => setDescription(e.target.value)}
                 style={{ height: '60px' }}
               />
             </div>
             <div className="col-span-1 md:col-span-2 lg:col-span-4">
-              <ActiveJobDetailsAttachments />
-            </div>
-            <div className="form-group col-span-1 md:col-span-2 flex items-center">
-              <Checkbox label="I agree to Professional Agreement" />
+              <FileUpload />
             </div>
           </div>
-          <Button
-            type="submit"
-            className="block mx-auto mt-8 w-full rounded-md px-4 py-2 text-white bg-blue-600 hover:bg-blue-700"
-            onClick={() => router.push(buttonLink)}
-          >
-            {buttonText}
-          </Button>
+          <div className="form-group mt-6">
+            <Button
+              color="primary"
+              type="submit"
+              className="w-full"
+              disabled={!isFormValid || loading} // Disable while loading
+            >
+              {loading ? <Loader /> : 'Submit'}
+            </Button>
+          </div>
         </form>
       </div>
     </div>
