@@ -4,7 +4,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
-import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
 
 export const authOptions: NextAuthOptions = {
@@ -63,8 +62,7 @@ export const authOptions: NextAuthOptions = {
                 `${BASE_URL}/users/${user.userId}`,
                 {
                   headers: {
-                    Authorization:
-                      'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                    Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
                   },
                 }
               );
