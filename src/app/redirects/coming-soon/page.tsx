@@ -18,9 +18,9 @@ export default function ComingSoonPage() {
           for your patience, we are coming soon
         </Title>
         <div className="flex justify-center lg:justify-start">
-          <CountdownTimer />
+          {/* <CountdownTimer /> */}
         </div>
-        <SubscriptionForm />
+        {/* <SubscriptionForm /> */}
       </div>
 
       <Image

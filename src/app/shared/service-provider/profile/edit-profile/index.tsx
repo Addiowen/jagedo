@@ -26,6 +26,7 @@ const splitData = (data: Data, keys: string[]) => {
 };
 
 const uploadsKeys = ['Pin', 'Registration Certificate', 'Resume/CV'];
+const fundiuploadKeys = ['Evaluation Form', 'NCA', 'Certificates'];
 
 //organization keys
 const orgCompanyDetailsKeys = [
@@ -70,6 +71,26 @@ const personalKeys = [
   'Sub County',
   'Estate',
   'Approval Status',
+];
+
+const fundiPersonalDetailsKeys = [
+  'Id Number',
+  'Registered As',
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Gender',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const fundiAccountDetailKeys = [
+  'Skill',
+  'Level',
+  'Years of Experience',
+  'Registered As',
 ];
 
 export default function EditProfileContactDetails({
@@ -252,6 +273,10 @@ export default function EditProfileContactDetails({
     pathname.includes('individual') || pathname.includes('organization');
 
   const data: Data = {
+    'Years of Experience': userDetails.metadata.years,
+    'Registered As': 'Fundi',
+    Skill: userDetails.metadata.skill,
+    Level: userDetails.metadata.level,
     'Phone Number': userDetails.metadata?.phone,
     'Organization Name': userDetails.metadata.organizationName,
     'First Name': userDetails.firstname,
@@ -268,6 +293,7 @@ export default function EditProfileContactDetails({
   };
 
   const customerType = userDetails?.metadata.type;
+  const userRole = userDetails.metadata.role;
 
   const approvalStatus = userDetails.metadata.approvalStatus;
   console.log(userDetails);
@@ -278,21 +304,27 @@ export default function EditProfileContactDetails({
       ? orgCompanyDetailsKeys
       : customerType === 'individual'
         ? individualAddressKeys
-        : personalKeys;
+        : userRole === 'fundi'
+          ? fundiPersonalDetailsKeys
+          : personalKeys;
 
   const secondTileKeys =
     customerType === 'organization'
       ? orgContactPersonKeys
       : customerType === 'individual'
         ? individualContactKeys
-        : personalKeys;
+        : userRole === 'fundi'
+          ? fundiAccountDetailKeys
+          : personalKeys;
+
+  const uploadTileKeys = userRole === 'fundi' ? fundiuploadKeys : uploadsKeys;
 
   const uploads = splitData(data, uploadsKeys);
   const personalDetails: any = splitData(data, firstTileKeys);
 
   const firstTileDetails: any = splitData(data, firstTileKeys);
   const secondTileDetails: any = splitData(data, secondTileKeys);
-  const uploadDetails: any = splitData(data, uploadsKeys);
+  const uploadDetails: any = splitData(data, uploadTileKeys);
 
   return (
     <div className="@container">
@@ -312,13 +344,17 @@ export default function EditProfileContactDetails({
           <Tab.ListItem>
             {customerType === 'individual'
               ? 'Address Details'
-              : 'Company Details'}
+              : userRole === 'fundi'
+                ? 'Personal Details'
+                : 'Company Details'}
           </Tab.ListItem>
           <Tab.ListItem>
             {' '}
             {customerType === 'individual'
               ? 'Contact Details'
-              : 'Contact Person'}
+              : userRole === 'fundi'
+                ? 'Account Details'
+                : 'Contact Person'}
           </Tab.ListItem>
           <Tab.ListItem>Uploads</Tab.ListItem>
         </Tab.List>
@@ -347,7 +383,9 @@ export default function EditProfileContactDetails({
                   <Title as="h3" className="text-base font-semibold">
                     {customerType === 'individual'
                       ? 'Address Details'
-                      : 'Company Details'}
+                      : userRole === 'fundi'
+                        ? 'Personal Details'
+                        : 'Company Details'}
                   </Title>
                 </div>
                 <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
@@ -390,7 +428,9 @@ export default function EditProfileContactDetails({
                   <Title as="h3" className="text-base font-semibold">
                     {customerType === 'individual'
                       ? 'Contact Details'
-                      : 'Contact Person'}
+                      : userRole === 'fundi'
+                        ? 'Account Details'
+                        : 'Contact Person'}
                   </Title>
                 </div>
                 <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">

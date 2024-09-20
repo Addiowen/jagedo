@@ -157,34 +157,6 @@ export const customerMenu: MenuItem[] = [
     icon: <PiHouseDuotone />,
   },
 
-  // {
-  //   name: 'Job Board',
-  //   href: routes.jobBoard.dashboard,
-  //   icon: <PiShapesDuotone />,
-  //   badge: 'NEW',
-  // },
-
-  // {
-  //   name: 'Customer ',
-  //   href: routes.admin.dashboard,
-  //   icon: <PiBriefcaseDuotone />,
-  //   dropdownItems: [
-  //     {
-  //       name: 'Dashboard',
-  //       href: routes.admin.dashboard,
-  //       badge: '',
-  //     },
-
-  //     // {
-  //     //   name: 'Individual register',
-  //     //   href: routes.admin.individual,
-  //     //   badge: '',
-  //     // },
-
-  //   ],
-
-  // },
-
   {
     name: 'Fundi ',
     href: routes.customers.generateInvoiceFundi,
@@ -194,13 +166,15 @@ export const customerMenu: MenuItem[] = [
 
   {
     name: 'Professional',
-    href: routes.customers.generateInvoiceProfessional,
+    // href: routes.customers.generateInvoiceProfessional,
+    href: routes.comingSoon,
     badge: '',
     icon: <PiBriefcase />,
   },
   {
     name: 'Contractor',
-    href: routes.customers.generateInvoiceContractor,
+    // href: routes.customers.generateInvoiceContractor,
+    href: routes.comingSoon,
     badge: '',
     icon: <PiHardHat />,
   },

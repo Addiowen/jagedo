@@ -3,7 +3,6 @@ import RequisitionsTable from '@/app/shared/tables/requisitions';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
-import toast from 'react-hot-toast';
 
 // Define the metadata for the page
 export const metadata = {
@@ -43,7 +42,12 @@ export default async function Requisitions() {
   // Format the data if needed
   const formattedData =
     transactions.results
-      .filter((item: any) => item.status === 'paid' || item.status === 'draft')
+      .filter(
+        (item: any) =>
+          item.status === 'paid' ||
+          item.status === 'draft' ||
+          item.status === 'assigned'
+      )
       .map((item: any, index: number) => {
         return {
           number: index + 1,

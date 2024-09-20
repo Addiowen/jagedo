@@ -81,7 +81,13 @@ export default function JobSlider({ className }: { className?: string }) {
           prevData.map((item) => {
             switch (item.name) {
               case 'Requests':
-                return { ...item, total: parseInt(apiData.paid_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.paid_count, 10) +
+                    parseInt(apiData.draft_count, 10) +
+                    parseInt(apiData.assigned_count, 10),
+                };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active':

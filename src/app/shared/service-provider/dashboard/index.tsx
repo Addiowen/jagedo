@@ -5,8 +5,6 @@ import JobSlider from './job-slider';
 // import CustomMessagesList from '@/app/shared/custom-messages-list';
 // import RequisitionAlerts from './requisition-alerts';
 import Notifications from './notifications';
-import WalletCard from './wallet';
-import walletImage from '../../../../../public/wallets.png';
 
 export default function ServiceProviderDashboard() {
   return (

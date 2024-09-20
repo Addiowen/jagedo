@@ -241,6 +241,7 @@ export default function EditAdminProfileContactDetails({
                   editMode={editMode}
                   setEditMode={setEditMode}
                   setModalState={setModalState}
+                  isApproved={''}
                 />
                 <Button
                   onClick={handleEditClick}
@@ -288,6 +289,7 @@ export default function EditAdminProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={''}
               />
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
@@ -306,6 +308,7 @@ export default function EditAdminProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={''}
               />
 
               <div className="space-y-4 lg:col-span-2">

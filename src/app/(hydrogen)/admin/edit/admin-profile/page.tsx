@@ -3,6 +3,8 @@ import EditProfileContactDetails from '@/app/shared/service-provider/profile/edi
 import PageHeader from '@/app/shared/commons/page-header';
 import apiRequest from '@/lib/apiService';
 import EditAdminProfileContactDetails from '@/app/shared/admin/admin-profile/edit-profile';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 
 export const metadata = {
   ...metaObject('Profile View'),
@@ -26,11 +28,16 @@ export default async function EditProfileContactDetailsPage({
 }: {
   searchParams: any;
 }) {
+  const session = await getServerSession(authOptions);
+
+  const userId = session?.user.id;
+
+  console.log(session, 'the session');
   const fetchUserDetails = async () => {
     try {
       const userDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/users/${searchParams.id}`,
+        endpoint: `/users/${userId}`,
       });
       return userDetails;
     } catch (error) {
