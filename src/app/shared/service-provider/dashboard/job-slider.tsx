@@ -163,7 +163,6 @@ export default function JobSlider({ className }: { className?: string }) {
           }
         );
         const apiData = response.data.data;
-        console.log(session);
         console.log(apiData);
 
         // Update the userRoleData based on the fetched API data
@@ -171,7 +170,7 @@ export default function JobSlider({ className }: { className?: string }) {
           const updatedRoleData = (userRoleData[userRole] || []).map((item) => {
             switch (item.name) {
               case 'Requests':
-                return { ...item, total: parseInt(apiData.paid_count) };
+                return { ...item, total: parseInt(apiData.assigned_count) };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active Jobs':

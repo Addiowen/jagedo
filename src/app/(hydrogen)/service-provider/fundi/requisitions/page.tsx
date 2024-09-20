@@ -81,7 +81,8 @@ export default async function RequisitionsPage() {
         <Text>Awaiting verification from admin! Please try again later</Text>
       </Alert>
     );
-  } else if (!asset || !asset.metadata) {
+  }
+  if (!asset || !asset.metadata) {
     return (
       <Alert variant="flat" color="warning">
         <Text className="font-semibold">Unverified</Text>

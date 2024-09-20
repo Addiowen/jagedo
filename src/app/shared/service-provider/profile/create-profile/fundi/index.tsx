@@ -31,6 +31,7 @@ import {
   subCounty,
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { counties } from '@/data/counties';
+import UploadButton from '@/app/shared/upload-button/upload-btn';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -52,20 +53,20 @@ export default function CreateFundiProfileForm({
   userDetails: any;
 }) {
   const [ncaUrl, setNcaURL] = useState<string | null>(null);
-  const [pinUrl, setPinUrl] = useState<string | null>(null);
+  const [idUrl, setIdUrl] = useState<string | null>(null);
   const [certificate, setCertificate] = useState<string | null>(null);
 
-  const handleFile1Upload = (url: string) => {
+  const handleNcaUpload = (url: string) => {
     setNcaURL(url);
     console.log('nca:', url);
   };
 
-  const handleFile2Upload = (url: string) => {
-    setPinUrl(url);
-    console.log('pin:', url);
+  const handleIdUpload = (url: string) => {
+    setIdUrl(url);
+    console.log('id:', url);
   };
 
-  const handleFile3Upload = (url: string) => {
+  const handleCertificateUpload = (url: string) => {
     setCertificate(url);
     console.log('cert:', url);
   };
@@ -185,7 +186,7 @@ export default function CreateFundiProfileForm({
           router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         } else {
           router.push(
-            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+            `${routes.serviceProvider.fundi.editprofileafterCreation}?id=${userDetails.id}`
           );
         }
       }
@@ -591,50 +592,42 @@ export default function CreateFundiProfileForm({
                       />
                     )}
                   />
-                  {/* </div> */}
 
-                  {/* <div className="flex"> */}
-                  {/* <div> */}
-                  <UploadZone
-                    label="ID Picture/Passport*"
-                    className="flex-grow"
-                    name="idFront"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      ID Picture
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Id No."
+                      htmlFor="id"
+                      onUploadSuccess={handleIdUpload}
+                    />
+                  </div>
 
-                  {/* <UploadZone
-                          label="ID Picture/Passport Back:*"
-                          className="flex-grow"
-                          name="idBack"
-                          getValues={getValues}
-                          setValue={setValue}
-                      /> */}
-                  {/* </div> */}
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      Certificate
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Certificate."
+                      htmlFor="certificate"
+                      onUploadSuccess={handleCertificateUpload}
+                    />
+                  </div>
 
-                  <UploadZone
-                    label="Certificates*"
-                    className="flex-grow"
-                    name="certificates"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
-
-                  {/* <UploadZone
-                        label="Resume/CV*"
-                        className="flex-grow"
-                        name="resume"
-                        getValues={getValues}
-                        setValue={setValue}
-                    /> */}
-
-                  <UploadZone
-                    label="NCA Registration Card"
-                    className="flex-grow"
-                    name="ncaCard"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      NCA Registration Card
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="NCA Registration Card."
+                      htmlFor="nca"
+                      onUploadSuccess={handleNcaUpload}
+                    />
+                  </div>
                 </div>
                 {/* </div> */}
               </motion.div>

@@ -7,15 +7,29 @@ import {
   PiCloudArrowUp,
 } from 'react-icons/pi';
 import { usePathname } from 'next/navigation';
-import { Button } from 'rizzui';
 import Timeline from './timeline';
-export default function ProgressBarActive({
+import { useState } from 'react';
+import axios, { BASE_URL } from '@/lib/axios';
+export default async function ProgressBarActive({
   className,
   statusValue,
 }: {
   className?: string;
   statusValue: string;
 }) {
+  const [file1Url, setFile1Url] = useState<string | null>(null);
+  const [file2Url, setFile2Url] = useState<string | null>(null);
+
+  const handleFile1Upload = (url: string) => {
+    setFile1Url(url);
+    console.log('file1:', url);
+  };
+
+  const handleFile2Upload = (url: string) => {
+    setFile2Url(url);
+    console.log('file2:', url);
+  };
+
   const pathname = usePathname();
   const professional = pathname.includes('professional');
   const contractor = pathname.includes('contractor');
@@ -30,6 +44,8 @@ export default function ProgressBarActive({
       time: '05:31 am',
       icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
       status: 'ongoing',
+      upload: 'document',
+      docs: 'doc1',
     },
     {
       title: 'Stop',
@@ -54,6 +70,8 @@ export default function ProgressBarActive({
         />
       ),
       status: statusValue,
+      upload: 'document',
+      docs: 'doc2',
     },
   ];
 
@@ -156,7 +174,9 @@ export default function ProgressBarActive({
       time: '11:00 am',
       icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
       status: 'ongoing',
-      // upload: <PiCloudArrowUp className="ml-2 h-6 w-6 text-gray-500 group-hover:text-blue-500" />,
+      upload: (
+        <PiCloudArrowUp className="ml-2 h-6 w-6 text-gray-500 group-hover:text-blue-500" />
+      ),
     },
     // {
     //   title: 'Milestone 3',
@@ -178,25 +198,20 @@ export default function ProgressBarActive({
     },
   ];
 
+  // const userDetailsRes = await axios.patch(
+  //   `${BASE_URL}/users/${userDetails.id}`,
+  //   updateData,
+  //   {
+  //     headers: {
+  //       Authorization:
+  //         'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+  //     },
+  //   }
+  // );
+
   return (
     <>
       <div className="ml-14 lg:ml-20">
-        {/* <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-            <div className='p-10'>
-                <p className='text-center text-lg font-semibold'>Do you confirm completion of this job?</p>
-                
-
-                <div className='flex justify-center mt-6'>
-                  <Button onClick={() => setModalState(false)} className='w-32'>Yes</Button>
-                  
-                    <Button variant="outline" onClick={() => setModalState(false)} className="w-32 ml-4">
-                        No
-                    </Button>
-                  
-                </div>
-            </div>
-        </Modal> */}
-
         <div className="-ml-20 mb-4 mt-12 flex flex-col rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl ">
           {/* <div className="text-gray-900 font-semibold sm:text-lg pb-8">Milestone Tracker</div> */}
 
@@ -211,6 +226,7 @@ export default function ProgressBarActive({
                       : timelineDataComplete
                 }
                 order="desc"
+                handleFileUpload={handleFile1Upload}
               />
             ) : (
               <Timeline
@@ -222,6 +238,7 @@ export default function ProgressBarActive({
                       : timelineData
                 }
                 order="desc"
+                handleFileUpload={handleFile2Upload}
               />
             )}
           </div>

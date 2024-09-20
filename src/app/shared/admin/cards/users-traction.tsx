@@ -3,13 +3,10 @@
 import WidgetCard from '@/components/cards/widget-card';
 import { Title } from 'rizzui';
 import cn from '@/utils/class-names';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from 'recharts';
+import axios from 'axios';
 
-const data = [
-  { name: 'Service Providers', value: 30 },
-  { name: 'Customers', value: 20 },
-];
 const COLORS = ['#FFD66B', '#64CCC5', '#176B87', '#2B7F75'];
 
 const viewOptions = [
@@ -46,7 +43,63 @@ const renderActiveShape = (props: any) => {
 
 export default function UsersTraction({ className }: { className?: string }) {
   const [activeIndex, setActiveIndex] = useState(1);
-  const [chartData] = useState(data);
+  const [chartData, setChartData] = useState([
+    { name: 'Service Providers', value: 0 },
+    { name: 'Customers', value: 0 },
+    { name: 'Admins', value: 0 },
+  ]);
+  const [userStats, setUserStats] = useState({
+    totalUsers: 0,
+    serviceProviders: 0,
+    customers: 0,
+    admins: 0,
+  });
+
+  useEffect(() => {
+    async function fetchUserStats() {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_DOMAIN}/transactionAdminCustomerStats`,
+          {
+            headers: {
+              Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+            },
+          }
+        );
+        const data = response.data.data;
+
+        const customerCount = parseInt(data.customer_count, 10);
+        const fundiCount = parseInt(data.fundi_count, 10);
+        const professionalCount = parseInt(data.professional_count, 10);
+        const contractorCount = parseInt(data.contractor_count, 10);
+        const adminCount = parseInt(data.admin_count, 10);
+
+        const serviceProvidersCount =
+          fundiCount + professionalCount + contractorCount;
+        const totalUsers = customerCount + serviceProvidersCount + adminCount;
+
+        setUserStats({
+          totalUsers,
+          serviceProviders: serviceProvidersCount,
+          customers: customerCount,
+          admins: adminCount,
+        });
+
+        setChartData([
+          {
+            name: 'Service Providers',
+            value: (serviceProvidersCount / totalUsers) * 100,
+          },
+          { name: 'Customers', value: (customerCount / totalUsers) * 100 },
+          { name: 'Admins', value: (adminCount / totalUsers) * 100 },
+        ]);
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    }
+
+    fetchUserStats();
+  }, []);
 
   const onMouseOver = useCallback((_: any, index: number) => {
     setActiveIndex(index);
@@ -55,29 +108,17 @@ export default function UsersTraction({ className }: { className?: string }) {
     setActiveIndex(0);
   }, []);
 
-  function handleChange(viewType: string) {
-    console.log('viewType', viewType);
-  }
-
   return (
     <WidgetCard
       title="Traction"
       titleClassName="text-gray-800 sm:text-lg font-inter"
       headerClassName="items-center"
       className={cn('@container', className)}
-      //   action={
-      //     <DropdownAction
-      //       className="rounded-lg border"
-      //       options={viewOptions}
-      //       onChange={handleChange}
-      //       dropdownClassName="!z-0"
-      //     />
-      //   }
     >
       <div className="h-full items-center gap-2 @sm:flex">
         <div className="relative h-[300px] w-full after:absolute after:inset-1/2 after:h-20 after:w-20 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-full after:border after:border-dashed after:border-gray-300 @sm:w-3/5 @sm:py-3 rtl:after:translate-x-1/2">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart className="w-20 [&_.recharts-layer:focus]:outline-none [&_.recharts-sector:focus]:outline-none dark:[&_.recharts-text.recharts-label]:first-of-type:fill-white">
+            <PieChart className="w-20">
               <Pie
                 activeIndex={activeIndex}
                 data={chartData}
@@ -91,7 +132,7 @@ export default function UsersTraction({ className }: { className?: string }) {
                 onMouseOver={onMouseOver}
                 onMouseLeave={onMouseLeave}
               >
-                {data.map((_, index) => (
+                {chartData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}
@@ -105,14 +146,34 @@ export default function UsersTraction({ className }: { className?: string }) {
           <div className="mb-4 mt-1">
             <div className="mb-1.5 text-gray-700">All Users</div>
             <Title as="h2" className="font-inter font-bold text-gray-900">
-              60
+              {userStats.totalUsers}
             </Title>
           </div>
           <div className="whitespace-nowrap">
-            <span>
-              <Detail color={COLORS[0]} value={75} text="Service providers" />
-            </span>
-            <Detail color={COLORS[1]} value={25} text="Customers" />
+            <Detail
+              color={COLORS[0]}
+              value={parseFloat(
+                (
+                  (userStats.serviceProviders / userStats.totalUsers) *
+                  100
+                ).toFixed(2)
+              )}
+              text="Service Providers"
+            />
+            <Detail
+              color={COLORS[1]}
+              value={parseFloat(
+                ((userStats.customers / userStats.totalUsers) * 100).toFixed(2)
+              )}
+              text="Customers"
+            />
+            <Detail
+              color={COLORS[2]}
+              value={parseFloat(
+                ((userStats.admins / userStats.totalUsers) * 100).toFixed(2)
+              )}
+              text="Admins"
+            />
           </div>
         </div>
       </div>
@@ -131,7 +192,7 @@ function Detail({
 }) {
   return (
     <div className="flex justify-between gap-2 border-b border-gray-100 py-3 last:border-b-0">
-      <div className=" col-span-3 flex items-center justify-start gap-1.5">
+      <div className="col-span-3 flex items-center justify-start gap-1.5">
         <span style={{ background: color }} className="block h-3 w-3 rounded" />
         <p className="text-gray-500">{text}</p>
       </div>

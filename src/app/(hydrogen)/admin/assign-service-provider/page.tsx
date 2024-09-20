@@ -16,9 +16,9 @@ const fetchFundiAssets = async (county: string) => {
       endpoint: `/search`,
       data: {
         query: 'Fundi',
-        // customAttributes: {
-        //   county: county,
-        // },
+        customAttributes: {
+          county: county,
+        },
         page: 1,
         nbResultsPerPage: 40,
       },
@@ -42,7 +42,7 @@ export default async function AddtoServiceProviders({
 
   const countyLower = county.toLowerCase();
 
-  console.log(county, 'countyLower');
+  console.log(countyLower, 'countyLower');
 
   const fundis = await fetchFundiAssets(countyLower);
   console.log(fundis.results[0], 'logged Fundis');

@@ -16,6 +16,9 @@ export default function ProfileSettingsLayout({
   const { data: session } = useSession();
 
   const profileCreated = session?.user.metadata.profileCreated;
+
+  console.log(profileCreated);
+
   // const profileCreated = false;
 
   // console.log(profileCreated);

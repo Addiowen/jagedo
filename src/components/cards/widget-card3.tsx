@@ -58,7 +58,8 @@ const WidgetCard3 = forwardRef<
             headerClassName
           )}
         >
-          <div>
+          {/* Title takes 1/3 of the space */}
+          <div className="flex-grow basis-1/3">
             <Title
               as="h3"
               className={cn(
@@ -72,10 +73,20 @@ const WidgetCard3 = forwardRef<
               <div className={descriptionClassName}>{description}</div>
             )}
           </div>
+
+          {/* Action takes 2/3 of the space */}
           {action && (
-            <div className={cn('ps-2', actionClassName)}>{action}</div>
+            <div
+              className={cn(
+                'flex flex-grow basis-2/3 items-center ps-2',
+                actionClassName
+              )}
+            >
+              {action}
+            </div>
           )}
         </div>
+
         {children}
       </div>
     );

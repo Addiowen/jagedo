@@ -26,7 +26,12 @@ const splitData = (data: Data, keys: string[]) => {
 };
 
 const uploadsKeys = ['Pin', 'Registration Certificate', 'Resume/CV'];
-const fundiuploadKeys = ['Evaluation Form', 'NCA', 'Certificates'];
+const fundiuploadKeys = [
+  'ID',
+  'Evaluation Form',
+  'NCA Registration Card',
+  'Certificates',
+];
 
 //organization keys
 const orgCompanyDetailsKeys = [
@@ -100,7 +105,6 @@ export default function EditProfileContactDetails({
   userDetails: any;
   editProfileId: string;
 }) {
-  const { data: session } = useSession();
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const pathname = usePathname();
@@ -273,6 +277,8 @@ export default function EditProfileContactDetails({
     pathname.includes('individual') || pathname.includes('organization');
 
   const data: Data = {
+    ID: userDetails.metadata.idPic,
+
     'Years of Experience': userDetails.metadata.years,
     'Registered As': 'Fundi',
     Skill: userDetails.metadata.skill,
@@ -290,6 +296,8 @@ export default function EditProfileContactDetails({
     Type: userDetails.metadata.type,
     'Registration Certificate': userDetails.metadata.regNo,
     Pin: userDetails.metadata.pin,
+    Certificates: userDetails.metadata.certificates,
+    'NCA Registration Card': userDetails.metadata.ncaCard,
   };
 
   const customerType = userDetails?.metadata.type;

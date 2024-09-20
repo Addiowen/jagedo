@@ -55,7 +55,7 @@ export default function AllCustomersTable({
           item.metadata.type === 'individual' ? item.lastname || '' : 'N/A', // Set lastname only for individuals
         organizationName:
           item.metadata.type === 'organization'
-            ? item.organizationName || ''
+            ? item.metadata.organizationName || ''
             : 'N/A', // Set organizationName only for organizations
         email: item.email || '',
         phone: item.metadata?.phone || '',

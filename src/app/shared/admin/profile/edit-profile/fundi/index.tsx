@@ -14,7 +14,6 @@ import UploadZone from '@/components/ui/file-upload/upload-zone';
 import {
   fundiInitialValues,
   fundiProfileSteps,
-  skill,
   gender,
   level,
   years,
@@ -28,6 +27,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import {
   county,
+  fundiSkills,
   subCounty,
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { counties } from '@/data/counties';
@@ -475,13 +475,14 @@ export default function AdminEditFundiProfileForm({
                         size="lg"
                         selectClassName="font-medium text-sm"
                         optionClassName=""
-                        options={skill}
+                        options={fundiSkills}
                         onChange={onChange}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          skill?.find((r) => r.value === selected)?.label ?? ''
+                          fundiSkills?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.skill?.message as string}
                       />
