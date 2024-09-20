@@ -58,7 +58,7 @@ export default function Notifications({ className }: { className?: string }) {
           {
             headers: {
               Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                
             },
           }
         );

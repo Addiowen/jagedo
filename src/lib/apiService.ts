@@ -17,7 +17,7 @@ const apiRequest = async (options: RequestOptions) => {
     method: method.toLowerCase(),
     url: `${BASE_URL}${endpoint}`,
     headers: {
-      Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+      Authorization: 
       ...headers,
     },
   };

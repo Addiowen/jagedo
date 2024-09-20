@@ -58,8 +58,7 @@ export default function CreateUser() {
         formattedData,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );

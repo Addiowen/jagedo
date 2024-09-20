@@ -156,7 +156,7 @@ const InvoiceComponent: React.FC = () => {
           {
             headers: {
               Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                
             },
           }
         );

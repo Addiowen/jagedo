@@ -51,7 +51,7 @@ function MessagesList({
             `${BASE_URL}/messages?page=1&nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${userId}`,
             {
               headers: {
-                Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                Authorization: 
               },
             }
           );

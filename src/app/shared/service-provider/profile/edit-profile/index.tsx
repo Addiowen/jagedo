@@ -142,8 +142,7 @@ export default function EditProfileContactDetails({
         updateData,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -222,8 +221,7 @@ export default function EditProfileContactDetails({
         assetPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -242,8 +240,7 @@ export default function EditProfileContactDetails({
         userPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -258,8 +255,7 @@ export default function EditProfileContactDetails({
         userResponse.data,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
