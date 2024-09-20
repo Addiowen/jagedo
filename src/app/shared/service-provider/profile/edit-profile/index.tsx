@@ -10,6 +10,7 @@ import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { Loader } from 'rizzui';
 import { useSession } from 'next-auth/react';
+import { ProdIds } from '@/config/enums';
 
 interface Data {
   [key: string]: string | null;
@@ -195,8 +196,8 @@ export default function EditProfileContactDetails({
     try {
       const assetPayload = {
         name: 'Fundi',
-        categoryId: 'ctgy_F7Qaie1ksf1tT8HOksf',
-        assetTypeId: 'typ_G5E60le1XBw1tFR9PXBw',
+        categoryId: ProdIds.CATEGORYID,
+        assetTypeId: ProdIds.ASSET_TYPE_ID,
         ownerId: userId,
         customAttributes: {
           estate: userDetails.metadata.estate,
