@@ -150,7 +150,7 @@ export default function SpCompleteJobDetails({
           </Tab.Panel>
 
           <Tab.Panel>
-            <CustomerDetailsCard />
+            {/* <CustomerDetailsCard /> */}
 
             <div className="mb-4 mt-4">
               <ChunkedGrid
@@ -160,7 +160,7 @@ export default function SpCompleteJobDetails({
               />
             </div>
 
-            <FundiDetailsCard />
+            {/* <FundiDetailsCard /> */}
 
             <div className="mt-6 flex justify-center">
               {jobId === '3324' ? (

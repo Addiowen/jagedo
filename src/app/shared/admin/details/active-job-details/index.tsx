@@ -1,6 +1,5 @@
 'use client';
 
-import CustomerDetailsCard from '../../jobs/cutomer-details';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Accordion, Button, Tab } from 'rizzui';
@@ -11,6 +10,7 @@ import Link from 'next/link';
 import { routes } from '@/config/routes';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import ViewAttachments from '@/app/shared/service-provider/details/request-details/view-attachments';
+import CustomerDetailsCard from '../../dashboard/customer-details';
 
 // const data = [
 //   {
@@ -83,9 +83,9 @@ export default function ActiveJobDetailsCard({
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div className="mb-4">
-              <CustomerDetailsCard />
-            </div>
+            {/* <div className="mb-4">
+              <CustomerDetailsCard customerDetails={undefined} />
+            </div> */}
 
             <div className="mb-4">
               <ChunkedGrid

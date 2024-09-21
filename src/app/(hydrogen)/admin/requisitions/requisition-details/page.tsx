@@ -30,7 +30,7 @@ export default async function RequisitionDetailsPage({
   // Fetch customer details using takerId from the customerRequest
   const customerDetails = customerRequest
     ? (await fetchCustomerDetails(customerRequest.takerId)) || []
-    : [];
+    : null;
 
   console.log(customerDetails, 'customer Details');
 
