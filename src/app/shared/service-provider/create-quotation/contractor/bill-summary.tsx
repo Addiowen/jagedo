@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from 'react';
 import cn from '@/utils/class-names';
 import { useFormContext } from 'react-hook-form';
 import { BillTableType, BillType } from '@/utils/create-contractor-quotation.schema';
+import { useBills } from "@/app/context/billsContext";
 
 // const data = [
 //     {
@@ -35,6 +36,20 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
   // const [subTotal, setSubTotal] = useState(0)
   const values = getValues()
   let subTotal: any
+  const { bills } = useBills();
+  console.log("Summary bills: ", bills);
+  let subTotalsTotal = 0;
+  values?.bill.forEach((bill: BillType, index: number) => {
+    const billSubTotal = bill.billTable.reduce((acc: number, item: BillTableType) => {
+      if (!item.quantity || !item.rate) return acc;
+      return acc + item.quantity * item.rate;
+    }, 0);
+    subTotalsTotal += billSubTotal;
+  });
+  console.log(subTotalsTotal);
+  let contigency = 0.05 * subTotalsTotal;
+  console.log(contigency);
+  
   // let total: number
   // let contingency = undefined
 
@@ -76,7 +91,7 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
               if (!item.quantity || !item.rate) return acc;
               return acc + item.quantity * item.rate;
             }, 0);
-
+            console.log(subTotal ? `${subTotal}` : '--');
             // total += subTotal
 
             // setSubTotal(

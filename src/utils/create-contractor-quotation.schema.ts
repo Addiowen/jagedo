@@ -17,31 +17,31 @@ export type BillType = {
 export const Bill_TABLE_DEFAULT_VALUE = [
   {
     description: 'default description',
-    quantity: undefined,
+    quantity: 0,
     units: '',
-    rate: undefined,
-    amount: undefined,
+    rate: 0,
+    amount: 0,
   },
   {
     description: 'default description',
-    quantity: undefined,
+    quantity: 0,
     units: '',
-    rate: undefined,
-    amount: undefined,
+    rate: 0,
+    amount: 0,
   },
   {
     description: 'default description',
-    quantity: undefined,
+    quantity: 0,
     units: '',
-    rate: undefined,
-    amount: undefined,
+    rate: 0,
+    amount: 0,
   },
   {
     description: 'default description',
-    quantity: undefined,
+    quantity: 0,
     units: '',
-    rate: undefined,
-    amount: undefined,
+    rate: 0,
+    amount: 0,
   },
 ];
 
@@ -80,27 +80,27 @@ export const BILL_DEFAULT_VALUE = [
   {
     billTableTitle: 'MATERIALS',
     billTable: Bill_TABLE_DEFAULT_VALUE,
-    subTotal: undefined,
+    subTotal: 0,
   },
   {
     billTableTitle: 'LABOUR',
     billTable: Bill_TABLE_DEFAULT_VALUE,
-    subTotal: undefined,
+    subTotal: 0,
   },
   {
     billTableTitle: 'WALLING',
     billTable: Bill_TABLE_DEFAULT_VALUE,
-    subTotal: undefined,
+    subTotal: 0,
   },
   {
     billTableTitle: 'EQUIPMENT',
     billTable: Bill_TABLE_DEFAULT_VALUE,
-    subTotal: undefined,
+    subTotal: 0,
   },
   {
     billTableTitle: 'ROOFING',
     billTable: Bill_TABLE_DEFAULT_VALUE,
-    subTotal: undefined,
+    subTotal: 0,
   },
 ];
 

@@ -14,6 +14,7 @@ import NextProgress from '@/components/next-progress';
 import '@/app/globals.css';
 import { UrlsProvider } from './context/urlsContext';
 import { TransactionProvider } from './context/transactionContext';
+import { BillsProvider } from './context/billsContext';
 
 export const metadata = {
   title: siteConfig.title,
@@ -42,6 +43,7 @@ export default async function RootLayout({
       >
         <AuthProvider session={session}>
           <TransactionProvider>
+            <BillsProvider>
             <UrlsProvider>
               <ThemeProvider>
                 <NextProgress />
@@ -51,6 +53,7 @@ export default async function RootLayout({
                 <GlobalModal />
               </ThemeProvider>
             </UrlsProvider>
+            </BillsProvider>
           </TransactionProvider>
         </AuthProvider>
       </body>

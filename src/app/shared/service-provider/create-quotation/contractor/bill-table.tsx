@@ -26,7 +26,17 @@ export default function BillTable({ billIndex }: Props) {
     control: control,
     name: `bill.${billIndex}.billTable`,
   });
+  // console.log('fields00', fields)
 
+  const addItem = () => {
+    append({
+      amount: 0,
+      description: '',
+      quantity: 0,
+      units: '',
+      rate: 0,
+    });
+  };
   const initialFieldCount = Bill_TABLE_DEFAULT_VALUE.length
   let subTotal = 0
 
@@ -191,14 +201,7 @@ export default function BillTable({ billIndex }: Props) {
         type="button"
         variant="text"
         className="absolute bottom-0 start-0 translate-y-full gap-2 ps-0 active:enabled:translate-y-full dark:text-gray-400"
-        onClick={() =>
-          append({
-            description: '',
-            quantity: undefined,
-            units: '',
-            rate: undefined,
-          },)
-        }
+        onClick={addItem}
       >
         <PiPlusCircle className="size-5" />
         Add Item
