@@ -195,8 +195,8 @@ export default function EditProfileContactDetails({
     try {
       const assetPayload = {
         name: 'Fundi',
-        categoryId: localIds.CATEGORYID,
-        assetTypeId: localIds.ASSET_TYPE_ID,
+        categoryId: ProdIds.CATEGORYID,
+        assetTypeId: ProdIds.ASSET_TYPE_ID,
         ownerId: userId,
         customAttributes: {
           estate: userDetails.metadata.estate,
