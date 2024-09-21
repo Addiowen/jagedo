@@ -17,11 +17,12 @@ export default async function ReviewsPage({
 }) {
   const fetchRatingDetails = async () => {
     const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
 
     try {
       const transactions = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions`,
+        endpoint: `/transactions?status=reviewed&takerId=${userId}`,
       });
       return transactions;
     } catch (error) {

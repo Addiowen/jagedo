@@ -151,7 +151,7 @@ export const routes = {
       requiredDetails:
         '/service-provider/profile/create/fundi/required-details',
 
-      editprofileafterCreation: '/service-provider/fundi/edit-profile',
+      editprofileafterCreation: '/service-provider/fundi/view-profile',
       // edit profile
       editProfile: '/service-provider/fundi/profile',
       accountDetails: '/service-provider/profile/account-details',

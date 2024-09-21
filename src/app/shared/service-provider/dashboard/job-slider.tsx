@@ -174,11 +174,23 @@ export default function JobSlider({ className }: { className?: string }) {
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active Jobs':
-                return { ...item, total: parseInt(apiData.active_count) }; // Assuming this is always set to 1
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.active_count) +
+                    parseInt(apiData.pending_approval_count),
+                }; // Assuming this is always set to 1
               case 'Completed':
-                return { ...item, total: parseInt(apiData.completed_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.completed_count) +
+                    parseInt(apiData.partially_reviewed_count) +
+                    parseInt(apiData.approved_count) +
+                    parseInt(apiData.reviewed_count),
+                };
               case 'Reviews':
-                return { ...item, total: 0 };
+                return { ...item, total: parseInt(apiData.reviewed_count) };
               default:
                 return item;
             }

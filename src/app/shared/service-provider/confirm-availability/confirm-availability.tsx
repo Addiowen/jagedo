@@ -122,14 +122,16 @@ export default function ConfirmAvailability({
       await removeAssetIdFromBookingRequests();
 
       toast.success('Job accepted successfully!');
-      router.push(`${routes.serviceProvider.fundi.activeJobs}`);
+
+      // Ensure the router.push happens after everything is done
+      await router.push(routes.serviceProvider.fundi.activeJobs);
     } catch (error) {
       console.error('Error:', error);
       alert(
         'An error occurred while processing the request. Please try again.'
       );
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Only set isLoading to false at the end
     }
   };
 

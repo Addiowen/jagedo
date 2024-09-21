@@ -22,7 +22,9 @@ export default function AdminRequestsListsComponent({
   // Format the data if needed
   const formattedData =
     transactions?.results
-      .filter((item: any) => item.status === 'paid')
+      // .filter(
+      //   (item: any) => item.status === 'paid' || item.status === 'assigned'
+      // )
       .map((item: any, index: number) => {
         return {
           number: index + 1,

@@ -56,6 +56,8 @@ export default function FundiEditProfileForm({
   const [idUrl, setIdUrl] = useState<string | null>(null);
   const [certificate, setCertificate] = useState<string | null>(null);
 
+  console.log(userDetails);
+
   const handleNcaUpload = (url: string) => {
     setNcaURL(url);
     console.log('nca:', url);
@@ -114,6 +116,7 @@ export default function FundiEditProfileForm({
   };
 
   // submit handler
+  // submit handler
   const onSubmit: SubmitHandler<FundiProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
     try {
@@ -162,23 +165,28 @@ export default function FundiEditProfileForm({
 
         const updatedUser = userDetailsRes.data;
 
-        const assetUpdateData = {
-          metadata: {
-            firstName: updatedUser.firstName,
-            lastName: updatedUser.lastName,
-            ...updatedUser.metadata,
-          },
-        };
-
-        await axios.patch(
-          `${BASE_URL}/assets/${updatedUser.metadata.assetId}`,
-          assetUpdateData,
-          {
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        // Check if asset ID exists before attempting to update the asset
+        if (updatedUser.metadata.assetId) {
+          const assetUpdateData = {
+            metadata: {
+              firstName: updatedUser.firstName,
+              lastName: updatedUser.lastName,
+              ...updatedUser.metadata,
             },
-          }
-        );
+          };
+
+          await axios.patch(
+            `${BASE_URL}/assets/${updatedUser.metadata.assetId}`,
+            assetUpdateData,
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+        } else {
+          console.log('Asset ID is missing. Skipping asset update.');
+        }
 
         // Refresh and redirect after successful profile update
         router.refresh();
@@ -187,7 +195,7 @@ export default function FundiEditProfileForm({
           router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         } else {
           router.push(
-            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+            `${routes.serviceProvider.fundi.editprofileafterCreation}?id=${userDetails.id}`
           );
         }
       }

@@ -66,6 +66,8 @@ export default async function AddtoServiceProviders({
       };
     }) || [];
 
+  console.log(fundilist, 'fundilist');
+
   const pageHeader = {
     title: `REQ ${requestId}`,
   };

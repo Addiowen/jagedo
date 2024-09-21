@@ -1,17 +1,12 @@
 'use client';
 
 // import { useParams } from 'next/navigation';
-import {
-  PiCheckCircle,
-  PiCloudArrowDown,
-  PiCloudArrowUp,
-} from 'react-icons/pi';
+import { PiCheckCircle, PiCloudArrowUp } from 'react-icons/pi';
 import { usePathname } from 'next/navigation';
 import Timeline from './timeline';
 import { useState } from 'react';
-import axios, { BASE_URL } from '@/lib/axios';
-export default async function ProgressBarActive({
-  className,
+
+export default function ProgressBarActive({
   statusValue,
 }: {
   className?: string;
@@ -226,7 +221,7 @@ export default async function ProgressBarActive({
                       : timelineDataComplete
                 }
                 order="desc"
-                handleFileUpload={handleFile1Upload}
+                handleFileUpload={handleFile1Upload} // handleFileUpload={handleFile1Upload}
               />
             ) : (
               <Timeline
@@ -238,7 +233,7 @@ export default async function ProgressBarActive({
                       : timelineData
                 }
                 order="desc"
-                handleFileUpload={handleFile2Upload}
+                handleFileUpload={handleFile2Upload} // handleFileUpload={handleFile2Upload}
               />
             )}
           </div>

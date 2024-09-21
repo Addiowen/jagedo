@@ -25,7 +25,8 @@ import {
 } from './data';
 import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
-import { skill } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
+import { fundiSkills } from '@/app/shared/custom-sign-up/fundi-fields/data';
+import { useState } from 'react';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -38,6 +39,7 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
 });
 
 export default function CreateFundiProfileForm() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // submit handler
@@ -58,6 +60,7 @@ export default function CreateFundiProfileForm() {
           defaultValues: fundiInitialValues,
         }}
         steps={fundiProfileSteps}
+        loading={loading}
       >
         {(
           { register, formState: { errors }, control, getValues, setValue },
@@ -65,20 +68,17 @@ export default function CreateFundiProfileForm() {
           delta
         ) => (
           <>
-            
             {currentStep === 0 && (
               <motion.div
                 initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                
                 <div className="col-span-full pb-10 @4xl:col-span-4">
                   <h4 className="text-base font-medium">Personal Details</h4>
                   <p className="mt-2">Provide your personal details.</p>
                 </div>
 
-               
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Input
                     placeholder="First Name"
@@ -210,20 +210,18 @@ export default function CreateFundiProfileForm() {
               </motion.div>
             )}
 
-           {/* Step 2 */}
+            {/* Step 2 */}
             {currentStep === 1 && (
               <motion.div
                 initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                
                 <div className="col-span-full pb-10 @4xl:col-span-4">
                   <h4 className="text-base font-medium">Required Details</h4>
                   <p className="mt-2">Please provide required details</p>
                 </div>
 
-                
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Controller
                     control={control}
@@ -237,13 +235,14 @@ export default function CreateFundiProfileForm() {
                         size="lg"
                         selectClassName="font-medium text-sm"
                         optionClassName=""
-                        options={skill}
+                        options={fundiSkills}
                         onChange={onChange}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          skill?.find((r) => r.value === selected)?.label ?? ''
+                          fundiSkills?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.skill?.message as string}
                       />
@@ -299,7 +298,7 @@ export default function CreateFundiProfileForm() {
                       />
                     )}
                   />
-                 
+
                   <UploadZone
                     label="ID Picture/Passport Front:*"
                     className="flex-grow"
@@ -315,7 +314,6 @@ export default function CreateFundiProfileForm() {
                     getValues={getValues}
                     setValue={setValue}
                   />
-                
 
                   <UploadZone
                     label="Certificates*"
@@ -341,10 +339,8 @@ export default function CreateFundiProfileForm() {
                     setValue={setValue}
                   />
                 </div>
-               
               </motion.div>
             )}
-
           </>
         )}
       </CustomMultiStepForm>

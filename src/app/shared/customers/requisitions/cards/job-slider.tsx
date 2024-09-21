@@ -83,20 +83,32 @@ export default function JobSlider({ className }: { className?: string }) {
                 return {
                   ...item,
                   total:
-                    parseInt(apiData.paid_count, 10) +
-                    parseInt(apiData.draft_count, 10) +
-                    parseInt(apiData.assigned_count, 10),
+                    parseInt(apiData.paid_count) +
+                    parseInt(apiData.draft_count) +
+                    parseInt(apiData.assigned_count),
                 };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active':
-                return { ...item, total: parseInt(apiData.active_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.active_count) +
+                    parseInt(apiData.pending_approval_count),
+                };
               case 'Completed':
-                return { ...item, total: parseInt(apiData.completed_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.completed_count) +
+                    parseInt(apiData.approved_count) +
+                    parseInt(apiData.partially_reviewed_count) +
+                    parseInt(apiData.reviewed_count),
+                };
               case 'Reviews':
                 return {
                   ...item,
-                  total: parseInt(apiData.reviewed_count) || 0,
+                  total: parseInt(apiData.reviewed_count),
                 };
               default:
                 return item;

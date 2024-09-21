@@ -21,6 +21,20 @@ function getStatusBadge(review: string) {
           <Text className="ms-2 font-medium text-red-dark">{review}</Text>
         </div>
       );
+    case 'partially reviewed':
+      return (
+        <div className="flex items-center">
+          <Badge color="danger" renderAsDot />
+          <Text className="ms-2 font-medium text-red-dark">{review}</Text>
+        </div>
+      );
+    case 'reviewed':
+      return (
+        <div className="flex items-center">
+          <Badge color="success" renderAsDot />
+          <Text className="ms-2 font-medium text-green-dark">{review}</Text>
+        </div>
+      );
     case 'approved':
       return (
         <div className="flex items-center">

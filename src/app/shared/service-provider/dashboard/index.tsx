@@ -1,12 +1,41 @@
 import SpNavCards from './sp-nav-cards';
-import BidsStatus from './pie-chart';
 import JobSlider from './job-slider';
 // import ReviewSlider from './review-slider';
 // import CustomMessagesList from '@/app/shared/custom-messages-list';
 // import RequisitionAlerts from './requisition-alerts';
 import Notifications from './notifications';
 
-export default function ServiceProviderDashboard() {
+// const fetchUserDetials = async () => {
+//   const session = await getServerSession(authOptions);
+
+//   const userId = session?.user.id;
+
+//   try {
+//     const userDetails = await apiRequest({
+//       method: 'GET',
+//       endpoint: `/users/${userId}`,
+//     });
+//     return userDetails;
+//   } catch (error) {
+//     console.error('Failed to fetch transaction details:', error);
+//     return null;
+//   }
+// };
+
+export default function ServiceProviderDashboard({
+  assetDetails,
+}: {
+  assetDetails: any;
+}) {
+  console.log('userdetails');
+
+  // const bookingRequests = assetDetails
+  //   ? assetDetails.metadata.bookingRequests
+  //   : null;
+  // const bookingRequestsCount = bookingRequests
+  //   ? bookingRequests.split(',').length
+  //   : 0;
+
   return (
     <div className="@container">
       <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 3xl:gap-8">

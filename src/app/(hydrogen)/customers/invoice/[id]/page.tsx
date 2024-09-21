@@ -33,16 +33,16 @@ export default function InvoiceDetailsPage() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton />
+          {/* <PrintButton />
           <Button className="w-full @lg:w-auto">
             <PiDownloadSimpleBold className="me-1.5 h-[17px] w-[17px]" />
             Download
-          </Button>
+          </Button> */}
         </div>
       </PageHeader>
 
       {/* <InvoiceDetails /> */}
-      <InvoiceComponent/>
+      <InvoiceComponent />
     </>
   );
 }

@@ -33,7 +33,7 @@ export default function ActiveJobDetails({
   const getparams = useSearchParams();
   const jobId = getparams.get('id');
 
-  console.log(requestDetails);
+  console.log(requestDetails.Status);
 
   const handleCompleteMilestone = async () => {
     setLoading(true); // Show loader
@@ -42,6 +42,9 @@ export default function ActiveJobDetails({
         `${BASE_URL}/transactions/${jobId}`,
         {
           status: 'approved',
+          metadata: {
+            reviewCount: 0,
+          },
         },
         {
           headers: {
@@ -139,7 +142,10 @@ export default function ActiveJobDetails({
               Approve Completion
             </Button>
 
-            <Button onClick={() => setModalState(true)}>
+            <Button
+              onClick={() => setModalState(true)}
+              disabled={requestDetails.Status === 'pending approval'}
+            >
               Complete Milestone
             </Button>
           </div>

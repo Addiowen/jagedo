@@ -33,3 +33,8 @@ export enum ProdIds {
   CATEGORYID = 'ctgy_DUhc3E1qU11tglbrqU1',
   ASSET_TYPE_ID = 'typ_NkgPRqE1ucY1tkuGTucY',
 }
+
+export enum localIds {
+  CATEGORYID = 'ctgy_F7Qaie1ksf1tT8HOksf',
+  ASSET_TYPE_ID = 'typ_G5E60le1XBw1tFR9PXBw',
+}
