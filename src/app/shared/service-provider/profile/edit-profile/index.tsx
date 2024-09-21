@@ -235,6 +235,8 @@ export default function EditProfileContactDetails({
         },
       };
 
+      console.log(userPayload);
+
       const userResponse = await axios.patch(
         `${BASE_URL}/users/${userId}`,
         userPayload,

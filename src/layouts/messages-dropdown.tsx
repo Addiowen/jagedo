@@ -48,7 +48,7 @@ function MessagesList({
           const userId = session?.user.userId;
 
           const response = await axios.get<ApiResponse>(
-            `${BASE_URL}/messages?page=1&nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${userId}`,
+            `${BASE_URL}/messages?nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${userId}`,
             {
               headers: {
                 Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
