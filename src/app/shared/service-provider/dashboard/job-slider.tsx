@@ -17,7 +17,9 @@ import { routes } from '@/config/routes';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axios, { BASE_URL } from '@/lib/axios';
+
 type JobSliderData = {
   name: string;
   total: number;
@@ -155,7 +157,7 @@ export default function JobSlider({ className }: { className?: string }) {
     async function fetchStats() {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/transactionSPStats?ownerId=${userId}`,
+          `${BASE_URL}/transactions?ownerId=${userId}`,
           {
             headers: {
               Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
@@ -165,7 +167,6 @@ export default function JobSlider({ className }: { className?: string }) {
         const apiData = response.data.data;
         console.log(session);
         console.log(apiData);
-
         // Update the userRoleData based on the fetched API data
         if (userRole) {
           const updatedRoleData = (userRoleData[userRole] || []).map((item) => {
