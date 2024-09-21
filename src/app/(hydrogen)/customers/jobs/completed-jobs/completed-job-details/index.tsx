@@ -7,13 +7,10 @@ import ReviewCard from '@/app/shared/custom-reviews/review-card-view';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PiUserCircleDuotone } from 'react-icons/pi';
 import ReviewForm from '@/app/shared/custom-reviews/review-form';
-import CustomerDetailsCard from '@/app/shared/admin/jobs/cutomer-details';
-import { completeJobDetailsData } from '@/data/job-data';
 import FundiDetailsCard from '@/app/shared/admin/jobs/fundi-details';
 import ProgressBarActive from '@/app/shared/admin/progress-bar-admin';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
-import CompleteJobDetailsAttachments from '@/app/shared/commons/completed-attachments';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import ViewAttachments from '@/app/shared/service-provider/details/request-details/view-attachments';
 

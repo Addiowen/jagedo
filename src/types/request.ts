@@ -12,6 +12,7 @@ interface Metadata {
   linkageFee: number;
   status: string;
   id: string;
+  estate: string;
 }
 
 interface RequestDetails {

@@ -5,6 +5,7 @@ import PageHeader from '@/app/shared/commons/page-header';
 import { metaObject } from '@/config/site.config';
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
+import InvoiceComponent from '@/app/shared/custom-invoice-test';
 
 export const metadata = {
   ...metaObject('Invoice'),
@@ -32,15 +33,16 @@ export default function InvoiceDetailsPage() {
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
-          <PrintButton />
+          {/* <PrintButton />
           <Button className="w-full @lg:w-auto">
             <PiDownloadSimpleBold className="me-1.5 h-[17px] w-[17px]" />
             Download
-          </Button>
+          </Button> */}
         </div>
       </PageHeader>
 
-      <InvoiceDetails />
+      {/* <InvoiceDetails /> */}
+      <InvoiceComponent />
     </>
   );
 }

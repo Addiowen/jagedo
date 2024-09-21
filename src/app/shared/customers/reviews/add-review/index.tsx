@@ -50,6 +50,7 @@ export default function AddReviewComponentCustomer({
 
   const [transaction, setTransaction] = useState<any>(null);
   const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   console.log(transactionDetails, 'transactionDetails');
 
@@ -60,6 +61,8 @@ export default function AddReviewComponentCustomer({
     }
     setIsTransactionLoaded(true); // Transaction is considered loaded even if it's null
   }, []);
+
+  const transactionReviewCount = transactionDetails.metadata.reviewCount;
 
   const [answers, setAnswers] = useState(
     data.map((field) => ({
@@ -87,10 +90,11 @@ export default function AddReviewComponentCustomer({
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+    setLoading(true);
     event.preventDefault();
 
     if (!transaction) {
-      alert('Transaction not found. Please try again.');
+      alert('Job not found. Please try again.');
       return;
     }
 
@@ -130,10 +134,14 @@ export default function AddReviewComponentCustomer({
       if (!transactionDetails.metadata?.customerRatingId) {
         console.log('No existing ratingId, updating transaction...');
 
+        const newReviewCount = (parseInt(transactionReviewCount) || 0) + 1;
+        const status = newReviewCount < 2 ? 'partially reviewed' : 'reviewed';
+
         // Update the transaction with the rating ID
         const patchPayload = {
+          status,
           metadata: {
-            status: 'reviewed',
+            reviewCount: newReviewCount,
             customerRatingId: id,
           },
         };
@@ -151,6 +159,7 @@ export default function AddReviewComponentCustomer({
 
         toast.success('Thank you for sharing your review.:');
         console.log('Transaction updated successfully:', patchRes.data);
+        router.refresh();
         router.push(`${routes.customers.reviews}?jobId=${jobId}`);
       } else {
         toast.error('The job has already been reviewed.');
@@ -169,6 +178,8 @@ export default function AddReviewComponentCustomer({
       // Navigate to another page and pass jobId as a query param
     } catch (error) {
       console.error('Error submitting review or updating transaction:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -253,7 +264,12 @@ export default function AddReviewComponentCustomer({
           </div>
 
           <div className="mt-8 flex justify-center">
-            <Button className="px-8" type="submit" disabled={!transaction}>
+            <Button
+              className="px-8"
+              type="submit"
+              disabled={!transaction}
+              isLoading={loading}
+            >
               {transaction ? 'Submit' : 'Loading transaction...'}
             </Button>
           </div>

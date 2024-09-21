@@ -1,7 +1,7 @@
 'use client';
 
 import MetricCard from '@/components/cards/metric-card';
-import { Text } from 'rizzui';
+import { Modal, Text } from 'rizzui';
 import cn from '@/utils/class-names';
 import {
   PiHammer,
@@ -13,44 +13,7 @@ import {
 import CategoriesCard from '@/components/cards/categories-card';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-
-const orderData = [
-  {
-    day: 'Sunday',
-    sale: 4000,
-    cost: 2400,
-  },
-  {
-    day: 'Monday',
-    sale: 3000,
-    cost: 1398,
-  },
-  {
-    day: 'Tuesday',
-    sale: 2000,
-    cost: 9800,
-  },
-  {
-    day: 'Wednesday',
-    sale: 2780,
-    cost: 3908,
-  },
-  {
-    day: 'Thursday',
-    sale: 1890,
-    cost: 4800,
-  },
-  {
-    day: 'Friday',
-    sale: 2390,
-    cost: 3800,
-  },
-  {
-    day: 'Saturday',
-    sale: 3490,
-    cost: 4300,
-  },
-];
+import { useState } from 'react';
 
 const eComDashboardStatData = [
   {
@@ -63,7 +26,6 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
     link: `${routes.customers.generateInvoiceFundi}?metric=Fundi`, // Link for Fundi card with query parameter
   },
   {
@@ -76,8 +38,7 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: `${routes.customers.generateInvoiceProfessional}?metric=Professional`, // Link for Professional card with query parameter
+    link: routes.comingSoon,
   },
   {
     id: '3',
@@ -89,8 +50,7 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: `${routes.customers.generateInvoiceContractor}?metric=Contractor`, // Link for Contractor card with query parameter
+    link: routes.comingSoon,
   },
   {
     id: '4',
@@ -100,12 +60,21 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    chart: orderData,
-    link: '', // Link for Shop Now card with query parameter
+    link: routes.comingSoon, // Link for Shop Now card with query parameter
   },
 ];
 
 export default function SpType({ className }: { className?: string }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleTileClick = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div
       className={cn(
@@ -113,23 +82,55 @@ export default function SpType({ className }: { className?: string }) {
         className
       )}
     >
-      {eComDashboardStatData.map((stat) => (
-        <Link key={stat.title + stat.id} href={stat.link}>
-          <CategoriesCard
-            metric={stat.metric}
-            metricClassName="lg:text-[18px] text-sm" // Adjust metric text size
-            icon={stat.icon}
-            iconClassName={cn(
-              '[&>svg]:w-8 [&>svg]:h-8 lg:[&>svg]:w-10 lg:[&>svg]:h-10 w-auto h-auto p-0 bg-transparent -mx-1.5', // Adjust icon size
-              stat.id === '1' &&
-                '[&>svg]:w-7 [&>svg]:h-7 lg:[&>svg]:w-9 lg:[&>svg]:h-9',
-              stat.style
-            )}
-            chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
-            className="@container [&>div]:items-center"
-          />
-        </Link>
-      ))}
+      {eComDashboardStatData.map((stat) =>
+        stat.id === '1' ? (
+          // Wrap only the Fundi card in a Link
+          <Link key={stat.title + stat.id} href={stat.link}>
+            <CategoriesCard
+              metric={stat.metric}
+              metricClassName="lg:text-[18px] text-sm"
+              icon={stat.icon}
+              iconClassName={cn(
+                '[&>svg]:w-8 [&>svg]:h-8 lg:[&>svg]:w-10 lg:[&>svg]:h-10 w-auto h-auto p-0 bg-transparent -mx-1.5',
+                stat.style
+              )}
+              chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
+              className="@container [&>div]:items-center"
+            />
+          </Link>
+        ) : (
+          // Other cards trigger the modal
+          <div key={stat.title + stat.id} onClick={handleTileClick}>
+            <CategoriesCard
+              metric={stat.metric}
+              metricClassName="lg:text-[18px] text-sm"
+              icon={stat.icon}
+              iconClassName={cn(
+                '[&>svg]:w-8 [&>svg]:h-8 lg:[&>svg]:w-10 lg:[&>svg]:h-10 w-auto h-auto p-0 bg-transparent -mx-1.5',
+                stat.style
+              )}
+              chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
+              className="@container [&>div]:items-center"
+            />
+          </div>
+        )
+      )}
+
+      <Modal isOpen={showModal} onClose={closeModal}>
+        <div className="mx-auto max-w-lg rounded-lg bg-white p-8 text-center shadow-lg">
+          <h3 className="mb-4 text-2xl font-semibold">Coming Soon</h3>
+          <p className="mb-6 text-gray-600">
+            This feature is currently under development and will be available
+            soon.
+          </p>
+          <button
+            className="mt-4 rounded bg-blue-500 px-6 py-2 font-medium text-white transition-all hover:bg-blue-600"
+            onClick={closeModal}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

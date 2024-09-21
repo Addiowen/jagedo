@@ -27,15 +27,13 @@ export default function ProfileMenu({
           )}
         >
           <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name="John Doe"
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
+            src="/user1.png"
+            name="User"
+            className={cn(
+              '!h-9 w-9 rounded-full border-2 border-gray-300 shadow-md transition-shadow hover:shadow-lg sm:!h-10 sm:!w-10',
+              avatarClassName
+            )}
           />
-          {!!username && (
-            <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
-              Hi, Andry
-            </span>
-          )}
         </button>
       </Popover.Trigger>
 
@@ -49,6 +47,7 @@ export default function ProfileMenu({
 function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setIsOpen(false);
@@ -66,30 +65,39 @@ function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
   );
 }
 
-const menuItems = [
-  {
-    name: 'My Profile',
-    href: routes.profile,
-  },
-  {
-    name: 'Account Settings',
-    href: routes.forms.profileSettings,
-  },
-  {
-    name: 'Activity Log',
-    href: '#',
-  },
-];
-
 function DropdownMenu() {
   const { data: session } = useSession();
+
+  const userRole = session?.user.metadata?.role;
+
+  const menuItems = [
+    {
+      name: 'My Profile',
+      href:
+        userRole === 'customer'
+          ? routes.customers.createCustomerProfile
+          : userRole === 'fundi'
+            ? routes.serviceProvider.fundi.profile
+            : userRole === 'admin'
+              ? routes.admin.editAdminProfile
+              : routes.accessDenied,
+    },
+    {
+      name: 'Account Settings',
+      href: routes.forms.profileSettings,
+    },
+    {
+      name: 'Activity Log',
+      href: '#',
+    },
+  ];
 
   return (
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
         <Avatar
-          src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-11.webp"
-          name="Albert Flores"
+          src="/user1.png"
+          name=""
         />
         <div className="ms-3">
           <Title as="h6" className="font-semibold">

@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-export const AUTH_TOKEN =
-  'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=';
 
 export default axios.create({
   baseURL: BASE_URL,

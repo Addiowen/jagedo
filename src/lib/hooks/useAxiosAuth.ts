@@ -14,7 +14,7 @@ const useAxiosAuth = () => {
       (config) => {
         if (!config.headers['Authorization']) {
           config.headers['Authorization'] =
-            `Bearer ${session?.user.accessToken}`;
+            `Basic ${session?.user.accessToken}`;
         }
         return config;
       },
@@ -25,7 +25,7 @@ const useAxiosAuth = () => {
       (config) => {
         if (!config.headers['Authorization']) {
           config.headers['Authorization'] =
-            'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=';
+            process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN;
         }
         return config;
       },

@@ -14,7 +14,6 @@ import UploadZone from '@/components/ui/file-upload/upload-zone';
 import {
   fundiInitialValues,
   fundiProfileSteps,
-  skill,
   gender,
   level,
   years,
@@ -28,9 +27,11 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import {
   county,
+  fundiSkills,
   subCounty,
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { counties } from '@/data/counties';
+import UploadButton from '@/app/shared/upload-button/upload-btn';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -51,6 +52,25 @@ export default function CreateFundiProfileForm({
 }: {
   userDetails: any;
 }) {
+  const [ncaUrl, setNcaURL] = useState<string | null>(null);
+  const [idUrl, setIdUrl] = useState<string | null>(null);
+  const [certificate, setCertificate] = useState<string | null>(null);
+
+  const handleNcaUpload = (url: string) => {
+    setNcaURL(url);
+    console.log('nca:', url);
+  };
+
+  const handleIdUpload = (url: string) => {
+    setIdUrl(url);
+    console.log('id:', url);
+  };
+
+  const handleCertificateUpload = (url: string) => {
+    setCertificate(url);
+    console.log('cert:', url);
+  };
+
   const [subCounty, setSubCounty] = useState<string>(
     userDetails.metadata.subCounty || ''
   );
@@ -58,8 +78,6 @@ export default function CreateFundiProfileForm({
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
-
-  const [skillValue, setSkillValue] = useState(userDetails.metadata.skill);
 
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
@@ -72,9 +90,10 @@ export default function CreateFundiProfileForm({
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log(userDetails.metadata.skill);
+  console.log(userDetails);
 
   const fundiInitialValues: FundiProfileSchema = {
+    idNo: userDetails.metadata.idNo || '',
     firstName: userDetails.firstname || '',
     county: userDetails.metadata.county || '',
     subCounty: userDetails.metadata.subCounty || '',
@@ -106,6 +125,7 @@ export default function CreateFundiProfileForm({
         lastname: data.lastName,
         email: data.email,
         metadata: {
+          approvalStatus: 'pending',
           profileCreated: true,
           firstName: data.firstName,
           lastName: data.lastName,
@@ -166,7 +186,7 @@ export default function CreateFundiProfileForm({
           router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         } else {
           router.push(
-            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+            `${routes.serviceProvider.fundi.editprofileafterCreation}?id=${userDetails.id}`
           );
         }
       }
@@ -212,6 +232,16 @@ export default function CreateFundiProfileForm({
                 {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Input
+                    placeholder="Id Number"
+                    label="ID Number"
+                    size="lg"
+                    disabled={true}
+                    inputClassName="text-sm"
+                    {...register('idNo')}
+                    error={errors.idNo?.message}
+                    className="[&>label>span]:font-medium"
+                  />
+                  <Input
                     placeholder="First Name"
                     label="First Name"
                     size="lg"
@@ -235,6 +265,7 @@ export default function CreateFundiProfileForm({
                     placeholder="Phone Number"
                     label="Phone Number"
                     size="lg"
+                    disabled={true}
                     inputClassName="text-sm"
                     {...register('phoneNo')}
                     error={errors.phoneNo?.message}
@@ -246,6 +277,7 @@ export default function CreateFundiProfileForm({
                     placeholder="Email"
                     label="Email Address"
                     size="lg"
+                    disabled={true}
                     inputClassName="text-sm"
                     {...register('email')}
                     error={errors.email?.message}
@@ -485,18 +517,19 @@ export default function CreateFundiProfileForm({
                       <Select
                         dropdownClassName="!z-10"
                         inPortal={false}
-                        placeholder="Select Skill"
-                        label="Skill"
+                        placeholder="Select skill"
+                        label="Skill*"
                         size="lg"
                         selectClassName="font-medium text-sm"
                         optionClassName=""
-                        options={skill}
+                        options={fundiSkills}
                         onChange={onChange}
                         value={value}
                         className=""
                         getOptionValue={(option) => option.value}
                         displayValue={(selected) =>
-                          skill?.find((r) => r.value === selected)?.label ?? ''
+                          fundiSkills?.find((r) => r.value === selected)
+                            ?.label ?? ''
                         }
                         error={errors?.skill?.message as string}
                       />
@@ -559,50 +592,42 @@ export default function CreateFundiProfileForm({
                       />
                     )}
                   />
-                  {/* </div> */}
 
-                  {/* <div className="flex"> */}
-                  {/* <div> */}
-                  <UploadZone
-                    label="ID Picture/Passport*"
-                    className="flex-grow"
-                    name="idFront"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      ID Picture
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Id No."
+                      htmlFor="id"
+                      onUploadSuccess={handleIdUpload}
+                    />
+                  </div>
 
-                  {/* <UploadZone
-                          label="ID Picture/Passport Back:*"
-                          className="flex-grow"
-                          name="idBack"
-                          getValues={getValues}
-                          setValue={setValue}
-                      /> */}
-                  {/* </div> */}
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      Certificate
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Certificate."
+                      htmlFor="certificate"
+                      onUploadSuccess={handleCertificateUpload}
+                    />
+                  </div>
 
-                  <UploadZone
-                    label="Certificates*"
-                    className="flex-grow"
-                    name="certificates"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
-
-                  {/* <UploadZone
-                        label="Resume/CV*"
-                        className="flex-grow"
-                        name="resume"
-                        getValues={getValues}
-                        setValue={setValue}
-                    /> */}
-
-                  <UploadZone
-                    label="NCA Registration Card"
-                    className="flex-grow"
-                    name="ncaCard"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      NCA Registration Card
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="NCA Registration Card."
+                      htmlFor="nca"
+                      onUploadSuccess={handleNcaUpload}
+                    />
+                  </div>
                 </div>
                 {/* </div> */}
               </motion.div>

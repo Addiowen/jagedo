@@ -155,6 +155,7 @@ export default function CustomerSteps() {
       password: filteredData.password,
       metadata: {
         role: 'customer',
+        firstName: filteredData.firstName,
         type: filteredData.type,
         gender: filteredData.gender,
         phone: filteredData.phone,

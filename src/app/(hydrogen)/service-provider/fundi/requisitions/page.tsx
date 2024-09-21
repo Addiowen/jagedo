@@ -65,11 +65,23 @@ const fetchUserAssetDetails = async () => {
 };
 
 export default async function RequisitionsPage() {
+  const session = await getServerSession(authOptions);
+
+  const approvalStatus = session?.user.metadata.approvalStatus;
+
   const asset = await fetchUserAssetDetails();
 
   // Use optional chaining to safely access metadata
   const bookingRequests = asset?.metadata?.bookingRequests;
 
+  if (approvalStatus === 'pending') {
+    return (
+      <Alert variant="flat" color="warning">
+        <Text className="font-semibold">Unverified</Text>
+        <Text>Awaiting verification from admin! Please try again later</Text>
+      </Alert>
+    );
+  }
   if (!asset || !asset.metadata) {
     return (
       <Alert variant="flat" color="warning">
@@ -99,7 +111,7 @@ export default async function RequisitionsPage() {
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions?id[]=${bookingRequests}`,
+        endpoint: `/transactions?status=assigned&id[]=${bookingRequests}`,
       });
 
       return assetDetails;

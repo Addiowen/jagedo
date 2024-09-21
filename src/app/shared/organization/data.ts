@@ -1,5 +1,3 @@
-import { OrganizationProfileSchema } from '@/utils/validators/custom-profile.schema';
-
 // here's where you specify the steps
 // note: if the fields don't match the inputs that you have in the steps file,
 // the output variable inside custom-multi-step-form/index.tsx will be false,
@@ -24,20 +22,24 @@ export const organizationProfileSteps = [
   },
 ];
 
-// set initial values for the form fields here
-const organizationProfileInitialValues: OrganizationProfileSchema = {
-  type: 'Organization',
-  orgName: 'Jagedo',
-  county: 'Busia',
-  subCounty: 'Nambale',
-  estate: 'Nambale',
-  firstName: 'Owen',
-  lastName: 'Oscar',
-  email: 'owen@gmail.com',
-  phoneNo: '07284394323',
-  regNo: '#3293012',
-  pin: '3233244',
-};
+export const individualProfileSteps = [
+  {
+    id: 'Step 1',
+    name: 'Address Details',
+    fields: ['type', 'email', 'county', 'subCounty', 'estate'],
+  },
+  {
+    id: 'Step 2',
+    name: 'Contact Details',
+    fields: ['firstName', 'lastName', 'phone', 'gender'],
+  },
+
+  {
+    id: 'Step 3',
+    name: 'Uploads',
+    fields: ['regNo', 'pin'],
+  },
+];
 
 // if there's any 'Select' inputs, specify the values here
 export const category = [

@@ -77,7 +77,9 @@ export default function ProgressBarActive({
       title: 'Stop',
       text: '',
       hightlightedText:
-        statusValue === 'approved' || statusValue === 'reviewed'
+        statusValue === 'approved' ||
+        statusValue === 'reviewed' ||
+        statusValue === 'partially reviewed'
           ? 'Approved'
           : statusValue === 'active'
             ? 'Ongoing'

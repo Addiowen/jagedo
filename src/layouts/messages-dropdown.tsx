@@ -48,10 +48,10 @@ function MessagesList({
           const userId = session?.user.userId;
 
           const response = await axios.get<ApiResponse>(
-            `${BASE_URL}/messages?page=1&nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${userId}`,
+            `${BASE_URL}/messages?nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${userId}`,
             {
               headers: {
-                Authorization: 'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
               },
             }
           );
@@ -72,11 +72,12 @@ function MessagesList({
     }
   }, [session]); // Add session as a dependency to the useEffect hook
 
-  if (loading) return (
-    <div className="flex justify-center items-center h-full">
-      <div className="spinner"></div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="spinner"></div>
+      </div>
+    );
 
   return (
     <div className="w-[320px] text-left sm:w-[360px] 2xl:w-[420px] rtl:text-right">

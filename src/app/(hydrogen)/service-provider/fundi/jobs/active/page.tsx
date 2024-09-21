@@ -22,7 +22,7 @@ const fetchRequestDetails = async () => {
 
     const requestDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?assetId=${assetId}`,
+      endpoint: `/transactions?status=active,pending+approval&assetId=${assetId}`,
     });
 
     return requestDetails;

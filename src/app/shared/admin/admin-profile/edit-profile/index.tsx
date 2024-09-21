@@ -93,8 +93,7 @@ export default function EditAdminProfileContactDetails({
         updateData,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -150,8 +149,7 @@ export default function EditAdminProfileContactDetails({
         assetPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -170,8 +168,7 @@ export default function EditAdminProfileContactDetails({
         userPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -241,6 +238,7 @@ export default function EditAdminProfileContactDetails({
                   editMode={editMode}
                   setEditMode={setEditMode}
                   setModalState={setModalState}
+                  isApproved={''}
                 />
                 <Button
                   onClick={handleEditClick}
@@ -288,6 +286,7 @@ export default function EditAdminProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={''}
               />
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
@@ -306,6 +305,7 @@ export default function EditAdminProfileContactDetails({
                 editMode={editMode}
                 setEditMode={setEditMode}
                 setModalState={setModalState}
+                isApproved={''}
               />
 
               <div className="space-y-4 lg:col-span-2">

@@ -1,9 +1,5 @@
-import ServiceProviderDashboard from "@/app/shared/service-provider/dashboard";
+import ServiceProviderDashboard from '@/app/shared/service-provider/dashboard';
 
-
-export default function ServiceProviderDashboardPage () {
-    return (
-        <ServiceProviderDashboard />
-    )
+export default function ServiceProviderDashboardPage() {
+  return <ServiceProviderDashboard assetDetails={undefined} />;
 }
-

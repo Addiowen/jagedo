@@ -54,11 +54,10 @@ export default function Notifications({ className }: { className?: string }) {
     async function fetchMessages() {
       try {
         const response = await axios.get<ApiResponse>(
-          `${BASE_URL}/messages?page=1&nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${receiverId}`,
+          `${BASE_URL}/messages?nbResultsPerPage=10&orderBy=createdDate&order=desc&receiverId=${receiverId}`,
           {
             headers: {
-              Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

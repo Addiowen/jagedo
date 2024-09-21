@@ -162,7 +162,7 @@ const GenerateInvoiceFundi: React.FC = () => {
 
         if (response.data) {
           console.log(response.data, 'my transaction');
-          toast.success('Form submitted successfully!');
+          toast.success('Your job request has been created!');
           router.push(
             `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
           );
@@ -247,6 +247,7 @@ const GenerateInvoiceFundi: React.FC = () => {
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
               <Textarea
                 id="description"
+                label="Description"
                 clearable
                 placeholder="Add description"
                 value={description}

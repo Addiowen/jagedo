@@ -1,14 +1,18 @@
 import { metaObject } from '@/config/site.config';
-import EditProfileContactDetails from '@/app/shared/service-provider/profile/edit-profile';
 import PageHeader from '@/app/shared/commons/page-header';
+
+import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import apiRequest from '@/lib/apiService';
+import FundiEditProfileForm from '.';
 
 export const metadata = {
-  ...metaObject('Profile View'),
+  ...metaObject('Profile'),
 };
 
 const pageHeader = {
-  title: 'Profile',
+  title: 'Profile Creation',
   breadcrumb: [
     {
       href: '/',
@@ -20,24 +24,28 @@ const pageHeader = {
   ],
 };
 
-export default async function EditProfileContactDetailsPage({
+const fetchUserDetails = async () => {
+  const session = await getServerSession(authOptions);
+
+  const fundiId = session?.user.id;
+
+  try {
+    const userDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/users/${fundiId}`,
+    });
+    return userDetails;
+  } catch (error) {
+    console.error('Failed to fetch transaction details:', error);
+    return null;
+  }
+};
+
+export default async function FundiCreateProfilePage({
   searchParams,
 }: {
   searchParams: any;
 }) {
-  const fetchUserDetails = async () => {
-    try {
-      const userDetails = await apiRequest({
-        method: 'GET',
-        endpoint: `/users/${searchParams.id}`,
-      });
-      return userDetails;
-    } catch (error) {
-      console.error('Failed to fetch transaction details:', error);
-      return null;
-    }
-  };
-
   const user = await fetchUserDetails();
 
   return (
@@ -46,10 +54,8 @@ export default async function EditProfileContactDetailsPage({
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <EditProfileContactDetails
-        editProfileId={searchParams.id}
-        userDetails={user}
-      />
+
+      <FundiEditProfileForm userDetails={user} />
     </>
   );
 }

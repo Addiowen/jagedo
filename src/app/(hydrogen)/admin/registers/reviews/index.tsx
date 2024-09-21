@@ -6,7 +6,6 @@ import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { Input, Modal } from 'rizzui';
-import { reviewData } from '@/data/job-data';
 // import FilterElement from './filter-element';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
@@ -17,46 +16,50 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function FundiReviewsTable({
+export default function AdminReviewsTable({
   className,
-  ratings,
+  transactions,
 }: {
   className?: string;
-  ratings: any;
+  transactions: any;
 }) {
-  const mappedRatings = ratings.results.map(
+  const [pageSize, setPageSize] = useState(7);
+  const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
+
+  console.log(transactions, 'transactions');
+
+  const mappedTransactions = transactions.results.map(
     (
       result: {
-        metadata: {
-          transaction: {
-            [x: string]: any;
-            transactionId: any;
-            Category: any;
-            County: any;
-          };
-        };
         id: any;
-        score: any;
-        transactionId: any;
+        createdDate: { [x: string]: any };
+        metadata: {
+          customerRatingId: string;
+          spRatingId: string;
+          category: string;
+          skill: string;
+          packageType: string;
+          county: string;
+          subCounty: string;
+        };
       },
       index: number
     ) => ({
       number: (index + 1).toString() || '',
-      id: result.transactionId,
-      ratingId: result.id,
-      date: result.metadata.transaction?.['Request Date'] || '',
-      category: result.metadata.transaction?.Category || '',
-      subCategory: result.metadata.transaction?.['Sub-Category'] || '',
-      requestType: result.metadata.transaction?.['Request Type'] || '',
-      county: result.metadata.transaction?.County || '',
-      subCounty: result.metadata.transaction?.['Sub-County'] || '',
-      rating: (result.score / 20).toFixed(1),
+      id: result.id,
+      date: result.createdDate || '',
+      category: 'Fundi',
+      subCategory: result.metadata.skill || '',
+      spRatingId: result.metadata.spRatingId || '',
+      customerRatingId: result.metadata.customerRatingId || '',
+      requestType: result.metadata.packageType || '',
+      county: result.metadata.county || '',
+      subCounty: result.metadata.subCounty || '',
       requestTypeId: 0,
     })
   );
 
-  const [pageSize, setPageSize] = useState(7);
-  const [viewReviewsModalState, setViewReviewsModalState] = useState(false);
+  console.log(mappedTransactions);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -87,12 +90,12 @@ export default function FundiReviewsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(mappedRatings, pageSize, filterState);
+  } = useTable(mappedTransactions, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: mappedRatings,
+        data: mappedTransactions,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -100,7 +103,6 @@ export default function FundiReviewsTable({
         onChecked: handleRowSelect,
         handleSelectAll,
         setViewReviewsModalState,
-        hideRatingColumn: true,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [

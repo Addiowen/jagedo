@@ -3,7 +3,7 @@
 import MetricCard from '@/components/cards/metric-card';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
-import { Button, Checkbox, Loader } from 'rizzui'; // Import Loader
+import { Button, Checkbox, Loader } from 'rizzui';
 import { requestDetailsData } from '@/data/custom-job-details-data';
 import ChunkedGrid from '../../custom-chunked-grid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -21,7 +21,8 @@ export default function ConfirmAvailability({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const [assets, setAssets] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State for loading
+  const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const { data: session } = useSession();
 
   const emergency = pathname.includes('emergency');
@@ -59,20 +60,17 @@ export default function ConfirmAvailability({
 
   const assignedFundis = [requestDetails.metadata.bookingRequests];
 
-  console.log(assignedFundis);
-
   const otherfundis = assignedFundis[0].filter((id: string) => id !== assetId);
 
   const handleSubmit = async () => {
-    setIsLoading(true); // Show loader when submit starts
+    setIsLoading(true);
     try {
       let status = 'active';
 
-      console.log(requestType);
-
-      if (requestType === 'Managed by Self') {
-        status = 'active';
-      } else if (requestType === 'Managed by Jagedo') {
+      if (
+        requestType === 'Managed by Self' ||
+        requestType === 'Managed by Jagedo'
+      ) {
         status = 'active';
       }
 
@@ -97,8 +95,6 @@ export default function ConfirmAvailability({
         }
       );
 
-      console.log('Transaction Response:', updateTransactionResponse.data);
-
       // If the transaction is successfully updated, remove assetId from booking requests
       const removeAssetIdFromBookingRequests = async () => {
         const patchRequests = otherfundis.map(async (assetId: any) => {
@@ -106,7 +102,7 @@ export default function ConfirmAvailability({
             `${BASE_URL}/assets/${assetId}`,
             {
               metadata: {
-                bookingRequests: [], // Adjust this if necessary to filter the correct bookings
+                bookingRequests: [],
               },
             },
             {
@@ -123,19 +119,19 @@ export default function ConfirmAvailability({
         console.log('Asset update responses:', responses);
       };
 
-      // Call removeAssetIdFromBookingRequests after transaction update
       await removeAssetIdFromBookingRequests();
 
       toast.success('Job accepted successfully!');
-      // Navigate to completed jobs page only after both requests succeed
-      router.push(`${routes.serviceProvider.fundi.activeJobs}`);
+
+      // Ensure the router.push happens after everything is done
+      await router.push(routes.serviceProvider.fundi.activeJobs);
     } catch (error) {
       console.error('Error:', error);
       alert(
         'An error occurred while processing the request. Please try again.'
       );
     } finally {
-      setIsLoading(false); // Hide loader when submit completes
+      setIsLoading(false); // Only set isLoading to false at the end
     }
   };
 
@@ -160,16 +156,25 @@ export default function ConfirmAvailability({
         <p className="mr-4 text-center font-bold">
           Confirm your availability for this job.
         </p>
-        <Checkbox className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium" />
+        <Checkbox
+          className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
+          checked={isChecked}
+          onChange={() => setIsChecked(!isChecked)} // Toggle checkbox state
+        />
       </div>
 
       <div className="flex justify-center space-x-4 pt-5">
-        {/* {/ Show loader when the submit button is clicked /} */}
         {isLoading ? (
-          <Loader className="h-8 w-8 animate-spin text-primary" /> // Adjust size and add animation
+          <Loader className="h-8 w-8 animate-spin text-primary" />
         ) : (
           <>
-            <Button onClick={handleSubmit} className="w-32">
+            <Button
+              onClick={handleSubmit}
+              className="w-32"
+              disabled={!isChecked}
+            >
+              {' '}
+              {/* Disable button if checkbox is not checked */}
               Accept Job
             </Button>
 

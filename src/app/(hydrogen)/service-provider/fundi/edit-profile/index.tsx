@@ -21,7 +21,7 @@ import {
 } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
 import { useRouter, usePathname } from 'next/navigation';
 import { routes } from '@/config/routes';
-import FundiEvaluationFormAttachments from './attachments';
+import FundiEvaluationFormAttachments from '@/app/shared/admin/admin-profile/attachments';
 import axios, { BASE_URL } from '@/lib/axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -31,6 +31,7 @@ import {
   subCounty,
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { counties } from '@/data/counties';
+import UploadButton from '@/app/shared/upload-button/upload-btn';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -46,11 +47,32 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function FundiEditFundiProfileForm({
+export default function FundiEditProfileForm({
   userDetails,
 }: {
   userDetails: any;
 }) {
+  const [ncaUrl, setNcaURL] = useState<string | null>(null);
+  const [idUrl, setIdUrl] = useState<string | null>(null);
+  const [certificate, setCertificate] = useState<string | null>(null);
+
+  console.log(userDetails);
+
+  const handleNcaUpload = (url: string) => {
+    setNcaURL(url);
+    console.log('nca:', url);
+  };
+
+  const handleIdUpload = (url: string) => {
+    setIdUrl(url);
+    console.log('id:', url);
+  };
+
+  const handleCertificateUpload = (url: string) => {
+    setCertificate(url);
+    console.log('cert:', url);
+  };
+
   const [subCounty, setSubCounty] = useState<string>(
     userDetails.metadata.subCounty || ''
   );
@@ -58,8 +80,6 @@ export default function FundiEditFundiProfileForm({
   const [selectedCounty, setSelectedCounty] = useState<
     keyof typeof counties | ''
   >('');
-
-  const [skillValue, setSkillValue] = useState(userDetails.metadata.skill);
 
   const subCountyOptions = selectedCounty
     ? counties[selectedCounty]?.map((subCounty: any) => ({
@@ -72,9 +92,8 @@ export default function FundiEditFundiProfileForm({
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log(userDetails.metadata.skill);
-
   const fundiInitialValues: FundiProfileSchema = {
+    idNo: userDetails.metadata.idNo || '',
     firstName: userDetails.firstname || '',
     county: userDetails.metadata.county || '',
     subCounty: userDetails.metadata.subCounty || '',
@@ -94,9 +113,9 @@ export default function FundiEditFundiProfileForm({
     idPic: userDetails.metadata.idPic || '',
     certificates: userDetails.metadata.certificates || '',
     ncaCard: userDetails.metadata.ncaCard || '',
-    idNo: userDetails.metadata.idNo || '',
   };
 
+  // submit handler
   // submit handler
   const onSubmit: SubmitHandler<FundiProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
@@ -107,6 +126,7 @@ export default function FundiEditFundiProfileForm({
         lastname: data.lastName,
         email: data.email,
         metadata: {
+          profileCreated: true,
           firstName: data.firstName,
           lastName: data.lastName,
           county: data.county,
@@ -121,9 +141,9 @@ export default function FundiEditFundiProfileForm({
           question2: data.question2,
           question3: data.question3,
           question4: data.question4,
-          idPic: data.idPic,
-          certificates: data.certificates,
-          ncaCard: data.ncaCard,
+          idPic: idUrl,
+          certificates: certificate,
+          ncaCard: ncaUrl,
           resume: data.resume,
         },
       };
@@ -141,6 +161,33 @@ export default function FundiEditFundiProfileForm({
 
       // If the user profile update is successful
       if (userDetailsRes) {
+        console.log(userDetailsRes, 'user details');
+
+        const updatedUser = userDetailsRes.data;
+
+        // Check if asset ID exists before attempting to update the asset
+        if (updatedUser.metadata.assetId) {
+          const assetUpdateData = {
+            metadata: {
+              firstName: updatedUser.firstName,
+              lastName: updatedUser.lastName,
+              ...updatedUser.metadata,
+            },
+          };
+
+          await axios.patch(
+            `${BASE_URL}/assets/${updatedUser.metadata.assetId}`,
+            assetUpdateData,
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+        } else {
+          console.log('Asset ID is missing. Skipping asset update.');
+        }
+
         // Refresh and redirect after successful profile update
         router.refresh();
         // Determine the redirection based on the pathname
@@ -148,7 +195,7 @@ export default function FundiEditFundiProfileForm({
           router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         } else {
           router.push(
-            `${routes.serviceProvider.fundi.editProfile}?id=${userDetails.id}`
+            `${routes.serviceProvider.fundi.editprofileafterCreation}?id=${userDetails.id}`
           );
         }
       }
@@ -194,6 +241,16 @@ export default function FundiEditFundiProfileForm({
                 {/* Inputs */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                   <Input
+                    placeholder="Id Number"
+                    label="ID Number"
+                    size="lg"
+                    disabled={true}
+                    inputClassName="text-sm"
+                    {...register('idNo')}
+                    error={errors.idNo?.message}
+                    className="[&>label>span]:font-medium"
+                  />
+                  <Input
                     placeholder="First Name"
                     label="First Name"
                     size="lg"
@@ -217,6 +274,7 @@ export default function FundiEditFundiProfileForm({
                     placeholder="Phone Number"
                     label="Phone Number"
                     size="lg"
+                    disabled={true}
                     inputClassName="text-sm"
                     {...register('phoneNo')}
                     error={errors.phoneNo?.message}
@@ -228,6 +286,7 @@ export default function FundiEditFundiProfileForm({
                     placeholder="Email"
                     label="Email Address"
                     size="lg"
+                    disabled={true}
                     inputClassName="text-sm"
                     {...register('email')}
                     error={errors.email?.message}
@@ -467,8 +526,8 @@ export default function FundiEditFundiProfileForm({
                       <Select
                         dropdownClassName="!z-10"
                         inPortal={false}
-                        placeholder="Select Skill"
-                        label="Skill"
+                        placeholder="Select skill"
+                        label="Skill*"
                         size="lg"
                         selectClassName="font-medium text-sm"
                         optionClassName=""
@@ -546,46 +605,41 @@ export default function FundiEditFundiProfileForm({
 
                   {/* <div className="flex"> */}
                   {/* <div> */}
-                  <UploadZone
-                    label="ID Picture/Passport*"
-                    className="flex-grow"
-                    name="idFront"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      ID Picture
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Id No."
+                      htmlFor="id"
+                      onUploadSuccess={handleIdUpload}
+                    />
+                  </div>
 
-                  {/* <UploadZone
-                          label="ID Picture/Passport Back:*"
-                          className="flex-grow"
-                          name="idBack"
-                          getValues={getValues}
-                          setValue={setValue}
-                      /> */}
-                  {/* </div> */}
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      Certificate
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="Certificate."
+                      htmlFor="certificate"
+                      onUploadSuccess={handleCertificateUpload}
+                    />
+                  </div>
 
-                  <UploadZone
-                    label="Certificates*"
-                    className="flex-grow"
-                    name="certificates"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
-
-                  {/* <UploadZone
-                        label="Resume/CV*"
-                        className="flex-grow"
-                        name="resume"
-                        getValues={getValues}
-                        setValue={setValue}
-                    /> */}
-
-                  <UploadZone
-                    label="NCA Registration Card"
-                    className="flex-grow"
-                    name="ncaCard"
-                    getValues={getValues}
-                    setValue={setValue}
-                  />
+                  <div>
+                    <label className="mb-4" htmlFor="PIN No.">
+                      NCA Registration Card
+                    </label>
+                    <UploadButton
+                      userId={userDetails.id}
+                      labelText="NCA Registration Card."
+                      htmlFor="nca"
+                      onUploadSuccess={handleNcaUpload}
+                    />
+                  </div>
                 </div>
                 {/* </div> */}
               </motion.div>

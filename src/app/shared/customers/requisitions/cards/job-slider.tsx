@@ -21,31 +21,31 @@ import { useSession } from 'next-auth/react';
 const initialData = [
   {
     name: 'Requests',
-    total: 8,
+    total: 0,
     fill: '#2B7F75',
     link: routes.customers.requisitions,
   },
   {
     name: 'Quotations',
-    total: 7,
+    total: 0,
     fill: '#FFD66B',
     link: routes.customers.quotations,
   },
   {
     name: 'Active',
-    total: 5,
+    total: 0,
     fill: '#04364A',
     link: routes.customers.active,
   },
   {
     name: 'Completed',
-    total: 13,
+    total: 0,
     fill: '#64CCC5',
     link: routes.customers.complete,
   },
   {
     name: 'Reviews',
-    total: 5,
+    total: 0,
     fill: '#FFC0CB',
     link: routes.customers.reviews,
   },
@@ -66,8 +66,7 @@ export default function JobSlider({ className }: { className?: string }) {
           `${process.env.NEXT_PUBLIC_DOMAIN}/transactionCustomerStats?takerId=${takerId}`,
           {
             headers: {
-              Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );
@@ -81,17 +80,35 @@ export default function JobSlider({ className }: { className?: string }) {
           prevData.map((item) => {
             switch (item.name) {
               case 'Requests':
-                return { ...item, total: parseInt(apiData.paid_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.paid_count) +
+                    parseInt(apiData.draft_count) +
+                    parseInt(apiData.assigned_count),
+                };
               case 'Quotations':
                 return { ...item, total: parseInt(apiData.quotation_count) };
               case 'Active':
-                return { ...item, total: parseInt(apiData.active_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.active_count) +
+                    parseInt(apiData.pending_approval_count),
+                };
               case 'Completed':
-                return { ...item, total: parseInt(apiData.completed_count) };
+                return {
+                  ...item,
+                  total:
+                    parseInt(apiData.completed_count) +
+                    parseInt(apiData.approved_count) +
+                    parseInt(apiData.partially_reviewed_count) +
+                    parseInt(apiData.reviewed_count),
+                };
               case 'Reviews':
                 return {
                   ...item,
-                  total: parseInt(apiData.reviewed_count) || 0,
+                  total: parseInt(apiData.reviewed_count),
                 };
               default:
                 return item;

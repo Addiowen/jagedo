@@ -89,8 +89,7 @@ export default function UnverifiedFundisTable({
         newBookedRequests,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -118,8 +117,7 @@ export default function UnverifiedFundisTable({
           { metadata: { requesttransactionId } },
           {
             headers: {
-              Authorization:
-                'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
             },
           }
         );

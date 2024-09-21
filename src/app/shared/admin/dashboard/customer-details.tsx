@@ -26,7 +26,7 @@ const viewOptions = [
 
 export default function CustomerDetailsCard({
   className,
-  customerDetails,
+  customerDetails = {}, // Default to empty object if undefined
 }: {
   className?: string;
   customerDetails: any;
@@ -38,7 +38,7 @@ export default function CustomerDetailsCard({
       // icon: <UserColorIcon className="h-7 w-7" />,
       graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-red',
-      name: `${customerDetails.firstname}  ${customerDetails.lastname}`,
+      name: `${customerDetails.firstname || ''} ${customerDetails.lastname || ''}`, // Default empty string
       increased: false,
       percentage: '+4.40',
     },
@@ -53,21 +53,20 @@ export default function CustomerDetailsCard({
     },
     {
       id: '3',
-      title: 'phone Number',
+      title: 'Phone Number',
       // icon: <RevenueUpIcon className="h-7 w-7" />,
       graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-green',
-      name: customerDetails.metadata.phone,
+      name: customerDetails.metadata?.phone || '', // Safely access metadata
       increased: true,
       percentage: '+32.40',
     },
-
     {
       id: '4',
       title: 'Email Address',
       graphIcon: <TrendingDownIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-red',
-      name: customerDetails.email,
+      name: customerDetails.email || '', // Default empty string for email
       decreased: true,
       percentage: '5.40',
     },
@@ -82,7 +81,7 @@ export default function CustomerDetailsCard({
       rounded="lg"
       className={className}
       title="Customer Details"
-      headerClassName="mb-2 "
+      headerClassName="mb-2"
     >
       <SimpleBar>
         <div className="grid grid-flow-col">
@@ -97,7 +96,7 @@ export default function CustomerDetailsCard({
               contentClassName="ps-5"
               iconClassName={cn('@5xl:w-20 @5xl:h-20 h-16 w-16')}
               chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
-            ></UserDetails>
+            />
           ))}
         </div>
       </SimpleBar>

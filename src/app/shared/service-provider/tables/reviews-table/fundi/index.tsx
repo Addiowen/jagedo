@@ -29,42 +29,36 @@ export default function FundiReviewsTable({
 
   console.log(transactions, 'transactions');
 
-  const mappedtTransactions = transactions.results.filter(
-    (item: any) => item.status === 'reviewed'
+  const mappedTransactions = transactions.results.map(
+    (
+      result: {
+        id: any;
+        createdDate: { [x: string]: any };
+        metadata: {
+          customerRatingId: string;
+          spRatingId: string;
+          category: string;
+          skill: string;
+          packageType: string;
+          county: string;
+          subCounty: string;
+        };
+      },
+      index: number
+    ) => ({
+      number: (index + 1).toString() || '',
+      id: result.id,
+      date: result.createdDate || '',
+      category: 'Fundi',
+      subCategory: result.metadata.skill || '',
+      spRatingId: result.metadata.spRatingId || '',
+      customerRatingId: result.metadata.customerRatingId || '',
+      requestType: result.metadata.packageType || '',
+      county: result.metadata.county || '',
+      subCounty: result.metadata.subCounty || '',
+      requestTypeId: 0,
+    })
   );
-
-  const mappedTransactions = transactions.results
-    .filter((item: any) => item.status === 'reviewed')
-    .map(
-      (
-        result: {
-          id: any;
-          createdDate: { [x: string]: any };
-          metadata: {
-            customerRatingId: string;
-            spRatingId: string;
-            category: string;
-            skill: string;
-            packageType: string;
-            county: string;
-            subCounty: string;
-          };
-        },
-        index: number
-      ) => ({
-        number: (index + 1).toString() || '',
-        id: result.id,
-        date: result.createdDate || '',
-        category: 'Fundi',
-        subCategory: result.metadata.skill || '',
-        spRatingId: result.metadata.spRatingId || '',
-        customerRatingId: result.metadata.customerRatingId || '',
-        requestType: result.metadata.packageType || '',
-        county: result.metadata.county || '',
-        subCounty: result.metadata.subCounty || '',
-        requestTypeId: 0,
-      })
-    );
 
   console.log(mappedTransactions);
 

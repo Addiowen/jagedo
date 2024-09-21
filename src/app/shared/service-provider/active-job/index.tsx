@@ -8,7 +8,6 @@ import { useState } from 'react';
 // import ActiveJobDetailsAttachments from '@/app/shared/service-provider/details/sp-job-details/attachments';
 import toast from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
-import FundiActiveJobDetailsAttachments from '@/app/shared/service-provider/details/sp-job-details/fundi-attachments';
 import ViewAttachments from '../details/request-details/view-attachments';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';

@@ -1,7 +1,7 @@
 'use client';
 
 import MetricCard from '@/components/cards/metric-card';
-import { Text } from 'rizzui';
+import { Modal, Text } from 'rizzui';
 import cn from '@/utils/class-names';
 import {
   PiCaretDoubleUpDuotone,
@@ -28,6 +28,7 @@ import CategoriesCard from '@/components/cards/categories-card';
 // import { title } from 'process';
 import { routes } from '@/config/routes';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const orderData = [
   {
@@ -121,6 +122,16 @@ const spDashboardNavCardData = [
 ];
 
 export default function SpNavCards({ className }: { className?: string }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleTileClick = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div
       className={cn(
@@ -129,7 +140,8 @@ export default function SpNavCards({ className }: { className?: string }) {
       )}
     >
       {spDashboardNavCardData.map((data) => (
-        <Link key={data.title + data.id} href={data.linkTo}>
+        <div key={data.title + data.id} onClick={handleTileClick}>
+          {/* <Link key={data.title + data.id} href={data.linkTo}> */}
           <CategoriesCard
             metric={data.metric}
             metricClassName="lg:text-[18px] text-sm" // Adjust metric text size
@@ -143,8 +155,25 @@ export default function SpNavCards({ className }: { className?: string }) {
             chartClassName="hidden @[200px]:flex @[200px]:items-center h-14 w-24"
             className="@container [&>div]:items-center"
           />
-        </Link>
+        </div>
+        // </Link>
       ))}
+
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <div className="mx-auto max-w-lg rounded-lg bg-white p-8 text-center shadow-lg">
+          <h3 className="mb-4 text-2xl font-semibold">Coming Soon</h3>
+          <p className="mb-6 text-gray-600">
+            This feature is currently under development and will be available
+            soon.
+          </p>
+          <button
+            className="mt-4 rounded bg-blue-500 px-6 py-2 font-medium text-white transition-all hover:bg-blue-600"
+            onClick={() => setShowModal(false)}
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

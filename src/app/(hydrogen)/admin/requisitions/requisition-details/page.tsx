@@ -25,15 +25,19 @@ export default async function RequisitionDetailsPage({
   // Fetch user transaction details
   const customerRequest = await fetchUserTransaction(requestId);
 
+  console.log(customerRequest, 'customerRequest');
+
   // Fetch customer details using takerId from the customerRequest
   const customerDetails = customerRequest
-    ? await fetchCustomerDetails(customerRequest.takerId)
+    ? (await fetchCustomerDetails(customerRequest.takerId)) || []
     : null;
 
-  console.log(customerRequest, 'customer Request');
+  console.log(customerDetails, 'customer Details');
 
   // Generate request details for the ChunkedGrid component
   const requestDetails = getRequestDetails(customerRequest);
+
+  const county = requestDetails.County;
 
   const pageHeader = {
     title: `REQ# ${requestId.toUpperCase()}`,
@@ -69,12 +73,12 @@ export default async function RequisitionDetailsPage({
         />
       </div>
 
-      {/* <WidgetCard3
+      <WidgetCard3
         title="NOTES"
         rounded="lg"
         className="mt-4"
-        action={<Textarea size="sm" className="ml-12 flex-grow" />}
-      ></WidgetCard3> */}
+        action={<Textarea size="sm" className="ml-12 flex-grow self-center" />}
+      />
 
       <div className="mt-6 flex items-center justify-center space-x-6">
         <Link

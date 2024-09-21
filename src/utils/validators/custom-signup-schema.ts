@@ -9,6 +9,7 @@ import {
 // form zod validation schema
 
 export const baseUserFormSchema = z.object({
+  idNo: z.string().min(1, { message: messages.firstNameRequired }),
   firstName: z.string().min(1, { message: messages.firstNameRequired }),
   lastName: z.string().min(1, { message: messages.lastNameRequired }),
   gender: z.string().min(1, { message: messages.fieldIsRequired }),

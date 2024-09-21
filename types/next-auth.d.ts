@@ -17,6 +17,8 @@ declare module 'next-auth' {
         phone;
         type?: string;
         email;
+        approvalStatus;
+        profileCreated;
       };
       assetId?: string;
       ownerId?: string;

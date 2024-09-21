@@ -18,7 +18,7 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
+      endpoint: `/transactions?status=completed,approved,reviewed,partially+reviewed&takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
@@ -45,26 +45,22 @@ export default async function CompleteJobsPage() {
 
   // Format the data if needed
   const formattedData =
-    transactions.results
-      .filter(
-        (item: any) => item.status === 'approved' || item.status === 'reviewed'
-      )
-      .map((item: any, index: number) => {
-        return {
-          number: index + 1,
-          id: item.id || '',
-          assetId: item.assetId,
-          date: item.createdDate || '',
-          category: 'Fundi',
-          subCategory: item.metadata?.skill || '',
-          requestType: `${item.metadata?.packageType}` || '',
-          description: item.metadata?.description || '',
-          location: item.metadata?.village || '',
-          county: item.metadata?.county || '',
-          subCounty: item.metadata?.subCounty || '',
-          status: item.status || '',
-        };
-      }) || [];
+    transactions.results.map((item: any, index: number) => {
+      return {
+        number: index + 1,
+        id: item.id || '',
+        assetId: item.assetId,
+        date: item.createdDate || '',
+        category: 'Fundi',
+        subCategory: item.metadata?.skill || '',
+        requestType: `${item.metadata?.packageType}` || '',
+        description: item.metadata?.description || '',
+        location: item.metadata?.village || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.status || '',
+      };
+    }) || [];
 
   return (
     <CompletedJobsTable

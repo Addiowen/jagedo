@@ -22,7 +22,7 @@ export default async function ReviewsPage({
     try {
       const transactions = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions?assetId=${assetId}`,
+        endpoint: `/transactions?status=reviewed&assetId=${assetId}`,
       });
       return transactions;
     } catch (error) {

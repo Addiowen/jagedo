@@ -17,6 +17,12 @@ interface PageProps {
 }
 
 export default function FundiTables({ fundis }: PageProps) {
+  const fundisonlyt = fundis.results.filter(
+    (item: { metadata: { role: string; assetId?: string } }) =>
+      item.metadata.role === 'fundi'
+  );
+  console.log(fundisonlyt);
+
   const profiledFundis = fundis.results.filter(
     (item: {
       metadata: {
@@ -77,10 +83,10 @@ export default function FundiTables({ fundis }: PageProps) {
           href={''}
           className="mt-4 w-full @lg:mt-0 @lg:w-auto"
         >
-          <Button as="span" className="w-full @lg:w-auto">
+          {/* <Button as="span" className="w-full @lg:w-auto">
             <PiPlusBold className="me-1.5 h-[17px] w-[17px]" />
             Add Fundi
-          </Button>
+          </Button> */}
         </Link>
       </div>
       <Tab>

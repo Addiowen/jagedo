@@ -3,7 +3,6 @@ import RequisitionsTable from '@/app/shared/tables/requisitions';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
-import toast from 'react-hot-toast';
 
 // Define the metadata for the page
 export const metadata = {
@@ -15,7 +14,7 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?takerId=${userId}&order=desc&orderBy=createdDate`,
+      endpoint: `/transactions?status=paid,assigned,draft&takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
@@ -42,23 +41,21 @@ export default async function Requisitions() {
 
   // Format the data if needed
   const formattedData =
-    transactions.results
-      .filter((item: any) => item.status === 'paid' || item.status === 'draft')
-      .map((item: any, index: number) => {
-        return {
-          number: index + 1,
-          id: item.id || '',
-          date: item.createdDate || '',
-          category: 'Fundi',
-          subCategory: item.metadata?.skill || '',
-          requestType: `${item.metadata?.packageType}` || '',
-          description: item.metadata?.description || '',
-          location: item.metadata?.village || '',
-          county: item.metadata?.county || '',
-          subCounty: item.metadata?.subCounty || '',
-          status: item.status || '',
-        };
-      }) || [];
+    transactions.results.map((item: any, index: number) => {
+      return {
+        number: index + 1,
+        id: item.id || '',
+        date: item.createdDate || '',
+        category: 'Fundi',
+        subCategory: item.metadata?.skill || '',
+        requestType: `${item.metadata?.packageType}` || '',
+        description: item.metadata?.description || '',
+        location: item.metadata?.village || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.status || '',
+      };
+    }) || [];
 
   return (
     <RequisitionsTable

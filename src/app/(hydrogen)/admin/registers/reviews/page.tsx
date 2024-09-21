@@ -1,5 +1,4 @@
-import ReviewTable from '@/app/shared/admin/dashboard/tables/review-table';
-
+import AdminReviewsTable from '.';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 
@@ -9,26 +8,23 @@ export const metadata = {
 
 const fetchRating = async () => {
   try {
-    const ratings = await apiRequest({
+    const transaction = await apiRequest({
       method: 'GET',
-      endpoint: `/ratings`,
+      endpoint: `/transactions?status=reviewed`,
     });
-    return ratings;
+    return transaction;
   } catch (error) {
-    console.error('Failed to fetch rating details:', error);
+    console.error('Failed to fetch transactions details:', error);
     return null;
   }
 };
 
 export default async function ReviewsPage() {
-  const rating = await fetchRating();
+  const transactionDetails = await fetchRating();
   return (
     <div className="@container">
-      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
-        <ReviewTable
-          ratings={rating}
-          className="relative  @4xl:col-span-2 @7xl:col-span-12"
-        />
+      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-1 3xl:gap-8">
+        <AdminReviewsTable transactions={transactionDetails} />
       </div>
     </div>
   );

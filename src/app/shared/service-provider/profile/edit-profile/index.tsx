@@ -10,6 +10,7 @@ import { BASE_URL } from '@/lib/axios';
 import { routes } from '@/config/routes';
 import { Loader } from 'rizzui';
 import { useSession } from 'next-auth/react';
+import { localIds, ProdIds } from '@/config/enums';
 
 interface Data {
   [key: string]: string | null;
@@ -25,15 +26,45 @@ const splitData = (data: Data, keys: string[]) => {
   return result;
 };
 
-const uploadsKeys = ['ID', 'Certificate', 'Resume/CV'];
+const uploadsKeys = ['Pin', 'Registration Certificate', 'Resume/CV'];
+const fundiuploadKeys = [
+  'ID',
+  'Evaluation Form',
+  'NCA Registration Card',
+  'Certificates',
+];
 
-const thekeys = [
+//organization keys
+const orgCompanyDetailsKeys = [
+  'Type',
   'Organization Name',
   'Email Address',
-  'Phone Number',
   'County',
   'Sub County',
   'Estate',
+];
+
+const orgContactPersonKeys = [
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Phone Number',
+];
+
+//individual address details
+const individualAddressKeys = [
+  'Type',
+  'Email Address',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const individualContactKeys = [
+  'First Name',
+  'Last Name',
+  'Phone Number',
+  'Gender',
 ];
 
 const personalKeys = [
@@ -48,6 +79,26 @@ const personalKeys = [
   'Approval Status',
 ];
 
+const fundiPersonalDetailsKeys = [
+  'Id Number',
+  'Registered As',
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Gender',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const fundiAccountDetailKeys = [
+  'Skill',
+  'Level',
+  'Years of Experience',
+  'Registered As',
+];
+
 export default function EditProfileContactDetails({
   userDetails,
   editProfileId,
@@ -55,7 +106,6 @@ export default function EditProfileContactDetails({
   userDetails: any;
   editProfileId: string;
 }) {
-  const { data: session } = useSession();
   const [modalState, setModalState] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const pathname = usePathname();
@@ -64,7 +114,6 @@ export default function EditProfileContactDetails({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
-  const customerType = session?.user.metadata.type;
 
   const fundiLevel = userDetails.metadata.level;
 
@@ -93,8 +142,7 @@ export default function EditProfileContactDetails({
         updateData,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -162,8 +210,8 @@ export default function EditProfileContactDetails({
     try {
       const assetPayload = {
         name: 'Fundi',
-        categoryId: 'ctgy_F7Qaie1ksf1tT8HOksf',
-        assetTypeId: 'typ_G5E60le1XBw1tFR9PXBw',
+        categoryId: ProdIds.CATEGORYID,
+        assetTypeId: ProdIds.ASSET_TYPE_ID,
         ownerId: userId,
         customAttributes: {
           estate: userDetails.metadata.estate,
@@ -188,8 +236,7 @@ export default function EditProfileContactDetails({
         assetPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -203,13 +250,14 @@ export default function EditProfileContactDetails({
         },
       };
 
+      console.log(userPayload);
+
       const userResponse = await axios.patch(
         `${BASE_URL}/users/${userId}`,
         userPayload,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -224,8 +272,7 @@ export default function EditProfileContactDetails({
         userResponse.data,
         {
           headers: {
-            Authorization:
-              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
           },
         }
       );
@@ -244,8 +291,14 @@ export default function EditProfileContactDetails({
     pathname.includes('individual') || pathname.includes('organization');
 
   const data: Data = {
+    ID: userDetails.metadata.idPic,
+
+    'Years of Experience': userDetails.metadata.years,
+    'Registered As': 'Fundi',
+    Skill: userDetails.metadata.skill,
+    Level: userDetails.metadata.level,
     'Phone Number': userDetails.metadata?.phone,
-    'Organization Name': userDetails.firstname,
+    'Organization Name': userDetails.metadata.organizationName,
     'First Name': userDetails.firstname,
     Gender: userDetails.metadata.gender,
     'Last Name': userDetails.lastname,
@@ -253,19 +306,47 @@ export default function EditProfileContactDetails({
     County: userDetails.metadata?.county,
     'Sub County': userDetails.metadata?.subCounty,
     Estate: userDetails.metadata?.estate,
-    Organization: userDetails.metadata?.estate,
     'Approval Status': userDetails.metadata.status,
+    Type: userDetails.metadata.type,
+    'Registration Certificate': userDetails.metadata.regNo,
+    Pin: userDetails.metadata.pin,
+    Certificates: userDetails.metadata.certificates,
+    'NCA Registration Card': userDetails.metadata.ncaCard,
   };
+
+  const customerType = userDetails?.metadata.type;
+  const userRole = userDetails.metadata.role;
 
   const approvalStatus = userDetails.metadata.approvalStatus;
   console.log(userDetails);
 
   // Choose the correct personalKeys based on customerType
-  const currentPersonalKeys =
-    customerType === 'organization' ? thekeys : personalKeys;
+  const firstTileKeys =
+    customerType === 'organization'
+      ? orgCompanyDetailsKeys
+      : customerType === 'individual'
+        ? individualAddressKeys
+        : userRole === 'fundi'
+          ? fundiPersonalDetailsKeys
+          : personalKeys;
+
+  const secondTileKeys =
+    customerType === 'organization'
+      ? orgContactPersonKeys
+      : customerType === 'individual'
+        ? individualContactKeys
+        : userRole === 'fundi'
+          ? fundiAccountDetailKeys
+          : personalKeys;
+
+  const uploadTileKeys = userRole === 'fundi' ? fundiuploadKeys : uploadsKeys;
 
   const uploads = splitData(data, uploadsKeys);
-  const personalDetails: any = splitData(data, currentPersonalKeys);
+  const personalDetails: any = splitData(data, firstTileKeys);
+
+  const firstTileDetails: any = splitData(data, firstTileKeys);
+  const secondTileDetails: any = splitData(data, secondTileKeys);
+  const uploadDetails: any = splitData(data, uploadTileKeys);
 
   return (
     <div className="@container">
@@ -282,8 +363,21 @@ export default function EditProfileContactDetails({
 
       <Tab>
         <Tab.List>
-          <Tab.ListItem>Personal Details</Tab.ListItem>
-          <Tab.ListItem>Account Details</Tab.ListItem>
+          <Tab.ListItem>
+            {customerType === 'individual'
+              ? 'Address Details'
+              : userRole === 'fundi'
+                ? 'Personal Details'
+                : 'Company Details'}
+          </Tab.ListItem>
+          <Tab.ListItem>
+            {' '}
+            {customerType === 'individual'
+              ? 'Contact Details'
+              : userRole === 'fundi'
+                ? 'Account Details'
+                : 'Contact Person'}
+          </Tab.ListItem>
           <Tab.ListItem>Uploads</Tab.ListItem>
         </Tab.List>
         <Tab.Panels>
@@ -309,12 +403,16 @@ export default function EditProfileContactDetails({
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
                   <Title as="h3" className="text-base font-semibold">
-                    Personal Details
+                    {customerType === 'individual'
+                      ? 'Address Details'
+                      : userRole === 'fundi'
+                        ? 'Personal Details'
+                        : 'Company Details'}
                   </Title>
                 </div>
                 <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
                   <ProfileChunkedGrid
-                    data={personalDetails}
+                    data={firstTileDetails}
                     dataChunkSize={16}
                     editMode={editMode}
                   />
@@ -350,8 +448,19 @@ export default function EditProfileContactDetails({
               <div className="space-y-4 lg:col-span-2">
                 <div className="mb-3.5">
                   <Title as="h3" className="text-base font-semibold">
-                    Account Details
+                    {customerType === 'individual'
+                      ? 'Contact Details'
+                      : userRole === 'fundi'
+                        ? 'Account Details'
+                        : 'Contact Person'}
                   </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={secondTileDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
                 </div>
               </div>
             </div>
@@ -372,6 +481,13 @@ export default function EditProfileContactDetails({
                   <Title as="h3" className="text-base font-semibold">
                     Uploads
                   </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={uploadDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
                 </div>
               </div>
             </div>

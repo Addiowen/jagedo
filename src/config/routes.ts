@@ -144,15 +144,16 @@ export const routes = {
 
       // profile
       profile: '/service-provider/fundi/profile',
-      editFundiProfile: '/service-provider/fundi/profile/edit-profile',
+      editFundiProfile: '/service-provider/fundi/edit-profile',
 
       // create profile
       createProfile: '/service-provider/profile/create/fundi',
       requiredDetails:
         '/service-provider/profile/create/fundi/required-details',
 
+      editprofileafterCreation: '/service-provider/fundi/view-profile',
       // edit profile
-      editProfile: '/service-provider/fundi/edit-profile',
+      editProfile: '/service-provider/fundi/profile',
       accountDetails: '/service-provider/profile/account-details',
       uploads: '/service-provider/profile/uploads',
       evaluationForm: '/service-provider/profile/evaluation-form',

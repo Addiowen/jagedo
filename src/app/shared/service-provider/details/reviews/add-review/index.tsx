@@ -47,6 +47,7 @@ export default function AddReviewComponent({
   const fundi = pathname.includes('fundi');
   const router = useRouter();
   const role = 'fundi';
+  const [loading, setLoading] = useState(false);
 
   const [transaction, setTransaction] = useState<any>(null);
   const [isTransactionLoaded, setIsTransactionLoaded] = useState(false);
@@ -58,6 +59,10 @@ export default function AddReviewComponent({
     }
     setIsTransactionLoaded(true); // Transaction is considered loaded even if it's null
   }, []);
+
+  console.log(transactionDetails);
+
+  const transactionReviewCount = transactionDetails.metadata.reviewCount;
 
   const [answers, setAnswers] = useState(
     data.map((field) => ({
@@ -85,6 +90,7 @@ export default function AddReviewComponent({
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+    setLoading(true);
     event.preventDefault();
 
     if (!transaction) {
@@ -127,11 +133,16 @@ export default function AddReviewComponent({
       if (!transactionDetails.metadata?.spRatingId) {
         console.log('No existing ratingId, updating transaction...');
 
+        const newReviewCount = (parseInt(transactionReviewCount) || 0) + 1;
+
+        const status = newReviewCount < 2 ? 'partially reviewed' : 'reviewed';
+
         // Update the transaction with the rating ID
         const patchPayload = {
-          status: 'reviewed',
+          status,
           metadata: {
             spRatingId: id,
+            reviewCount: newReviewCount,
           },
         };
 
@@ -146,12 +157,12 @@ export default function AddReviewComponent({
           }
         );
 
-        toast.success('Transaction updated successfully:', patchRes.data);
+        toast.success('Job  reviewed successfully:', patchRes.data);
         console.log('Transaction updated successfully:', patchRes.data);
-
+        router.refresh();
         router.push(`${routes.serviceProvider.fundi.reviews}?jobId=${jobId}`);
       } else {
-        toast.error('Transaction already has a ratingId, skipping update.');
+        toast.error('You have already reviewed this job!.');
       }
 
       // Clear form after successful submission
@@ -165,7 +176,9 @@ export default function AddReviewComponent({
 
       // Navigate to another page and pass jobId as a query param
     } catch (error) {
-      console.error('Error submitting review or updating transaction:', error);
+      console.error('Error submitting review ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -250,7 +263,12 @@ export default function AddReviewComponent({
           </div>
 
           <div className="mt-8 flex justify-center">
-            <Button className="px-8" type="submit" disabled={!transaction}>
+            <Button
+              className="px-8"
+              type="submit"
+              disabled={!transaction}
+              isLoading={loading}
+            >
               {transaction ? 'Submit' : 'Loading transaction...'}
             </Button>
           </div>

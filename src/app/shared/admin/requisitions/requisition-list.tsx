@@ -22,7 +22,9 @@ export default function AdminRequestsListsComponent({
   // Format the data if needed
   const formattedData =
     transactions?.results
-      .filter((item: any) => item.status === 'paid')
+      // .filter(
+      //   (item: any) => item.status === 'paid' || item.status === 'assigned'
+      // )
       .map((item: any, index: number) => {
         return {
           number: index + 1,
@@ -39,6 +41,8 @@ export default function AdminRequestsListsComponent({
             item.status.charAt(0).toUpperCase() + item.status.slice(1) || '',
         };
       }) || [];
+
+  console.log(formattedData);
 
   return (
     <div className="@container">
