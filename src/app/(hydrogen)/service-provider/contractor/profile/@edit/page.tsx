@@ -52,7 +52,7 @@ const pageHeader = {
 export default async function EditProfileContactDetailsPage() {
   const user = await fetchUserDetails();
   console.log('user', user);
-  console.log('william');
+  console.log('william 333');
   return (
     <>
       <PageHeader
