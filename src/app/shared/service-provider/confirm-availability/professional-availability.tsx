@@ -8,32 +8,33 @@ import ChunkedGrid from "../../custom-chunked-grid";
 import { professionalRequestDetailsData } from "@/data/custom-job-details-data";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// const data = [
-//     {
-//       'Managed by self': 'Standard 1',
-//       'Job description': 'Change of Use for Proposed Acakoro Sports Academy',
-//       'Job No': '#A1GS0435-RFQ',
-//       'Site conditions': 'Black cotton soil',
-//       'Specifications': 'Designing five bedroom maisonette',     
-//       Location: 'Kome,Homabay',
-
-//     },
-//     // {
-//     //   'Invoice Number': '#3454',
-//     //   'Payment Status': 'Paid',
-//     //   'Deadline for  availability': '20/04/2024',
-//     //   'Start Date': '22/04/2024',
-//     //   'End Date': '30/04/2024',
-//     // },
-// ];
 
 
-export default function ProfessionalAvailability() {
+export default function ProfessionalAvailability(
+  { requestDetails: requestDetails }: { requestDetails: any }
+) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const requestId = searchParams.get('id')
   const jobId = '3420'
   
+  const request = {
+    Category: 'Professional',
+    'Sub-Category': requestDetails.metadata.skill,
+    'Request Type': requestDetails.metadata.packageType,
+    County: requestDetails.metadata.county,
+    'Sub-County': requestDetails.metadata.subCounty,
+    'Estate/Village': requestDetails.metadata.village,
+    'Request Date': requestDetails.startDate,
+    Status: requestDetails.status,
+    'Start Date': requestDetails.startDate,
+    'End Date': requestDetails.endDate,
+    'Invoice Number': requestDetails.id,
+    'Payment Status': requestDetails.status,
+    Amount: requestDetails.metadata.amount,
+    Uploads: requestDetails.metadata.uploads,
+  };
+
   return (
     <>
         {/* <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
@@ -41,7 +42,7 @@ export default function ProfessionalAvailability() {
         </Title> */}
 
         <div className="my-4">
-          <ChunkedGrid data={requestId === 'REQ0021'? professionalRequestDetailsData[0] : professionalRequestDetailsData[1]} dataChunkSize={8} />
+          <ChunkedGrid data={request} dataChunkSize={8} attachementsDetails={request} />
         </div>
 
         <div className="flex justify-center space-x-4 pt-5">

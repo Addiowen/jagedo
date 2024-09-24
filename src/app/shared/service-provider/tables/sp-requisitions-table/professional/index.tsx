@@ -15,7 +15,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ProfessionalRequisitionsTable({ className }: { className?: string }) {
+export default function ProfessionalRequisitionsTable({ className, requestDetails }: { className?: string, requestDetails: any }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -28,6 +28,38 @@ export default function ProfessionalRequisitionsTable({ className }: { className
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const requests = requestDetails?.results || [];
+
+  const transformedRequests = requests.map(
+    (
+      requestDetails: {
+        id: any;
+        createdDate: any;
+        metadata: {
+          packageType: string;
+          county: string;
+          subCounty: string;
+          skill: string;
+          managed: string;
+        };
+        status: any;
+      },
+      index: number
+    ) => ({
+      number: index + 1, // Generate sequential number
+      id: requestDetails.id,
+      date: requestDetails.createdDate, // Extract date from createdDate
+      category: 'Fundi', // Use a default value
+      subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+      requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
+      county: requestDetails.metadata.county || '', // Map 'county'
+      subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+      status: requestDetails.status, // Directly map 'status'
+      requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
+    })
+  );
+  
 
   const {
     isLoading,
@@ -47,12 +79,12 @@ export default function ProfessionalRequisitionsTable({ className }: { className
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalRequisitionData, pageSize, filterState);
+  } = useTable(transformedRequests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalRequisitionData,
+        data: transformedRequests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

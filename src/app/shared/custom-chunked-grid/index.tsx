@@ -43,6 +43,8 @@ const ChunkedGrid: React.FC<Props> = ({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
+
+  console.log('attachementsDetails', attachementsDetails);
   const uploadsData = attachementsDetails.Uploads;
 
   const structuredAttachments = uploadsData.map((url: string) => ({

@@ -62,7 +62,7 @@ export default function CreateContractorProfileForm({userDetails,}: {
     idNo: ""
   };
   // const router = useRouter()
-  console.log(userDetails);
+  console.log('userDetails', userDetails);
   // submit handler
   const onSubmit: SubmitHandler<ContractorProfileSchema> = async (data, e) => {
     if (e !== undefined) {
