@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import PlanCard from './plan-card';
+import React, { useState, useEffect } from 'react';
+import PlanCard from './plan-card'; 
 
 interface Plan {
   title: string;
@@ -9,16 +9,20 @@ interface Plan {
   isHighlighted: boolean;
 }
 
-const PricingContractor: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+interface PricingProps {
+  onPlanSelect: (title: string, price: string) => void;
+}
+
+const PricingContractor: React.FC<PricingProps> = ({ onPlanSelect }) => {
+  // Update state type to store both title and price
+  const [selectedPlan, setSelectedPlan] = useState<{ title: string; price: string } | null>(null);
 
   const plans: Plan[] = [
     {
-      title: 'Package 1',
+      title: 'Managed by Jagedo',
       price: '',
       description: 'Linkage Fee',
       features: [
-        'Managed by JaGedo',
         'Management commission is payable by Contractor',
         'Construction Cost is based on Contractor Quotation',
         'Single Sourcing',
@@ -27,11 +31,10 @@ const PricingContractor: React.FC = () => {
       isHighlighted: true,
     },
     {
-      title: 'Package 2',
-      price: '10,000',
+      title: 'Managed by Self',
+      price: '10000',
       description: 'Linkage Fee',
       features: [
-        'Managed by Self',
         'Construction Cost is based on Contractor Quotation',
         'Sourcing is through Competitive Bidding',
         'Response time 14 days',
@@ -40,8 +43,16 @@ const PricingContractor: React.FC = () => {
     },
   ];
 
-  const handleSelectPlan = (title: string) => {
-    setSelectedPlan(title);
+  useEffect(() => {
+    if (selectedPlan) {
+      // Notify parent about the selected plan
+      onPlanSelect(selectedPlan.title, selectedPlan.price);
+    }
+  }, [selectedPlan, onPlanSelect]);
+
+  // Update function to handle both title and price
+  const handleSelectPlan = (title: string, price: string) => {
+    setSelectedPlan({ title, price });
   };
 
   return (
@@ -54,8 +65,8 @@ const PricingContractor: React.FC = () => {
           <PlanCard
             key={index}
             {...plan}
-            isSelected={selectedPlan === plan.title}
-            onClick={() => handleSelectPlan(plan.title)}
+            isSelected={selectedPlan?.title === plan.title}
+            onClick={() => handleSelectPlan(plan.title, plan.price)}
           />
         ))}
       </div>

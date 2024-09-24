@@ -4,14 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/config/routes';
 import { DUMMY_ID } from '@/config/constants';
-import { Button, Checkbox, Input, Select, Textarea, Loader } from 'rizzui'; // Import the Loader component
-import Pricing from '@/app/shared/pricing-package/pricing';
+import { Button, Checkbox, Input, Select, Textarea, Loader } from 'rizzui';
 import axios, { BASE_URL } from '@/lib/axios';
 import FileUpload from '@/app/shared/uploading-images';
 import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
 import { counties } from '@/data/counties';
+import PricingProfessional from '@/app/shared/pricing-package/pricing-professional';
 
 // Define the Option type
 interface Option {
@@ -33,7 +33,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
   const [county, setCounty] = useState<Option | null>(null);
   const [subCounty, setSubCounty] = useState<Option | null>(null);
   const [village, setVillage] = useState<string>('');
-  const [skill, setSkill] = useState<Option | null>(null);
+  const [profession, setProfession] = useState<Option | null>(null);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedPlan, setSelectedPlan] = useState<{
@@ -71,23 +71,21 @@ const GenerateInvoiceProfessional: React.FC = () => {
       }))
     : [];
 
-  const Skill: Option[] = [
-    { label: 'New Construction', value: 'New Construction' },
-    { label: 'Repairs', value: 'Repairs' },
-    { label: 'Demolitions', value: 'Demolitions' },
-    { label: 'Plumber', value: 'Plumber' },
-    { label: 'Mason', value: 'Mason' },
-    { label: 'Electrician', value: 'Electrician' },
-    { label: 'Welder', value: 'Welder' },
-    { label: 'Roofer', value: 'Roofer' },
-    { label: 'Foreman', value: 'Foreman' },
-    { label: 'Fitter', value: 'Fitter' },
-    { label: 'Tile fixer', value: 'Tile fixer' },
-    { label: 'Steel fixer', value: 'Steel fixer' },
-    { label: 'Skimmers/Wall masters', value: 'Skimmers/Wall masters' },
-    { label: 'Carpenter', value: 'Carpenter' },
-    { label: 'Painter', value: 'Painter' },
-    { label: 'Glass fitter', value: 'Glass fitter' },
+  const Profession: Option[] = [
+    { label: 'Design of new developments', value: 'Design of new developments' },
+    { label: 'Redesign of existing developments', value: 'Redesign of existing developments' },
+    { label: 'Consultancy', value: 'Consultancy' },
+    { label: 'Engineers', value: 'Engineers' },
+    { label: 'Architects', value: 'Architects' },
+    { label: 'EIA Experts', value: 'EIA Experts' },
+    { label: 'Draughtsmen', value: 'Draughtsmen' },
+    { label: 'Quantity Surveyors', value: 'Quantity Surveyors' },
+    { label: 'Project Managers', value: 'Project Managers' },
+    { label: 'Construction manager', value: 'Construction manager' },
+    { label: 'Technicians', value: 'Technicians' },
+    { label: 'Land valuers', value: 'Land valuers' },
+    { label: 'Surveyors', value: 'Surveyors' },
+    { label: 'Planners', value: 'Planners' },
   ];
 
   useEffect(() => {
@@ -95,7 +93,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
     setUserId(id);
 
     const checkFormValidity = () => {
-      if (description && date && county && subCounty && village && skill) {
+      if (description && date && county && subCounty && village && profession) {
         setIsFormValid(true);
       } else {
         setIsFormValid(false);
@@ -103,7 +101,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
     };
 
     checkFormValidity();
-  }, [description, date, county, subCounty, village, skill, session]);
+  }, [description, date, county, subCounty, village, profession, session]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -134,7 +132,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
         customerId,
         customerName,
         customerZohoId: customerZohoId,
-        skill: skill?.value || '',
+        skill: profession?.value || '',
       };
 
       const formBody = {
@@ -185,19 +183,19 @@ const GenerateInvoiceProfessional: React.FC = () => {
 
   return (
     <div className="relative">
-      <h1 className="text-2xl font-bold">Fundi</h1>
+      <h1 className="text-2xl font-bold">Professional</h1>
       <div className="w-full rounded-lg bg-white p-4 shadow-md">
         <div>
-          <Pricing onPlanSelect={handlePlanSelect} />
+          <PricingProfessional onPlanSelect={handlePlanSelect} />
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div className="form-group">
               <Select
-                label="Skill"
-                options={Skill}
-                value={skill}
-                onChange={(selected) => setSkill(selected as Option)}
+                label="Profession"
+                options={Profession}
+                value={profession}
+                onChange={(selected) => setProfession(selected as Option)}
               />
             </div>
             <div className="form-group">
@@ -206,12 +204,12 @@ const GenerateInvoiceProfessional: React.FC = () => {
                 options={theCounty}
                 value={county}
                 onChange={(selected) => {
-                  const selectedOption = selected as Option; // Cast 'selected' to 'Option'
+                  const selectedOption = selected as Option;
                   setCounty(selectedOption);
                   setSelectedCounty(
                     selectedOption.label as keyof typeof counties
-                  ); // Ensure the label is used as the county key
-                  setSubCounty(null); // Reset the sub-county when county changes
+                  ); 
+                  setSubCounty(null); 
                 }}
               />
             </div>
@@ -221,7 +219,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
                 options={subCountyOptions}
                 value={subCounty}
                 onChange={(selected) => setSubCounty(selected as Option)}
-                disabled={!selectedCounty} // Disable sub-county until a county is selected
+                disabled={!selectedCounty}
               />
             </div>
             <div className="form-group">
@@ -265,7 +263,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
               color="primary"
               type="submit"
               className="w-full"
-              disabled={!isFormValid || loading} // Disable while loading
+              disabled={!isFormValid || loading}
             >
               {loading ? <Loader /> : 'Submit'}
             </Button>
