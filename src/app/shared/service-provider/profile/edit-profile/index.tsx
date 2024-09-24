@@ -202,6 +202,7 @@ export default function EditProfileContactDetails({
       }
     } finally {
       setIsLoading(false);
+      router.refresh();
     }
   };
 

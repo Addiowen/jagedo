@@ -7,6 +7,7 @@ import { SubmitHandler, Controller } from "react-hook-form";
 import CustomMultiStepForm from "@/app/shared/custom-multi-step";
 import dynamic from "next/dynamic";
 import UploadZone from '@/components/ui/file-upload/upload-zone';
+import { useSession } from 'next-auth/react';
 // import Link from 'next/link';
 import { 
   professionalInitialValues, 
@@ -19,6 +20,7 @@ import {
 } from "@/app/shared/service-provider/profile/create-profile/professional/data";
 import { useRouter } from 'next/navigation';
 import { routes } from '@/config/routes';
+import axios, { BASE_URL } from '@/lib/axios';
 
 // dynamic import Select component from rizzui
 const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
@@ -30,29 +32,109 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateProfessionalProfileForm() {
+export default function CreateProfessionalProfileForm(
+  {userDetails,}: {
+    userDetails?: any;
+  }
+) {
   const router = useRouter()
 
+  const { data: session } = useSession();
+
+  const customerType = session?.user.metadata.type;
+  const professionalInitialValues: ProfessionalProfileSchema = {
+    profession: userDetails.metadata.profession || "",
+    field: userDetails.metadata.field || "",
+    level: userDetails.metadata.level || "",
+    years: userDetails.metadata.years || "",
+    gender: userDetails.metadata.gender || '',
+    county: userDetails.metadata.county || '',
+    subCounty: userDetails.metadata.subCounty || '',
+    estate: userDetails.metadata.estate || '',
+    firstName: userDetails.firstname || '',
+    lastName: userDetails.lastname || '',
+    email: userDetails.email || '',
+    phoneNo: userDetails.metadata.phone || '',
+    idNo: ""
+  };
   // submit handler
-  const onSubmit: SubmitHandler<ProfessionalProfileSchema> = (data) => {
+  const onSubmit: SubmitHandler<ProfessionalProfileSchema> = async (data, e) => {
+    e?.preventDefault();
     console.log(data);
 
     window.sessionStorage.setItem('profileCreated', 'true')
     window.location.reload()
     // router.push(routes.serviceProvider.fundi.profile)
 
+    try {
+      // Prepare the data to be sent to the API
+      const updateData = {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+
+        metadata: {
+          county: data.county,
+          gender: data.gender,
+          subCounty: data.subCounty,
+          estate: data.estate,
+          phoneNo: data.phoneNo,
+          phone: data.phoneNo,
+          // companyNumber: data.companyNumber,
+          // registrationNumber: data.registrationNumber,
+          // categoriesTable: data.categoriesTable,
+        }, // Add the pin from the form if applicable
+      };
+
+      console.log(updateData, 'update data');
+
+      // Fetch additional user details
+      const userDetailsRes = await axios.patch(
+        `${BASE_URL}/users/${userDetails.id}`,
+        updateData,
+        {
+          headers: {
+            Authorization:
+              'Basic c2Vja190ZXN0X3dha1dBNDFyQlRVWHMxWTVvTlJqZVk1bzo=',
+          },
+        }
+      );
+
+      // Handle the response or redirect after successful update
+      if (userDetailsRes) {
+        console.log(userDetailsRes, 'user details');
+        router.refresh();
+        window.sessionStorage.setItem('profileCreated', 'true');
+        router.push('/service-provider/professional/profile');
+        // router.push('/service-provider/fundi/profile');
+      }
+    } catch (error) {
+      console.error('Failed to update user details:', error);
+      // Optionally, handle the error (e.g., show a notification)
+    }
+    console.log(data);
+
+    window.sessionStorage.setItem('profileCreated', 'true')
+    window.location.reload()
+    // router.push()
+    
+  };
+
+  const onSubmit1 = async (data: any) => {
+    console.log(data);
   };
 
     return (
         <>
         <CustomMultiStepForm<ProfessionalProfileSchema>
-          validationSchema={professionalProfileSchema}
+          // validationSchema={professionalProfileSchema}
           onSubmit={onSubmit}
           useFormProps={{
             mode: 'onChange',
             defaultValues: professionalInitialValues,
           }}
           steps={professionalProfileSteps}
+          loading={false}
         >
           {({ register, formState: { errors }, control, getValues, setValue }, currentStep, delta) => (
             <>
@@ -333,4 +415,4 @@ export default function CreateProfessionalProfileForm() {
         
         </>
     )
-}
+};

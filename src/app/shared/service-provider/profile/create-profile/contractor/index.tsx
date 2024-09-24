@@ -59,6 +59,7 @@ export default function CreateContractorProfileForm({userDetails,}: {
     companyNumber: userDetails.metadata.companyNumber || '',
     registrationNumber: userDetails.metadata.registrationNumber || '',
     categoriesTable: userDetails.metadata.categoriesTable || [],
+    idNo: ""
   };
   // const router = useRouter()
   console.log(userDetails);

@@ -43,26 +43,6 @@ const capitalizeFirstLetter = (string: any) => {
 const fetchUserDetails = async () => {
   const session = await getServerSession(authOptions);
 
-  // const customerType = capitalizeFirstLetter(session?.user.metadata.type);
-
-  // pageHeader = {
-  //   title: `${customerType} Profile Creation`,
-  //   breadcrumb: [
-  //     {
-  //       href: '',
-  //       name: 'Service Providers',
-  //     },
-  //     {
-  //       href: '',
-  //       name: 'Contractor',
-  //       // name: `${customerType}`,
-  //     },
-  //     {
-  //       name: 'Create profile',
-  //     },
-  //   ],
-  // };
-
   try {
     const userDetails = await apiRequest({
       method: 'GET',
@@ -75,9 +55,10 @@ const fetchUserDetails = async () => {
   }
 };
 
-export default async function FundiCreateProfilePage() {
+export default async function ContractorCreateProfilePage() {
   const user = await fetchUserDetails();
-  // console.log('william 3')
+  console.log('william 3');
+  console.log('user', user);
   return (
     <>
       <PageHeader

@@ -23,22 +23,6 @@ const fetchUserDetails = async () => {
 
   const customerType = capitalizeFirstLetter(session?.user.metadata.type);
 
-  // pageHeader = {
-  //   title: `${customerType} Profile Creation`,
-  //   breadcrumb: [
-  //     {
-  //       href: '',
-  //       name: 'Customers',
-  //     },
-  //     {
-  //       href: '',
-  //       name: `${customerType}`,
-  //     },
-  //     {
-  //       name: 'Create profile',
-  //     },
-  //   ],
-  // };
 
   try {
     const userDetails = await apiRequest({
