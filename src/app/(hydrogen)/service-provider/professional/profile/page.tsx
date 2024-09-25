@@ -7,9 +7,6 @@ import { BASE_URL } from '@/lib/axios';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import CreateProfessionalProfileForm from '@/app/shared/service-provider/profile/create-profile/professional';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
-import apiRequest from '@/lib/apiService';
 
 export const metadata = {
   ...metaObject('Profile'),

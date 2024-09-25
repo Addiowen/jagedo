@@ -75,21 +75,7 @@ export default function CreateProfessionalProfileForm({
   const { data: session } = useSession();
 
   const customerType = session?.user.metadata.type;
-  const professionalInitialValues: ProfessionalProfileSchema = {
-    profession: userDetails.metadata.profession || "",
-    field: userDetails.metadata.field || "",
-    level: userDetails.metadata.level || "",
-    years: userDetails.metadata.years || "",
-    gender: userDetails.metadata.gender || '',
-    county: userDetails.metadata.county || '',
-    subCounty: userDetails.metadata.subCounty || '',
-    estate: userDetails.metadata.estate || '',
-    firstName: userDetails.firstname || '',
-    lastName: userDetails.lastname || '',
-    email: userDetails.email || '',
-    phoneNo: userDetails.metadata.phone || '',
-    idNo: ""
-  };
+
   // submit handler
   const onSubmit: SubmitHandler<ProfessionalProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
