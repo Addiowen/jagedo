@@ -10,7 +10,6 @@ import { SubmitHandler, Controller } from 'react-hook-form';
 import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import dynamic from 'next/dynamic';
 import UploadZone from '@/components/ui/file-upload/upload-zone';
-import { useSession } from 'next-auth/react';
 // import Link from 'next/link';
 import {
   professionalProfileSteps,
@@ -72,24 +71,6 @@ export default function CreateProfessionalProfileForm({
 
   const pathname = usePathname();
 
-  const { data: session } = useSession();
-
-  const customerType = session?.user.metadata.type;
-  const professionalInitialValues: ProfessionalProfileSchema = {
-    profession: userDetails.metadata.profession || "",
-    field: userDetails.metadata.field || "",
-    level: userDetails.metadata.level || "",
-    years: userDetails.metadata.years || "",
-    gender: userDetails.metadata.gender || '',
-    county: userDetails.metadata.county || '',
-    subCounty: userDetails.metadata.subCounty || '',
-    estate: userDetails.metadata.estate || '',
-    firstName: userDetails.firstname || '',
-    lastName: userDetails.lastname || '',
-    email: userDetails.email || '',
-    phoneNo: userDetails.metadata.phone || '',
-    idNo: ""
-  };
   // submit handler
   const onSubmit: SubmitHandler<ProfessionalProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
@@ -129,25 +110,7 @@ export default function CreateProfessionalProfileForm({
 
       // If the user profile update is successful
       if (userDetailsRes) {
-        console.log(userDetailsRes, 'user details');
-
-        // Send the updated user details as the payload to the external endpoint
-        const profileUpdateRes = await axios.post(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
-          userDetailsRes.data,
-          {
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-            },
-          }
-        );
-
-        // Log the result of the second request
-        console.log(
-          'Second request - Profile update response:',
-          profileUpdateRes.data
-        );
-        // Refresh and redirect after successful profile update
+        //Refresh and redirect after successful profile update
         router.refresh();
         // Determine the redirection based on the pathname
         if (pathname.includes('admin')) {

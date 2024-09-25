@@ -47,7 +47,7 @@ export default function CustomerDetailsCard({
       graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-green',
       title: 'Type',
-      name: 'Individual',
+      name: `${customerDetails.metadata.type || ''}`,
       increased: true,
       percentage: '+32.40',
     },

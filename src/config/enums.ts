@@ -35,6 +35,14 @@ export enum ProdIds {
 }
 
 export enum localIds {
-  CATEGORYID = 'ctgy_F7Qaie1ksf1tT8HOksf',
+  FUNDI_CATEGORYID = 'ctgy_F7Qaie1ksf1tT8HOksf',
+  PROFESSIONAL_CATEGORYID = 'ctgy_Cr8bxe1hIB1taKSJhIB',
+  CONTRACTOR_CATEGORYID = 'ctgy_ROeJTe1Xje1tQlwIXje',
   ASSET_TYPE_ID = 'typ_G5E60le1XBw1tFR9PXBw',
+}
+
+export enum serviceProviders {
+  FUNDI = 'fundi',
+  PROFESSIONAL = 'professional',
+  CONTRACTOR = 'contractor',
 }

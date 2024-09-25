@@ -117,53 +117,25 @@ export default function EditProfileContactDetails({
 
   const fundiLevel = userDetails.metadata.level;
 
-  const onSubmit = async () => {
-    try {
-      const updateData = {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email,
-
-        metadata: {
-          county: data.county,
-          orgName: data.orgName,
-          subCounty: data.subCounty,
-          estate: data.estate,
-          phoneNo: data.phoneNo,
-          regNo: data.regNo,
-          pin: data.pin,
-        },
-      };
-
-      console.log(updateData, 'update data');
-
-      const userDetailsRes = await axios.patch(
-        `${BASE_URL}/users/${userDetails.id}`,
-        updateData,
-        {
-          headers: {
-            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-          },
-        }
-      );
-
-      if (userDetailsRes) {
-        console.log(userDetailsRes, 'user details');
-
-        setEditMode(false);
-        setModalState(true);
-        router.push('/customers/edit-profile');
-      }
-    } catch (error) {
-      console.error('Failed to update user details:', error);
-    }
-  };
-
   const handleEditClick = async () => {
     sessionStorage.clear();
     setIsLoading(true);
 
     try {
+      if (pathname.includes('admin')) {
+        if (pathname.includes('fundi')) {
+          router.push(
+            `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
+          );
+        }
+
+        if (pathname.includes('professional')) {
+          router.push(
+            `${routes.admin.createProfessionalProfile}?profileId=${editProfileId}`
+          );
+        }
+      }
+
       if (pathname.includes('service-provider')) {
         if (pathname.includes('contractor')) {
           router.push(
@@ -209,10 +181,21 @@ export default function EditProfileContactDetails({
   const createAndAssignAssettoUser = async () => {
     setIsApproving(true);
     try {
+      let assetName = 'Fundi';
+      let assetCategoryId = localIds.FUNDI_CATEGORYID;
+
+      if (pathname.includes('professional')) {
+        assetName = 'Professional';
+        assetCategoryId = localIds.PROFESSIONAL_CATEGORYID;
+      } else if (pathname.includes('contractor')) {
+        assetName = 'Contractor';
+        assetCategoryId = localIds.CONTRACTOR_CATEGORYID;
+      }
+
       const assetPayload = {
-        name: 'Fundi',
-        categoryId: ProdIds.CATEGORYID,
-        assetTypeId: ProdIds.ASSET_TYPE_ID,
+        name: assetName,
+        categoryId: assetCategoryId,
+        assetTypeId: localIds.ASSET_TYPE_ID,
         ownerId: userId,
         customAttributes: {
           estate: userDetails.metadata.estate,
@@ -358,7 +341,7 @@ export default function EditProfileContactDetails({
       )}
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
         <div className="p-20 text-lg font-bold">
-          Fundi approved successfully.
+          User approved successfully.
         </div>
       </Modal>
 

@@ -9,24 +9,6 @@ export const metadata = {
   ...metaObject('Profile View'),
 };
 
-const fetchUserDetails = async () => {
-  const session = await getServerSession(authOptions);
-
-
-
-
-  try {
-    const userDetails = await apiRequest({
-      method: 'GET',
-      endpoint: `/users/${session?.user.userId}`,
-    });
-    return userDetails;
-  } catch (error) {
-    console.error('Failed to fetch transaction details:', error);
-    return null;
-  }
-};
-
 const pageHeader = {
   title: 'Profile',
   breadcrumb: [

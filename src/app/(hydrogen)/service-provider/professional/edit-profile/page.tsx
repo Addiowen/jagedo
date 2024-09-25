@@ -1,33 +1,26 @@
-// import Link from 'next/link';
-// import { PiPlusBold } from 'react-icons/pi';
 import { metaObject } from '@/config/site.config';
 import PageHeader from '@/app/shared/commons/page-header';
-import apiRequest from '@/lib/apiService';
-import { BASE_URL } from '@/lib/axios';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
-import CreateProfessionalProfileForm from '@/app/shared/service-provider/profile/create-profile/professional';
+
+import CreateFundiProfileForm from '@/app/shared/service-provider/profile/create-profile/fundi';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 import apiRequest from '@/lib/apiService';
+import FundiEditProfileForm from '.';
+import CreateProfessionalProfileForm from '.';
 
 export const metadata = {
   ...metaObject('Profile'),
 };
 
 const pageHeader = {
-  title: 'Professional Profile Creation',
+  title: 'Profile Creation',
   breadcrumb: [
     {
-      href: '',
-      name: 'Service Providers',
+      href: '/',
+      name: 'Home',
     },
     {
-      href: '',
-      name: 'Professional',
-    },
-    {
-      name: 'Create profile',
+      name: 'Profile',
     },
   ],
 };
@@ -44,12 +37,16 @@ const fetchUserDetails = async () => {
     });
     return userDetails;
   } catch (error) {
-    console.error('Failed to fetch user details:', error);
+    console.error('Failed to fetch transaction details:', error);
     return null;
   }
 };
 
-export default async function FundiCreateProfilePage() {
+export default async function FundiCreateProfilePage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
   const user = await fetchUserDetails();
 
   return (
