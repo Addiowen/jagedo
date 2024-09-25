@@ -31,12 +31,14 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
 
   const requests = requestDetails?.results || [];
 
+  console.log(requests, 'requests');
   const transformedRequests = requests.map(
     (
       requestDetails: {
         id: any;
         createdDate: any;
         metadata: {
+          category: string;
           packageType: string;
           county: string;
           subCounty: string;
@@ -50,7 +52,7 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
       number: index + 1, // Generate sequential number
       id: requestDetails.id,
       date: requestDetails.createdDate, // Extract date from createdDate
-      category: 'Fundi', // Use a default value
+      category: requestDetails.metadata.category || 'Professional', // Use a default value
       subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
       requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
       county: requestDetails.metadata.county || '', // Map 'county'
