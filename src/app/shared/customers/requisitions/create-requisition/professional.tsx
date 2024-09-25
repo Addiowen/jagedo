@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
 import { counties } from '@/data/counties';
 import PricingProfessional from '@/app/shared/pricing-package/pricing-professional';
+import { serviceProviders } from '@/config/enums';
 
 // Define the Option type
 interface Option {
@@ -72,8 +73,14 @@ const GenerateInvoiceProfessional: React.FC = () => {
     : [];
 
   const Profession: Option[] = [
-    { label: 'Design of new developments', value: 'Design of new developments' },
-    { label: 'Redesign of existing developments', value: 'Redesign of existing developments' },
+    {
+      label: 'Design of new developments',
+      value: 'Design of new developments',
+    },
+    {
+      label: 'Redesign of existing developments',
+      value: 'Redesign of existing developments',
+    },
     { label: 'Consultancy', value: 'Consultancy' },
     { label: 'Engineers', value: 'Engineers' },
     { label: 'Architects', value: 'Architects' },
@@ -111,13 +118,16 @@ const GenerateInvoiceProfessional: React.FC = () => {
       return;
     }
 
-    if (urls) {
-      if (!isFormValid) {
-        toast.error('Please fill in all required fields and upload an image.');
-        return;
-      }
+    if (!isFormValid) {
+      toast.error('Please fill in all required fields and upload an image.');
+      return;
+    }
+
+    try {
+      setLoading(true);
 
       const formData = {
+        category: serviceProviders.PROFESSIONAL,
         description,
         date,
         uploads: urls,
@@ -132,7 +142,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
         customerId,
         customerName,
         customerZohoId: customerZohoId,
-        skill: profession?.value || '',
+        profession: profession?.value || '',
       };
 
       const formBody = {
@@ -145,12 +155,19 @@ const GenerateInvoiceProfessional: React.FC = () => {
         },
       };
 
-      try {
-        setLoading(true);
+      // API call here (assuming the logic remains the same)
+      const response = await axios.post(`${BASE_URL}/transactions`, formBody, {
+        headers: {
+          Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+        },
+      });
 
-        const response = await axios.post(
-          `${BASE_URL}/transactions`,
-          formBody,
+      console.log(response.data);
+
+      if (response.data) {
+        await axios.patch(
+          `${BASE_URL}/transactions/${response.data.id}`,
+          { status: 'under review' },
           {
             headers: {
               Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
@@ -158,21 +175,20 @@ const GenerateInvoiceProfessional: React.FC = () => {
           }
         );
 
-        if (response.data) {
-          console.log(response.data, 'my transaction');
-          toast.success('Your job request has been created!');
-          router.push(
-            `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
-          );
+        toast.success('Your job request has been created!');
+
+        // Conditional routing based on selected plan title
+        if (selectedPlan.title === 'Managed by Jagedo') {
+          router.push(routes.customers.professionalRequisitions); // Redirect to requisitions
+        } else if (selectedPlan.title === 'Managed by Self') {
+          router.push(routes.customers.invoice); // Redirect to generate invoice
         }
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        toast.error(
-          'There was an error submitting the form. Please try again.'
-        );
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('There was an error submitting the form. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -180,6 +196,11 @@ const GenerateInvoiceProfessional: React.FC = () => {
   const nextDay = new Date(today);
   nextDay.setDate(today.getDate() + 1);
   const minDate = nextDay.toISOString().split('T')[0];
+
+  const buttonLabel =
+    selectedPlan?.title === 'Managed by Jagedo'
+      ? 'Request for Quotation'
+      : 'Generate Invoice';
 
   return (
     <div className="relative">
@@ -208,8 +229,8 @@ const GenerateInvoiceProfessional: React.FC = () => {
                   setCounty(selectedOption);
                   setSelectedCounty(
                     selectedOption.label as keyof typeof counties
-                  ); 
-                  setSubCounty(null); 
+                  );
+                  setSubCounty(null);
                 }}
               />
             </div>
@@ -265,7 +286,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
               className="w-full"
               disabled={!isFormValid || loading}
             >
-              {loading ? <Loader /> : 'Submit'}
+              {loading ? <Loader /> : buttonLabel}
             </Button>
           </div>
         </form>

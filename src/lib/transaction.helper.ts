@@ -45,9 +45,12 @@ export const fetchFundiDetails = async (ownerId: string) => {
 
 // Construct request details object
 export const getRequestDetails = (customerRequest: any) => {
+  let subcategory = customerRequest?.metadata;
+
   return {
-    Category: 'Fundi',
-    'Sub-Category': customerRequest?.metadata.skill,
+    Category: customerRequest.metadata.category,
+    'Sub-Category':
+      subcategory.skill || subcategory.profession || subcategory.contractor,
     'Request Type': customerRequest?.metadata.packageType || 'N/A',
     County: customerRequest?.metadata.county || 'N/A',
     'Sub-County': customerRequest?.metadata.subCounty || 'N/A',

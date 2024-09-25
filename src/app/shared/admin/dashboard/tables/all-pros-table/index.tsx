@@ -1,26 +1,42 @@
 'use client';
 
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Input } from 'rizzui';
-import { professionalsData } from '@/data/job-data';
+import { Button, Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import apiRequest from '@/lib/apiService';
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
+import { routes } from '@/config/routes';
+import toast from 'react-hot-toast';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-export default function AssignServiceProvidersTable({
+
+export default function AllProfessionalsTable({
   className,
+  fundis,
 }: {
   className?: string;
+  fundis: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
+  const [assets, setAssets] = useState([]);
+  const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]); // State to hold selected row IDs
+
+  const searchParams = useSearchParams();
+  const transactionId = searchParams.get('requestId');
+  const router = useRouter();
+
+  console.log(selectedRowIds);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -30,7 +46,6 @@ export default function AssignServiceProvidersTable({
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -51,12 +66,101 @@ export default function AssignServiceProvidersTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalsData, pageSize, filterState);
+  } = useTable(fundis, pageSize, filterState);
+
+  // Update selectedRowIds whenever selectedRowKeys changes
+  useEffect(() => {
+    setSelectedRowIds(selectedRowKeys);
+  }, [selectedRowKeys]);
+
+  const newBookedRequests = {
+    metadata: {
+      bookedRequests: [selectedRowIds],
+    },
+  };
+
+  const assetIds = selectedRowIds;
+  console.log(assetIds);
+
+  const assignAssetIdstoTransaction = async () => {
+    try {
+      const res = await axios.patch(
+        `${BASE_URL}/transactions/${transactionId}`,
+        newBookedRequests,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      const transaction = res.data;
+
+      if (transaction) {
+        return transaction as any;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let responses;
+
+  const assignTransactionIdtoAssets = async (
+    assetIds: string[],
+    requesttransactionId: string
+  ) => {
+    try {
+      const patchRequests = assetIds.map(async (assetId) => {
+        const res = await axios.patch(
+          `${BASE_URL}/assets/${assetId}`,
+          { metadata: { requesttransactionId } },
+          {
+            headers: {
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+            },
+          }
+        );
+
+        setAssets(res.data);
+        console.log(assets, 'this');
+
+        if (assets) {
+          return assets as any;
+        }
+      });
+      responses = await Promise.all(patchRequests);
+      console.log('All assets updated successfully:', responses);
+    } catch (error) {
+      console.error('Error updating assets:', error);
+    }
+  };
+
+  const handleAssign = async () => {
+    const result = await assignAssetIdstoTransaction();
+    console.log(result);
+
+    if (result) {
+      console.log('Transaction updated successfully:', result);
+      if (transactionId) {
+        const updatedAssets = await assignTransactionIdtoAssets(
+          selectedRowIds,
+          transactionId
+        );
+        if (result && assets) {
+          toast.success('Request sent, Fundis have been assigned!');
+          router.push(routes.admin.dashboard);
+        }
+      }
+    } else {
+      console.error('assets update failed');
+    }
+  };
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalsData,
+        data: fundis,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -64,7 +168,6 @@ export default function AssignServiceProvidersTable({
         onChecked: handleRowSelect,
         handleSelectAll,
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       selectedRowKeys,
       onHeaderCellClick,
@@ -83,7 +186,7 @@ export default function AssignServiceProvidersTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Fundi Register"
+      title="Professionals Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">

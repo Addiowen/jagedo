@@ -75,12 +75,14 @@ export const contractorProfileSchema = baseUserFormSchema.extend({
 
 export const professionalProfileSchema = baseUserFormSchema.extend({
   profession: z.string().min(1, { message: 'Profession is required' }),
-  field: z.string().min(1, { message: 'Field is required' }),
+  // field: z.string().min(1, { message: 'Field is required' }),
+  field: z.string().optional(),
   level: z.string().min(1, { message: messages.levelIsRequired }),
   years: z.string().min(1, { message: messages.yearsIsRequired }),
-  idPic: z.any().refine((value) => value !== undefined, {
-    message: messages.idPicIsRequired,
-  }),
+  // idPic: z.any().refine((value) => value !== undefined, {
+  //   message: messages.idPicIsRequired,
+  // }),
+  idPic: z.any().optional(),
   kcse: z.any().optional(),
   degree: z.any().optional(),
   registrationCertificate: z.any().optional(),

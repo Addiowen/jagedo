@@ -21,8 +21,8 @@ export const routes = {
 
     editAdminProfile: '/admin/edit/admin-profile',
     editFundiProfile: '/admin/edit/fundi',
-    editContractorProfile: '/admin/profile/edit-profile/contractor',
-    editProfessionalProfile: '/admin/profile/edit-profile/professional',
+    editContractorProfile: '/admin/edit/contractor',
+    editProfessionalProfile: '/admin/edit/professional',
     editDetails: '/admin/profile/edit-profile/edit-details',
 
     //Registers
@@ -69,6 +69,8 @@ export const routes = {
   customers: {
     dashboard: '/',
     requisitions: '/customers/requisitions',
+    professionalRequisitions: '/customers/requisitions/professional',
+    contractorRequisitions: '/customers/requisitions/contractor',
     viewRequisition: '/customers/requisitions/view-requisition',
     generateInvoice: '/customers/generate-invoice',
     generateInvoiceProfessional: '/customers/generate-invoice/professional',
@@ -162,6 +164,8 @@ export const routes = {
 
     professional: {
       dashboard: '/service-provider/professional/dashboard',
+      editProfile: '/service-provider/professional/edit-profile',
+      viewProfile: '/service-provider/professional/view-profile',
 
       // requisitions
       requisitions: '/service-provider/professional/requisitions',

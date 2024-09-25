@@ -38,6 +38,11 @@ function getStatusBadge(status: string) {
   }
 }
 
+const statusOptions = [
+  { label: 'Live', value: 'Live' },
+  { label: 'Closed', value: 'Closed' },
+];
+
 type Columns = {
   data: any[];
   sortConfig?: any;
@@ -83,10 +88,18 @@ export const getColumns = ({
     ),
   },
   {
-    title: <HeaderCell title="JOB ID" />,
+    title: <HeaderCell title="Number" />,
+    dataIndex: 'no',
+    key: 'no',
+    width: 50,
+    render: (no: number) => <Text>{no}</Text>,
+  },
+
+  {
+    title: <HeaderCell title="SP ID" />,
     dataIndex: 'id',
     key: 'id',
-    width: 90,
+    width: 50,
     render: (id: string) => <Text>#{id}</Text>,
   },
 
@@ -94,7 +107,7 @@ export const getColumns = ({
     title: <HeaderCell title="First Name" />,
     dataIndex: 'firstName',
     key: 'firstName',
-    width: 200,
+    width: 100,
     render: (firstName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {firstName}
@@ -105,7 +118,7 @@ export const getColumns = ({
     title: <HeaderCell title="Last Name" />,
     dataIndex: 'lastName',
     key: 'lastName',
-    width: 200,
+    width: 100,
     render: (lastName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {lastName}
@@ -119,59 +132,72 @@ export const getColumns = ({
     width: 80,
     render: (phone: number) => <Text>{phone}</Text>,
   },
+
   {
-    title: <HeaderCell title="Email" />,
-    dataIndex: 'email',
-    key: 'email',
-    width: 120,
-    render: (email: string) => <Text>{email}</Text>,
-  },
-  {
-    title: <HeaderCell title="Gender" />,
-    dataIndex: 'gender',
-    key: 'gender',
-    width: 80,
-    render: (gender: string) => <Text>{gender}</Text>,
+    title: <HeaderCell title="Profession" />,
+    dataIndex: 'profession',
+    key: 'profession',
+    width: 100,
+    render: (profession: string) => <Text>{profession}</Text>,
   },
 
   {
-    title: <HeaderCell title="Age" />,
-    dataIndex: 'age',
-    key: 'age',
-    width: 80,
-    render: (age: string) => <Text>{age}</Text>,
-  },
-  {
-    title: <HeaderCell title="Location" />,
-    dataIndex: 'location',
-    key: 'location',
-    width: 120,
-    render: (location: string) => <Text>{location}</Text>,
+    title: <HeaderCell title="Level" />,
+    dataIndex: 'level',
+    key: 'level',
+    width: 100,
+    render: (level: string) => <Text>{level}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Joined Date" className="uppercase" />,
-    dataIndex: 'date',
-    key: 'date',
-    width: 230,
-    render: (date: Date) => <DateCell date={date} />,
-  },
+  // {
+  //   title: <HeaderCell title="Category" />,
+  //   dataIndex: 'category',
+  //   key: 'category',
+  //   width: 260,
+  //   render: (category: string[]) => {
+  //     let print = category?.slice(0, 2);
+  //     let more = category.length - category.slice(0, 2).length;
+  //     return (
+  //       <div className="flex h-auto flex-wrap gap-2">
+  //         {print.map((item: string, index: number) => (
+  //           <span
+  //             key={index}
+  //             className="rounded-full bg-gray-100 px-2 py-1 text-xs"
+  //           >
+  //             {item}
+  //           </span>
+  //         ))}
+  //         <span className="rounded-full bg-gray-100 px-2 py-1 text-xs">
+  //           +{more}
+  //         </span>
+  //       </div>
+  //     );
+  //   },
+  // },
 
   {
-    title: <HeaderCell title="Status" />,
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
-    render: (value: string) => getStatusBadge(value),
+    title: <HeaderCell title="County" />,
+    dataIndex: 'county',
+    key: 'county',
+    width: 100,
+    render: (county: string) => <Text>{county}</Text>,
   },
+  {
+    title: <HeaderCell title="Sub County" />,
+    dataIndex: 'subCounty',
+    key: 'subCounty',
+    width: 100,
+    render: (subCounty: string) => <Text>{subCounty}</Text>,
+  },
+
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'action',
+    dataIndex: 'status',
     key: 'action',
-    width: 180,
-    render: (_: string, row: any) => (
-      <div className="flex items-center justify-end gap-3 pe-3">
+    width: 50,
+    render: (status: string, row: any) => (
+      <div className="flex justify-center">
         <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
@@ -183,24 +209,58 @@ export const getColumns = ({
             <Link
               href={{
                 pathname: routes.admin.editFundiProfile,
-                query: {
-                  status:
-                    row.status.toLowerCase() === 'approved'
-                      ? 'approved'
-                      : 'unverified',
-                },
+                query: { status },
               }}
             >
               <EyeIcon className="h-4 w-4" />
             </Link>
           </ActionIcon>
         </Tooltip>
-        {/* <DeletePopover
-          title={`Remove User`}
-          description={`Are you sure you want to remove this User?`}
-          onDelete={() => onDeleteItem(row.id)}
-        /> */}
       </div>
     ),
   },
 ];
+
+function StatusSelect({ selectItem }: { selectItem?: string }) {
+  const selectItemValue = statusOptions.find(
+    (option) => option.value === selectItem
+  );
+  const [value, setValue] = useState(selectItemValue);
+  return (
+    <Select
+      dropdownClassName="!z-10"
+      className="min-w-[140px]"
+      inPortal={false}
+      placeholder="Select Role"
+      options={statusOptions}
+      value={value}
+      onChange={setValue}
+      displayValue={(option: { value: any }) =>
+        renderOptionDisplayValue(option.value as string)
+      }
+    />
+  );
+}
+
+function renderOptionDisplayValue(value: string) {
+  switch (value) {
+    case 'Closed':
+      return (
+        <div className="flex items-center">
+          <PiPlusCircle className="shrink-0 rotate-45 fill-red-dark text-lg" />
+          <Text className="ms-1.5 text-sm font-medium capitalize text-gray-700">
+            {value}
+          </Text>
+        </div>
+      );
+    default:
+      return (
+        <div className="flex items-center">
+          <PiCheckCircleBold className="shrink-0 fill-green-dark text-lg" />
+          <Text className="ms-1.5 text-sm font-medium capitalize text-gray-700">
+            {value}
+          </Text>
+        </div>
+      );
+  }
+}

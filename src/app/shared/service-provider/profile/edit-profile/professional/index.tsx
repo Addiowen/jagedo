@@ -1,92 +1,445 @@
 'use client';
 
-// import Image from 'next/image';
-// import { useAtomValue } from 'jotai';
-// import isEmpty from 'lodash/isEmpty';
-// import { PiCheckBold, PiPlusBold, PiUserBold } from 'react-icons/pi';
-// import {
-//   billingAddressAtom,
-//   orderNoteAtom,
-//   shippingAddressAtom,
-// } from '@/store/checkout';
-// import OrderViewProducts from '@/app/shared/ecommerce/order/order-products/order-view-products';
-// import { useCart } from '@/store/quick-cart/cart.context';
-import { Title, Text, Button, Modal } from 'rizzui';
-import cn from '@/utils/class-names';
-// import { toCurrency } from '@/utils/to-currency';
-// import { formatDate } from '@/utils/format-date';
-// import usePrice from '@/hooks/use-price';
-// import { routes } from '@/config/routes';
-// import Link from 'next/link';
-// import PersonalDetailsForm from './personal-details';
+import { Title, Button, Modal, Tab } from 'rizzui';
 import { useState } from 'react';
 import EditProfileCard from './edit-profile-card';
+import ProfileChunkedGrid from '@/app/shared/profile-chunked-grid';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
+import { routes } from '@/config/routes';
+import { Loader } from 'rizzui';
+import { useSession } from 'next-auth/react';
+import { localIds, ProdIds } from '@/config/enums';
 
-// interface EditFundiFormProps {
-//   slug?: string;
-// }
+interface Data {
+  [key: string]: string | null;
+}
 
-export default function EditProfileContactDetails() {
+const splitData = (data: Data, keys: string[]) => {
+  const result: Data = {};
+  keys.forEach((key) => {
+    if (data[key] !== undefined) {
+      result[key] = data[key];
+    }
+  });
+  return result;
+};
+
+const uploadsKeys = ['Pin', 'Registration Certificate', 'Resume/CV'];
+const fundiuploadKeys = [
+  'ID',
+  'Evaluation Form',
+  'NCA Registration Card',
+  'Certificates',
+];
+
+//organization keys
+const orgCompanyDetailsKeys = [
+  'Type',
+  'Organization Name',
+  'Email Address',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const orgContactPersonKeys = [
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Phone Number',
+];
+
+//individual address details
+const individualAddressKeys = [
+  'Type',
+  'Email Address',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const individualContactKeys = [
+  'First Name',
+  'Last Name',
+  'Phone Number',
+  'Gender',
+];
+
+const personalKeys = [
+  'First Name',
+  'Last Name',
+  'Gender',
+  'Email Address',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+  'Approval Status',
+];
+
+const fundiPersonalDetailsKeys = [
+  'Id Number',
+  'Registered As',
+  'First Name',
+  'Last Name',
+  'Email Address',
+  'Gender',
+  'Phone Number',
+  'County',
+  'Sub County',
+  'Estate',
+];
+
+const fundiAccountDetailKeys = [
+  'Skill',
+  'Level',
+  'Years of Experience',
+  'Registered As',
+];
+
+export default function EditProfessionalDetails({
+  userDetails,
+  editProfileId,
+}: {
+  userDetails: any;
+  editProfileId: string;
+}) {
   const [modalState, setModalState] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('id');
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isApproving, setIsApproving] = useState(false);
+
+  const handleEditClick = async () => {
+    sessionStorage.clear();
+    setIsLoading(true);
+
+    try {
+      if (pathname.includes('service-provider')) {
+        if (pathname.includes('fundi')) {
+          router.push(
+            `${routes.serviceProvider.fundi.editFundiProfile}?profileId=${editProfileId}`
+          );
+        }
+        if (pathname.includes('professional')) {
+          router.push(
+            `${routes.serviceProvider.professional.editProfile}?profileId=${editProfileId}`
+          );
+        }
+      } else if (pathname.includes('customer')) {
+        router.push(
+          `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
+        );
+      } else if (pathname.includes('organization')) {
+        router.push(
+          `${routes.admin.createOrgCustomerProfile}?profileId=${editProfileId}`
+        );
+      } else if (pathname.includes('individual')) {
+        router.push(
+          `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
+        );
+      } else {
+        router.push(
+          `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
+        );
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createAndAssignAssettoUser = async () => {
+    setIsApproving(true);
+    try {
+      const assetPayload = {
+        name: 'Professional',
+        categoryId: localIds.PROFESSIONAL_CATEGORYID,
+        assetTypeId: localIds.ASSET_TYPE_ID,
+        ownerId: userId,
+        customAttributes: {
+          estate: userDetails.metadata.estate,
+          email: userDetails.metadata.email,
+          phone: userDetails.metadata.phone,
+          subcounty: userDetails.metadata.subCounty,
+          county: userDetails.metadata.county,
+          skill: userDetails.metadata.skill,
+          lastName: userDetails.metadata.lastname,
+          firstName: userDetails.metadata.firstname,
+        },
+        metadata: {
+          userId: userDetails.id,
+          ...userDetails.metadata,
+        },
+      };
+
+      const createAssetResponse = await axios.post(
+        `${BASE_URL}/assets`,
+        assetPayload,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      console.log('Asset saved successfully:', createAssetResponse.data);
+
+      const userPayload = {
+        metadata: {
+          assetId: createAssetResponse.data.id,
+          approvalStatus: 'approved',
+        },
+      };
+
+      console.log(userPayload);
+
+      const userResponse = await axios.patch(
+        `${BASE_URL}/users/${userId}`,
+        userPayload,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+      console.log('User updated successfully:', userResponse.data);
+
+      if (userResponse) {
+        router.refresh();
+      }
+
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`,
+        userResponse.data,
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      setModalState(true);
+
+      setIsApproving(false);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  const contractor = pathname.includes('contractor');
+  const isAdmin = pathname.includes('admin');
+  const isCustomer =
+    pathname.includes('individual') || pathname.includes('organization');
+
+  const data: Data = {
+    ID: userDetails.metadata.idPic,
+
+    'Years of Experience': userDetails.metadata.years,
+    'Registered As': 'Fundi',
+    Skill: userDetails.metadata.skill,
+    Level: userDetails.metadata.level,
+    'Phone Number': userDetails.metadata?.phone,
+    'Organization Name': userDetails.metadata.organizationName,
+    'First Name': userDetails.firstname,
+    Gender: userDetails.metadata.gender,
+    'Last Name': userDetails.lastname,
+    'Email Address': userDetails.email,
+    County: userDetails.metadata?.county,
+    'Sub County': userDetails.metadata?.subCounty,
+    Estate: userDetails.metadata?.estate,
+    'Approval Status': userDetails.metadata.status,
+    Type: userDetails.metadata.type,
+    'Registration Certificate': userDetails.metadata.regNo,
+    Pin: userDetails.metadata.pin,
+    Certificates: userDetails.metadata.certificates,
+    'NCA Registration Card': userDetails.metadata.ncaCard,
+  };
+
+  const customerType = userDetails?.metadata.type;
+  const userRole = userDetails.metadata.role;
+
+  const approvalStatus = userDetails.metadata.approvalStatus;
+  console.log(userDetails);
+
+  // Choose the correct personalKeys based on customerType
+  const firstTileKeys =
+    customerType === 'organization'
+      ? orgCompanyDetailsKeys
+      : customerType === 'individual'
+        ? individualAddressKeys
+        : userRole === 'fundi'
+          ? fundiPersonalDetailsKeys
+          : personalKeys;
+
+  const secondTileKeys =
+    customerType === 'organization'
+      ? orgContactPersonKeys
+      : customerType === 'individual'
+        ? individualContactKeys
+        : userRole === 'fundi'
+          ? fundiAccountDetailKeys
+          : personalKeys;
+
+  const uploadTileKeys = userRole === 'fundi' ? fundiuploadKeys : uploadsKeys;
+
+  const uploads = splitData(data, uploadsKeys);
+  const personalDetails: any = splitData(data, firstTileKeys);
+
+  const firstTileDetails: any = splitData(data, firstTileKeys);
+  const secondTileDetails: any = splitData(data, secondTileKeys);
+  const uploadDetails: any = splitData(data, uploadTileKeys);
 
   return (
     <div className="@container">
+      {isLoading && (
+        <div className="flex items-center justify-center">
+          <Loader size="lg" />
+        </div>
+      )}
       <Modal isOpen={modalState} onClose={() => setModalState(false)}>
-        <div className='p-20 font-bold text-lg'>Details saved successfully.</div>
+        <div className="p-20 text-lg font-bold">
+          Professional approved successfully.
+        </div>
       </Modal>
 
-      <div className="items-start pt-5 @5xl:grid @5xl:grid-cols-12 @5xl:gap-7 @6xl:grid-cols-10 @7xl:gap-10">
-        
-        <EditProfileCard />
+      <Tab>
+        <Tab.List>
+          <Tab.ListItem>
+            {customerType === 'individual'
+              ? 'Address Details'
+              : userRole === 'fundi'
+                ? 'Personal Details'
+                : 'Company Details'}
+          </Tab.ListItem>
+          <Tab.ListItem>
+            {' '}
+            {customerType === 'individual'
+              ? 'Contact Details'
+              : userRole === 'fundi'
+                ? 'Account Details'
+                : 'Contact Person'}
+          </Tab.ListItem>
+          <Tab.ListItem>Uploads</Tab.ListItem>
+        </Tab.List>
+        <Tab.Panels>
+          <Tab.Panel>
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 md:space-y-0 lg:grid-cols-3 lg:gap-6">
+              <div className="flex flex-col space-y-4">
+                <EditProfileCard
+                  userDetails={userDetails}
+                  editMode={editMode}
+                  setEditMode={setEditMode}
+                  setModalState={setModalState}
+                  isApproved={approvalStatus}
+                />
+                <Button
+                  onClick={handleEditClick}
+                  as="span"
+                  className="h-[38px] w-32 cursor-pointer shadow md:h-10"
+                >
+                  Edit Profile
+                </Button>
+              </div>
 
-        <div className="space-y-6 @5xl:col-span-8 @5xl:space-y-10 @6xl:col-span-7">
-          <div className="">
-            <div className="mb-3.5 @5xl:mb-5">
-              <Title as="h3" className="text-base font-semibold @7xl:text-lg">
-                Contact Details
-              </Title>
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
+                    {customerType === 'individual'
+                      ? 'Address Details'
+                      : userRole === 'fundi'
+                        ? 'Personal Details'
+                        : 'Company Details'}
+                  </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={firstTileDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
+                </div>
+                {isAdmin &&
+                  !isCustomer &&
+                  userDetails.metadata.approvalStatus !== 'approved' && (
+                    <Button
+                      onClick={createAndAssignAssettoUser}
+                      as="span"
+                      className="mt-6 h-[38px] cursor-pointer shadow md:h-10"
+                    >
+                      {isApproving ? (
+                        <Loader size="sm" /> // Display loader when approving
+                      ) : (
+                        'Approve'
+                      )}
+                    </Button>
+                  )}
+              </div>
             </div>
-            <div className=" -mt-2 space-y-2 rounded-xl border border-muted px-4 py-2 @5xl:space-y-7 @5xl:p-7">
-              <div className="flex justify-between font-medium">
-                Skill <span>Architect</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                First Name <span>Olive</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                Last Name <span>Wangari</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                Email Address <span>olive@gmail.com</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                Phone Number <span>0704032343</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                National ID <span>36797512</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                County <span>Nairobi</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                Sub-County <span>Dagoretti North</span>
-              </div>
-              <div className="flex justify-between font-medium">
-                Estate <span>Kawangware</span>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 lg:grid-cols-3 lg:gap-6">
+              <EditProfileCard
+                userDetails={userDetails}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                setModalState={setModalState}
+                isApproved={approvalStatus}
+              />
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
+                    {customerType === 'individual'
+                      ? 'Contact Details'
+                      : userRole === 'fundi'
+                        ? 'Account Details'
+                        : 'Contact Person'}
+                  </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={secondTileDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          {/* <PersonalDetailsForm /> */}
+          </Tab.Panel>
 
-          <Button onClick={() => setModalState(true)} as="span" className="h-[38px] shadow md:h-10">
-            Save Changes
-          </Button>
+          <Tab.Panel>
+            <div className="flex flex-col items-start space-y-4 pt-5 md:grid md:grid-cols-1 lg:grid-cols-3 lg:gap-6">
+              <EditProfileCard
+                userDetails={userDetails}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                setModalState={setModalState}
+                isApproved={approvalStatus}
+              />
 
-        </div>
-      </div>
-
-     
-      {/* <CustomersTable className="mt-6" /> */}
+              <div className="space-y-4 lg:col-span-2">
+                <div className="mb-3.5">
+                  <Title as="h3" className="text-base font-semibold">
+                    Uploads
+                  </Title>
+                </div>
+                <div className="rounded-lg border border-gray-300 bg-gray-0 p-4">
+                  <ProfileChunkedGrid
+                    data={uploadDetails}
+                    dataChunkSize={16}
+                    editMode={editMode}
+                  />
+                </div>
+              </div>
+            </div>
+          </Tab.Panel>
+        </Tab.Panels>
+      </Tab>
     </div>
   );
 }

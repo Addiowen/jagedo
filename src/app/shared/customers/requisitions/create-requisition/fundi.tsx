@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
 import { counties } from '@/data/counties';
+import { serviceProviders } from '@/config/enums';
 
 // Define the Option type
 interface Option {
@@ -120,6 +121,7 @@ const GenerateInvoiceFundi: React.FC = () => {
       }
 
       const formData = {
+        category: serviceProviders.FUNDI,
         description,
         date,
         uploads: urls,

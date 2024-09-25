@@ -1,5 +1,5 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
-import RequisitionsTable from '@/app/shared/tables/requisitions';
+import ContractorRequisitionsTable from '@/app/shared/tables/requisitions';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
@@ -47,7 +47,7 @@ export default async function Requisitions() {
         id: item.id || '',
         date: item.createdDate || '',
         category: item.metadata.category,
-        subCategory: item.metadata?.skill || '',
+        subCategory: item.metadata?.contractor || '',
         requestType: `${item.metadata?.packageType}` || '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',
@@ -58,7 +58,7 @@ export default async function Requisitions() {
     }) || [];
 
   return (
-    <RequisitionsTable
+    <ContractorRequisitionsTable
       className="relative @container  @4xl:col-span-2 @7xl:col-span-12"
       request={formattedData}
     />

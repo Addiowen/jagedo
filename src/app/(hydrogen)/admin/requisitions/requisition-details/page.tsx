@@ -37,7 +37,18 @@ export default async function RequisitionDetailsPage({
   // Generate request details for the ChunkedGrid component
   const requestDetails = getRequestDetails(customerRequest);
 
+  const category = requestDetails['Category'];
+
   const county = requestDetails.County;
+
+  const buttonLabel =
+    category === 'professional'
+      ? 'Assign Professionals'
+      : category === 'fundi'
+        ? 'Assign Fundis'
+        : category === 'contractor'
+          ? 'Assign Contractor'
+          : '';
 
   const pageHeader = {
     title: `REQ# ${requestId.toUpperCase()}`,
@@ -88,10 +99,11 @@ export default async function RequisitionDetailsPage({
               requestId,
               county: requestDetails.County,
               requestType: customerRequest?.metadata.packageType || 'N/A',
+              category,
             },
           }}
         >
-          <ToastButton title="Assign Fundis" />
+          <ToastButton title={buttonLabel} />
         </Link>
       </div>
     </>

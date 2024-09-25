@@ -38,7 +38,7 @@ const eComDashboardStatData = [
     percentage: '+32.40',
     style: 'text-[#3872FA]',
     fill: '#3872FA',
-    link: routes.comingSoon,
+    link: routes.customers.generateInvoiceProfessional,
   },
   {
     id: '3',
@@ -83,7 +83,7 @@ export default function SpType({ className }: { className?: string }) {
       )}
     >
       {eComDashboardStatData.map((stat) =>
-        stat.id === '1' ? (
+        stat.id === '1' || stat.id === '2' ? (
           // Wrap only the Fundi card in a Link
           <Link key={stat.title + stat.id} href={stat.link}>
             <CategoriesCard

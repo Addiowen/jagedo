@@ -30,11 +30,10 @@ export default function AdminRequestsListsComponent({
           number: index + 1,
           id: item.id || '',
           date: item.createdDate || '',
-          category: 'Fundi',
-          subCategory: item.metadata?.skill || '',
+          category: item.metadata.category,
+          subCategory: item.metadata?.profession || item.metadata?.skill || '',
           requestType: `${item.metadata?.packageType}` || '',
           description: item.metadata?.description || '',
-          location: item.metadata?.village || '',
           county: item.metadata?.county || '',
           subCounty: item.metadata?.subCounty || '',
           status:
