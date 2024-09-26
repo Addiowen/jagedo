@@ -52,9 +52,9 @@ export default function ThirdTable() {
 
   let grandTotal = totalExpenses + subTotal
   let wht = 0.05 * grandTotal
-  let whtVatTax = 0.02 * grandTotal
+  // let whtVatTax = 0.02 * grandTotal
   let jagedoComm = 0.1 * grandTotal
-  let spPayable = grandTotal - wht - whtVatTax - jagedoComm
+  let spPayable = grandTotal - wht - jagedoComm
 
   return (
     <div className="relative px-2 pt-6 pb-10 border border-muted rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl bg-gray-0 dark:bg-gray-50">
@@ -183,7 +183,7 @@ export default function ThirdTable() {
               />
             </div>
           </div>
-
+{/* 
           <div className="grid grid-cols-2 gap-2 py-4 border-t">
             <div className='col-span-1 ps-6 font-semibold text-center'>
                 WHT VAT 2%                
@@ -199,7 +199,7 @@ export default function ThirdTable() {
                 })}
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 gap-2 py-4 border-t">
             <div className='col-span-1 ps-6 font-semibold text-center'>

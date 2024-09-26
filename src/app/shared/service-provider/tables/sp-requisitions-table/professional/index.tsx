@@ -42,7 +42,7 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
           packageType: string;
           county: string;
           subCounty: string;
-          skill: string;
+          profession: string;
           managed: string;
         };
         status: any;
@@ -53,7 +53,7 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
       id: requestDetails.id,
       date: requestDetails.createdDate, // Extract date from createdDate
       category: requestDetails.metadata.category || 'Professional', // Use a default value
-      subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+      subCategory: requestDetails.metadata.profession || '', // Map 'packageType' to 'subCategory'
       requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
       county: requestDetails.metadata.county || '', // Map 'county'
       subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'

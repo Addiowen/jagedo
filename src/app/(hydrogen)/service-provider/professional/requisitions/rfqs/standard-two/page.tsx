@@ -7,6 +7,7 @@ import ProfessionalCreateQuotationComponent from '@/app/shared/service-provider/
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import ProfessionalAvailability from '@/app/shared/service-provider/confirm-availability/professional-availability';
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
     ssr: false,
   });
@@ -77,7 +78,7 @@ export default async function RfqStandardTwoPage({
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
       </PageHeader>
-
+      {/* <ProfessionalAvailability requestDetails={transactionDetails}   /> */}
       <ProfessionalCreateQuotationComponent requestDetails={transactionDetails} userDetails={user} />
     </>
   )

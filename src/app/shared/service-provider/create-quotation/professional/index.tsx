@@ -144,15 +144,18 @@ export default function ProfessionalCreateQuotationComponent(
     const transactionRes = await axios.patch(
       `${BASE_URL}/transactions/${requestDetails.id}`,
       {
-        metadata: {
-          ...requestDetails.metadata,
-          quotations: [...requestDetails?.metadata?.quotations, quotationRes.data.id]
-        }
+      metadata: {
+        ...requestDetails.metadata,
+        quotations: [
+        ...(requestDetails?.metadata?.quotations || []),
+        quotationRes.data.id
+        ]
+      }
       },
       {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-        },
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+      },
       }
     );
     console.log(transactionRes, 'transactionRes');
