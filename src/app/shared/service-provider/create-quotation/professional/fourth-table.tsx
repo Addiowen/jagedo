@@ -21,6 +21,8 @@ export default function FourthTable() {
     name: 'fourthTable',
   });
 
+  console.log(getValues(), 'getValues');
+
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
     if (!active || !over) return;

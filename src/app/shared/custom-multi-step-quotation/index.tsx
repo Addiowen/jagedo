@@ -190,10 +190,7 @@ TFormValues extends Record<string, any> = Record<string, any>,
                 className="w-full @xl:w-auto" 
                 type="button" 
                 // size="lg"   
-                onClick={() => {
-                  // methods.handleSubmit(onSubmit)()
-                  redirect()
-                }}
+                onClick={methods.handleSubmit(onSubmit)}
                 >
                   <span>Submit</span>{' '}
                 </Button> 

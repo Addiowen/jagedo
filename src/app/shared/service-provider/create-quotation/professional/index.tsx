@@ -1,12 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Text, Checkbox, Modal } from 'rizzui';
 // import SimpleBar from 'simplebar-react';
 import { routes } from '@/config/routes';
 import FirstTable from './first-table';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useFieldArray, useForm, useFormContext } from 'react-hook-form';
 import { CREATE_QUOTATION_DEFAULT_VALUE, CREATE_QUOTATION_VIEW_VALUE, createQuotationSchema, CreateQuotationType } from '@/utils/create-quotation.schema';
 import SecondTable from './second-table';
 import ThirdTable from './third-table';
@@ -23,8 +23,14 @@ import CustomMultiStepComponent from '@/app/shared/custom-multi-step-quotation';
 import { professionalCreateQuotationSteps } from './data';
 import { motion } from 'framer-motion';
 import ViewProfessionalQuotation from './view/view-quotation';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
+import apiRequest from '@/lib/apiService';
+import { metadata } from '@/app/layout';
 
-export default function ProfessionalCreateQuotationComponent() {
+export default function ProfessionalCreateQuotationComponent(
+  { requestDetails, userDetails }: { requestDetails: any, userDetails: any }
+) {
   const [modalState, setModalState] = useState(false);
   const searchParams = useSearchParams()
   const printRef = useRef(null);
@@ -33,7 +39,7 @@ export default function ProfessionalCreateQuotationComponent() {
   // });
   const router = useRouter()
   const jobId = searchParams.get('jobId')
-
+  console.log(jobId, 'jobId');
   const pathname = usePathname()
   const viewQuotation = pathname.includes('quotations')
   // const contractor = pathname.includes('contractor')
@@ -42,27 +48,116 @@ export default function ProfessionalCreateQuotationComponent() {
       ? CREATE_QUOTATION_DEFAULT_VALUE
       : CREATE_QUOTATION_VIEW_VALUE;
 
-  // const methods = useForm<CreateQuotationType>({
-  //   mode: 'onChange',
-  //   defaultValues: defaultValues,
-  //   resolver: zodResolver(createQuotationSchema),
-  // });
-
-  // const handleAltBtn = () => { router.back() }
-
-  // const handleSubmitBtn = () => { 
-  //   if (contractor) {
-  //     router.push(routes.serviceProvider.contractor.quotations)
-  //   } else {
-  //     router.push(routes.serviceProvider.professional.quotations)
-  //   }
-  //  }
+    console.log(requestDetails, 'transactionDetails');
+    console.log(userDetails, 'userDetails');
 
   const handleRedirect = () => router.push(routes.serviceProvider.professional.quotations)
 
-  const onSubmit: SubmitHandler<CreateQuotationType> = (data) => {
+  const onSubmit: SubmitHandler<CreateQuotationType> = async (data) => {
+    const updateData = {
+      topicId: requestDetails.id, // Job/Transaction Id
+      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
+      content: 'You have a new quotation request',
+      attachments: [],
+      metadata: {
+        status: 'quoted',
+        approvalStatus: 'pending',
+        profileCreated: true,
+        firstTable: data.firstTable,
+        secondTable: data.secondTable,
+        thirdTable: data.thirdTable,
+        fourthTable: data.fourthTable,
+        attachmentsTable: data.attachmentsTable,
+        grandTotal: data.grandTotal,
+        totalExpensesCost: data.totalExpensesCost,
+        totalProfessionalFees: data.totalProfessionalFees,
+      },
+    };
+
+    const quotationRes = await axios.post(
+      `${process.env.NEXT_PUBLIC_DOMAIN}/messages`,
+      updateData,
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+
+    const transactionRes = await axios.patch(
+      `${process.env.NEXT_PUBLIC_DOMAIN}/transactions/${requestDetails.id}`,
+      {
+        metadata: {
+          ...requestDetails.metadata,
+          quotations: [...requestDetails.metadata.quotations, quotationRes.data.id]
+        }
+      },
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+
+
     // router.push(routes.serviceProvider.professional.quotations)
   };
+
+  const onSubmit1 = async (data: any) => {
+    console.log(`${BASE_URL}/messages`,);
+    console.log(`${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`);
+    console.log('william');
+    console.log(data, 'data');
+    const updateData = {
+      topicId: requestDetails.id, // Job/Transaction Id
+      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
+      content: 'You have a new quotation request',
+      attachments: [],
+      metadata: {
+        status: 'quoted',
+        approvalStatus: 'pending',
+        profileCreated: true,
+        firstTable: data.firstTable,
+        secondTable: data.secondTable,
+        thirdTable: data.thirdTable,
+        fourthTable: data.fourthTable,
+        attachmentsTable: data.attachmentsTable,
+        grandTotal: data.grandTotal,
+        totalExpensesCost: data.totalExpensesCost,
+        totalProfessionalFees: data.totalProfessionalFees,
+      },
+    };
+    console.log(updateData, 'updateData');
+    
+    const quotationRes = await axios.post(
+      `${BASE_URL}/messages`,
+      updateData,
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+    console.log(quotationRes, 'quotationRes');
+    const transactionRes = await axios.patch(
+      `${BASE_URL}/transactions/${requestDetails.id}`,
+      {
+        metadata: {
+          ...requestDetails.metadata,
+          quotations: [...requestDetails?.metadata?.quotations, quotationRes.data.id]
+        }
+      },
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+    console.log(transactionRes, 'transactionRes');
+
+  }
 
   // let subTotal = methods.watch('invoiceTable').reduce((acc, item) => {
   //   if (!item.quantity || !item.rate) return acc;
@@ -77,10 +172,10 @@ export default function ProfessionalCreateQuotationComponent() {
     <>
       <CustomMultiStepComponent<CreateQuotationType>
           validationSchema={createQuotationSchema}
-          onSubmit={onSubmit}
+          onSubmit={onSubmit1}
           useFormProps={{
             mode: 'onChange',
-            defaultValues: defaultValues,
+            defaultValues: CREATE_QUOTATION_DEFAULT_VALUE,
           }}
           steps={professionalCreateQuotationSteps}
           setModalState={setModalState}

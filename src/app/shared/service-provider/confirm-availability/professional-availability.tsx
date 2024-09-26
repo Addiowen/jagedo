@@ -16,7 +16,7 @@ export default function ProfessionalAvailability(
   const searchParams = useSearchParams()
   const router = useRouter()
   const requestId = searchParams.get('id')
-  const jobId = '3420'
+  const jobId = requestId;
   
   const request = {
     Category: 'Professional',

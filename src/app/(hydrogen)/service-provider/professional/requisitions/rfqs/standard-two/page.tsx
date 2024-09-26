@@ -4,6 +4,9 @@ import { Title } from 'rizzui';
 import UploadButton from '@/app/shared/commons/upload-button';
 import PageHeader from '@/app/shared/commons/page-header';
 import ProfessionalCreateQuotationComponent from '@/app/shared/service-provider/create-quotation/professional';
+import apiRequest from '@/lib/apiService';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
     ssr: false,
   });
@@ -29,22 +32,53 @@ const pageHeader = {
   ],
 };
 
-export default function RfqStandardTwoPage() {
+const fetchUserDetails = async () => {
+  const session = await getServerSession(authOptions);
+
+  const professionalId = session?.user.id;
+
+  try {
+    const userDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/users/${professionalId}`,
+    });
+    return userDetails;
+  } catch (error) {
+    console.error('Failed to fetch user details:', error);
+    return null;
+  }
+};
+
+
+export default async function RfqStandardTwoPage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+
+  const fetchTransactionDetails = async () => {
+
+    const assetDetails = await apiRequest({
+      method: 'GET',
+      endpoint: `/transactions/${searchParams.jobId}`,
+    });
+
+     
+  
+    console.log(assetDetails, 'assetDetails');
+  
+    return assetDetails;
+  };
+
+  const transactionDetails = await fetchTransactionDetails();
+  const user = await fetchUserDetails();
+
   return (
     <>
-      {/* <div className='flex justify-between items-center'>
-        <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
-          Create Quotation
-        </Title>
-        <div className='w-32'>
-          <UploadButton modalView={<FileUpload />} />
-        </div>
-      </div> */}
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
-        {/* <UploadButton modalView={<FileUpload />} /> */}
       </PageHeader>
 
-      <ProfessionalCreateQuotationComponent />
+      <ProfessionalCreateQuotationComponent requestDetails={transactionDetails} userDetails={user} />
     </>
   )
   
