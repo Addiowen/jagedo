@@ -101,7 +101,7 @@ const Notifications = ({ className }: { className?: string }) => {
             <Title as="h5" fontWeight="semibold">
               Notifications
             </Title>
-            <Link href={routes.support.inbox} className="hover:underline">
+            <Link href="#" className="hover:underline">
               See all
             </Link>
           </div>

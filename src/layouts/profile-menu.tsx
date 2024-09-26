@@ -17,6 +17,8 @@ export default function ProfileMenu({
   avatarClassName?: string;
   username?: boolean;
 }) {
+  const { data: session } = useSession();
+
   return (
     <ProfileMenuPopover>
       <Popover.Trigger>
@@ -28,7 +30,7 @@ export default function ProfileMenu({
         >
           <Avatar
             src="/user1.png"
-            name="User"
+            name={session?.user.firstname || ''} // Fallback to an empty string
             className={cn(
               '!h-9 w-9 rounded-full border-2 border-gray-300 shadow-md transition-shadow hover:shadow-lg sm:!h-10 sm:!w-10',
               avatarClassName
@@ -67,8 +69,7 @@ function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
 
 function DropdownMenu() {
   const { data: session } = useSession();
-
-  const userRole = session?.user.metadata?.role;
+  const userRole = session?.user?.metadata?.role;
 
   const menuItems = [
     {
@@ -77,10 +78,10 @@ function DropdownMenu() {
         userRole === 'customer'
           ? routes.customers.createCustomerProfile
           : userRole === 'fundi'
-            ? routes.serviceProvider.fundi.profile
-            : userRole === 'admin'
-              ? routes.admin.editAdminProfile
-              : routes.accessDenied,
+          ? routes.serviceProvider.fundi.profile
+          : userRole === 'admin'
+          ? routes.admin.editAdminProfile
+          : routes.accessDenied,
     },
     {
       name: 'Account Settings',
@@ -97,13 +98,17 @@ function DropdownMenu() {
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
         <Avatar
           src="/user1.png"
-          name=""
+          name={session?.user?.metadata?.type === 'organization' 
+            ? session?.user?.firstname || ''  // Fallback to an empty string
+            : `${session?.user?.firstname || ''} ${session?.user?.lastname || ''}`} // Fallback for both
         />
         <div className="ms-3">
           <Title as="h6" className="font-semibold">
-            {session?.user.firstname} {session?.user.lastname}
+            {session?.user?.metadata?.type === 'organization' 
+              ? session?.user?.firstname 
+              : `${session?.user?.firstname || ''} ${session?.user?.lastname || ''}`}
           </Title>
-          <Text className="text-gray-600">{session?.user.email}</Text>
+          <Text className="text-gray-600">{session?.user?.email || 'email@example.com'}</Text>
         </div>
       </div>
       <div className="grid px-3.5 py-3.5 font-medium text-gray-700">
