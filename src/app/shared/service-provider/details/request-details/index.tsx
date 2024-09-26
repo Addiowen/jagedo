@@ -14,10 +14,11 @@ export default function RequestDetails(
   const searchParams = useSearchParams()
 //   const pathname = usePathname()
   const requestId = searchParams.get('id')
+  const jobId = requestId;
 //   const contractor = pathname.includes('contractor')
 
 const request = {
-  Category: 'Professional',
+  Category: 'Contractor',
   'Sub-Category': requestDetails.metadata.skill,
   'Request Type': requestDetails.metadata.packageType,
   County: requestDetails.metadata.county,
@@ -42,13 +43,13 @@ const request = {
 
         <div className="flex justify-center space-x-4 pt-5">
           {requestId === 'REQ0021'? (
-            <Link href={routes.serviceProvider.contractor.rfqStandardOne}>
+            <Link href={{ pathname: routes.serviceProvider.contractor.rfqStandardOne, query: { jobId } }}>
               <Button className="w-62">
                   Create Quotation
               </Button>
             </Link>
             ) : (
-            <Link href={routes.serviceProvider.contractor.rfqStandardTWo}>
+            <Link href={{ pathname: routes.serviceProvider.contractor.rfqStandardTWo, query: { jobId } }}>
               <Button className="w-62">
                   Create Quotation
               </Button>
