@@ -2,9 +2,10 @@ import Image from 'next/image';
 import { Title } from 'rizzui';
 import CountdownTimer from '@/app/redirects/coming-soon/countdown-timer';
 import SubscriptionForm from '@/app/shared/commons/subscription-form';
+import { siteConfig } from '@/config/site.config';
 import { PiPlusBold } from 'react-icons/pi';
-import ComingSoonImg from '@public/coming-soon.png';
-import ComingSoonTwoImg from '@public/coming-soon-2.png';
+import ComingSoonImg from 'public/coming-soon.png';
+import ComingSoonTwoImg from 'public/coming-soon-2.png';
 
 export default function ComingSoonPage() {
   return (
@@ -23,18 +24,17 @@ export default function ComingSoonPage() {
         {/* <SubscriptionForm /> */}
       </div>
 
-      <Image
-        src={ComingSoonTwoImg}
+      {/* <Image
+        src={siteConfig.logo}
         alt="coming soon"
-        className="fixed start-0 top-0 hidden w-28 dark:invert 3xl:inline-block 3xl:w-32 rtl:rotate-90"
-      />
-      <div className="end-10 top-1/2 lg:absolute lg:-translate-y-1/2 xl:end-[10%] 3xl:end-[15%]">
+        className="fixed left-0 top-0 w-28 dark:invert 3xl:inline-block 3xl:w-32 rtl:rotate-90 md:w-24 md:h-auto lg:w-28 transition-transform duration-300 ease-in-out"/>
+        <div className="end-10 top-1/2 lg:absolute lg:-translate-y-1/2 xl:end-[10%] 3xl:end-[15%]">
         <Image
           src={ComingSoonImg}
           alt="coming-soon"
-          className="hidden aspect-[531/721] max-w-[194px] md:max-w-[256px] lg:max-w-sm xl:max-w-[400px] 3xl:max-w-[531px]"
+          className=" aspect-[531/721] max-w-[194px] md:max-w-[256px] lg:max-w-sm xl:max-w-[400px] 3xl:max-w-[531px]"
         />
-      </div>
+      </div> */}
 
       <PLusIconPatterns />
     </div>

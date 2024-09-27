@@ -1,8 +1,10 @@
 import ViewFundiJobDetails from '@/app/shared/customers/requisitions/requisition-details/confirm-availability';
 import ConfirmAvailability from '@/app/shared/service-provider/confirm-availability/confirm-availability';
+import { routes } from '@/config/routes';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import { Description } from '@headlessui/react/dist/components/description/description';
+import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
 
 export const metadata = {
@@ -64,7 +66,8 @@ export default async function RFQEmergencyFundiPage({
     'End Date': customerRequest?.endDate
       ? new Date(customerRequest.endDate).toLocaleDateString()
       : 'N/A',
-    'Invoice Number': `#INV${truncatedId}`,
+    'Invoice Number': `${customerRequest.id}`,
+    'Download Invoice': <PiDownloadSimple/>,
     'Payment Status': 'Paid',
     Amount: customerRequest?.metadata.amount
       ? customerRequest.metadata.linkageFee

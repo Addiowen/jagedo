@@ -30,11 +30,11 @@ export default function OtherPagesLayout({
           )}
         >
           <Link href={'/'}>
-            <div className="h-10 w-10">
+            <div className="">
               <Image
-                src={''}
+                src={siteConfig.logo}
                 alt={siteConfig.title}
-                className="h-10 w-10 dark:invert"
+                className="h-12 w-24 dark:invert"
                 priority
               />
             </div>
