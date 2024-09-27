@@ -20,7 +20,7 @@ const PricingProfessional: React.FC<PricingProps> = ({ onPlanSelect }) => {
   const plans: Plan[] = [
     {
       title: 'Managed by Jagedo',
-      price: '',
+      price: '0',
       description: 'Linkage Fee',
       features: [
         'Management commission is payable by Professional',
