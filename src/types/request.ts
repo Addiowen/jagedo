@@ -32,6 +32,7 @@ interface RequestDetails {
   quantity: number;
   currency: string | null;
   price: number;
+  status: string;
   customAttributes: Record<string, any>;
   metadata: Metadata;
   platformData: Record<string, any>;

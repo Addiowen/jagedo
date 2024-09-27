@@ -5,8 +5,9 @@ import axios from 'axios';
 import cn from '@/utils/class-names';
 import { PiDownloadSimple } from 'react-icons/pi';
 import { Title } from 'rizzui';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ViewAttachments from '../service-provider/details/request-details/view-attachments';
+import { routes } from '@/config/routes';
 
 interface Item {
   [key: string]: string[];
@@ -23,6 +24,8 @@ interface Data {
   url: string;
 }
 
+// import { useNavigate } from 'react-router-dom'; // Import the hook
+
 const CustomerChunkedGrid: React.FC<Props> = ({
   requestDetails,
   className,
@@ -31,11 +34,13 @@ const CustomerChunkedGrid: React.FC<Props> = ({
   const searchParams = useSearchParams();
   const jobId = searchParams.get('id');
   const JobDescription: any = requestDetails.Description;
+  const router =useRouter()
 
   const [attachments, setAttachments] = useState<Data[]>([]);
   const [downloadStatus, setDownloadStatus] = useState<string>('');
 
   const uploadsData = requestDetails.Uploads;
+  // const navigate = useNavigate(); // Initialize navigate
 
   const getFileNameFromUrl = (url: string) => {
     return url.substring(url.lastIndexOf('/') + 1);
@@ -99,6 +104,11 @@ const CustomerChunkedGrid: React.FC<Props> = ({
   const chunkedData = chunkArray(dataArray, dataChunkSize);
   console.log(chunkedData);
 
+  // New function to handle redirect
+  const handleInvoiceRedirect = () => {
+    router.push(`${routes.customers.downloadInvoice}?id=${requestDetails['Invoice Number']}`);
+  };
+
   return (
     <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">
       <div className="pb-4 font-semibold text-gray-900 sm:text-lg">
@@ -135,7 +145,14 @@ const CustomerChunkedGrid: React.FC<Props> = ({
                         >
                           {key}
                         </Title>
-                        {key === 'Description' ? (
+                        {key === 'Download Invoice' ? (
+                          <button
+                            onClick={handleInvoiceRedirect}
+                            className="text-blue-500 hover:underline"
+                          >
+                            {value}
+                          </button>
+                        ) : key === 'Description' ? (
                           <div
                             className="max-h-40 w-full overflow-y-auto rounded border border-gray-200 p-2 text-gray-500"
                             style={{ whiteSpace: 'pre-wrap' }} // Preserves line breaks
@@ -159,5 +176,6 @@ const CustomerChunkedGrid: React.FC<Props> = ({
     </div>
   );
 };
+
 
 export default CustomerChunkedGrid;
