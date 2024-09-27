@@ -30,7 +30,7 @@ export const routes = {
     individual: '/admin/registers/customer/individual',
     organization: '/admin/registers/customer/organization',
     fundi: '/admin/registers/fundi',
-    professional: '/admin/registers/professional',
+    professional: '/admin/registers/professionals',
     contractor: '/admin/registers/contractor',
     requisitions: '/admin/registers/requisitions',
     customerRequisitions: '/admin/registers/requisitions/customer',

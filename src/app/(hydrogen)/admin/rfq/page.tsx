@@ -1,44 +1,50 @@
-'use client';
+import ViewProfessionalQuotationComponent from '@/app/shared/service-provider/view-quotation/professional';
+import { metaObject } from '@/config/site.config';
+import apiRequest from '@/lib/apiService';
+import { Title } from 'rizzui';
+// import { Title } from 'rizzui';
 
-// import RFQCard from '@/app/shared/admin/rfq';
-import PageHeader from '@/app/shared/commons/page-header';
-import { useSearchParams } from 'next/navigation';
-import CreateProfessionalQuotationComponent from '@/app/shared/create-quotation/create-quotation';
-import ViewContractorQuotationComponent from '../quotations/view-quotation/contractor';
+export const metadata = {
+  ...metaObject(),
+};
 
-// export const metadata = {
-//   ...metaObject('RFQ '),
-// };
+export default async function QuotationDetailsPage({
+  searchParams,
+}: {
+  searchParams: any;
+}) {
+  const requestId = searchParams.jobId;
+  const messageId = searchParams.messageId;
 
-export default function RFQPage() {
-  const queryId = useSearchParams();
-  const jobId = queryId.get('jobId');
+  const fetchQuotation = async () => {
+    // try {
+    //   const quotations = await apiRequest({
+    //     method: 'GET',
+    //     endpoint: `/messages?status=assigned&id[]=${quotationsArray}`,
+    //   });
 
-  const pageHeader = {
-    title: jobId ? `QTN#${jobId}` : '',
-    breadcrumb: [],
+    try {
+      const quotation = await apiRequest({
+        method: 'GET',
+        endpoint: `/messages/${messageId}`,
+      });
+
+      return quotation;
+    } catch (error) {
+      console.error('Error fetching request details:', error);
+      // Handle error accordingly
+      return null;
+    }
   };
+
+  const quotationDetails = await fetchQuotation();
 
   return (
     <>
-      <PageHeader
-        title={pageHeader.title}
-        breadcrumb={pageHeader.breadcrumb}
-      ></PageHeader>
-      <div className="@container">
-        <div className="flex flex-col  @container sm:gap-y-10">
-          {/* <RFQCard className="relative  @4xl:col-span-2 @7xl:col-span-12" /> */}
-          {jobId === '3401' ||
-          jobId === '3400' ||
-          jobId === '3324' ||
-          jobId === '3327' ? (
-            <ViewContractorQuotationComponent />
-          ) : (
-            <CreateProfessionalQuotationComponent />
-          )}
-          {/* <CreateQuotationComponent /> */}
-        </div>
-      </div>
+      <Title as="h4" className="mb-2 pb-5 font-semibold @2xl:mb-5">
+        QTN {requestId}
+      </Title>
+      <ViewProfessionalQuotationComponent quotationDetails={quotationDetails} />
     </>
   );
 }

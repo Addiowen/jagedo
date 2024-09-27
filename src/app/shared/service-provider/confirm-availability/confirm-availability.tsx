@@ -75,7 +75,7 @@ export default function ConfirmAvailability({
       }
 
       // First, update the transaction
-      const updateTransactionResponse = await axios.patch(
+      await axios.patch(
         `${BASE_URL}/transactions/${requestId}`,
         {
           assetId: assetId,

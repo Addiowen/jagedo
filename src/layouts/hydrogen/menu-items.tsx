@@ -100,10 +100,10 @@ export const adminMenu: MenuItem[] = [
             name: 'Fundi',
             href: routes.admin.fundi,
           },
-          // {
-          //   name: 'Professional',
-          //   href: routes.admin.professional,
-          // },
+          {
+            name: 'Professional',
+            href: routes.admin.professional,
+          },
           // {
           //   name: 'Contractor',
           //   href: routes.admin.contractor,

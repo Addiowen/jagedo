@@ -1,16 +1,24 @@
 'use client';
 
-import { Accordion, Badge, Button, FileInput, Input, Textarea } from 'rizzui';
+import {
+  Accordion,
+  Badge,
+  Button,
+  FileInput,
+  Input,
+  Modal,
+  Textarea,
+} from 'rizzui';
 import { useState } from 'react';
 import ToastButton from '@/components/buttons/toast-button';
 import { routes } from '@/config/routes';
 import { useSearchParams } from 'next/navigation';
 import AnalyzeQuotationsTable from '../dashboard/tables/quotations/analyze-quotations';
 import WidgetCard3 from '@/components/cards/widget-card3';
-import ChunkedGrid from '../../commons/custom-chunked-grid';
 import { requestDetails } from '@/data/job-data';
 import Link from 'next/link';
 import { PiArrowDown, PiDownloadDuotone, PiPlusBold } from 'react-icons/pi';
+import ChunkedGrid from '../../custom-chunked-grid';
 
 const data = [
   {
@@ -23,7 +31,17 @@ const data = [
 
 const specData = [{}];
 
-export default function ReportComponent({ className }: { className?: string }) {
+export default function ReportComponent({
+  className,
+  requestDetails,
+  quotations,
+  bookingRequests,
+}: {
+  className?: string;
+  requestDetails: any;
+  quotations: any;
+  bookingRequests: any;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
   const queryId = searchParams.get('id');
@@ -68,19 +86,9 @@ export default function ReportComponent({ className }: { className?: string }) {
               <div className="mt-4">
                 {
                   <ChunkedGrid
-                    data={
-                      queryId === '3001'
-                        ? requestDetails[3]
-                        : queryId === '3002'
-                          ? requestDetails[4]
-                          : queryId === '3400'
-                            ? requestDetails[5]
-                            : queryId === '3401'
-                              ? requestDetails[6]
-                              : requestDetails[2]
-                    }
+                    data={requestDetails}
                     dataChunkSize={8}
-                    // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    attachementsDetails={requestDetails} // className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                   />
                 }
               </div>
@@ -88,39 +96,10 @@ export default function ReportComponent({ className }: { className?: string }) {
           </Accordion>
         </div>
 
-        <AnalyzeQuotationsTable className="col-span-full mt-4" />
-
-        <WidgetCard3
-          title="Reason"
-          rounded="lg"
-          className=" mt-4"
-          action={<Textarea size="sm" />}
-        ></WidgetCard3>
-      </div>
-
-      {/* 
-      <Accordion>
-        <Accordion.Header>
-          <div
-            onClick={handleToggle}
-            className="flex w-full items-center justify-between py-5 text-xl font-semibold"
-          >
-            {'Note'}
-            <PiArrowDown
-              className={`flex h-5 w-5 transform  transition-transform duration-300 ${
-                isOpen ? 'rotate-0' : '-rotate-90'
-              }`}
-            />
-          </div>
-        </Accordion.Header>
-
-        <Accordion.Body></Accordion.Body>
-      </Accordion> */}
-      <div className="col-span-full grid">
-        <ToastButton
-          title="Submit"
-          route={routes.admin.dashboard}
-          message="Report generated successfully"
+        <AnalyzeQuotationsTable
+          bookingRequests={bookingRequests}
+          quotations={quotations}
+          className="col-span-full mt-4"
         />
       </div>
     </>

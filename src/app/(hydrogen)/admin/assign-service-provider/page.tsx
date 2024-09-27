@@ -119,7 +119,7 @@ export default async function AddtoServiceProviders({
   return (
     <div className="@container">
       <PageHeader title={pageHeader.title}></PageHeader>
-      <FundisTable fundis={spList} />
+      {/* <FundisTable fundis={spList} />   */}
       <AssignProfessionalsTable professionals={professionalList} />
 
       <div className="mt-6">
