@@ -127,12 +127,6 @@ const DownloadInvoiceComponent: React.FC = () => {
     },
   ];
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setPhoneNumber(value);
-    setIsPhoneNumberValid(/^\d{10}$/.test(value)); // Validate that the phone number is 10 digits
-  };
-
   // Function to handle printing
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -164,6 +158,32 @@ const DownloadInvoiceComponent: React.FC = () => {
           buttons.forEach((button) => button.classList.remove('invisible'));
         });
     }
+  };
+
+  const formatDate = (dateString: string | number | Date | undefined) => {
+    if (!dateString) return 'Date not available'; // Handle undefined date
+  
+    const date = new Date(dateString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return 'Invalid date';
+  
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short', timeZone: 'Africa/Nairobi' });
+    const year = date.getFullYear();
+  
+    // Determine the suffix for the day
+    const suffix = (day: number) => {
+      if (day > 3 && day < 21) return 'th'; // General case
+      switch (day % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    };
+  
+    return `${day}${suffix(day)}-${month}-${year}`;
   };
 
   return (
@@ -214,7 +234,10 @@ const DownloadInvoiceComponent: React.FC = () => {
               </Badge>
             </div>
             <p className="text-gray-600">Invoice no. #{requestId}</p>
-            <p className="text-gray-600">Date: {requestDetails?.createdDate}</p>
+            <p className="text-gray-600">
+               {formatDate(requestDetails?.createdDate)}
+            </p>
+
           </div>
         </div>
 

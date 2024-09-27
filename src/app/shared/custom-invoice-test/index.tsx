@@ -215,6 +215,32 @@ const InvoiceComponent: React.FC = () => {
     }
   };
 
+  const formatDate = (dateString: string | number | Date | undefined) => {
+    if (!dateString) return 'Date not available'; // Handle undefined date
+  
+    const date = new Date(dateString);
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) return 'Invalid date';
+  
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short', timeZone: 'Africa/Nairobi' });
+    const year = date.getFullYear();
+  
+    // Determine the suffix for the day
+    const suffix = (day: number) => {
+      if (day > 3 && day < 21) return 'th'; // General case
+      switch (day % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    };
+  
+    return `${day}${suffix(day)}-${month}-${year}`;
+  };
+
   return (
     <div className="p-6">
       {/* <div className=" flex items-center justify-end gap-3 px-8 pt-2 @lg:mt-0">
@@ -261,7 +287,9 @@ const InvoiceComponent: React.FC = () => {
               </Badge>
             </div>
             <p className="text-gray-600">Invoice no. #{requestId}</p>
-            <p className="text-gray-600">Date: {requestDetails?.createdDate}</p>
+            <p className="text-gray-600">
+               {formatDate(requestDetails?.createdDate)}
+            </p>
           </div>
         </div>
 

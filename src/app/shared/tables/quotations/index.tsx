@@ -19,8 +19,10 @@ const filterState = {
 export default function QuotedRequisitionsTable({
 
   className,
+  quotations,
 }: {
   className?: string;
+  quotations: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,12 +59,12 @@ export default function QuotedRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(quotedRequisitionsData, pageSize, filterState);
+  } = useTable(quotations, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: quotedRequisitionsData,
+        data: quotations,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
