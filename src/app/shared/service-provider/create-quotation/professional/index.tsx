@@ -61,62 +61,7 @@ export default function ProfessionalCreateQuotationComponent(
       content: 'You have a new quotation request',
       attachments: [],
       metadata: {
-        status: 'quoted',
-        approvalStatus: 'pending',
-        profileCreated: true,
-        firstTable: data.firstTable,
-        secondTable: data.secondTable,
-        thirdTable: data.thirdTable,
-        fourthTable: data.fourthTable,
-        attachmentsTable: data.attachmentsTable,
-        grandTotal: data.grandTotal,
-        totalExpensesCost: data.totalExpensesCost,
-        totalProfessionalFees: data.totalProfessionalFees,
-      },
-    };
-
-    const quotationRes = await axios.post(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/messages`,
-      updateData,
-      {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-        },
-      }
-    );
-
-    const transactionRes = await axios.patch(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/transactions/${requestDetails.id}`,
-      {
-        metadata: {
-          ...requestDetails.metadata,
-          quotations: [...requestDetails.metadata.quotations, quotationRes.data.id]
-        }
-      },
-      {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-        },
-      }
-    );
-
-
-    // router.push(routes.serviceProvider.professional.quotations)
-  };
-
-  const onSubmit1 = async (data: any) => {
-    console.log(`${BASE_URL}/messages`,);
-    console.log(`${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`);
-    console.log('william');
-    console.log(data, 'data');
-    const updateData = {
-      topicId: requestDetails.id, // Job/Transaction Id
-      senderId: userDetails.id, // Contractor/Professional Asset Identifier
-      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
-      content: 'You have a new quotation request',
-      attachments: [],
-      metadata: {
-        status: 'quoted',
+        status: 'under review', // rejected // bid lost // accepted
         approvalStatus: 'pending',
         profileCreated: true,
         firstTable: data.firstTable,
@@ -146,6 +91,64 @@ export default function ProfessionalCreateQuotationComponent(
       {
       metadata: {
         ...requestDetails.metadata,
+        status: 'quoted',
+        quotations: [
+        ...(requestDetails?.metadata?.quotations || []),
+        quotationRes.data.id
+        ]
+      }
+      },
+      {
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+      },
+      }
+    );
+    console.log(transactionRes, 'transactionRes');
+
+
+    // router.push(routes.serviceProvider.professional.quotations)
+  };
+
+  const onSubmit1 = async (data: any) => {
+    const updateData = {
+      topicId: requestDetails.id, // Job/Transaction Id
+      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
+      content: 'You have a new quotation request',
+      attachments: [],
+      metadata: {
+        status: 'under review', // rejected // bid lost // accepted
+        approvalStatus: 'pending',
+        profileCreated: true,
+        firstTable: data.firstTable,
+        secondTable: data.secondTable,
+        thirdTable: data.thirdTable,
+        fourthTable: data.fourthTable,
+        attachmentsTable: data.attachmentsTable,
+        grandTotal: data.grandTotal,
+        totalExpensesCost: data.totalExpensesCost,
+        totalProfessionalFees: data.totalProfessionalFees,
+      },
+    };
+    console.log(updateData, 'updateData');
+    
+    const quotationRes = await axios.post(
+      `${BASE_URL}/messages`,
+      updateData,
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+    console.log(quotationRes, 'quotationRes');
+    const transactionRes = await axios.patch(
+      `${BASE_URL}/transactions/${requestDetails.id}`,
+      {
+      metadata: {
+        ...requestDetails.metadata,
+        status: 'quoted',
         quotations: [
         ...(requestDetails?.metadata?.quotations || []),
         quotationRes.data.id
@@ -175,7 +178,7 @@ export default function ProfessionalCreateQuotationComponent(
     <>
       <CustomMultiStepComponent<CreateQuotationType>
           validationSchema={createQuotationSchema}
-          onSubmit={onSubmit1}
+          onSubmit={onSubmit}
           useFormProps={{
             mode: 'onChange',
             defaultValues: CREATE_QUOTATION_DEFAULT_VALUE,

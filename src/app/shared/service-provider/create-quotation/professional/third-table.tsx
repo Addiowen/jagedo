@@ -131,7 +131,7 @@ export default function ThirdTable() {
                 2
             </div>  
             <div className="col-span-2 py-2 pt-3 text-center">
-              Expenses
+              Other Expenses
             </div>
             <div className="col-span-1 p-2 pb-4">
               <QuoteInput
