@@ -59,89 +59,26 @@ export default function AnalyzeQuotationsTable({
   const handleApproveSelection = () => {};
 
   const formattedQuotations =
-    quotations.results.map((item: any, index: number) => {
-      return {
-        number: index + 1,
-        id: item.id || '',
-        date: item.createdDate || '',
-        uniqueId: item.senderId || '',
-        subCategory: item.metadata?.skill || '',
-        requestType: `${item.metadata?.packageType}` || '',
-        description: item.metadata?.description || '',
-        location: item.metadata?.village || '',
-        county: item.metadata?.county || '',
-        subCounty: item.metadata?.subCounty || '',
-        status: item.status || '',
-      };
-    }) || [];
+    quotations?.results?.length > 0
+      ? quotations.results.map((item: any, index: number) => {
+          return {
+            number: index + 1,
+            id: item.id || '',
+            date: item.createdDate || '',
+            uniqueId: item.senderId || '',
+            subCategory: item.metadata?.skill || '',
+            requestType: `${item.metadata?.packageType}` || '',
+            description: item.metadata?.description || '',
+            location: item.metadata?.village || '',
+            county: item.metadata?.county || '',
+            subCounty: item.metadata?.subCounty || '',
+            status: item.status || '',
+            senderId: item.senderId || '',
+          };
+        })
+      : [];
 
   console.log(formattedQuotations);
-
-  const handleSubmit = async () => {
-    setIsLoading(true);
-    try {
-      let status = 'assigned quotation';
-
-      // First, update the transaction
-      await axios.patch(
-        `${BASE_URL}/transactions/${requestId}`,
-        {
-          assetId: assetId,
-          status,
-          metadata: {
-            serviceProviderName,
-            bookingRequests: assetId,
-            serviceProviderPhones: userPhone,
-            serviceProviderEmails: userEmail,
-            serviceProviderIds: userId,
-          },
-        },
-        {
-          headers: {
-            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-          },
-        }
-      );
-
-      // If the transaction is successfully updated, remove transactionId from booking requests
-      const removeAssetIdFromBookingRequests = async () => {
-        const patchRequests = otherPros.map(async (assetId: any) => {
-          const res = await axios.patch(
-            `${BASE_URL}/assets/${assetId}`,
-            {
-              metadata: {
-                bookingRequests: [],
-              },
-            },
-            {
-              headers: {
-                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-              },
-            }
-          );
-
-          return res.data;
-        });
-
-        const responses = await Promise.all(patchRequests);
-        console.log('Asset update responses:', responses);
-      };
-
-      await removeAssetIdFromBookingRequests();
-
-      toast.success('Job accepted successfully!');
-
-      // Ensure the router.push happens after everything is done
-      router.push(routes.serviceProvider.fundi.activeJobs);
-    } catch (error) {
-      console.error('Error:', error);
-      alert(
-        'An error occurred while processing the request. Please try again.'
-      );
-    } finally {
-      setIsLoading(false); // Only set isLoading to false at the end
-    }
-  };
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -197,6 +134,129 @@ export default function AnalyzeQuotationsTable({
       handleSelectAll,
     ]
   );
+
+  const selectedQuotation = formattedQuotations.find(
+    (row: { id: any }) => row.id === selectedRowKeys[0]
+  );
+
+  const professionalId = selectedQuotation?.senderId;
+  const selectedQuotationId = selectedQuotation?.id;
+
+  const otherQuotations = formattedQuotations.filter(
+    (q: { id: any }) => q.id !== selectedQuotationId
+  );
+
+  console.log(professionalId);
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      let status = 'assigned quotation';
+
+      // First, update the transaction
+      await axios.patch(
+        `${BASE_URL}/transactions/${requestId}`,
+        {
+          status,
+          metadata: {
+            serviceProviderName,
+            assignedTo: professionalId,
+            // bookingRequests: selectedProfessionalId,
+            // serviceProviderPhones: userPhone,
+            // serviceProviderEmails: userEmail,
+            // serviceProviderIds: userId,
+          },
+        },
+        {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        }
+      );
+
+      const updateQuotationStatuses = async () => {
+        try {
+          // First, update the won bid status for the selected quotation
+          const wonBidUpdate = await axios.patch(
+            `${BASE_URL}/messages/${selectedQuotationId}`,
+            {
+              metadata: {
+                status: 'won bid',
+              },
+            },
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+
+          console.log('Won bid updated:', wonBidUpdate.data);
+
+          // Now, update the status for all other quotations to "lost bid"
+          const patchRequests = otherQuotations.map(async (quotation: any) => {
+            const res = await axios.patch(
+              `${BASE_URL}/messages/${quotation.id}`,
+              {
+                metadata: {
+                  status: 'lost bid',
+                },
+              },
+              {
+                headers: {
+                  Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+                },
+              }
+            );
+            return res.data;
+          });
+
+          const responses = await Promise.all(patchRequests);
+          console.log('Other quotations updated to "lost bid":', responses);
+          toast.success('Quotation submitted Successfully!');
+        } catch (error) {
+          console.error('Error updating quotations:', error);
+        }
+      };
+
+      await updateQuotationStatuses();
+
+      // If the transaction is successfully updated, update quotation status
+      // const removeAssetIdFromBookingRequests = async () => {
+      //   const patchRequests = otherPros.map(async (assetId: any) => {
+      //     const res = await axios.patch(
+      //       `${BASE_URL}/assets/${assetId}`,
+      //       {
+      //         metadata: {
+      //           bookingRequests: [],
+      //         },
+      //       },
+      //       {
+      //         headers: {
+      //           Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+      //         },
+      //       }
+      //     );
+
+      //     return res.data;
+      //   });
+
+      //   const responses = await Promise.all(patchRequests);
+      //   console.log('Asset update responses:', responses);
+      // };
+
+      // await removeAssetIdFromBookingRequests();
+      // Ensure the router.push happens after everything is done
+      router.push(routes.admin.dashboard);
+    } catch (error) {
+      console.error('Error:', error);
+      alert(
+        'An error occurred while processing the request. Please try again.'
+      );
+    } finally {
+      setIsLoading(false); // Only set isLoading to false at the end
+    }
+  };
 
   const { visibleColumns } = useColumn(columns);
 
@@ -255,10 +315,11 @@ export default function AnalyzeQuotationsTable({
             sent to the customer for approval."
           </p>
           <Button
+            isLoading={loading}
             className="mr-6 mt-4 rounded bg-blue-500 px-6 py-2 font-medium text-white transition-all hover:bg-blue-600"
-            onClick={handleApproveSelection}
+            onClick={handleSubmit}
           >
-            Approve Selection
+            Confirm Selection
           </Button>
           <Button
             className="mt-4 rounded  px-6 py-2 font-medium text-blue-500 transition-all "

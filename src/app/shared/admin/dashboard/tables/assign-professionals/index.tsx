@@ -115,15 +115,33 @@ export default function AssignProfessionalsTable({
 
   const assignTransactionIdtoAssets = async (
     assetIds: string[],
-    requesttransactionId: string
+    requestTransactionId: string
   ) => {
     try {
       const patchRequests = assetIds.map(async (assetId) => {
+        // Fetch the current asset data
+        const currentAsset = await axios.get(`${BASE_URL}/assets/${assetId}`, {
+          headers: {
+            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+          },
+        });
+
+        // Get the current bookingRequests array (or initialize it as an empty array)
+        const existingBookingRequests =
+          currentAsset.data.metadata.bookingRequests || [];
+
+        // Append the new transaction ID to the array
+        const updatedBookingRequests = [
+          ...existingBookingRequests,
+          requestTransactionId,
+        ];
+
+        // Send the patch request to update the asset
         const res = await axios.patch(
           `${BASE_URL}/assets/${assetId}`,
           {
             metadata: {
-              bookingRequests: requesttransactionId,
+              bookingRequests: updatedBookingRequests,
             },
           },
           {
@@ -133,13 +151,15 @@ export default function AssignProfessionalsTable({
           }
         );
 
+        // Update the local state (if necessary)
         setAssets(res.data);
 
         if (assets) {
           return assets as any;
         }
       });
-      responses = await Promise.all(patchRequests);
+
+      const responses = await Promise.all(patchRequests);
     } catch (error) {
       console.error('Error updating assets:', error);
     }
