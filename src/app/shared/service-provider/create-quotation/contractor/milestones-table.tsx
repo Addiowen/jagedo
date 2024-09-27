@@ -16,10 +16,16 @@ import { SortableList } from '@/components/dnd-sortable/dnd-sortable-list';
 
 export default function MilestonesTable() {
   const { control, register, getValues } = useFormContext();
-  const { fields, move } = useFieldArray({
+  const { fields, move, append } = useFieldArray({
     control: control,
     name: 'milestonesTable',
   });
+
+  append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
+
+  console.log('fields', fields);
+
+
 
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;

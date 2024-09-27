@@ -47,18 +47,12 @@ export default async function RfqStandardOnePage(
     searchParams: any;
   }
 ) {
-
   const fetchTransactionDetails = async () => {
 
     const assetDetails = await apiRequest({
       method: 'GET',
       endpoint: `/transactions/${searchParams.jobId}`,
     });
-
-     
-  
-    console.log(assetDetails, 'assetDetails');
-  
     return assetDetails;
   };
 
@@ -68,7 +62,7 @@ export default async function RfqStandardOnePage(
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
 
-      <CreateContractorQuotationComponent />
+      <CreateContractorQuotationComponent userDetails={user} requestDetails={transactionDetails} />
     </>
   )
 }

@@ -74,7 +74,7 @@ export default async function RequisitionsPage() {
 
   // Use optional chaining to safely access metadata
   const bookingRequests = asset?.metadata?.bookingRequests;
-
+  console.log(bookingRequests, 'bookingRequests');
   if (approvalStatus === 'pending') {
     return (
       <Alert variant="flat" color="warning">
@@ -112,7 +112,7 @@ export default async function RequisitionsPage() {
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions?status=assigned&id[]=${bookingRequests}`,
+        endpoint: `/transactions?status=assigned&id=${bookingRequests}`,
       });
       // const assetDetails = await apiRequest({
       //   method: 'GET',

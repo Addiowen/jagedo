@@ -134,14 +134,138 @@ export const BILL_VIEW_VALUE = [
 
 export const MILESTONES_TABLE_DEFAULT_VALUE = [
   {
+  milestone: 'A',
+  percentageDisbursement: 25,
+  milestoneActivity: 'First Draft',
+  amount: 0,
+},
+{
+  milestone: 'B',
+  percentageDisbursement: 25,
+  milestoneActivity: 'Second Draft',
+  amount: 0,
+},
+{
+  milestone: 'C',
+  percentageDisbursement: 25,
+  milestoneActivity: 'Third Draft',
+  amount: 0,
+},
+{
+  milestone: 'D',
+  percentageDisbursement: 25,
+  milestoneActivity: 'Final Draft',
+  amount: 0,
+},
+];
+
+export const MILESTONES_TABLE_DEFAULT_VALUES = {
+  two: [
+    {
+      milestone: 'A',
+      percentageDisbursement: 50,
+      milestoneActivity: 'First Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'B',
+      percentageDisbursement: 50,
+      milestoneActivity: 'Final Draft',
+      amount: 0,
+    },
+  ],
+  three: [
+    {
+      milestone: 'A',
+      percentageDisbursement: 33.33,
+      milestoneActivity: 'First Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'B',
+      percentageDisbursement: 33.33,
+      milestoneActivity: 'Second Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'C',
+      percentageDisbursement: 33.33,
+      milestoneActivity: 'Final Draft',
+      amount: 0,
+    },
+  ],
+  four: [
+    {
+      milestone: 'A',
+      percentageDisbursement: 25,
+      milestoneActivity: 'First Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'B',
+      percentageDisbursement: 25,
+      milestoneActivity: 'Second Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'C',
+      percentageDisbursement: 25,
+      milestoneActivity: 'Third Draft',
+      amount: 0,
+    },
+    {
+      milestone: 'D',
+      percentageDisbursement: 25,
+      milestoneActivity: 'Final Draft',
+      amount: 0,
+    },
+  ],
+};
+
+
+export const MILESTONES_TABLE_DEFAULT_VALUE_THREE = [
+  {
     milestone: 'A',
-    percentageDisbursement: 50,
+    percentageDisbursement: 33.33,
     milestoneActivity: 'First Draft',
     amount: 0,
   },
   {
     milestone: 'B',
-    percentageDisbursement: 50,
+    percentageDisbursement: 33.33,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'C',
+    percentageDisbursement: 33.33,
+    milestoneActivity: 'Final Draft',
+    amount: 0,
+  },
+];
+
+export const MILESTONES_TABLE_DEFAULT_VALUE_FOUR = [
+  {
+    milestone: 'A',
+    percentageDisbursement: 25,
+    milestoneActivity: 'First Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'B',
+    percentageDisbursement: 25,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'C',
+    percentageDisbursement: 25,
+    milestoneActivity: 'Third Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'D',
+    percentageDisbursement: 25,
     milestoneActivity: 'Final Draft',
     amount: 0,
   },
@@ -157,12 +281,16 @@ export const ATTACHMENTS_TABLE_DEFAULT_VALUE = [
 export const CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE = {
   bill: BILL_DEFAULT_VALUE,
   milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE,
+  // milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
+  // milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
 };
 
 export const CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE = {
   bill: BILL_VIEW_VALUE,
   milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE,
+  // milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
+  // milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
 };
 

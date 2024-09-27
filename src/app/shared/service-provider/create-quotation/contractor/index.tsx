@@ -25,24 +25,29 @@ import ViewQuotation from './view/view-quotation';
 import { useEffect, useState } from 'react';
 import { useBills } from "@/app/context/billsContext";
 import { set } from "lodash";
+import axios from "axios";
+import { BASE_URL } from "@/lib/axios";
 
 
-export default function CreateContractorQuotationComponent() {
-  
+export default function CreateContractorQuotationComponent(
+  { userDetails, requestDetails }: { userDetails: any; requestDetails: any; }
+) {
+  console.log(userDetails, 'userDetails');
+  // console.log(transactionDetails, 'transactionDetails');
   // const { control, register, watch } = useFormContext();
   // const { fields } = useFieldArray({
   //   control: control,
   //   name: 'bill',
   // });
-  const [billType, setBillType] = useState<BillType[]>([]);
+  // const [billType, setBillType] = useState<BillType[]>([]);
 
-  const { bills } = useBills();
-  console.log("Parent bills: ", bills);
+  // const { bills } = useBills();
+  // console.log("Parent bills: ", bills);
 
-  useEffect(() => {
-    console.log('updated');
-    setBillType(bills);
-  }, [bills]);
+  // useEffect(() => {
+  //   console.log('updated');
+  //   setBillType(bills);
+  // }, [bills]);
 
   const [modalState, setModalState] = useState(false);
   const router = useRouter()
@@ -52,6 +57,67 @@ export default function CreateContractorQuotationComponent() {
   };
 
   const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
+
+  const onSubmit1 = async (data: any) => {
+    console.log(`${BASE_URL}/transactions`,);
+    console.log(`${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`);
+    console.log('william');
+    console.log(data, 'data');
+    const updateData = {
+      topicId: requestDetails.id, // Job/Transaction Id
+      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
+      content: 'You have a new quotation request',
+      // value: 1, // 0 - Transaction Creation, 1 - Transaction Quotation
+      attachments: [],
+      assignedTo: requestDetails.metadata.customerId,
+      metadata: {
+        status: 'quoted',
+        approvalStatus: 'pending',
+        profileCreated: true,
+        firstTable: data.firstTable,
+        secondTable: data.secondTable,
+        thirdTable: data.thirdTable,
+        fourthTable: data.fourthTable,
+        attachmentsTable: data.attachmentsTable,
+        grandTotal: data.grandTotal,
+        totalExpensesCost: data.totalExpensesCost,
+        totalProfessionalFees: data.totalProfessionalFees,
+      },
+    };
+    console.log(updateData, 'updateData');
+    
+    const quotationRes = await axios.post(
+      `${BASE_URL}/messages`,
+      updateData,
+      {
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+        },
+      }
+    );
+    console.log(quotationRes, 'quotationRes');
+    const transactionRes = await axios.patch(
+      `${BASE_URL}/transactions/${requestDetails.id}`,
+      {
+      metadata: {
+        ...requestDetails.metadata,
+        status: 'quoted',
+        quotations: [
+        ...(requestDetails?.metadata?.quotations || []),
+        quotationRes.data.id
+        ]
+      }
+      },
+      {
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+      },
+      }
+    );
+    console.log(transactionRes, 'transactionRes');
+
+  }
 
 
   return (
