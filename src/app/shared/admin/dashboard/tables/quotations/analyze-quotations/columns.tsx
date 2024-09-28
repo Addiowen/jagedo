@@ -70,16 +70,7 @@ export const getColumns = ({
   jobId,
 }: Columns) => [
   {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
+    title: 'Quotations',
     dataIndex: 'checked',
     key: 'checked',
     width: 30,
@@ -90,10 +81,12 @@ export const getColumns = ({
           className="cursor-pointer"
           checked={checkedItems.includes(row.id)}
           {...(onChecked && { onChange: () => onChecked(row.id) })}
+          disabled={checkedItems.length > 0 && !checkedItems.includes(row.id)} // Disable other checkboxes if one is selected
         />
       </div>
     ),
   },
+
   {
     title: <HeaderCell title="NO." />,
     dataIndex: 'number',
@@ -177,7 +170,12 @@ export const getColumns = ({
     width: 100,
     render: (id: string, row: any) => (
       <div className="flex items-center justify-center gap-3 pe-3">
-        <Link href={{ pathname: routes.admin.rfq, query: { jobId: jobId } }}>
+        <Link
+          href={{
+            pathname: routes.admin.rfq,
+            query: { jobId: jobId, messageId: row.id },
+          }}
+        >
           <Text className="text-green-500">View</Text>
         </Link>
       </div>

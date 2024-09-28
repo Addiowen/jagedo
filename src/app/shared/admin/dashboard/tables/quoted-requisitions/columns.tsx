@@ -37,8 +37,8 @@ function getStatusBadge(status: string) {
     default:
       return (
         <div className="flex items-center">
-          <Badge color="danger" renderAsDot className="bg-gray-400" />
-          <Text className="ms-2 font-medium text-red-600">{status}</Text>
+          <Badge renderAsDot className="bg-gray-400" />
+          <Text className="ms-2 font-medium ">{status}</Text>
         </div>
       );
   }
@@ -65,10 +65,10 @@ export const getColumns = ({
 }: Columns) => [
   {
     title: <HeaderCell title="NO" />,
-    dataIndex: 'no',
-    key: 'no',
+    dataIndex: 'number',
+    key: 'number',
     width: 50,
-    render: (no: number) => <Text>{no}</Text>,
+    render: (number: number) => <Text>{number}</Text>,
   },
   {
     title: <HeaderCell title="RFQ #" />,
@@ -111,12 +111,12 @@ export const getColumns = ({
   },
   {
     title: <HeaderCell title="Req Type" />,
-    dataIndex: 'rfqType',
-    key: 'rfqType',
+    dataIndex: 'requestType',
+    key: 'requestType',
     width: 150,
-    render: (rfqType: string) => (
+    render: (requestType: string) => (
       <Text className="text-sm  text-gray-900 dark:text-gray-700">
-        {rfqType}
+        {requestType}
       </Text>
     ),
   },

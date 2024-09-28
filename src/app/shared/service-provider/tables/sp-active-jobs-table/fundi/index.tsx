@@ -43,6 +43,7 @@ export default function FundiActiveJobsTable({
       result: {
         id: any;
         metadata: {
+          category: any;
           date: any;
           skill: any;
           county: any;
@@ -57,7 +58,7 @@ export default function FundiActiveJobsTable({
       number: (index + 1).toString(), // Use the index to generate the number
       id: result.id,
       date: result.metadata.date,
-      category: 'Fundi',
+      category: result.metadata.category,
       subCategory: result.metadata.skill,
       requestType: result.metadata.packageType,
       county: result.metadata.county,

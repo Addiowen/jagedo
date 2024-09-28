@@ -17,12 +17,37 @@ const filterState = {
 };
 export default function QuotedRequisitionsTable({
   className,
+  transactions,
 }: {
+  transactions: any;
   className?: string;
 }) {
   const [pageSize, setPageSize] = useState(7);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
+
+  console.log(transactions);
+
+  const formattedData =
+    transactions?.results
+      // .filter(
+      //   (item: any) => item.status === 'paid' || item.status === 'assigned'
+      // )
+      .map((item: any, index: number) => {
+        return {
+          number: index + 1,
+          id: item.id || '',
+          date: item.createdDate || '',
+          category: item.metadata.category,
+          subCategory: item.metadata?.profession || item.metadata?.skill || '',
+          requestType: `${item.metadata?.packageType}` || '',
+          description: item.metadata?.description || '',
+          county: item.metadata?.county || '',
+          subCounty: item.metadata?.subCounty || '',
+          status:
+            item.status.charAt(0).toUpperCase() + item.status.slice(1) || '',
+        };
+      }) || [];
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -53,12 +78,12 @@ export default function QuotedRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(quotedRequisitionsData, pageSize, filterState);
+  } = useTable(formattedData, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: quotedRequisitionsData,
+        data: formattedData,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
