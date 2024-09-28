@@ -74,7 +74,7 @@ export default async function RequisitionsPage() {
 
   // Use optional chaining to safely access metadata
   const bookingRequests = asset?.metadata?.bookingRequests;
-  console.log(bookingRequests, 'bookingRequests');
+  // console.log(bookingRequests, 'bookingRequests');
   if (approvalStatus === 'pending') {
     return (
       <Alert variant="flat" color="warning">
@@ -101,7 +101,7 @@ export default async function RequisitionsPage() {
     );
   }
 
-  console.log(asset.metadata, 'metadata');
+  // console.log(asset.metadata, 'metadata');
 
   const fetchRequestDetails = async () => {
     if (!bookingRequests) {
@@ -112,7 +112,7 @@ export default async function RequisitionsPage() {
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions?status=assigned&id=${bookingRequests}`,
+        endpoint: `/transactions?status=assigned,assigned+quotation&id=${bookingRequests}`,
       });
       // const assetDetails = await apiRequest({
       //   method: 'GET',
@@ -128,7 +128,7 @@ export default async function RequisitionsPage() {
   };
 
   const receivedRequests = await fetchRequestDetails();
-  console.log(receivedRequests, 'received requests');
+  // console.log(receivedRequests, 'received requests');
   return (
     <>
       {/* <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">

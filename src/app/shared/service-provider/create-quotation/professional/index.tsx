@@ -39,7 +39,6 @@ export default function ProfessionalCreateQuotationComponent(
   // });
   const router = useRouter()
   const jobId = searchParams.get('jobId')
-  console.log(jobId, 'jobId');
   const pathname = usePathname()
   const viewQuotation = pathname.includes('quotations')
   // const contractor = pathname.includes('contractor')
@@ -56,9 +55,9 @@ export default function ProfessionalCreateQuotationComponent(
   const onSubmit: SubmitHandler<CreateQuotationType> = async (data) => {
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
-      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
       receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
-      content: 'You have a new quotation request',
+      content: 'Quotation',
       attachments: [],
       metadata: {
         status: 'under review', // rejected // bid lost // accepted
@@ -74,7 +73,6 @@ export default function ProfessionalCreateQuotationComponent(
         totalProfessionalFees: data.totalProfessionalFees,
       },
     };
-    console.log(updateData, 'updateData');
     
     const quotationRes = await axios.post(
       `${BASE_URL}/messages`,
@@ -85,7 +83,6 @@ export default function ProfessionalCreateQuotationComponent(
         },
       }
     );
-    console.log(quotationRes, 'quotationRes');
     const transactionRes = await axios.patch(
       `${BASE_URL}/transactions/${requestDetails.id}`,
       {
@@ -104,7 +101,6 @@ export default function ProfessionalCreateQuotationComponent(
       },
       }
     );
-    console.log(transactionRes, 'transactionRes');
 
 
     // router.push(routes.serviceProvider.professional.quotations)
