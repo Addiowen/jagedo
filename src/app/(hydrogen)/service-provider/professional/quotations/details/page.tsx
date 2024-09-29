@@ -28,6 +28,7 @@ export default async function QuotationDetailsPage({
   };
   
   const requestDetails = await fetchRequestDetails();
+
   return (
     <>
       <Title as="h4" className="mb-2 pb-5 font-semibold @2xl:mb-5">

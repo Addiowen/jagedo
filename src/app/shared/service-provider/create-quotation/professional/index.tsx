@@ -27,6 +27,7 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import apiRequest from '@/lib/apiService';
 import { metadata } from '@/app/layout';
+import PreViewProfessionalQuotation from './view/preview-quotation';
 
 export default function ProfessionalCreateQuotationComponent(
   { requestDetails, userDetails }: { requestDetails: any, userDetails: any }
@@ -196,7 +197,7 @@ export default function ProfessionalCreateQuotationComponent(
                 // overlayClassName="backdrop-blur"
                 containerClassName="!max-w-4xl !shadow-2xl !max-h-screen !overflow-y-auto"
               >
-                <ViewProfessionalQuotation setModalState={setModalState} />
+                <PreViewProfessionalQuotation setModalState={setModalState} quotationDetails={undefined}  />
                 <div></div>
               </Modal>
 
