@@ -128,6 +128,53 @@ export const FOURTH_TABLE_DEFAULT_VALUE = [
   },
 ];
 
+export const FOURTH_TABLE_DEFAULT_VALUE_TWO = [
+  {
+    milestone: 'A',
+    percentageDisbursement: 50,
+    milestoneActivity: 'First Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'B',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'C',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Final Draft',
+    amount: 0,
+  },
+];
+
+export const FOURTH_TABLE_DEFAULT_VALUE_THREE = [
+  {
+    milestone: 'A',
+    percentageDisbursement: 50,
+    milestoneActivity: 'First Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'B',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'C',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Third Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'D',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Final Draft',
+    amount: 0,
+  },
+];
 export const FOURTH_TABLE_VIEW_VALUE = [
   {
     milestone: 'A',
@@ -151,6 +198,8 @@ export const CREATE_QUOTATION_DEFAULT_VALUE = {
   grandTotal: 0,
   thirdTable: THIRD_TABLE_DEFAULT_VALUE,
   fourthTable: FOURTH_TABLE_DEFAULT_VALUE,
+  fourthTableTwo: FOURTH_TABLE_DEFAULT_VALUE_TWO,
+  fourthTableThree: FOURTH_TABLE_DEFAULT_VALUE_THREE,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
 };
 

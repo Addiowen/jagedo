@@ -31,7 +31,7 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
 
   const requests = requestDetails?.results || [];
 
-  console.log(requests, 'requests');
+  
   const transformedRequests = requests.map(
     (
       requestDetails: {
@@ -62,7 +62,7 @@ export default function ProfessionalRequisitionsTable({ className, requestDetail
     })
   );
   
-
+  console.log(transformedRequests, 'transformedRequests');
   const {
     isLoading,
     isFiltered,

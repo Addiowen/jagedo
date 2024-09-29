@@ -10,12 +10,27 @@ import { professionalQuotationData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import axios from 'axios';
+import { BASE_URL } from '@/lib/axios';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ProfessionalQuotationsTable({ className }: { className?: string }) {
+
+const fetchQuotations = async (params: any) => {
+  const data = await axios.get(
+    `${BASE_URL}/messages`,
+    {
+      headers: {
+        Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+      },
+    }
+  );
+  return data;
+};
+
+export default function ProfessionalQuotationsTable({ className, quotationData }: { className?: string, quotationData: any }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -23,6 +38,40 @@ export default function ProfessionalQuotationsTable({ className }: { className?:
       handleSort(value);
     },
   });
+
+
+  // const quotationData = await fetchQuotations({});
+
+  const transformedRequests = quotationData.map(
+    (
+      requestDetails: {
+        id: any;
+        createdDate: any;
+        metadata: {
+          category: string;
+          packageType: string;
+          county: string;
+          subCounty: string;
+          profession: string;
+          managed: string;
+        };
+        status: any;
+      },
+      index: number
+    ) => ({
+      number: index + 1, // Generate sequential number
+      id: requestDetails.id,
+      date: requestDetails.createdDate, // Extract date from createdDate
+      category: requestDetails.metadata.category || 'Professional', // Use a default value
+      subCategory: requestDetails.metadata.profession || '', // Map 'packageType' to 'subCategory'
+      requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
+      county: requestDetails.metadata.county || '', // Map 'county'
+      subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+      status: requestDetails.status, // Directly map 'status'
+      requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
+    })
+  );
+  
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
@@ -47,12 +96,12 @@ export default function ProfessionalQuotationsTable({ className }: { className?:
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionalQuotationData, pageSize, filterState);
+  } = useTable(transformedRequests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionalQuotationData,
+        data: transformedRequests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -73,6 +122,7 @@ export default function ProfessionalQuotationsTable({ className }: { className?:
   );
 
   const { visibleColumns } = useColumn(columns);
+  
 
   return (
     <WidgetCard2
