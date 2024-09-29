@@ -167,14 +167,14 @@ export const customerMenu: MenuItem[] = [
   {
     name: 'Professional',
     // href: routes.customers.generateInvoiceProfessional,
-    href: routes.comingSoon,
+    href: routes.customers.generateInvoiceProfessional,
     badge: '',
     icon: <PiBriefcase />,
   },
   {
     name: 'Contractor',
     // href: routes.customers.generateInvoiceContractor,
-    href: routes.comingSoon,
+    href: routes.customers.generateInvoiceContractor,
     badge: '',
     icon: <PiHardHat />,
   },
