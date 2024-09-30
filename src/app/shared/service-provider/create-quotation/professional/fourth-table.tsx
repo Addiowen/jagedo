@@ -32,7 +32,7 @@ export default function FourthTable() {
     move(oldIndex, newIndex);
   }
 
-  if (getValues().thirdTable.totalAmount <= 1000000) {
+  if (getValues().thirdTable.payableToServiceProvider <= 1000000) {
     const newFieldArray = useFieldArray({
       control: control,
       name: 'fourthTable',
@@ -44,8 +44,8 @@ export default function FourthTable() {
       // field.amount = 
     });
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTable", getValues().thirdTable.totalAmount / 2);
-  } else if (getValues().thirdTable.totalAmount <= 6000000) {
+    return renderMilestones(fields, move, register, handleChange, "fourthTable", getValues().thirdTable.payableToServiceProvider / 2);
+  } else if (getValues().thirdTable.payableToServiceProvider <= 6000000) {
     const newFieldArray = useFieldArray({
       control: control,
       name: 'fourthTableTwo',
@@ -53,7 +53,7 @@ export default function FourthTable() {
   
     fields = newFieldArray.fields;
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTableTwo", getValues().thirdTable.totalAmount / 3);
+    return renderMilestones(fields, move, register, handleChange, "fourthTableTwo", getValues().thirdTable.payableToServiceProvider / 3);
   } else {
     const newFieldArray = useFieldArray({
       control: control,
@@ -62,7 +62,7 @@ export default function FourthTable() {
   
     fields = newFieldArray.fields;
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTableThree", getValues().thirdTable.totalAmount / 4);
+    return renderMilestones(fields, move, register, handleChange, "fourthTableThree", getValues().thirdTable.payableToServiceProvider / 4);
   }
 
   

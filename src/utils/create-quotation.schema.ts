@@ -254,6 +254,22 @@ export const createQuotationSchema = z.object({
       amount: z.number(),
     })
   ),
+  fourthTableTwo: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
+  fourthTableThree: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
   attachmentsTable: z.array(
     z.object({
       docName: z.string(),

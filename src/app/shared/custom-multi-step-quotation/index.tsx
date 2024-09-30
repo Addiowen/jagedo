@@ -69,7 +69,6 @@ TFormValues extends Record<string, any> = Record<string, any>,
     redirect,
    }: FormProps<TFormValues>
 ) {
-  const [isLoading, setIsLoading] = useState(false);
   const [previousStep, setPreviousStep] = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const delta = currentStep - previousStep
@@ -188,10 +187,10 @@ TFormValues extends Record<string, any> = Record<string, any>,
               
                 <Button 
                 className="w-full @xl:w-auto" 
-                type="submit"
-                isLoading={isLoading}
+                type="button"
+                // isLoading={isLoading}
                 // size="lg"   
-                // onClick={methods.handleSubmit(onSubmit)}
+                onClick={methods.handleSubmit(onSubmit)}
                 >
                   <span>Submit</span>{' '}
                 </Button> 

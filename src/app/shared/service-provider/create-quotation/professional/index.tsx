@@ -55,7 +55,7 @@ export default function ProfessionalCreateQuotationComponent(
   const handleRedirect = () => router.push(routes.serviceProvider.professional.quotations)
 
   const onSubmit: SubmitHandler<CreateQuotationType> = async (data) => {
-    setIsLoading(true);
+    console.log(data, 'data');
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
       senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
@@ -70,13 +70,15 @@ export default function ProfessionalCreateQuotationComponent(
         secondTable: data.secondTable,
         thirdTable: data.thirdTable,
         fourthTable: data.fourthTable,
+        fourthTableTwo: data.fourthTableTwo,
+        fourthTableThree: data.fourthTableThree,
         attachmentsTable: data.attachmentsTable,
         grandTotal: data.grandTotal,
         totalExpensesCost: data.totalExpensesCost,
         totalProfessionalFees: data.totalProfessionalFees,
       },
     };
-    
+    console.log(updateData, 'updateData');
     const quotationRes = await axios.post(
       `${BASE_URL}/messages`,
       updateData,
@@ -108,7 +110,6 @@ export default function ProfessionalCreateQuotationComponent(
       },
       }
     );
-
     if (transactionRes.status === 200) {
       router.push(routes.serviceProvider.professional.quotations);
     }
@@ -117,68 +118,7 @@ export default function ProfessionalCreateQuotationComponent(
   };
 
   const onSubmit1 = async (data: any) => {
-    const updateData = {
-      topicId: requestDetails.id, // Job/Transaction Id
-      senderId: userDetails.id, // Contractor/Professional Asset Identifier
-      receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
-      content: 'You have a new quotation request',
-      attachments: [],
-      metadata: {
-        status: 'under review', // rejected // bid lost // accepted
-        approvalStatus: 'pending',
-        profileCreated: true,
-        firstTable: data.firstTable,
-        secondTable: data.secondTable,
-        thirdTable: data.thirdTable,
-        fourthTable: data.fourthTable,
-        attachmentsTable: data.attachmentsTable,
-        grandTotal: data.grandTotal,
-        totalExpensesCost: data.totalExpensesCost,
-        totalProfessionalFees: data.totalProfessionalFees,
-      },
-    };
-    console.log(updateData, 'updateData');
-    
-    const quotationRes = await axios.post(
-      `${BASE_URL}/messages`,
-      updateData,
-      {
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-        },
-      }
-    );
-    console.log(quotationRes, 'quotationRes');
-    const transactionRes = await axios.patch(
-      `${BASE_URL}/transactions/${requestDetails.id}`,
-      {
-      metadata: {
-        ...requestDetails.metadata,
-        status: 'quoted',
-        quotations: [
-        ...(requestDetails?.metadata?.quotations || []),
-        quotationRes.data.id
-        ]
-      }
-      },
-      {
-      headers: {
-        Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-      },
-      }
-    );
-    console.log(transactionRes, 'transactionRes');
-
   }
-
-  // let subTotal = methods.watch('invoiceTable').reduce((acc, item) => {
-  //   if (!item.quantity || !item.rate) return acc;
-  //   return acc + item.quantity * item.rate;
-  // }, 0);
-
-  // let totalTax = methods.watch('invoiceTable').reduce((acc, item) => {
-  //   return acc + item.tax;
-  // }, 0);
 
   return (
     <>
