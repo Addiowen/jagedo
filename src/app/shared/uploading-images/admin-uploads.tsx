@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import axios from 'axios';
@@ -12,6 +14,8 @@ import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
 import { Button } from 'rizzui';
+import { BASE_URL } from '@/lib/axios';
+import { useSearchParams } from 'next/navigation';
 
 interface FileWithProgress {
   file: File;
@@ -28,6 +32,8 @@ const AdminFileUpload: React.FC = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const { urls, addUrl } = useUrls();
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const jobId = searchParams.get('id');
 
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
@@ -129,12 +135,64 @@ const AdminFileUpload: React.FC = () => {
         )
       );
 
-      const adminUploadedUrls = urls.concat([url]);
-      addUrl(adminUploadedUrls);
-      sessionStorage.setItem(
-        'adminUploadedUrls',
-        JSON.stringify(adminUploadedUrls)
-      );
+      const storedUrls = sessionStorage.getItem('adminUploadedUrls');
+      let existingUrls: string[] = [];
+
+      if (storedUrls) {
+        try {
+          existingUrls = storedUrls ? (JSON.parse(storedUrls) as string[]) : [];
+
+          // Ensure it's an array
+          if (!Array.isArray(existingUrls)) {
+            existingUrls = [];
+          }
+        } catch (error) {
+          console.error('Error parsing stored URLs:', error);
+          existingUrls = [];
+        }
+      }
+
+      const updatedUrls = [...existingUrls, url];
+
+      try {
+        const uploadedUrlSuccess = await axios.patch(
+          `${BASE_URL}/transactions/${jobId}`,
+          {
+            metadata: {
+              adminUploads: updatedUrls,
+            },
+          },
+          {
+            headers: {
+              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+            },
+          }
+        );
+
+        if (uploadedUrlSuccess.status === 200) {
+          toast.success(<p>Attachments uplaoded successfully</p>);
+
+          addUrl(updatedUrls);
+          sessionStorage.setItem(
+            'adminUploadedUrls',
+            JSON.stringify(updatedUrls)
+          );
+        } else {
+          toast.error(<p>Something went wrong. Please try again.</p>);
+        }
+      } catch (error) {
+        toast.error(
+          <p>Failed to upload attachments. Please try again later.</p>
+        );
+      } finally {
+        // setLoading(false); // Hide loader after request completes
+      }
+
+      // Retrieve existing URLs from session storage and parse them
+
+      // Append the new URL to the array
+
+      // Update state and session storage with the new array
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file.');

@@ -11,6 +11,8 @@ import { routes } from '@/config/routes';
 import ChunkedGrid from '@/app/shared/custom-chunked-grid';
 import ViewAttachments from '@/app/shared/service-provider/details/request-details/view-attachments';
 import CustomerDetailsCard from '../../dashboard/customer-details';
+import AdminFileUpload from '@/app/shared/uploading-images/admin-uploads';
+import { useUrls } from '@/app/context/urlsContext';
 
 // const data = [
 //   {
@@ -39,8 +41,16 @@ export default function ActiveJobDetailsCard({
 }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
+  const { urls, addUrl } = useUrls();
 
   const jobId = searchParams.get('id');
+
+  const storedUrls = sessionStorage.getItem('adminUploadedUrls');
+
+  // Safely parse the value, ensuring it's treated as an array of strings
+  const adminUploadedUrls: string[] = storedUrls
+    ? (JSON.parse(storedUrls) as string[])
+    : [];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,7 +60,7 @@ export default function ActiveJobDetailsCard({
 
   const uploadsData = requestDetails.Uploads;
 
-  const structuredAttachments = uploadsData.map((url: string) => ({
+  const structuredAttachments = adminUploadedUrls.map((url: string) => ({
     name: getFileNameFromUrl(url),
     url: url,
   }));
@@ -72,8 +82,10 @@ export default function ActiveJobDetailsCard({
         <Tab.Panels>
           <Tab.Panel>
             <ProgressBarActive statusValue={statusValue} />
+            <h4 className="mb-4">Add Attachments</h4>
+            <AdminFileUpload />
 
-            <div className="col-span-full">
+            <div className="col-span-full mb-2">
               <ViewAttachments attachments={structuredAttachments} />
             </div>
             <div className="flex  justify-center">

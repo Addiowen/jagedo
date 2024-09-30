@@ -5,7 +5,7 @@ export default function ViewSubmissions({ submissions }: { submissions: any }) {
   return (
     <>
       <ViewAttachmentsBlock />
-      <ViewMilestonesTable />
+      <ViewMilestonesTable submissions={submissions} />
     </>
   );
 }

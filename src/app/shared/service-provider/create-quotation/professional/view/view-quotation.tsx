@@ -30,7 +30,25 @@ export default function ViewProfessionalQuotation({
   const professionalFees = quotationDetails.metadata.firstTable;
   const otherFees = quotationDetails.metadata.secondTable;
   const paymentBreakDown = quotationDetails.metadata.thirdTable;
-  const submissions = quotationDetails.metadata.fourthTable;
+  const payableToServiceProvider =
+    quotationDetails.metadata.thirdTable.payableToServiceProvider;
+  let submissions;
+
+  if (payableToServiceProvider <= 1000000) {
+    // First condition: Up to 1M
+    submissions = quotationDetails.metadata.fourthTable;
+  } else if (
+    payableToServiceProvider > 1000000 &&
+    payableToServiceProvider <= 6000000
+  ) {
+    // Second condition: Between 1M and 6M
+    submissions = quotationDetails.metadata.fourthTableTwo;
+  } else if (payableToServiceProvider > 6000000) {
+    // Third condition: 6M and above
+    submissions = quotationDetails.metadata.fourthTableThree;
+  }
+
+  console.log(submissions);
 
   console.log(quotationDetails);
 

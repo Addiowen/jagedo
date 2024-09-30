@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ViewAttachments from '../details/request-details/view-attachments';
 import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
+import AdminFileUpload from '../../uploading-images/admin-uploads';
 
 // export const metadata = {
 //     ...metaObject(),
@@ -139,6 +140,7 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
           <Tab.Panels>
             <Tab.Panel>
               <ProgressBarActive statusValue={status} />
+              <AdminFileUpload />
 
               <ViewAttachments attachments={structuredAttachments} />
             </Tab.Panel>
