@@ -95,7 +95,11 @@ export default function ProfessionalCreateQuotationComponent(
         quotations: [
         ...(requestDetails?.metadata?.quotations || []),
         quotationRes.data.id
-        ]
+        ],
+        professionals: [
+          ...(requestDetails?.metadata?.professionals || []),
+          userDetails.metadata.assetId
+          ]
       }
       },
       {
@@ -280,64 +284,6 @@ export default function ProfessionalCreateQuotationComponent(
             )
           }}
       </CustomMultiStepComponent>
-
-
-
-      {/* <div className="rounded-2xl @container">
-          <FormProvider {...methods}>
-            <form
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="rounded-xl bg-white"
-            >
-              <FirstTable />
-              <SecondTable />
-              <ThirdTable />
-              <FourthTable />
-
-
-              {viewQuotation? (
-                <ViewAttachmentsBlock />
-              ) : (
-                <>
-                  <ContractorAttachments />
-
-                  <div className="col-span-2 flex items-start text-gray-700 mt-3 mb-8 ps-2">
-                    <Checkbox
-                      className="[&>label.items-center]:items-start [&>label>div.leading-none]:mt-0.5 [&>label>div.leading-none]:sm:mt-0 [&>label>span]:font-medium"
-                      label={
-                        <Text as="span" className="ps-1 text-gray-500">
-                          I agree to the{' '}
-                          <Link
-                            href="#"
-                            className="font-semibold text-gray-700 transition-colors hover:text-primary"
-                          >
-                            Professional Agreement
-                          </Link>
-                        </Text>
-                      }
-                    />
-                  </div>
-                </>
-              )}
-
-              {viewQuotation? (
-                <FormFooter
-                  // isLoading={isLoading}
-                  submitBtnText="Back"
-                  handleSubmitBtn={handleAltBtn}
-                />
-              ) : (
-                <FormFooter
-                // isLoading={isLoading}
-                altBtnText="Back"
-                handleAltBtn={handleAltBtn}
-                handleSubmitBtn={handleSubmitBtn}
-                submitBtnText="Submit"
-              />
-              )}
-            </form>
-          </FormProvider>
-      </div> */}
     </>
   );
 }

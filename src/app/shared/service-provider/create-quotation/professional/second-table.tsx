@@ -108,23 +108,6 @@ export default function SecondTable() {
 
       <TotalsBlock />
 
-      {/* <div className='relative'>
-        <TotalsBlock />
-        <Button
-          type="button"
-          variant="text"
-          className="absolute bottom-14 start-2 translate-y-full gap-2 ps-0 active:enabled:translate-y-full dark:text-gray-400"
-          onClick={() =>
-            append({
-              expenses: '',
-              amount: 0,
-            },)
-          }
-        >
-          <PiPlusCircle className="size-5" />
-          Add Item
-        </Button> 
-      </div>      */}
     </div>
   );
 }

@@ -54,7 +54,7 @@ export default function ThirdTable() {
   let wht = 0.05 * grandTotal
   // let whtVatTax = 0.02 * grandTotal
   let jagedoComm = 0.1 * grandTotal
-  let spPayable = grandTotal - wht - jagedoComm
+  let spPayable = grandTotal + wht + jagedoComm;
 
   return (
     <div className="relative px-2 pt-6 pb-10 border border-muted rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl bg-gray-0 dark:bg-gray-50">
@@ -78,33 +78,6 @@ export default function ThirdTable() {
       <ul>
         <Fragment>
           <>
-          {/* {keys.map((field, index) => {
-
-            return (
-              <>
-              <div className="group grid min-h-10 grid-cols-4 gap-0 border-b border-muted dark:border-muted/20">
-                <div className="col-span-1 w-full p-2 pt-3 text-center text-gray-900 dark:text-gray-0">
-                    {index + 1}
-                </div>  
-                <div className="col-span-2 py-2 pt-3 text-center">
-                  { fieldNames[index] }
-                </div>
-                <div className="col-span-1 p-2 pb-4">
-                  <QuoteInput
-                    type="number"
-                    placeholder="0"
-                    inputClassName="[&_input]:text-center"
-                    {...register(`thirdTable.${field}`, {
-                      valueAsNumber: true,
-                    })}
-                  />
-                </div>
-              </div>
-              </>
-            )
-          })} */}
-
-
           <div className="group grid min-h-10 grid-cols-4 gap-0 border-b border-muted dark:border-muted/20">
             <div className="col-span-1 w-full p-2 pt-3 text-center text-gray-900 dark:text-gray-0">
                 1
@@ -118,7 +91,7 @@ export default function ThirdTable() {
                 placeholder="0"
                 inputClassName="[&_input]:text-center"
                 value={subTotal}
-                {...register(`thirdTable.professionalFees`, {
+                {...register(`thirdTable.expenses`, {
                   valueAsNumber: true,
                 })}
               />

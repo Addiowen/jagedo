@@ -167,8 +167,13 @@ export default function FirstTable({ viewQuotation }: Props) {
             <div className='font-semibold'>
                 Subtotal:
             </div>
-            <div className="text-center font-semibold dark:text-gray-0">
+            <div className="text-center font-semibold dark:text-gray-0"
+              {...register(`totalProfessionalFees`, {
+                valueAsNumber: true
+              })}
+            >
                 {subTotal ? `${subTotal}` : '0'}
+                
                 {/* <QuoteInput
                     type="number"
                     placeholder="--"

@@ -21,7 +21,7 @@ export default function FourthTable() {
     name: 'fourthTableThree',
   });
 
-  
+  console.log(getValues(), 'getValues');
   console.log(getValues().thirdTable.totalAmount, 'getValues');
 
   function handleChange(event: DragEndEvent) {
@@ -39,8 +39,12 @@ export default function FourthTable() {
     });
   
     fields = newFieldArray.fields;
+    fields.map((field, index) => {
+      console.log(field, index, 'field');
+      // field.amount = 
+    });
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTable");
+    return renderMilestones(fields, move, register, handleChange, "fourthTable", getValues().thirdTable.totalAmount / 2);
   } else if (getValues().thirdTable.totalAmount <= 6000000) {
     const newFieldArray = useFieldArray({
       control: control,
@@ -49,7 +53,7 @@ export default function FourthTable() {
   
     fields = newFieldArray.fields;
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTableTwo");
+    return renderMilestones(fields, move, register, handleChange, "fourthTableTwo", getValues().thirdTable.totalAmount / 3);
   } else {
     const newFieldArray = useFieldArray({
       control: control,
@@ -58,7 +62,7 @@ export default function FourthTable() {
   
     fields = newFieldArray.fields;
     move = newFieldArray.move;
-    return renderMilestones(fields, move, register, handleChange, "fourthTableThree");
+    return renderMilestones(fields, move, register, handleChange, "fourthTableThree", getValues().thirdTable.totalAmount / 4);
   }
 
   
@@ -84,7 +88,8 @@ function TableHeaderCell({
 }
 
 
-function renderMilestones(fields: any[], move: any, register: any , handleChange: (event: DragEndEvent) => void, table_name: string) {
+function renderMilestones(fields: any[], move: any, register: any , handleChange: (event: DragEndEvent) => void, table_name: string, num: number) {
+  const amount = num;
   return (
     <div className="relative mb-8 px-2 pt-6 pb-10 border border-muted rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl bg-gray-0 dark:bg-gray-50">
       <p className="mb-4 ps-4 text-lg text-gray-900 font-semibold">Milestones</p>
@@ -134,13 +139,20 @@ function renderMilestones(fields: any[], move: any, register: any , handleChange
                     />
                   </div>
                   <div className="col-span-2 p-2">
-                    <QuoteInput
+                    {/* <QuoteInput
                       type="number"
                       placeholder="0"
                       inputClassName="[&_input]:text-center"
                       {...register(`${table_name}.${index}.amount`, {
                         valueAsNumber: true,
                       })}
+                    /> */}
+                    <QuoteInput
+                      type="number"
+                      placeholder="0"
+                      inputClassName="[&_input]:text-center"
+                      value={amount}
+                      readOnly
                     />
                   </div>
                 </div>
