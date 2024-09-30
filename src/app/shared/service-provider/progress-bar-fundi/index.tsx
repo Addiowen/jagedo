@@ -12,19 +12,6 @@ export default function ProgressBarActive({
   className?: string;
   statusValue: string;
 }) {
-  const [file1Url, setFile1Url] = useState<string | null>(null);
-  const [file2Url, setFile2Url] = useState<string | null>(null);
-
-  const handleFile1Upload = (url: string) => {
-    setFile1Url(url);
-    console.log('file1:', url);
-  };
-
-  const handleFile2Upload = (url: string) => {
-    setFile2Url(url);
-    console.log('file2:', url);
-  };
-
   const pathname = usePathname();
   const professional = pathname.includes('professional');
   const contractor = pathname.includes('contractor');
@@ -39,7 +26,6 @@ export default function ProgressBarActive({
       time: '05:31 am',
       icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
       status: 'ongoing',
-      upload: 'document',
       docs: 'doc1',
     },
     {
@@ -65,7 +51,6 @@ export default function ProgressBarActive({
         />
       ),
       status: statusValue,
-      upload: 'document',
       docs: 'doc2',
     },
   ];
@@ -221,7 +206,7 @@ export default function ProgressBarActive({
                       : timelineDataComplete
                 }
                 order="desc"
-                handleFileUpload={handleFile1Upload} // handleFileUpload={handleFile1Upload}
+                // handleFileUpload={handleFile1Upload}
               />
             ) : (
               <Timeline
@@ -233,7 +218,7 @@ export default function ProgressBarActive({
                       : timelineData
                 }
                 order="desc"
-                handleFileUpload={handleFile2Upload} // handleFileUpload={handleFile2Upload}
+                // handleFileUpload={handleFile2Upload}
               />
             )}
           </div>

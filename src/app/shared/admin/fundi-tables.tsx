@@ -34,6 +34,11 @@ export default function FundiTables({ fundis }: PageProps) {
     }) => item.metadata.profileCreated === true
   );
 
+  const unprofiled = fundis.results.filter(
+    (item: { metadata: { role: string; assetId?: string } }) =>
+      item.metadata.role === 'fundi'
+  );
+
   const fundisonly = profiledFundis.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
       item.metadata.role === 'fundi'
@@ -48,7 +53,7 @@ export default function FundiTables({ fundis }: PageProps) {
       item.metadata.role === 'fundi' && item.metadata.assetId
   );
   const allFundis =
-    fundisonly?.map((item: any, index: number) => {
+    unprofiled?.map((item: any, index: number) => {
       return {
         no: index + 1,
         id: item.id || '',

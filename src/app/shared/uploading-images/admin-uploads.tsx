@@ -23,7 +23,7 @@ interface FileWithProgress {
   isNameValid: boolean;
 }
 
-const FileUpload: React.FC = () => {
+const AdminFileUpload: React.FC = () => {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const { urls, addUrl } = useUrls();
@@ -129,9 +129,12 @@ const FileUpload: React.FC = () => {
         )
       );
 
-      const uploadedUrls = urls.concat([url]);
-      addUrl(uploadedUrls);
-      sessionStorage.setItem('uploadedUrls', JSON.stringify(uploadedUrls));
+      const adminUploadedUrls = urls.concat([url]);
+      addUrl(adminUploadedUrls);
+      sessionStorage.setItem(
+        'adminUploadedUrls',
+        JSON.stringify(adminUploadedUrls)
+      );
     } catch (error) {
       console.error('Error uploading file:', error);
       toast.error('Error uploading file.');
@@ -292,4 +295,4 @@ const FileUpload: React.FC = () => {
   );
 };
 
-export default FileUpload;
+export default AdminFileUpload;
