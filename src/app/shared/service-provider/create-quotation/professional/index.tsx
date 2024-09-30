@@ -27,11 +27,13 @@ import axios from 'axios';
 import { BASE_URL } from '@/lib/axios';
 import apiRequest from '@/lib/apiService';
 import { metadata } from '@/app/layout';
+import PreViewProfessionalQuotation from './view/preview-quotation';
 
 export default function ProfessionalCreateQuotationComponent(
   { requestDetails, userDetails }: { requestDetails: any, userDetails: any }
 ) {
   const [modalState, setModalState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams()
   const printRef = useRef(null);
   // const handlePrint = useReactToPrint({
@@ -53,6 +55,7 @@ export default function ProfessionalCreateQuotationComponent(
   const handleRedirect = () => router.push(routes.serviceProvider.professional.quotations)
 
   const onSubmit: SubmitHandler<CreateQuotationType> = async (data) => {
+    setIsLoading(true);
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
       senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
@@ -102,8 +105,11 @@ export default function ProfessionalCreateQuotationComponent(
       }
     );
 
-
-    // router.push(routes.serviceProvider.professional.quotations)
+    if (transactionRes.status === 200) {
+      router.push(routes.serviceProvider.professional.quotations);
+    }
+    setIsLoading(false);
+    router.push(routes.serviceProvider.professional.quotations);
   };
 
   const onSubmit1 = async (data: any) => {
@@ -196,7 +202,7 @@ export default function ProfessionalCreateQuotationComponent(
                 // overlayClassName="backdrop-blur"
                 containerClassName="!max-w-4xl !shadow-2xl !max-h-screen !overflow-y-auto"
               >
-                <ViewProfessionalQuotation setModalState={setModalState} />
+                <PreViewProfessionalQuotation setModalState={setModalState} quotationDetails={undefined}  />
                 <div></div>
               </Modal>
 

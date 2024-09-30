@@ -5,57 +5,65 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Input, Modal } from 'rizzui';
-import { quotedRequisitionsData } from '@/data/job-data';
+import { Badge, Button, Input } from 'rizzui';
+import { professionalsData } from '@/data/job-data';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/config/routes';
 
 const filterState = {
   date: [null, null],
   status: '',
 };
-export default function QuotedRequisitionsTable({
+
+export default function AssignOrganization({
   className,
-  transactions,
+  customers,
 }: {
-  transactions: any;
   className?: string;
+  customers: any;
 }) {
+  console.log(customers, 'organization customers');
+  const allCustomers = customers.results.filter(
+    (item: { metadata: { role: string; assetId?: string; type: string } }) =>
+      item.metadata.type === 'organization'
+  );
+  const router = useRouter();
   const [pageSize, setPageSize] = useState(7);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
-
-  console.log(transactions);
-
-  const formattedData =
-    transactions?.results
-      .filter((item: any) => item.metadata.category !== 'fundi')
-      .map((item: any, index: number) => {
-        return {
-          number: index + 1,
-          id: item.id || '',
-          date: item.createdDate || '',
-          category: item.metadata.category,
-          subCategory:
-            item.metadata?.profession ||
-            item.metadata?.skill ||
-            item.metadata?.contractor ||
-            '',
-          requestType: `${item.metadata?.packageType}` || '',
-          description: item.metadata?.description || '',
-          county: item.metadata?.county || '',
-          subCounty: item.metadata?.subCounty || '',
-          status:
-            item.status.charAt(0).toUpperCase() + item.status.slice(1) || '',
-        };
-      }) || [];
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
       handleSort(value);
     },
   });
+
+  console.log(allCustomers);
+
+  const filteredCustomers =
+    allCustomers?.map((item: any, index: number) => {
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        type: item.metadata.type || '',
+        firstName:
+          item.metadata.type === 'individual' ? item.firstname || '' : 'N/A', // Set firstname only for individuals
+        lastName:
+          item.metadata.type === 'individual' ? item.lastname || '' : 'N/A', // Set lastname only for individuals
+        organizationName:
+          item.metadata.type === 'organization'
+            ? item.metadata.organizationName || ''
+            : 'N/A', // Set organizationName only for organizations
+        email: item.email || '',
+        phone: item.metadata?.phone || '',
+        skill: item.metadata?.skill || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.metadata?.status || '',
+      };
+    }) || [];
 
   const onDeleteItem = useCallback((id: string) => {
     handleDelete(id);
@@ -80,21 +88,17 @@ export default function QuotedRequisitionsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(formattedData, pageSize, filterState);
+  } = useTable(filteredCustomers, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: formattedData,
+        data: filteredCustomers,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
         onDeleteItem,
-        onChecked: (id: string) => {
-          handleRowSelect(id);
-          setSelectedRow(id);
-          setIsModalOpen(true);
-        },
+        onChecked: handleRowSelect,
         handleSelectAll,
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,21 +115,12 @@ export default function QuotedRequisitionsTable({
 
   const { visibleColumns } = useColumn(columns);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedRow(null);
-  };
-
-  const confirmSelection = () => {
-    closeModal();
-  };
-
   return (
     <WidgetCard2
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="QUOTATIONS"
+      title="Organization Customers"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
@@ -165,16 +160,22 @@ export default function QuotedRequisitionsTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
+      {selectedRowKeys.length > 0 && (
+        <div className="mt-4">
+          <Button
+            onClick={() => {
+              const idsQueryString = selectedRowKeys.join(',');
 
-      {/* {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <div>
-            <p>Are you sure you want to select this item?</p>
-            <button onClick={confirmSelection}>Confirm</button>
-            <button onClick={closeModal}>Cancel</button>
-          </div>
-        </Modal>
-      )} */}
+              // Use router to navigate with the query string
+              router.push(
+                `${routes.admin.createRequest}?ids=${idsQueryString}`
+              );
+            }}
+          >
+            Create Request
+          </Button>
+        </div>
+      )}
     </WidgetCard2>
   );
 }

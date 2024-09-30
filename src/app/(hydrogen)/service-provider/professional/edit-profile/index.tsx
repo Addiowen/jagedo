@@ -111,6 +111,39 @@ export default function CreateProfessionalProfileForm({
       // If the user profile update is successful
       if (userDetailsRes) {
         //Refresh and redirect after successful profile update
+        const updatedUser = userDetailsRes.data;
+        // Check if asset ID exists before attempting to update the asset
+        if (updatedUser.metadata.assetId) {
+          const assetUpdateData = {
+            customAttributes: {
+              estate: updatedUser.metadata.estate,
+              email: updatedUser.metadata.email,
+              phone: updatedUser.metadata.phone,
+              subcounty: updatedUser.metadata.subCounty,
+              county: updatedUser.metadata.county,
+              profession: updatedUser.metadata.profession,
+              level: updatedUser.metadata.level,
+            },
+            metadata: {
+              firstName: updatedUser.firstName,
+              lastName: updatedUser.lastName,
+              ...updatedUser.metadata,
+            },
+          };
+
+          await axios.patch(
+            `${BASE_URL}/assets/${updatedUser.metadata.assetId}`,
+            assetUpdateData,
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+        } else {
+          console.log('Asset ID is missing. Skipping asset update.');
+        }
+
         router.refresh();
         // Determine the redirection based on the pathname
         if (pathname.includes('admin')) {

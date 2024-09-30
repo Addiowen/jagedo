@@ -15,6 +15,7 @@ export default function ViewProfessionalQuotationComponent({
 
   const router = useRouter();
 
+  console.log(quotationDetails, 'quotationDetails2000');
   // const pathname = usePathname()
   // const viewQuotation = pathname.includes('quotations')
 

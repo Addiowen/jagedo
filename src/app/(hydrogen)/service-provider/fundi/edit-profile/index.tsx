@@ -168,6 +168,15 @@ export default function FundiEditProfileForm({
         // Check if asset ID exists before attempting to update the asset
         if (updatedUser.metadata.assetId) {
           const assetUpdateData = {
+            customAttributes: {
+              estate: updatedUser.metadata.estate,
+              email: updatedUser.metadata.email,
+              phone: updatedUser.metadata.phone,
+              subcounty: updatedUser.metadata.subCounty,
+              county: updatedUser.metadata.county,
+              skill: updatedUser.metadata.skill,
+              level: updatedUser.metadata.level,
+            },
             metadata: {
               firstName: updatedUser.firstName,
               lastName: updatedUser.lastName,

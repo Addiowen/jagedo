@@ -5,12 +5,17 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/auth-options';
 import apiRequest from '@/lib/apiService';
 import ServiceProviderDashboard from '../shared/service-provider/dashboard';
+import { Alert, Text } from 'rizzui';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
 
 export default async function FileDashboardPage() {
   const session = await getServerSession(authOptions);
   const userRole = session?.user.metadata.role;
+  const profileCreated = session?.user.metadata.profileCreated;
   const assetId = session?.user.metadata.assetId;
 
+  // Fetch asset details
   const fetchAssetDetails = async () => {
     try {
       const userDetails = await apiRequest({
@@ -26,7 +31,7 @@ export default async function FileDashboardPage() {
 
   const asset = await fetchAssetDetails();
 
-  console.log(asset, 'asset');
+  // Conditional rendering based on profile creation status
 
   return userRole === 'admin' ? (
     <AdminDashboard />

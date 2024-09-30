@@ -139,6 +139,7 @@ export default function SpActiveJobComponent({ className, jobs }: PageProps) {
           <Tab.Panels>
             <Tab.Panel>
               <ProgressBarActive statusValue={status} />
+
               <ViewAttachments attachments={structuredAttachments} />
             </Tab.Panel>
             <Tab.Panel>

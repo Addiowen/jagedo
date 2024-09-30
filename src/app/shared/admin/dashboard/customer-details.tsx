@@ -31,6 +31,14 @@ export default function CustomerDetailsCard({
   className?: string;
   customerDetails: any;
 }) {
+  const customerType = customerDetails.metadata.type;
+  console.log(customerType);
+
+  const customerName =
+    customerType === 'organization'
+      ? customerDetails.metadata.organizationName
+      : `${customerDetails.firstname || ''} ${customerDetails.lastname || ''}`;
+
   const statData = [
     {
       id: '1',
@@ -38,7 +46,7 @@ export default function CustomerDetailsCard({
       // icon: <UserColorIcon className="h-7 w-7" />,
       graphIcon: <TrendingUpIcon className="me-1 h-4 w-4" />,
       graphColor: 'text-red',
-      name: `${customerDetails.firstname || ''} ${customerDetails.lastname || ''}`, // Default empty string
+      name: customerName, // Default empty string
       increased: false,
       percentage: '+4.40',
     },

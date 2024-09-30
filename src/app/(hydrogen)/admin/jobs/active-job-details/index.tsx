@@ -133,7 +133,7 @@ export default function ActiveJobDetails({
         <h3 className="mb-4">{`JOB #${jobId?.toLocaleUpperCase()}`}</h3>
 
         {/* Conditionally render the buttons if requestDetails.Status is not 'approved' */}
-        {requestDetails.Status !== 'approved' && (
+        {status !== 'approved' && (
           <div>
             <Button
               className="mr-4"
@@ -156,6 +156,7 @@ export default function ActiveJobDetails({
         className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-1', className)}
       >
         <ActiveJobDetailsCard
+          key={status} // Forces re-render when status changes
           statusValue={status}
           requestDetails={requestDetails}
         />
