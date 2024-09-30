@@ -11,6 +11,7 @@ import { useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useUrls } from '@/app/context/urlsContext';
 import { counties } from '@/data/counties';
+import { serviceProviders } from '@/config/enums';
 import PricingContractor from '@/app/shared/pricing-package/pricing-contractor';
 
 // Define the Option type
@@ -71,20 +72,20 @@ const GenerateInvoiceContractor: React.FC = () => {
       }))
     : [];
 
-  const Contractor: Option[] = [
-    { label: 'New construction', value: 'New construction' },
-    { label: 'Repairs', value: 'Repairs' },
-    { label: 'Demolitions', value: 'Demolitions' },
-    { label: 'Water', value: 'Water' },
-    { label: 'Energy', value: 'Energy' },
-    { label: 'Housing', value: 'Housing' },
-    { label: 'Other Infrastructure', value: 'Other Infrastructure' },
-    { label: 'Construction manager', value: 'Construction manager' },
-    { label: 'Technicians', value: 'Technicians' },
-    { label: 'Land valuers', value: 'Land valuers' },
-    { label: 'Surveyors', value: 'Surveyors' },
-    { label: 'Planners', value: 'Planners' },
-  ];
+    const Contractor: Option[] = [
+      { label: 'New construction', value: 'New construction' },
+      { label: 'Repairs', value: 'Repairs' },
+      { label: 'Demolitions', value: 'Demolitions' },
+      { label: 'Water', value: 'Water' },
+      { label: 'Energy', value: 'Energy' },
+      { label: 'Housing', value: 'Housing' },
+      { label: 'Other Infrastructure', value: 'Other Infrastructure' },
+      { label: 'Construction manager', value: 'Construction manager' },
+      { label: 'Technicians', value: 'Technicians' },
+      { label: 'Land valuers', value: 'Land valuers' },
+      { label: 'Surveyors', value: 'Surveyors' },
+      { label: 'Planners', value: 'Planners' },
+    ];
 
   useEffect(() => {
     const id: string | null = session?.user?.userId || null;
@@ -109,13 +110,16 @@ const GenerateInvoiceContractor: React.FC = () => {
       return;
     }
 
-    if (urls) {
-      if (!isFormValid) {
-        toast.error('Please fill in all required fields and upload an image.');
-        return;
-      }
+    if (!isFormValid) {
+      toast.error('Please fill in all required fields and upload an image.');
+      return;
+    }
+
+    try {
+      setLoading(true);
 
       const formData = {
+        category: serviceProviders.CONTRACTOR,
         description,
         date,
         uploads: urls,
@@ -143,12 +147,19 @@ const GenerateInvoiceContractor: React.FC = () => {
         },
       };
 
-      try {
-        setLoading(true);
+      // API call here (assuming the logic remains the same)
+      const response = await axios.post(`${BASE_URL}/transactions`, formBody, {
+        headers: {
+          Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
+        },
+      });
 
-        const response = await axios.post(
-          `${BASE_URL}/transactions`,
-          formBody,
+      console.log(response.data);
+
+      if (response.data) {
+        await axios.patch(
+          `${BASE_URL}/transactions/${response.data.id}`,
+          { status: 'under review' },
           {
             headers: {
               Authorization: `${process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN}`,
@@ -156,21 +167,20 @@ const GenerateInvoiceContractor: React.FC = () => {
           }
         );
 
-        if (response.data) {
-          console.log(response.data, 'my transaction');
-          toast.success('Your job request has been created!');
-          router.push(
-            `${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`
-          );
+        toast.success('Your job request has been created!');
+
+        // Conditional routing based on selected plan title
+        if (selectedPlan.title === 'Managed by Jagedo') {
+          router.push(routes.customers.contractorRequisitions); // Redirect to requisitions
+        } else if (selectedPlan.title === 'Managed by Self') {
+          router.push(`${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`); // Redirect to generate invoice
         }
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        toast.error(
-          'There was an error submitting the form. Please try again.'
-        );
-      } finally {
-        setLoading(false);
       }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('There was an error submitting the form. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -178,6 +188,11 @@ const GenerateInvoiceContractor: React.FC = () => {
   const nextDay = new Date(today);
   nextDay.setDate(today.getDate() + 1);
   const minDate = nextDay.toISOString().split('T')[0];
+
+  const buttonLabel =
+    selectedPlan?.title === 'Managed by Jagedo'
+      ? 'Request for Quotation'
+      : 'Generate Invoice';
 
   return (
     <div className="relative">
@@ -206,8 +221,8 @@ const GenerateInvoiceContractor: React.FC = () => {
                   setCounty(selectedOption);
                   setSelectedCounty(
                     selectedOption.label as keyof typeof counties
-                  ); 
-                  setSubCounty(null); 
+                  );
+                  setSubCounty(null);
                 }}
               />
             </div>
@@ -263,7 +278,7 @@ const GenerateInvoiceContractor: React.FC = () => {
               className="w-full"
               disabled={!isFormValid || loading}
             >
-              {loading ? <Loader /> : 'Submit'}
+              {loading ? <Loader /> : buttonLabel}
             </Button>
           </div>
         </form>

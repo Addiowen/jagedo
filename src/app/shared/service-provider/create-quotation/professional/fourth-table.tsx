@@ -32,7 +32,7 @@ export default function FourthTable() {
     move(oldIndex, newIndex);
   }
 
-  if (getValues().thirdTable.totalAmount < 1000) {
+  if (getValues().thirdTable.totalAmount <= 1000000) {
     const newFieldArray = useFieldArray({
       control: control,
       name: 'fourthTable',
@@ -41,7 +41,7 @@ export default function FourthTable() {
     fields = newFieldArray.fields;
     move = newFieldArray.move;
     return renderMilestones(fields, move, register, handleChange, "fourthTable");
-  } else if (getValues().thirdTable.totalAmount < 10000) {
+  } else if (getValues().thirdTable.totalAmount <= 6000000) {
     const newFieldArray = useFieldArray({
       control: control,
       name: 'fourthTableTwo',

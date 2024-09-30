@@ -131,19 +131,19 @@ export const FOURTH_TABLE_DEFAULT_VALUE = [
 export const FOURTH_TABLE_DEFAULT_VALUE_TWO = [
   {
     milestone: 'A',
-    percentageDisbursement: 50,
+    percentageDisbursement: 33.3,
     milestoneActivity: 'First Draft',
     amount: 0,
   },
   {
     milestone: 'B',
-    percentageDisbursement: 50,
+    percentageDisbursement: 33.3,
     milestoneActivity: 'Second Draft',
     amount: 0,
   },
   {
     milestone: 'C',
-    percentageDisbursement: 50,
+    percentageDisbursement: 33.3,
     milestoneActivity: 'Final Draft',
     amount: 0,
   },
@@ -152,25 +152,25 @@ export const FOURTH_TABLE_DEFAULT_VALUE_TWO = [
 export const FOURTH_TABLE_DEFAULT_VALUE_THREE = [
   {
     milestone: 'A',
-    percentageDisbursement: 50,
+    percentageDisbursement: 25,
     milestoneActivity: 'First Draft',
     amount: 0,
   },
   {
     milestone: 'B',
-    percentageDisbursement: 50,
+    percentageDisbursement: 25,
     milestoneActivity: 'Second Draft',
     amount: 0,
   },
   {
     milestone: 'C',
-    percentageDisbursement: 50,
+    percentageDisbursement: 25,
     milestoneActivity: 'Third Draft',
     amount: 0,
   },
   {
     milestone: 'D',
-    percentageDisbursement: 50,
+    percentageDisbursement: 25,
     milestoneActivity: 'Final Draft',
     amount: 0,
   },

@@ -181,7 +181,7 @@ const GenerateInvoiceProfessional: React.FC = () => {
         if (selectedPlan.title === 'Managed by Jagedo') {
           router.push(routes.customers.professionalRequisitions); // Redirect to requisitions
         } else if (selectedPlan.title === 'Managed by Self') {
-          router.push(routes.customers.invoice); // Redirect to generate invoice
+          router.push(`${routes.customers.details(DUMMY_ID)}?id=${response.data.id}`); // Redirect to generate invoice
         }
       }
     } catch (error) {

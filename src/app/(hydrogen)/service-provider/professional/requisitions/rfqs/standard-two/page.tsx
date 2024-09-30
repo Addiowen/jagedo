@@ -79,7 +79,7 @@ export default async function RfqStandardTwoPage({
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
       </PageHeader>
-      {/* <ProfessionalAvailabilitySmall requestDetails={transactionDetails}   /> */}
+      <ProfessionalAvailabilitySmall requestDetails={transactionDetails}   />
       <ProfessionalCreateQuotationComponent requestDetails={transactionDetails} userDetails={user} />
     </>
   )
