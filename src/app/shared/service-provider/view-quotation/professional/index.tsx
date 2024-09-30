@@ -2,7 +2,11 @@
 
 import { Button } from 'rizzui';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import ViewProfessionalQuotation from '../../create-quotation/professional/view/view-quotation';
+import { useSession } from 'next-auth/react';
+import { routes } from '@/config/routes';
+import { DUMMY_ID } from '@/config/constants';
 
 export default function ViewProfessionalQuotationComponent({
   quotationDetails,
@@ -10,40 +14,37 @@ export default function ViewProfessionalQuotationComponent({
   quotationDetails: any;
 }) {
   const searchParams = useSearchParams();
-  const jobId = searchParams.get('jobId');
-  console.log(jobId);
-
+  const transactionId = searchParams.get('id');
   const router = useRouter();
 
-  console.log(quotationDetails, 'quotationDetails2000');
-  // const pathname = usePathname()
-  // const viewQuotation = pathname.includes('quotations')
+  const {data:session} =useSession()
+  const role = session?.user.role
 
-  // const methods = useForm<CreateContractorQuotationType>({
-  //   mode: 'onChange',
-  //   defaultValues: CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
-  //   resolver: zodResolver(createContractorQuotationSchema),
-  // });
+  // Get the role from sessionStorage
+  
 
-  const handleAltBtn: any = () => {
+  const handleAltBtn = () => {
     router.back();
   };
-  //   const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
+
+  const handleGenerateInvoiceBtn = () => {
+    router.push(`${routes.customers.details(DUMMY_ID)}?id=${transactionId}`); // Update this path with the actual URL you want to redirect to
+  };
 
   return (
     <>
       <div className="rounded-2xl @container">
-        {/* <FormProvider {...methods}> */}
-        <form
-          // onSubmit={methods.handleSubmit(onSubmit)}
-          className="rounded-xl bg-white"
-        >
+        <form className="rounded-xl bg-white">
           <ViewProfessionalQuotation quotationDetails={quotationDetails} />
           <div className="sticky bottom-0 left-0 right-0 z-10 -mb-8 mt-8 flex items-center justify-center gap-4 border-t bg-white px-4 py-2 dark:bg-gray-50 md:px-5 lg:px-6 3xl:px-8 4xl:px-10">
             <Button onClick={handleAltBtn}>Back</Button>
+            
+            {/* Conditionally render button if the role is 'customer' */}
+            {role === 'customer' && (
+              <Button onClick={handleGenerateInvoiceBtn}>Generate Invoice</Button>
+            )}
           </div>
         </form>
-        {/* </FormProvider> */}
       </div>
     </>
   );

@@ -81,7 +81,8 @@ export const routes = {
     analyseQuotations: '/customers/quotations/analyse-quotations',
     analyseQuotationsContractor:
       '/customers/quotations/analyse-quotations-contractor',
-    professionalQuotation: '/customers/contractor-quotation',
+    professionalQuotation: '/customers/professional-quotation',
+    contractorQuotation: '/customers/contractor-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/rfq',
     invoice: '/customers/invoice',

@@ -243,7 +243,7 @@ const InvoiceComponent: React.FC = () => {
 
   return (
     <div className="p-6">
-      {/* <div className=" flex items-center justify-end gap-3 px-8 pt-2 @lg:mt-0">
+      <div className=" flex items-center justify-end gap-3 px-8 pt-2 @lg:mt-0">
         <PrintButton
           onClick={handlePrint}
           className="mb-4 w-auto p-2 text-sm @lg:w-auto"
@@ -258,7 +258,7 @@ const InvoiceComponent: React.FC = () => {
           <FaDownload className="me-1.5 h-[12px] w-[12px]" />
           Download
         </Button>
-      </div> */}
+      </div>
       <div
         className="w-full rounded-xl border border-muted p-3 text-xs"
         ref={componentRef}
