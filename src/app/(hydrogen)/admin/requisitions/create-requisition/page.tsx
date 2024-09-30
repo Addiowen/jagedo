@@ -1,5 +1,4 @@
 import { metaObject } from '@/config/site.config';
-import CreateRequestComponent from '@/app/shared/admin/requisitions/create-requisition';
 import Link from 'next/link';
 import { Button } from 'rizzui';
 import { PiPlusBold } from 'react-icons/pi';

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { PiPlusBold } from 'react-icons/pi';
 import { Button } from 'rizzui';
 import UnverifiedFundisTable from './dashboard/tables/unverifies-fundis';
+import VerifiedFundisTable from './dashboard/tables/verified-fundis';
 
 interface PageProps {
   fundis: any;
@@ -40,6 +41,11 @@ export default function FundiTables({ fundis }: PageProps) {
   const unverifiedFundis = profiledFundis.filter(
     (item: { metadata: { role: string; assetId?: string } }) =>
       item.metadata.role === 'fundi' && !item.metadata.assetId
+  );
+
+  const verified = profiledFundis.filter(
+    (item: { metadata: { role: string; assetId?: string } }) =>
+      item.metadata.role === 'fundi' && item.metadata.assetId
   );
   const allFundis =
     fundisonly?.map((item: any, index: number) => {
@@ -75,6 +81,23 @@ export default function FundiTables({ fundis }: PageProps) {
       };
     }) || [];
 
+  const verifiedFundis =
+    verified?.map((item: any, index: number) => {
+      return {
+        no: index + 1,
+        id: item.id || '',
+        date: item.metadata?.date || '',
+        firstName: item.firstname || '',
+        lastName: item.lastname || '',
+        phone: item.metadata?.phone || '', // Add fallback
+        category: 'Fundi',
+        skill: item.metadata?.skill || '',
+        county: item.metadata?.county || '',
+        subCounty: item.metadata?.subCounty || '',
+        status: item.metadata?.status || 'paid',
+      };
+    }) || [];
+
   return (
     <div className="@container">
       <div className="mb-6 flex flex-col @lg:flex-row @lg:justify-end">
@@ -93,6 +116,7 @@ export default function FundiTables({ fundis }: PageProps) {
         <Tab.List>
           <Tab.ListItem>All Fundis</Tab.ListItem>
           <Tab.ListItem>Unverified Fundis</Tab.ListItem>
+          <Tab.ListItem>Verified Fundis</Tab.ListItem>
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
@@ -108,6 +132,14 @@ export default function FundiTables({ fundis }: PageProps) {
               <UnverifiedFundisTable
                 className="relative  @4xl:col-span-2 @7xl:col-span-12"
                 fundis={fundilist}
+              />
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
+              <VerifiedFundisTable
+                className="relative  @4xl:col-span-2 @7xl:col-span-12"
+                fundis={verifiedFundis}
               />
             </div>
           </Tab.Panel>

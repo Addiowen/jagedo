@@ -169,6 +169,7 @@ export default function ConfirmAvailability({
         ) : (
           <>
             <Button
+              isLoading={isLoading}
               onClick={handleSubmit}
               className="w-32"
               disabled={!isChecked}

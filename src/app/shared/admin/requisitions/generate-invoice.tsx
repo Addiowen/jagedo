@@ -276,6 +276,7 @@ export default function GenerateInvoiceFundi({
             </div>
             <div className="form-group col-span-1 md:col-span-2 lg:col-span-4">
               <Textarea
+                label="Description"
                 id="description"
                 clearable
                 placeholder="Add description"
@@ -293,6 +294,7 @@ export default function GenerateInvoiceFundi({
             </div>
           </div>
           <Button
+            isLoading={loading}
             type="submit"
             className={`mx-auto mt-8 block w-full rounded-md ${
               isFormValid
@@ -301,15 +303,8 @@ export default function GenerateInvoiceFundi({
             }`}
             disabled={!isFormValid}
           >
-            Generate Invoice
+            Submit
           </Button>
-          {loading && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-              <div className="h-16 w-16 animate-spin rounded-full border-4 border-t-4 border-solid border-blue-600">
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          )}
         </form>
       </div>
     </div>

@@ -32,6 +32,7 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 import { counties } from '@/data/counties';
 import UploadButton from '@/app/shared/upload-button/upload-btn';
+import { signIn } from 'next-auth/react';
 // import UploadButton from "@/app/shared/commons/upload-button";
 const FileUpload = dynamic(() => import('@/app/shared/commons/file-upload'), {
   ssr: false,
@@ -119,7 +120,6 @@ export default function CreateFundiProfileForm({
   const onSubmit: SubmitHandler<FundiProfileSchema> = async (data) => {
     setLoading(true); // Set loading to true
     try {
-      // Prepare the data to be sent to the API
       const updateData = {
         firstname: data.firstName,
         lastname: data.lastName,
@@ -148,7 +148,6 @@ export default function CreateFundiProfileForm({
         },
       };
 
-      // Fetch additional user details
       const userDetailsRes = await axios.patch(
         `${BASE_URL}/users/${userDetails.id}`,
         updateData,
@@ -159,11 +158,9 @@ export default function CreateFundiProfileForm({
         }
       );
 
-      // If the user profile update is successful
       if (userDetailsRes) {
         console.log(userDetailsRes, 'user details');
 
-        // Send the updated user details as the payload to the external endpoint
         const profileUpdateRes = await axios.post(
           `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
           userDetailsRes.data,
@@ -174,14 +171,18 @@ export default function CreateFundiProfileForm({
           }
         );
 
-        // Log the result of the second request
         console.log(
           'Second request - Profile update response:',
           profileUpdateRes.data
         );
+
+        // Refresh the session data
+        await signIn('credentials', { redirect: false });
+
+        // Log the refreshed session
+
         // Refresh and redirect after successful profile update
         router.refresh();
-        // Determine the redirection based on the pathname
         if (pathname.includes('admin')) {
           router.push(`${routes.admin.editFundiProfile}?id=${userDetails.id}`);
         } else {
@@ -192,7 +193,6 @@ export default function CreateFundiProfileForm({
       }
     } catch (error: any) {
       toast.error('Failed to update user details:', error);
-      // Optionally, handle the error (e.g., show a notification)
     } finally {
       setLoading(false); // Set loading to false
     }

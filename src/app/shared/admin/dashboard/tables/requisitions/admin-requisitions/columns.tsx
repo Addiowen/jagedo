@@ -141,7 +141,10 @@ export const getColumns = ({
       return (
         <div className="flex items-center justify-center gap-3 ">
           <Link
-            href={{ pathname: routes.admin.requisitionDetails, query: { id } }}
+            href={{
+              pathname: routes.admin.requisitionDetails,
+              query: { id, category: row.category },
+            }}
           >
             <EyeIcon className="h-4 w-4" />
           </Link>

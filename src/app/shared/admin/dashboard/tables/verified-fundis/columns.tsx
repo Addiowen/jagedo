@@ -62,32 +62,31 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
-  {
-    title: (
-      <div className="ps-3.5">
-        <Checkbox
-          title={'Select All'}
-          onChange={handleSelectAll}
-          checked={data.length > 0 && checkedItems.length === data.length}
-          className="cursor-pointer"
-        />
-      </div>
-    ),
-    dataIndex: 'checked',
-    key: 'checked',
-    width: 30,
-    render: (_: any, row: any) => (
-      <div className="inline-flex ps-3.5">
-        <Checkbox
-          aria-label={'ID'}
-          className="cursor-pointer"
-          checked={checkedItems.includes(row.id)}
-          {...(onChecked && { onChange: () => onChecked(row.id) })}
-        />
-      </div>
-    ),
-  },
-
+  // {
+  //   title: (
+  //     <div className="ps-3.5">
+  //       <Checkbox
+  //         title={'Select All'}
+  //         onChange={handleSelectAll}
+  //         checked={checkedItems.length === data.length}
+  //         className="cursor-pointer"
+  //       />
+  //     </div>
+  //   ),
+  //   dataIndex: 'checked',
+  //   key: 'checked',
+  //   width: 30,
+  //   render: (_: any, row: any) => (
+  //     <div className="inline-flex ps-3.5">
+  //       <Checkbox
+  //         aria-label={'ID'}
+  //         className="cursor-pointer"
+  //         checked={checkedItems.includes(row.id)}
+  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
+  //       />
+  //     </div>
+  //   ),
+  // },
   {
     title: <HeaderCell title="Number" />,
     dataIndex: 'no',
@@ -140,14 +139,6 @@ export const getColumns = ({
     key: 'skill',
     width: 100,
     render: (skill: string) => <Text>{skill}</Text>,
-  },
-
-  {
-    title: <HeaderCell title="Level" />,
-    dataIndex: 'level',
-    key: 'level',
-    width: 100,
-    render: (level: string) => <Text>{level}</Text>,
   },
 
   // {
@@ -210,7 +201,7 @@ export const getColumns = ({
             <Link
               href={{
                 pathname: routes.admin.editFundiProfile,
-                query: { status },
+                query: { id: row.id },
               }}
             >
               <EyeIcon className="h-4 w-4" />

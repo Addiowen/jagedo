@@ -72,8 +72,6 @@ export default function FundisTable({
     handleReset,
   } = useTable(fundis, pageSize, filterState);
 
-  console.log(fundis);
-
   // Update selectedRowIds whenever selectedRowKeys changes
   useEffect(() => {
     setSelectedRowIds(selectedRowKeys);
@@ -89,8 +87,6 @@ export default function FundisTable({
     },
   };
 
-  const assetIds = selectedRowIds;
-
   const assignAssetIdstoTransaction = async () => {
     try {
       const res = await axios.patch(
@@ -102,16 +98,11 @@ export default function FundisTable({
           },
         }
       );
-
-      const transaction = res.data;
-
-      if (transaction) {
-        return transaction as any;
-      }
-    } catch (error) {}
+      return res.data;
+    } catch (error) {
+      console.error('Error assigning fundis to transaction:', error);
+    }
   };
-
-  let responses;
 
   const assignTransactionIdtoAssets = async (
     assetIds: string[],
@@ -132,14 +123,10 @@ export default function FundisTable({
             },
           }
         );
-
         setAssets(res.data);
-
-        if (assets) {
-          return assets as any;
-        }
+        return assets;
       });
-      responses = await Promise.all(patchRequests);
+      await Promise.all(patchRequests);
     } catch (error) {
       console.error('Error updating assets:', error);
     }
@@ -147,10 +134,7 @@ export default function FundisTable({
 
   useEffect(() => {
     const selectedPhones = fundis
-      .filter((fundi: any) => {
-        console.log('Filtering fundi:', fundi); // Log fundi object during filter
-        return selectedRowKeys.includes(fundi.id);
-      })
+      .filter((fundi: any) => selectedRowKeys.includes(fundi.id))
       .map((fundi: any) => fundi.phone);
     const selectedEmails = fundis
       .filter((fundi: any) => selectedRowKeys.includes(fundi.id))
@@ -167,23 +151,24 @@ export default function FundisTable({
   }, [selectedRowKeys, fundis]);
 
   const handleAssign = async () => {
+    if (selectedRowIds.length === 0) {
+      toast.error('No fundis selected. Please select fundis to assign.');
+      return;
+    }
+
     setLoading(true); // Start loading
     const result = await assignAssetIdstoTransaction();
 
     if (result) {
       if (transactionId) {
-        const updatedAssets = await assignTransactionIdtoAssets(
-          selectedRowIds,
-          transactionId
-        );
-        if (result && assets) {
-          toast.success('Request sent, Fundis have been assigned!');
-          router.push(routes.admin.dashboard);
-        }
+        await assignTransactionIdtoAssets(selectedRowIds, transactionId);
+        toast.success('Request sent, Fundis have been assigned!');
+        router.push(routes.admin.dashboard);
       }
     } else {
-      console.error('assets update failed');
+      console.error('Assets update failed');
     }
+
     setLoading(false); // End loading
   };
 
@@ -264,7 +249,10 @@ export default function FundisTable({
       )}
 
       <div className="mt-6">
-        <Button onClick={handleAssign} disabled={loading}>
+        <Button
+          onClick={handleAssign}
+          disabled={loading || selectedRowIds.length === 0}
+        >
           {loading ? 'Assigning...' : 'Assign'}
         </Button>
       </div>

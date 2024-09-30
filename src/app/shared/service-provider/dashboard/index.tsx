@@ -4,58 +4,74 @@ import JobSlider from './job-slider';
 // import CustomMessagesList from '@/app/shared/custom-messages-list';
 // import RequisitionAlerts from './requisition-alerts';
 import Notifications from './notifications';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import { Alert, Text } from 'rizzui';
+import Link from 'next/link';
+import { routes } from '@/config/routes';
+import apiRequest from '@/lib/apiService';
 
-// const fetchUserDetials = async () => {
-//   const session = await getServerSession(authOptions);
-
-//   const userId = session?.user.id;
-
-//   try {
-//     const userDetails = await apiRequest({
-//       method: 'GET',
-//       endpoint: `/users/${userId}`,
-//     });
-//     return userDetails;
-//   } catch (error) {
-//     console.error('Failed to fetch transaction details:', error);
-//     return null;
-//   }
-// };
-
-export default function ServiceProviderDashboard({
+export default async function ServiceProviderDashboard({
   assetDetails,
 }: {
   assetDetails: any;
 }) {
   console.log('userdetails');
 
-  // const bookingRequests = assetDetails
-  //   ? assetDetails.metadata.bookingRequests
-  //   : null;
-  // const bookingRequestsCount = bookingRequests
-  //   ? bookingRequests.split(',').length
-  //   : 0;
+  const session = await getServerSession(authOptions);
+  const userRole = session?.user.metadata.role;
+  const userId = session?.user.id;
+
+  const fetchUserDetails = async () => {
+    try {
+      const userDetails = await apiRequest({
+        method: 'GET',
+        endpoint: `/users/${userId}`,
+      });
+      return userDetails;
+    } catch (error) {
+      console.error('Failed to fetch transaction details:', error);
+      return null;
+    }
+  };
+
+  const user = await fetchUserDetails();
+
+  const profileCreated = user.metadata.profileCreated;
+
+  // Fallback UI if the profile is not created
+  if (!profileCreated) {
+    return (
+      <div className="mx-auto max-w-md">
+        <Alert color="warning" rounded="xl">
+          <Text className="font-semibold">Profile Not Approved</Text>
+          <Text>
+            It seems like your profile is not yet created. Please{' '}
+            <Link
+              className="text-blue-500 underline"
+              href={routes.serviceProvider.fundi.profile}
+            >
+              complete your profile
+            </Link>{' '}
+            to access full dashboard features.
+          </Text>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
-    <div className="@container">
-      <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 3xl:gap-8">
-        <SpNavCards className="py-5 @2xl:grid-cols-3 @3xl:gap-6 @4xl:col-span-2 @4xl:grid-cols-4" />
-        <JobSlider />
-        {/* <RequisitionAlerts /> */}
-        <Notifications />
-        {/* <WalletCard
-          balance={'232,000.00'}
-          image={walletImage}
-        /> */}
-        {/* <BidsStatus
-        /> */}
-
-        {/* <ReviewSlider /> */}
-      </div>
-      {/* <div className="pt-10 grid grid-cols-1 gap-6 @4xl:grid-cols-3 @7xl:grid-cols-12 3xl:gap-8">
-        
-        <Notifications />
-      </div> */}
-    </div>
+    <>
+      {profileCreated && (
+        <div className="@container">
+          <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 3xl:gap-8">
+            <SpNavCards className="py-5 @2xl:grid-cols-3 @3xl:gap-6 @4xl:col-span-2 @4xl:grid-cols-4" />
+            <JobSlider />
+            {/* <RequisitionAlerts /> */}
+            <Notifications />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
