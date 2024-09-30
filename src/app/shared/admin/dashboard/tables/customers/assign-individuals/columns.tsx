@@ -4,13 +4,10 @@ import { HeaderCell } from '@/components/ui/table';
 import { Text, Checkbox, ActionIcon, Tooltip, Select, Badge } from 'rizzui';
 import PencilIcon from '@/components/icons/pencil';
 import EyeIcon from '@/components/icons/eye';
-import DeletePopover from '@/app/shared/commons/delete-popover';
 import DateCell from '@/components/ui/date-cell';
 import { useState } from 'react';
 import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
-import Link from 'next/link';
-import { routes } from '@/config/routes';
 
 function getStatusBadge(status: string) {
   switch (status.toLowerCase()) {
@@ -38,11 +35,6 @@ function getStatusBadge(status: string) {
   }
 }
 
-const statusOptions = [
-  { label: 'Live', value: 'Live' },
-  { label: 'Closed', value: 'Closed' },
-];
-
 type Columns = {
   data: any[];
   sortConfig?: any;
@@ -62,13 +54,39 @@ export const getColumns = ({
   handleSelectAll,
   onHeaderCellClick,
 }: Columns) => [
+  // {
+  //   title: (
+  //     <div className="ps-3.5">
+  //       <Checkbox
+  //         title={'Select All'}
+  //         onChange={handleSelectAll}
+  //         checked={checkedItems.length === data.length}
+  //         className="cursor-pointer"
+  //       />
+  //     </div>
+  //   ),
+  //   dataIndex: 'checked',
+  //   key: 'checked',
+  //   width: 30,
+  //   render: (_: any, row: any) => (
+  //     <div className="inline-flex ps-3.5">
+  //       <Checkbox
+  //         aria-label={'ID'}
+  //         className="cursor-pointer"
+  //         checked={checkedItems.includes(row.id)}
+  //         {...(onChecked && { onChange: () => onChecked(row.id) })}
+  //       />
+  //     </div>
+  //   ),
+  // },
+
   {
     title: (
       <div className="ps-3.5">
         <Checkbox
           title={'Select All'}
           onChange={handleSelectAll}
-          checked={data.length > 0 && checkedItems.length === data.length}
+          checked={checkedItems.length === data.length}
           className="cursor-pointer"
         />
       </div>
@@ -92,15 +110,15 @@ export const getColumns = ({
     title: <HeaderCell title="Number" />,
     dataIndex: 'no',
     key: 'no',
-    width: 50,
+    width: 90,
     render: (no: number) => <Text>{no}</Text>,
   },
 
   {
-    title: <HeaderCell title="SP ID" />,
+    title: <HeaderCell title="USER ID" />,
     dataIndex: 'id',
     key: 'id',
-    width: 50,
+    width: 90,
     render: (id: string) => <Text>#{id}</Text>,
   },
 
@@ -108,7 +126,7 @@ export const getColumns = ({
     title: <HeaderCell title="First Name" />,
     dataIndex: 'firstName',
     key: 'firstName',
-    width: 100,
+    width: 150,
     render: (firstName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {firstName}
@@ -119,13 +137,14 @@ export const getColumns = ({
     title: <HeaderCell title="Last Name" />,
     dataIndex: 'lastName',
     key: 'lastName',
-    width: 100,
+    width: 150,
     render: (lastName: string) => (
       <Text className="text-sm font-semibold text-gray-900 dark:text-gray-700">
         {lastName}
       </Text>
     ),
   },
+
   {
     title: <HeaderCell title="Phone Number" />,
     dataIndex: 'phone',
@@ -133,24 +152,15 @@ export const getColumns = ({
     width: 80,
     render: (phone: number) => <Text>{phone}</Text>,
   },
-
   {
-    title: <HeaderCell title="Skill" />,
-    dataIndex: 'skill',
-    key: 'skill',
-    width: 100,
-    render: (skill: string) => <Text>{skill}</Text>,
+    title: <HeaderCell title="Email" />,
+    dataIndex: 'email',
+    key: 'email',
+    width: 120,
+    render: (email: string) => <Text>{email}</Text>,
   },
 
-  {
-    title: <HeaderCell title="Level" />,
-    dataIndex: 'level',
-    key: 'level',
-    width: 100,
-    render: (level: string) => <Text>{level}</Text>,
-  },
-
-  // {
+  // {s
   //   title: <HeaderCell title="Category" />,
   //   dataIndex: 'category',
   //   key: 'category',
@@ -180,25 +190,40 @@ export const getColumns = ({
     title: <HeaderCell title="County" />,
     dataIndex: 'county',
     key: 'county',
-    width: 100,
+    width: 120,
     render: (county: string) => <Text>{county}</Text>,
   },
   {
     title: <HeaderCell title="Sub County" />,
     dataIndex: 'subCounty',
     key: 'subCounty',
-    width: 100,
+    width: 120,
     render: (subCounty: string) => <Text>{subCounty}</Text>,
   },
 
+  // {
+  //   title: <HeaderCell title="Joined Date" className="uppercase" />,
+  //   dataIndex: 'date',
+  //   key: 'date',
+  //   width: 230,
+  //   render: (date: Date) => <DateCell date={date} />,
+  // },
+
+  // {
+  //   title: <HeaderCell title="Status" />,
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   width: 120,
+  //   render: (value: string) => getStatusBadge(value),
+  // },
   {
     // Need to avoid this issue -> <td> elements in a large <table> do not have table headers.
     title: <HeaderCell title="Actions" />,
-    dataIndex: 'status',
+    dataIndex: 'action',
     key: 'action',
-    width: 50,
-    render: (status: string, row: any) => (
-      <div className="flex justify-center">
+    width: 180,
+    render: (_: string, row: any) => (
+      <div className="flex items-center  gap-3 ">
         <Tooltip size="sm" content={'View'} placement="top" color="invert">
           <ActionIcon
             as="span"
@@ -207,41 +232,18 @@ export const getColumns = ({
             aria-label={'View Appointment'}
             className="hover:!border-gray-900 hover:text-gray-700"
           >
-            <Link
-              href={{
-                pathname: routes.admin.editFundiProfile,
-                query: { status },
-              }}
-            >
-              <EyeIcon className="h-4 w-4" />
-            </Link>
+            <EyeIcon className="h-4 w-4" />
           </ActionIcon>
         </Tooltip>
+        {/* <DeletePopover
+          title={`Remove User`}
+          description={`Are you sure you want to remove this User?`}
+          onDelete={() => onDeleteItem(row.id)}
+        /> */}
       </div>
     ),
   },
 ];
-
-function StatusSelect({ selectItem }: { selectItem?: string }) {
-  const selectItemValue = statusOptions.find(
-    (option) => option.value === selectItem
-  );
-  const [value, setValue] = useState(selectItemValue);
-  return (
-    <Select
-      dropdownClassName="!z-10"
-      className="min-w-[140px]"
-      inPortal={false}
-      placeholder="Select Role"
-      options={statusOptions}
-      value={value}
-      onChange={setValue}
-      displayValue={(option: { value: any }) =>
-        renderOptionDisplayValue(option.value as string)
-      }
-    />
-  );
-}
 
 function renderOptionDisplayValue(value: string) {
   switch (value) {

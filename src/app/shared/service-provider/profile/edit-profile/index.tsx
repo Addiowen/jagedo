@@ -115,7 +115,7 @@ export default function EditProfileContactDetails({
   const [isLoading, setIsLoading] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
 
-  const fundiLevel = userDetails.metadata.level;
+  const level = userDetails.metadata.level;
 
   const handleEditClick = async () => {
     sessionStorage.clear();
@@ -141,18 +141,15 @@ export default function EditProfileContactDetails({
           router.push(
             `${routes.serviceProvider.contractor.profile}?profileId=${editProfileId}`
           );
-        }
-        else if (pathname.includes('professional')) {
+        } else if (pathname.includes('professional')) {
           router.push(
             `${routes.serviceProvider.professional.profile}?profileId=${editProfileId}`
           );
-        }
-        else if (pathname.includes('fundi')) {
+        } else if (pathname.includes('fundi')) {
           router.push(
             `${routes.serviceProvider.fundi.editFundiProfile}?profileId=${editProfileId}`
           );
         }
-        
       } else if (pathname.includes('customer')) {
         router.push(
           `${routes.customers.createCustomerProfile}?profileId=${editProfileId}`
@@ -165,9 +162,7 @@ export default function EditProfileContactDetails({
         router.push(
           `${routes.admin.createIndividualProfile}?profileId=${editProfileId}`
         );
-      }
-      
-      else {
+      } else {
         router.push(
           `${routes.admin.createFundiProfile}?profileId=${editProfileId}`
         );
@@ -204,14 +199,15 @@ export default function EditProfileContactDetails({
           subcounty: userDetails.metadata.subCounty,
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
-          level: fundiLevel,
+          profession: userDetails.metadata.profession,
+          level,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,
         },
         metadata: {
           userId: userDetails.id,
           ...userDetails.metadata,
-          level: fundiLevel,
+          level,
         },
       };
 

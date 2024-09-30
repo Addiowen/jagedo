@@ -4,6 +4,7 @@ import FundisTable from '@/app/shared/admin/dashboard/tables/fundi';
 import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import AssignProfessionalsTable from '@/app/shared/admin/dashboard/tables/assign-professionals';
+import { categories } from '@/data/product-categories';
 
 export const metadata = {
   ...metaObject('Assign Service Providers'),
@@ -62,6 +63,7 @@ export default async function AddtoServiceProviders({
 }: PageProps) {
   const requestId = searchParams.requestId;
   const county = searchParams.county;
+  const serviceProviderPath = searchParams.category;
 
   const countyLower = county.toLowerCase();
 
@@ -119,8 +121,11 @@ export default async function AddtoServiceProviders({
   return (
     <div className="@container">
       <PageHeader title={pageHeader.title}></PageHeader>
-      {/* <FundisTable fundis={spList} />   */}
-      <AssignProfessionalsTable professionals={professionalList} />
+
+      {serviceProviderPath === 'fundi' && <FundisTable fundis={spList} />}
+      {serviceProviderPath === 'professional' && (
+        <AssignProfessionalsTable professionals={professionalList} />
+      )}
 
       <div className="mt-6">
         {/* <ToastButton

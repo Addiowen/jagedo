@@ -5,7 +5,7 @@ import { useColumn } from '@/hooks/use-column';
 import { useTable } from '@/hooks/use-table';
 import ControlledTable from '@/components/controlled-table';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
-import { Button, Input, Loader } from 'rizzui'; // Import Loader from rizzui
+import { Button, Input } from 'rizzui';
 import { getColumns } from './columns';
 import FilterElement from './filter-element';
 import WidgetCard2 from '@/components/cards/widget-card2';
@@ -21,26 +21,22 @@ const filterState = {
   status: '',
 };
 
-export default function AssignProfessionalsTable({
+export default function VerifiedFundisTable({
   className,
-  professionals,
+  fundis,
 }: {
   className?: string;
-  professionals: any;
+  fundis: any;
 }) {
   const [pageSize, setPageSize] = useState(7);
   const [assets, setAssets] = useState([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]); // State to hold selected row IDs
-  const [loading, setLoading] = useState(false); // Loading state
-  const [selectedRowPhones, setSelectedRowPhones] = useState<string[]>([]); // State for selected phone numbers
-  const [selectedRowEmails, setSelectedRowEmails] = useState<string[]>([]); // State for selected emails
-  const [userAssetIds, setSelectedUserAssetIds] = useState<string[]>([]);
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('requestId');
-  const packageType = searchParams.get('requestType');
-
   const router = useRouter();
+
+  console.log(selectedRowIds);
 
   const onHeaderCellClick = (value: string) => ({
     onClick: () => {
@@ -70,9 +66,7 @@ export default function AssignProfessionalsTable({
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(professionals, pageSize, filterState);
-
-  console.log(professionals);
+  } = useTable(fundis, pageSize, filterState);
 
   // Update selectedRowIds whenever selectedRowKeys changes
   useEffect(() => {
@@ -80,16 +74,13 @@ export default function AssignProfessionalsTable({
   }, [selectedRowKeys]);
 
   const newBookedRequests = {
-    status: 'assigned',
     metadata: {
-      bookingRequests: selectedRowIds,
-      serviceProviderIds: userAssetIds,
-      serviceProviderPhones: selectedRowPhones,
-      serviceProviderEmails: selectedRowEmails,
+      bookedRequests: [selectedRowIds],
     },
   };
 
   const assetIds = selectedRowIds;
+  console.log(assetIds);
 
   const assignAssetIdstoTransaction = async () => {
     try {
@@ -108,42 +99,22 @@ export default function AssignProfessionalsTable({
       if (transaction) {
         return transaction as any;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   let responses;
 
   const assignTransactionIdtoAssets = async (
     assetIds: string[],
-    requestTransactionId: string
+    requesttransactionId: string
   ) => {
     try {
       const patchRequests = assetIds.map(async (assetId) => {
-        // Fetch the current asset data
-        const currentAsset = await axios.get(`${BASE_URL}/assets/${assetId}`, {
-          headers: {
-            Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-          },
-        });
-
-        // Get the current bookingRequests array (or initialize it as an empty array)
-        const existingBookingRequests =
-          currentAsset.data.metadata.bookingRequests || [];
-
-        // Append the new transaction ID to the array
-        const updatedBookingRequests = [
-          ...existingBookingRequests,
-          requestTransactionId,
-        ];
-
-        // Send the patch request to update the asset
         const res = await axios.patch(
           `${BASE_URL}/assets/${assetId}`,
-          {
-            metadata: {
-              bookingRequests: updatedBookingRequests,
-            },
-          },
+          { metadata: { requesttransactionId } },
           {
             headers: {
               Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
@@ -151,69 +122,45 @@ export default function AssignProfessionalsTable({
           }
         );
 
-        // Update the local state (if necessary)
         setAssets(res.data);
+        console.log(assets, 'this');
 
         if (assets) {
           return assets as any;
         }
       });
-
-      const responses = await Promise.all(patchRequests);
+      responses = await Promise.all(patchRequests);
+      console.log('All assets updated successfully:', responses);
     } catch (error) {
       console.error('Error updating assets:', error);
     }
   };
 
-  useEffect(() => {
-    const selectedPhones = professionals
-      .filter((professional: any) => {
-        console.log('Filtering fundi:', professional); // Log fundi object during filter
-        return selectedRowKeys.includes(professional.id);
-      })
-      .map((professional: any) => professional.phone);
-    const selectedEmails = professionals
-      .filter((professional: any) => selectedRowKeys.includes(professional.id))
-      .map((professional: any) => professional.email);
-
-    const selectedAssetUserIds = professionals
-      .filter((professional: any) => selectedRowKeys.includes(professional.id))
-      .map((professional: any) => professional.userId);
-
-    setSelectedUserAssetIds(selectedAssetUserIds);
-    setSelectedRowIds(selectedRowKeys);
-    setSelectedRowPhones(selectedPhones);
-    setSelectedRowEmails(selectedEmails);
-  }, [selectedRowKeys, professionals]);
-
   const handleAssign = async () => {
-    if (selectedRowIds.length === 0) {
-      toast.error('No fundis selected. Please select fundis to assign.');
-      return;
-    }
-
-    setLoading(true); // Start loading
-
     const result = await assignAssetIdstoTransaction();
+    console.log(result);
 
     if (result) {
+      console.log('Transaction updated successfully:', result);
       if (transactionId) {
-        await assignTransactionIdtoAssets(selectedRowIds, transactionId);
-
-        toast.success('Request sent, Professionals have been assigned!');
-        router.push(routes.admin.dashboard);
+        const updatedAssets = await assignTransactionIdtoAssets(
+          selectedRowIds,
+          transactionId
+        );
+        if (result && assets) {
+          toast.success('Request sent, Fundis have been assigned!');
+          router.push(routes.admin.dashboard);
+        }
       }
     } else {
       console.error('assets update failed');
-      toast.error('Assignment failed please try again later');
     }
-    setLoading(false); // End loading
   };
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: professionals,
+        data: fundis,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,
@@ -239,7 +186,7 @@ export default function AssignProfessionalsTable({
       className={className}
       headerClassName="mb-2 items-start flex-col @[57rem]:flex-row @[57rem]:items-center"
       actionClassName="grow @[57rem]:ps-11 ps-0 items-center w-full @[42rem]:w-full @[57rem]:w-auto "
-      title="Professionals Register"
+      title="Fundis Register"
       titleClassName="whitespace-nowrap font-inter"
       action={
         <div className=" mt-4 flex w-full flex-col-reverse items-center justify-between  gap-3  @[42rem]:flex-row @[57rem]:mt-0">
@@ -279,23 +226,6 @@ export default function AssignProfessionalsTable({
         }}
         className="-mx-5 lg:-mx-5"
       />
-
-      {loading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-200 bg-opacity-50">
-          <Loader /> {/* Use the Loader from rizzui */}
-        </div>
-      )}
-
-      <div className="mt-6">
-        <div className="mt-6">
-          <Button
-            onClick={handleAssign}
-            disabled={loading || selectedRowIds.length === 0}
-          >
-            {loading ? 'Assigning...' : 'Assign'}
-          </Button>
-        </div>
-      </div>
     </WidgetCard2>
   );
 }

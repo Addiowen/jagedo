@@ -193,7 +193,7 @@ export default function AnalyzeQuotationsTable({
 
           console.log('Won bid updated:', wonBidUpdate.data);
 
-          // Now, update the status for all other quotations to "lost bid"
+          // Update the status for  other quotations to "lost bid"
           const patchRequests = otherQuotations.map(async (quotation: any) => {
             const res = await axios.patch(
               `${BASE_URL}/messages/${quotation.id}`,

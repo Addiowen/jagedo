@@ -25,7 +25,7 @@ const statusColors: {
 export default function Timeline({
   labelText,
   htmlFor,
-  handleFileUpload,
+  // handleFileUpload,
   data,
   className,
   showmoreButton = false,
@@ -33,7 +33,7 @@ export default function Timeline({
 }: {
   labelText?: string;
   htmlFor?: string;
-  handleFileUpload: (url: string) => void;
+  // handleFileUpload: (url: string) => void;
   data: object[];
   className?: string;
   showmoreButton?: boolean;
@@ -114,7 +114,7 @@ export default function Timeline({
                       userId={userId}
                       labelText={timeline.upload}
                       htmlFor={timeline.upload}
-                      onUploadSuccess={handleFileUpload}
+                      // onUploadSuccess={handleFileUpload}
                     />
                   )}
                 </div>

@@ -25,24 +25,6 @@ const fetchUserAssetDetails = async () => {
 
     const assetId = session?.user?.metadata?.assetId;
 
-    if (!assetId) {
-      return (
-        <Alert variant="flat" color="warning">
-          <Text className="font-semibold">Unverified</Text>
-          <Text>
-            Verification pending! Please{' '}
-            <Link
-              className="text-blue-500 underline"
-              href={routes.serviceProvider.fundi.profile}
-            >
-              complete your profile
-            </Link>{' '}
-            to request approval.
-          </Text>
-        </Alert>
-      );
-    }
-
     const assetDetails = await apiRequest({
       method: 'GET',
       endpoint: `/assets/${assetId}`,
@@ -82,25 +64,6 @@ export default async function RequisitionsPage() {
       </Alert>
     );
   }
-  if (!asset || !asset.metadata) {
-    return (
-      <Alert variant="flat" color="warning">
-        <Text className="font-semibold">Unverified</Text>
-        <Text>
-          Verification pending! Please{' '}
-          <Link
-            className="text-blue-500 underline"
-            href={routes.serviceProvider.fundi.profile}
-          >
-            complete your profile
-          </Link>{' '}
-          to request approval.
-        </Text>
-      </Alert>
-    );
-  }
-
-  console.log(asset.metadata, 'metadata');
 
   const fetchRequestDetails = async () => {
     if (!bookingRequests) {
