@@ -25,7 +25,7 @@ export default function RequisitionsTable({
   className?: string;
   request: Requisition[];
 }) {
-  console.log(requisitions, 'requist');
+  console.log(requisitions, 'request');
   console.log(request, 'req');
 
   const [pageSize, setPageSize] = useState(7);
