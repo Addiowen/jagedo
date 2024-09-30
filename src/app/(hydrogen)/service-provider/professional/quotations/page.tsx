@@ -15,7 +15,7 @@ export const metadata = {
 
 const fetchQuotations = async (params: any) => {
   const data = await axios.get(
-    `${BASE_URL}/transactions?status=assigned`,
+    `${BASE_URL}/transactions?status=assigned,assigned+quotation`,
     {
       headers: {
         Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
@@ -25,9 +25,7 @@ const fetchQuotations = async (params: any) => {
   return data;
 };
 
-
 export default async function QuotationsPage() {
-
   const quotationData = await fetchQuotations({});
   const quotations = await quotationData.data.results;
   console.log(quotations, 'quotationData');
@@ -39,10 +37,12 @@ export default async function QuotationsPage() {
 
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-1 3xl:gap-8">
-          <ProfessionalQuotationsTable quotationData={quotations}  className="relative @4xl:col-span-12  @7xl:col-span-8" />
+          <ProfessionalQuotationsTable
+            quotationData={quotations}
+            className="relative @4xl:col-span-12  @7xl:col-span-8"
+          />
         </div>
       </div>
     </>
-  )
-  
+  );
 }

@@ -71,5 +71,6 @@ export const getRequestDetails = (customerRequest: any) => {
       ? customerRequest.metadata.amount
       : 'N/A',
     Uploads: customerRequest?.metadata.uploads || 'N/A',
+    AdminUploads: customerRequest.metadata.adminUploads,
   };
 };

@@ -34,6 +34,7 @@ export default function ActiveJobDetails({
   const jobId = getparams.get('id');
 
   console.log(requestDetails.Status);
+  console.log(requestDetails);
 
   const handleCompleteMilestone = async () => {
     setLoading(true); // Show loader

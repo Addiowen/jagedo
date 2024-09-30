@@ -41,16 +41,10 @@ export default function ActiveJobDetailsCard({
 }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
-  const { urls, addUrl } = useUrls();
 
   const jobId = searchParams.get('id');
 
-  const storedUrls = sessionStorage.getItem('adminUploadedUrls');
-
   // Safely parse the value, ensuring it's treated as an array of strings
-  const adminUploadedUrls: string[] = storedUrls
-    ? (JSON.parse(storedUrls) as string[])
-    : [];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +52,7 @@ export default function ActiveJobDetailsCard({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
-  const uploadsData = requestDetails.Uploads;
+  const adminUploadedUrls = requestDetails.AdminUploads;
 
   const structuredAttachments = adminUploadedUrls.map((url: string) => ({
     name: getFileNameFromUrl(url),
