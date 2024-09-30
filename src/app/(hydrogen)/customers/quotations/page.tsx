@@ -17,7 +17,7 @@ const fetchTransactions = async (userId: string) => {
   try {
     const transactionDetails = await apiRequest({
       method: 'GET',
-      endpoint: `/transactions?status=paid,assigned,draft&takerId=${userId}&order=desc&orderBy=createdDate`,
+      endpoint: `/transactions?status=paid,assigned,assigned+quotation,draft&takerId=${userId}&order=desc&orderBy=createdDate`,
     });
     return transactionDetails;
   } catch (error) {
