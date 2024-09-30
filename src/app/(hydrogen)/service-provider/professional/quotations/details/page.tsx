@@ -49,12 +49,19 @@ export default async function QuotationDetailsPage({
   const quotationDetails = await fetchQuotationDetails(session?.user?.metadata?.assetId, requestDetails?.id);
 
   console.log(quotationDetails, 'quotationDetails');
+
   return (
     <>
       <Title as="h4" className="mb-2 pb-5 font-semibold @2xl:mb-5">
         Job #{requestDetails?.id}
       </Title>
-      <ViewProfessionalQuotationComponent quotationDetails={quotationDetails.results[0]}  />
+      {
+        quotationDetails?.results?.length > 0 ? (
+          <ViewProfessionalQuotationComponent quotationDetails={quotationDetails.results[0]}  />
+        ) : <>
+            <p>No Quotation Found</p>
+        </>
+      }
     </>
   );
 }
