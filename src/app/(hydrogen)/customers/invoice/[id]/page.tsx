@@ -6,6 +6,7 @@ import { metaObject } from '@/config/site.config';
 import { Button } from 'rizzui';
 import { routes } from '@/config/routes';
 import InvoiceComponent from '@/app/shared/custom-invoice-test';
+import apiRequest from '@/lib/apiService';
 
 export const metadata = {
   ...metaObject('Invoice'),
@@ -28,7 +29,27 @@ const pageHeader = {
   ],
 };
 
-export default function InvoiceDetailsPage() {
+
+
+export default async function InvoiceDetailsPage({searchParams}:{searchParams:any}) {
+
+
+
+  const fetchQuotationDetails = async () => {
+    try {
+      const userDetails = await apiRequest({
+        method: 'GET',
+        endpoint: `/messages/${searchParams.messageId}`,
+      });
+      return userDetails;
+    } catch (error) {
+      console.error('Failed to fetch quotation details:', error);
+      return null;
+    }
+  };
+  
+  const quotationDetails = await fetchQuotationDetails();
+
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
@@ -42,7 +63,11 @@ export default function InvoiceDetailsPage() {
       </PageHeader>
 
       {/* <InvoiceDetails /> */}
-      <InvoiceComponent />
+      <InvoiceComponent quotationDetails={quotationDetails} />
     </>
   );
 }
+function fetchUserDetails() {
+  throw new Error('Function not implemented.');
+}
+

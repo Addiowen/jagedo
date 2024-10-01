@@ -50,6 +50,19 @@ export default function ViewProfessionalQuotation({
 
   console.log(submissions);
 
+  sessionStorage.setItem('quotationDetails', JSON.stringify(quotationDetails));
+
+  // Retrieve the stored string from sessionStorage
+  const storedQuotationDetails = sessionStorage.getItem('quotationDetails');
+
+// Check if storedQuotationDetails is not null before parsing
+  if (storedQuotationDetails) {
+    const parsedQuotationDetails = JSON.parse(storedQuotationDetails);
+    console.log(parsedQuotationDetails);
+  } else {
+    console.log('No quotation details found in session storage');
+  }
+
   console.log(quotationDetails);
 
   console.log(professionalFees);

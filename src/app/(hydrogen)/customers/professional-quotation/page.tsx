@@ -41,13 +41,14 @@ export default async function QuotationDetailsPage({
 
   const quotationResults = await fetchQuotation();
   const quotationDetails = quotationResults.results[0];
+  const quotationId = quotationDetails.id
 
   return (
     <>
       <Title as="h4" className="mb-2 pb-5 font-semibold @2xl:mb-5">
         QTN {requestId}
       </Title>
-      <ViewProfessionalQuotationComponent quotationDetails={quotationDetails} />
+      <ViewProfessionalQuotationComponent quotationDetails={quotationDetails} quotationId={quotationId} />
     </>
   );
 }
