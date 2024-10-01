@@ -16,17 +16,12 @@ import { SortableList } from '@/components/dnd-sortable/dnd-sortable-list';
 
 export default function MilestonesTable() {
   const { control, register, getValues } = useFormContext();
-  const { fields, move, append } = useFieldArray({
+  let { fields, move, append } = useFieldArray({
     control: control,
     name: 'milestonesTable',
   });
 
-  // append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
-
-  console.log('fields', fields);
-  console.log('getValues', getValues());
   const bills = getValues().bill;
-  console.log('bills', bills);
 
   bills.forEach((item: { billTable: any[]; subTotal: any; }) => {
     const subtotal = item.billTable.reduce((acc, curr) => {
@@ -34,7 +29,9 @@ export default function MilestonesTable() {
     }, 0);
     item.subTotal = subtotal;
   });
-
+  const totalSum = bills.reduce((acc: any, item: { subTotal: any; }) => {
+    return acc + item.subTotal;
+  }, 0);
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
     if (!active || !over) return;
@@ -43,7 +40,31 @@ export default function MilestonesTable() {
     move(oldIndex, newIndex);
   }
 
-  return renderMilestonesTable(fields, register, handleChange, "milestonesTable", 1);
+  if (totalSum <= 1000) {
+    const newFieldArray = useFieldArray({
+      control: control,
+      name: 'milestonesTable',
+    });
+  
+    fields = newFieldArray.fields;
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable", 1);
+  } else if (totalSum > 1000000 && totalSum <= 6000) {
+    const newFieldArray = useFieldArray({
+      control: control,
+      name: 'milestonesTable2',
+    });
+  
+    fields = newFieldArray.fields;
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable2", 2);
+  } else {
+    const newFieldArray = useFieldArray({
+      control: control,
+      name: 'milestonesTable3',
+    });
+  
+    fields = newFieldArray.fields;
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable3", 3);
+  }
 }
 
 function TableHeaderCell({

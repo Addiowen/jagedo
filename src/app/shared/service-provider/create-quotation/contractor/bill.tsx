@@ -4,19 +4,45 @@ import BillTable from "./bill-table";
 import { QuoteInput } from "../quote-forms/quote-input";
 import { BillTableType, BillType } from "@/utils/create-contractor-quotation.schema";
 import { useBills } from "@/app/context/billsContext";
+import { Button } from "rizzui";
+import { PiPlusCircle } from "react-icons/pi";
 
 export default function Bill() {
     const { control, register, watch } = useFormContext();
     //console.log("register", register);
-    const { fields } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control: control,
         name: 'bill',
     });
+
 
     return (
         <>
         <ul>
             <>
+            <div className="mb-6 flex justify-end">
+              <Button
+                type="button"
+                variant="text"
+                className="gap-2 ps-0 dark:text-gray-400"
+                onClick={() =>
+                  append({
+                    billTableTitle: '',
+                    billTable: [
+                      // {
+                      // description: '',
+                      // quantity: 55,
+                      // units: '',
+                      // rate: undefined,
+                      // },
+                    ],
+                  })
+                }
+              >
+                <PiPlusCircle className="size-5 text-green-dark dark:text-green" />
+                Add Bill
+              </Button>
+            </div>
             {fields?.map((field, index) => {
 
                 let subTotal = (watch(`bill.${index}.billTable`) || []).reduce((acc: number, item: BillTableType) => {

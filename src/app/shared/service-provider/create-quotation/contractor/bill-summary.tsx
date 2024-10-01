@@ -7,30 +7,8 @@ import { useFormContext } from 'react-hook-form';
 import { BillTableType, BillType } from '@/utils/create-contractor-quotation.schema';
 import { useBills } from "@/app/context/billsContext";
 
-// const data = [
-//     {
-//         billNo: 1,
-//         description: 'EXCAVATION',
-//     },
-//     {
-//         billNo: 2,
-//         description: 'FOUNDATION',
-//     },
-//     {
-//         billNo: 3,
-//         description: 'WALLING',
-//     },
-//     {
-//         billNo: 4,
-//         description: 'ROOFING',
-//     },
-// ]
 
-// type Props = {
-//   subTotal: any
-// }
-
-export default function BillSummary(/*{ subTotal }: Props*/) {
+export default function BillSummary() {
   const { getValues, watch } = useFormContext();
   const [contingency, setContingency] = useState(0)
   // const [subTotal, setSubTotal] = useState(0)
@@ -45,19 +23,25 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
     }, 0);
     subTotalsTotal += billSubTotal;
   });
-  console.log(subTotalsTotal);
   let contigency = 0.05 * subTotalsTotal;
-  console.log(contigency);
   
-  // let total: number
-  // let contingency = undefined
+  const bills = getValues().bill;
+  console.log('bills', bills);
 
-  // useEffect(() => {
-  //   console.log({total})
-  //   setContingency(0.05 * subTotal)
-  //   console.log('useEffect ran')
-  //   console.log({contingency})
-  // }, [subTotal])
+  bills.forEach((item: { billTable: any[]; subTotal: any; }) => {
+    const subtotal = item.billTable.reduce((acc, curr) => {
+      return acc + (curr.quantity * curr.rate);
+    }, 0);
+    item.subTotal = subtotal;
+  });
+  const totalSum = bills.reduce((acc: any, item: { subTotal: any; }) => {
+    return acc + item.subTotal;
+  }, 0);
+
+  let withHoldingTax = 0.02 * totalSum;
+  let jagedoFee = 0.05 * totalSum;
+  let payableToserviceProvider = totalSum - withHoldingTax - jagedoFee;
+  console.log('totalSum', totalSum);
 
   return (
     <>
@@ -82,9 +66,6 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
       <ul>
         <>
           {values?.bill.map((field: BillType, index: number) => {
-            // let rate = getValues(`bill.${index}.billTable.${index}.rate`);
-            // let quantity = getValues(`bill.${index}.billTable.${index}.quantity`);
-            // let amount = '300,000';
 
             subTotal = watch(`bill.${index}.billTable`).reduce((acc: number, item: BillTableType) => {
               if (!item.quantity || !item.rate) return acc;
@@ -133,7 +114,7 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
                     <div className="text-gray-900 dark:text-gray-0 text-center">
                         {/* {contingency ? `${contingency}` : '--'} */}
                         {/* { contingency } */}
-                        100,000
+                        {contigency}
                     </div>
                 </div>
 
@@ -142,26 +123,25 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
                         Total
                     </div>
                     <div className="text-center text-gray-900 dark:text-gray-0 font-semibold">
-                        {/* {totalTax ? `$${totalTax}` : '--'} */}
-                        10,000,000
+                        {subTotalsTotal}
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 items-center gap-2 py-4">
+                {/* <div className="grid grid-cols-2 items-center gap-2 py-4">
                     <div className='col-span-1 ps-6 font-semibold text-center'>
                         WHT 5%
                     </div>
                     <div className="text-center text-gray-900 dark:text-gray-0">
                         100,000
                     </div>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-2 items-center gap-2 py-4">
                     <div className='col-span-1 ps-6 font-semibold text-center'>
                         WHT VAT 2%
                     </div>
                     <div className="text-center text-gray-900 dark:text-gray-0">
-                        50,000
+                        {withHoldingTax}
                     </div>
                 </div>
 
@@ -170,7 +150,7 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
                         JaGedo
                     </div>
                     <div className="text-center text-gray-900 dark:text-gray-0">
-                        50,000
+                        {jagedoFee}
                     </div>
                 </div>
 
@@ -179,7 +159,7 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
                         Payable To Service Provider
                     </div>
                     <div className="text-center font-semibold text-gray-900 dark:text-gray-0">
-                        1,700,000
+                        {payableToserviceProvider}
                     </div>
                 </div>
 

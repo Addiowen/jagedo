@@ -32,31 +32,10 @@ import { BASE_URL } from "@/lib/axios";
 export default function CreateContractorQuotationComponent(
   { userDetails, requestDetails }: { userDetails: any; requestDetails: any; }
 ) {
-  console.log(userDetails, 'userDetails');
-  // console.log(transactionDetails, 'transactionDetails');
-  // const { control, register, watch } = useFormContext();
-  // const { fields } = useFieldArray({
-  //   control: control,
-  //   name: 'bill',
-  // });
-  // const [billType, setBillType] = useState<BillType[]>([]);
-
-  // const { bills } = useBills();
-  // console.log("Parent bills: ", bills);
-
-  // useEffect(() => {
-  //   console.log('updated');
-  //   setBillType(bills);
-  // }, [bills]);
-
   const [modalState, setModalState] = useState(false);
   const router = useRouter()
 
   const onSubmit: SubmitHandler<CreateContractorQuotationType> = async (data) => {
-    console.log(`${BASE_URL}/transactions`,);
-    console.log(`${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`);
-    console.log('william');
-    console.log(data, 'data');
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
       senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
@@ -117,15 +96,32 @@ export default function CreateContractorQuotationComponent(
     console.log(data, 'data');
   }
 
-
   return (
     <>
       <CustomMultiStepComponent<CreateContractorQuotationType>
           validationSchema={createContractorQuotationSchema}
-          onSubmit={onSubmit1}
+          onSubmit={onSubmit}
           useFormProps={{
             mode: 'onChange',
-            defaultValues: CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
+            defaultValues: {
+              bill: [
+                {
+                  billTableTitle: '',
+                  billTable: [
+                    {
+                      description: '',
+                      quantity: 0,
+                      units: '',
+                      rate: 0,
+                      amount: 0,
+                    },
+                  ],
+                  subTotal: 0,
+                },
+              ],
+              milestonesTable: [],
+              attachmentsTable: [],
+            },
           }}
           steps={contractorCreateQuotationSteps}
           setModalState={setModalState}
