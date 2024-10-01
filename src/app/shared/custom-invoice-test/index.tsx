@@ -14,8 +14,13 @@ import toast from 'react-hot-toast';
 import { routes } from '@/config/routes';
 import axios, { BASE_URL } from '@/lib/axios';
 
+
+interface InvoiceComponentProps {
+  quotationDetails: any; // Replace 'any' with a more specific type if possible
+}
+
 // Explicitly type the functional component
-const InvoiceComponent: React.FC = () => {
+const InvoiceComponent: React.FC<InvoiceComponentProps> = ({quotationDetails}) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const [requestDetails, setRequestDetails] = useState<RequestDetails | null>(
     null
@@ -34,6 +39,45 @@ const InvoiceComponent: React.FC = () => {
   const transactionId = searchParams.get('id') as string;
 
   const router = useRouter();
+
+  interface QuotationDetails {
+    id: string;
+    createdDate: string;
+    updatedDate: string;
+    topicId: string;
+    conversationId: string;
+    content: string;
+    attachments: any[]; // Adjust the type as needed
+    read: boolean;
+    senderId: string;
+    receiverId: string;
+    metadata: {
+      status: string;
+      firstTable: Array<{ /* Define properties for firstTable items */ }>;
+      grandTotal: number;
+      thirdTable: {
+        whtVat: number;
+        expenses: number;
+        totalAmount: number;
+        withholdingTax: number;
+        jagedoCommission: number;
+        professionalFees: number;
+        payableToServiceProvider: number;
+      };
+      secondTable: Array<{
+        amount: number;
+        expenses: string;
+      }>;
+      approvalStatus: string;
+      // Define other tables and properties similarly
+    };
+    platformData: Record<string, any>; // Adjust the type as needed
+    livemode: boolean;
+  }
+  
+
+  console.log(quotationDetails);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,6 +102,19 @@ const InvoiceComponent: React.FC = () => {
   const requestType = requestDetails?.metadata.packageType;
   const managed = requestDetails?.metadata.managed;
   const linkageFee = requestDetails?.metadata.amount;
+
+  // Retrieve the user's role from sessionStorage
+  const userRole = session?.user.role; // Ensure this is set correctly elsewhere in your application
+
+const quotationExpenses = quotationDetails?.metadata?.secondTable || []
+const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees || ''
+  // Declare the variable to hold the expense data
+ 
+  // Check if the user is a 'fundi' and adjust the expense data accordingly
+ 
+
+  // Now you can use these variables for display or further processing
+
   const requestId =
     requestDetails && requestDetails.id && typeof requestDetails.id === 'string'
       ? requestDetails.id.toUpperCase()
@@ -316,31 +373,45 @@ const InvoiceComponent: React.FC = () => {
 
         {/* Table */}
         <table className="mb-6 w-full border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">#</th>
-              <th className="border border-gray-300 p-2 text-right">
-                Sum (KES)
-              </th>
-              <th className="border border-gray-300 p-2 text-right">VAT 0%</th>
-              <th className="border border-gray-300 p-2 text-right">
-                Total sum (KES)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">Linkage fee</td>
-              <td className="border border-gray-300 p-2 text-right">
-                {linkageFee}
-              </td>
-              <td className="border border-gray-300 p-2 text-right">00</td>
-              <td className="border border-gray-300 p-2 text-right">
-                {linkageFee}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <thead>
+      <tr className="bg-gray-100">
+        <th className="border border-gray-300 p-2 text-left">#</th>
+        <th className="border border-gray-300 p-2 text-right">Sum (KES)</th>
+        <th className="border border-gray-300 p-2 text-right">VAT 0%</th>
+        <th className="border border-gray-300 p-2 text-right">Total sum (KES)</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {professionalFee && (<tr>
+
+
+<td className="border border-gray-300 p-2">Professional Fee</td>
+    <td className="border border-gray-300 p-2 text-right">{professionalFee}</td>
+    <td className="border border-gray-300 p-2 text-right">00</td>
+    <td className="border border-gray-300 p-2 text-right">{professionalFee}</td>
+</tr>)
+
+}
+      <tr>
+
+
+      <td className="border border-gray-300 p-2">Linkage Fee</td>
+          <td className="border border-gray-300 p-2 text-right">{linkageFee}</td>
+          <td className="border border-gray-300 p-2 text-right">00</td>
+          <td className="border border-gray-300 p-2 text-right">{linkageFee}</td>
+      </tr>
+      {quotationExpenses.map((quotation: { expenses: string , amount: number }, index: React.Key | null | undefined) => (
+        <tr key={index}>
+        
+          <td className="border border-gray-300 p-2">{quotation.expenses}</td>
+          <td className="border border-gray-300 p-2 text-right">{quotation.amount}</td>
+          <td className="border border-gray-300 p-2 text-right">00</td>
+          <td className="border border-gray-300 p-2 text-right">{quotation.amount}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
 
         {/* Summary */}
         <div className="mb-6 text-right">
