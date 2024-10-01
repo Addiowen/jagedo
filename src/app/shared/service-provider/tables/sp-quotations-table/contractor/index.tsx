@@ -15,7 +15,7 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContractorQuotationsTable({ className }: { className?: string }) {
+export default function ContractorQuotationsTable({ className, quotationData }: { className?: string, quotationData: any }) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -28,6 +28,38 @@ export default function ContractorQuotationsTable({ className }: { className?: s
     handleDelete(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  
+  const transformedRequests = quotationData.map(
+    (
+      requestDetails: {
+        id: any;
+        createdDate: any;
+        metadata: {
+          category: string;
+          packageType: string;
+          county: string;
+          subCounty: string;
+          profession: string;
+          managed: string;
+        };
+        status: any;
+      },
+      index: number
+    ) => ({
+      number: index + 1, // Generate sequential number
+      id: requestDetails.id,
+      date: requestDetails.createdDate, // Extract date from createdDate
+      category: requestDetails.metadata.category || 'Contractor', // Use a default value
+      subCategory: requestDetails.metadata.profession || '', // Map 'packageType' to 'subCategory'
+      requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
+      county: requestDetails.metadata.county || '', // Map 'county'
+      subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
+      status: requestDetails.status, // Directly map 'status'
+      requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
+    })
+  );
+  
 
   const {
     isLoading,
@@ -47,12 +79,12 @@ export default function ContractorQuotationsTable({ className }: { className?: s
     handleSelectAll,
     handleDelete,
     handleReset,
-  } = useTable(contractorQuotationData, pageSize, filterState);
+  } = useTable(transformedRequests, pageSize, filterState);
 
   const columns = useMemo(
     () =>
       getColumns({
-        data: contractorQuotationData,
+        data: transformedRequests,
         sortConfig,
         checkedItems: selectedRowKeys,
         onHeaderCellClick,

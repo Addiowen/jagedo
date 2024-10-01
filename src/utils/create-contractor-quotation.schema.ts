@@ -294,11 +294,12 @@ export const ATTACHMENTS_TABLE_DEFAULT_VALUE = [
 ];
 
 export const CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE = {
-  bill: BILL_DEFAULT_VALUE,
-  milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE_ONE,
-  milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
-  milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
-  attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
+  bill: Bill_TABLE_DEFAULT_VALUE,
+  milestonesTable: [],
+  milestonesTable2: [],
+  milestonesTable3: [],
+  attachmentsTable: [],
+  total: 0,
 };
 
 export const CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE = {
@@ -307,6 +308,7 @@ export const CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE = {
   milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
   milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
+  total: 0,
 };
 
 export const createContractorQuotationSchema = z.object({
@@ -326,6 +328,22 @@ export const createContractorQuotationSchema = z.object({
     })
   ),
   milestonesTable: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
+  milestonesTable2: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
+  milestonesTable3: z.array(
     z.object({
       milestone: z.string(),
       percentageDisbursement: z.number(),
