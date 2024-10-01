@@ -28,6 +28,13 @@ export default function MilestonesTable() {
   const bills = getValues().bill;
   console.log('bills', bills);
 
+  bills.forEach((item: { billTable: any[]; subTotal: any; }) => {
+    const subtotal = item.billTable.reduce((acc, curr) => {
+      return acc + (curr.quantity * curr.rate);
+    }, 0);
+    item.subTotal = subtotal;
+  });
+
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
     if (!active || !over) return;
