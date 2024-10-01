@@ -244,6 +244,21 @@ export const MILESTONES_TABLE_DEFAULT_VALUE_THREE = [
   },
 ];
 
+export const MILESTONES_TABLE_DEFAULT_VALUE_ONE = [
+  {
+    milestone: 'A',
+    percentageDisbursement: 50,
+    milestoneActivity: 'First Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'B',
+    percentageDisbursement: 50,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  }
+];
+
 export const MILESTONES_TABLE_DEFAULT_VALUE_FOUR = [
   {
     milestone: 'A',
@@ -280,17 +295,17 @@ export const ATTACHMENTS_TABLE_DEFAULT_VALUE = [
 
 export const CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE = {
   bill: BILL_DEFAULT_VALUE,
-  milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE,
-  // milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
-  // milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
+  milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE_ONE,
+  milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
+  milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
 };
 
 export const CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE = {
   bill: BILL_VIEW_VALUE,
-  milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE,
-  // milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
-  // milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
+  milestonesTable: MILESTONES_TABLE_DEFAULT_VALUE_ONE,
+  milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUE_THREE,
+  milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUE_FOUR,
   attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
 };
 

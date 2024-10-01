@@ -122,7 +122,7 @@ export default function CreateContractorQuotationComponent(
     <>
       <CustomMultiStepComponent<CreateContractorQuotationType>
           validationSchema={createContractorQuotationSchema}
-          onSubmit={onSubmit}
+          onSubmit={onSubmit1}
           useFormProps={{
             mode: 'onChange',
             defaultValues: CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,
