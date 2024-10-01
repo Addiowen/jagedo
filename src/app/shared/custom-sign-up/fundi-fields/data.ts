@@ -176,28 +176,6 @@ export const country = [
   },
 ];
 
-export const theCounty = [
-  {
-    label: 'Kisumu',
-    value: 'kisumu',
-  },
-  {
-    label: 'Nairobi',
-    value: 'nairobi',
-  },
-];
-
-export const thesubCounty = [
-  {
-    label: 'Kisumu Central',
-    value: 'kisumu central',
-  },
-  {
-    label: 'Kisumu East',
-    value: 'kisumu east',
-  },
-];
-
 export const county = Object.keys(counties).map((key) => ({
   label: key,
   value: key.toLowerCase().replace(/\s+/g, '-'),

@@ -7,14 +7,14 @@ interface UploadButtonProps {
   labelText: string;
   htmlFor: string;
   userId: string;
-  // onUploadSuccess: (url: string) => void; // Callback to report the uploaded URL
+  onUploadSuccess: (url: string) => void; // Callback to report the uploaded URL
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({
   labelText,
   htmlFor,
   userId,
-  // onUploadSuccess,
+  onUploadSuccess,
 }) => {
   const [fileName, setFileName] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

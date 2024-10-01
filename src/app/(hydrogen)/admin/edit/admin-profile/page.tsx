@@ -32,6 +32,10 @@ export default async function EditProfileContactDetailsPage({
 
   const userId = session?.user.id;
 
+  if (!userId) {
+    throw Error('No user Id found');
+  }
+
   console.log(session, 'the session');
   const fetchUserDetails = async () => {
     try {
@@ -55,7 +59,7 @@ export default async function EditProfileContactDetailsPage({
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
       <EditAdminProfileContactDetails
-        editProfileId={searchParams.id}
+        editProfileId={userId}
         userDetails={user}
       />
     </>

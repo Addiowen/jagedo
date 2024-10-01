@@ -139,11 +139,11 @@ export default function EditProfileContactDetails({
       if (pathname.includes('service-provider')) {
         if (pathname.includes('contractor')) {
           router.push(
-            `${routes.serviceProvider.contractor.profile}?profileId=${editProfileId}`
+            `${routes.serviceProvider.contractor.editContractorProfile}?profileId=${editProfileId}`
           );
         } else if (pathname.includes('professional')) {
           router.push(
-            `${routes.serviceProvider.professional.profile}?profileId=${editProfileId}`
+            `${routes.serviceProvider.professional.editProfessionalProfile}?profileId=${editProfileId}`
           );
         } else if (pathname.includes('fundi')) {
           router.push(

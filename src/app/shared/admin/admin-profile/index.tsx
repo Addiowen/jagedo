@@ -15,12 +15,9 @@ import UploadZone from '@/components/ui/file-upload/upload-zone';
 // import Link from 'next/link';
 import {
   fundiInitialValues,
-  skill,
   gender,
   level,
   years,
-  county,
-  subCounty,
   booleanQuestion,
 } from '@/app/shared/service-provider/profile/create-profile/fundi/data';
 import { useRouter, usePathname } from 'next/navigation';
@@ -56,6 +53,8 @@ export default function CreateAdminProfileForm({
   const router = useRouter();
   const pathname = usePathname();
 
+  console.log(userDetails);
+
   const adminInitialValues: AdminProfileSchema = {
     firstName: userDetails.firstname || '',
     gender: userDetails.metadata.gender || '',
@@ -66,6 +65,7 @@ export default function CreateAdminProfileForm({
     email: userDetails.email || '',
     phoneNo: userDetails.metadata.phone || '',
     idPic: userDetails.metadata.idPic || '',
+    idNo: '',
   };
 
   // submit handler
@@ -77,7 +77,6 @@ export default function CreateAdminProfileForm({
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
-        phone: data.phoneNo,
         // Add skill, level, years, gender, and questions to the metadata
         metadata: {
           firstName: data.firstName,
@@ -128,7 +127,7 @@ export default function CreateAdminProfileForm({
     <>
       <CustomMultiStepForm<AdminProfileSchema>
         loading={loading}
-        validationSchema={adminProfileSchema}
+        // validationSchema={adminProfileSchema}
         onSubmit={onSubmit}
         useFormProps={{
           mode: 'onChange',
@@ -219,57 +218,6 @@ export default function CreateAdminProfileForm({
                           gender?.find((r) => r.value === selected)?.label ?? ''
                         }
                         error={errors?.gender?.message as string}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="county"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="County/State"
-                        label="County/State"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={county}
-                        onChange={onChange}
-                        value={value}
-                        className=""
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          county?.find((r) => r.value === selected)?.label ?? ''
-                        }
-                        error={errors?.county?.message as string}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    control={control}
-                    name="subCounty"
-                    render={({ field: { value, onChange } }) => (
-                      <Select
-                        dropdownClassName="!z-10"
-                        inPortal={false}
-                        placeholder="Sub-County/Area"
-                        label="Sub-County/Area"
-                        size="lg"
-                        selectClassName="font-medium text-sm"
-                        optionClassName=""
-                        options={subCounty}
-                        onChange={onChange}
-                        value={value}
-                        className="flex-grow"
-                        getOptionValue={(option) => option.value}
-                        displayValue={(selected) =>
-                          subCounty?.find((r) => r.value === selected)?.label ??
-                          ''
-                        }
-                        error={errors?.subCounty?.message as string}
                       />
                     )}
                   />

@@ -22,6 +22,17 @@ export default async function ServiceProviderDashboard({
   const userRole = session?.user.metadata.role;
   const userId = session?.user.id;
 
+  const createProfileRoute =
+    userRole === 'fundi'
+      ? routes.serviceProvider.fundi.profile
+      : userRole === 'contractor'
+        ? routes.serviceProvider.contractor.profile
+        : userRole === 'professional'
+          ? routes.serviceProvider.professional.profile
+          : userRole === 'customer'
+            ? routes.customers.createCustomerProfile
+            : routes.accessDenied;
+
   const fetchUserDetails = async () => {
     try {
       const userDetails = await apiRequest({
@@ -47,10 +58,7 @@ export default async function ServiceProviderDashboard({
           <Text className="font-semibold">Profile Not Approved</Text>
           <Text>
             It seems like your profile is not yet created. Please{' '}
-            <Link
-              className="text-blue-500 underline"
-              href={routes.serviceProvider.fundi.profile}
-            >
+            <Link className="text-blue-500 underline" href={createProfileRoute}>
               complete your profile
             </Link>{' '}
             to access full dashboard features.

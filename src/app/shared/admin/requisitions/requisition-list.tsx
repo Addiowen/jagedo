@@ -39,7 +39,11 @@ export default function AdminRequestsListsComponent({
           id: item.id || '',
           date: item.createdDate || '',
           category: item.metadata.category,
-          subCategory: item.metadata?.profession || item.metadata?.skill || '',
+          subCategory:
+            item.metadata?.profession ||
+            item.metadata?.skill ||
+            item.metadata.contractor ||
+            '',
           requestType: `${item.metadata?.packageType}` || '',
           description: item.metadata?.description || '',
           county: item.metadata?.county || '',

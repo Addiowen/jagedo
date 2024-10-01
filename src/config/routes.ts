@@ -1,3 +1,4 @@
+import ViewContractorQuotationComponent from '@/app/(hydrogen)/admin/quotations/view-quotation/contractor';
 import { requisitions } from '@/data/job-data';
 
 export const routes = {
@@ -167,6 +168,8 @@ export const routes = {
     professional: {
       dashboard: '/service-provider/professional/dashboard',
       editProfile: '/service-provider/professional/edit-profile',
+      editProfessionalProfile: '/service-provider/professional/edit-profile',
+
       viewProfile: '/service-provider/professional/view-profile',
 
       // requisitions
@@ -202,7 +205,9 @@ export const routes = {
 
     contractor: {
       dashboard: '/service-provider/contractor/dashboard',
-
+      editContractorProfile: '/service-provider/contractor/edit-profile',
+      ViewContractorProfile:
+        '/service-provider/contractor/profile/view-profile',
       // requisitions
       requisitions: '/service-provider/contractor/requisitions',
       requisitionDetails: '/service-provider/contractor/requisitions/details',

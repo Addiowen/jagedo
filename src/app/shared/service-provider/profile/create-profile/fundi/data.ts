@@ -67,7 +67,7 @@ export const fundiInitialValues: FundiProfileSchema = {
   question2: '',
   question3: '',
   question4: '',
-  attachmentsTable: ATTACHMENTS_TABLE_DEFAULT_VALUE,
+  idNo: '',
 };
 
 // if there's any 'Select' inputs, specify the values here
@@ -85,28 +85,6 @@ export const gender = [
   {
     label: 'Rather Not Say',
     value: 'rather not say',
-  },
-];
-
-export const county = [
-  {
-    label: 'Kisumu',
-    value: 'kisumu',
-  },
-  {
-    label: 'Nairobi',
-    value: 'nairobi',
-  },
-];
-
-export const subCounty = [
-  {
-    label: 'Kisumu Central',
-    value: 'kisumu central',
-  },
-  {
-    label: 'Kisumu East',
-    value: 'kisumu east',
   },
 ];
 
