@@ -57,7 +57,7 @@ export default async function QuotationDetailsPage({
       </Title>
       {
         quotationDetails?.results?.length > 0 ? (
-          <ViewProfessionalQuotationComponent quotationDetails={quotationDetails.results[0]}  />
+          <ViewProfessionalQuotationComponent quotationDetails={quotationDetails.results[0]} quotationId={''}  />
         ) : <>
             <p>No Quotation Found</p>
         </>

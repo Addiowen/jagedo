@@ -17,7 +17,7 @@ import BillSummary from './bill-summary';
 import MilestonesTable from './milestones-table';
 // import CustomMultiStepForm from '@/app/shared/custom-multi-step';
 import { contractorCreateQuotationSteps } from './data';
-import { motion } from 'framer-motion';
+import { m, motion } from 'framer-motion';
 import CustomMultiStepComponent from '@/app/shared/custom-multi-step-quotation';
 import ContractorAttachments from './attachments';
 import { useModal } from '@/app/shared/modal-views/use-modal';
@@ -27,6 +27,7 @@ import { useBills } from "@/app/context/billsContext";
 import { set } from "lodash";
 import axios from "axios";
 import { BASE_URL } from "@/lib/axios";
+import middleware from "@/middleware";
 
 
 export default function CreateContractorQuotationComponent(
@@ -43,12 +44,14 @@ export default function CreateContractorQuotationComponent(
       content: 'Quotation',
       // value: 1, // 0 - Transaction Creation, 1 - Transaction Quotation
       attachments: [],
-      assignedTo: requestDetails.metadata.customerId,
+      // assignedTo: requestDetails.metadata.customerId,
       metadata: {
         status: 'quoted',
         approvalStatus: 'pending',
         bill: data.bill,
         milestonesTable: data.milestonesTable,
+        milestonesTable2: data.milestonesTable2,
+        milestonesTable3: data.milestonesTable3,
         attachmentsTable: data.attachmentsTable,
       },
     };
@@ -76,7 +79,7 @@ export default function CreateContractorQuotationComponent(
         ],
         contractors: [
           ...(requestDetails?.metadata?.contractors || []),
-          quotationRes.data.id
+          userDetails.metadata.assetId
           ]
       }
       },

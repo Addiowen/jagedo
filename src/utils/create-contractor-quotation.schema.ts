@@ -335,6 +335,22 @@ export const createContractorQuotationSchema = z.object({
       amount: z.number(),
     })
   ),
+  milestonesTable2: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
+  milestonesTable3: z.array(
+    z.object({
+      milestone: z.string(),
+      percentageDisbursement: z.number(),
+      milestoneActivity: z.string(),
+      amount: z.number(),
+    })
+  ),
   attachmentsTable: z.array(
     z.object({
       docName: z.string(),

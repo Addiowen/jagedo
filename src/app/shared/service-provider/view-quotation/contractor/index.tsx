@@ -12,7 +12,20 @@ import { useRouter } from 'next/navigation';
 import { CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE, CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE, createContractorQuotationSchema, CreateContractorQuotationType } from '@/utils/create-contractor-quotation.schema';
 import ViewQuotation from '@/app/shared/service-provider/create-quotation/contractor/view/view-quotation'
 
-export default function ViewContractorQuotationComponent() {
+export default function ViewContractorQuotationComponent(
+  { quotationDetails, quotationId }: { quotationDetails: any; quotationId: string }
+) {
+
+  console.log(quotationDetails, 'quotationDetails');
+  const contractorQuotation = {
+    bill: quotationDetails?.metadata.bill,
+    milestonesTable: quotationDetails?.metadata.milestones,
+    milestonesTable2: quotationDetails?.metadata.milestones,
+    milestonesTable3: quotationDetails?.metadata.milestones,
+    attachmentsTable: quotationDetails?.metadata.attachments,
+    total: quotationDetails?.metadata.total,
+  };
+
   const router = useRouter()
 
   // const pathname = usePathname()
@@ -20,17 +33,11 @@ export default function ViewContractorQuotationComponent() {
 
   const methods = useForm<CreateContractorQuotationType>({
     mode: 'onChange',
-    defaultValues: CREATE_CONTRACTOR_QUOTATION_VIEW_VALUE,
+    defaultValues: contractorQuotation,
     resolver: zodResolver(createContractorQuotationSchema),
   });
 
   const handleAltBtn: any = () => { router.back() }
-  // const handleSubmitBtn = () => { 
-  //   router.push(routes.serviceProvider.contractor.quotations)
-  //  }
-
-//   const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
-
 
   return (
     <>
