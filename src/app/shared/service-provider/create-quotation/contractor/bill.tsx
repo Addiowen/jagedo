@@ -1,17 +1,9 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
-// import { DragEndEvent } from '@dnd-kit/core';
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
-// import { SortableList } from "@/components/dnd-sortable/dnd-sortable-list";
-// import { PiArrowsOutCardinalBold, PiPlusCircle, PiTrashBold } from "react-icons/pi";
-// import { Button, Input } from "rizzui";
 import BillTable from "./bill-table";
 import { QuoteInput } from "../quote-forms/quote-input";
 import { BillTableType, BillType } from "@/utils/create-contractor-quotation.schema";
 import { useBills } from "@/app/context/billsContext";
-// type Props = {
-//     subTotal: any
-//     // setSubTotal: Dispatch<any>
-// }
 
 export default function Bill() {
     const { control, register, watch } = useFormContext();
@@ -20,56 +12,6 @@ export default function Bill() {
         control: control,
         name: 'bill',
     });
-
-    const { setBills } = useBills();
-    let [billType, setBillType] = useState<BillType[]>([]);
-    billType = fields.map((field, index) => {
-        const billTable = watch(`bill.${index}.billTable`) || [];
-        const subTotal = billTable.reduce((acc: number, item: BillTableType) => {
-            if (!item.quantity || !item.rate) return acc;
-            return acc + item.quantity * item.rate;
-        }, 0);
-
-        return {
-            billTableTitle: watch(`bill.${index}.billTableTitle`),
-            billTable: billTable,
-            subTotal: subTotal,
-        };
-
-    });
-    
-    const updateBillType = (index: number, updatedBill: Partial<BillType>) => {
-        setBillType((prevBillType) =>
-            prevBillType.map((bill, i) => (i === index ? { ...bill, ...updatedBill } : bill))
-        );
-    };
-
-    useEffect(() => {
-        console.log('updated');
-        
-        const updatedBillType = fields.map((field, index) => {
-            const billTable = watch(`bill.${index}.billTable`) || [];
-            const subTotal = billTable.reduce((acc: number, item: BillTableType) => {
-                if (!item.quantity || !item.rate) return acc;
-                return acc + item.quantity * item.rate;
-            }, 0);
-
-            return {
-                billTableTitle: watch(`bill.${index}.billTableTitle`),
-                billTable: billTable,
-                subTotal: subTotal,
-            };
-
-        });
-
-        // Update the state outside of the render cycle
-        setBillType(updatedBillType);
-        setBills(updatedBillType);
-        
-    }, [fields, watch]); 
-    // console.log("watch", watch);
-    console.log("billType", billType);
-    console.log("fields", fields);
 
     return (
         <>

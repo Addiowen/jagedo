@@ -116,7 +116,7 @@ export default async function RequisitionsPage() {
       // });
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions`,
+        endpoint: `/transactions?status=assigned,assigned+quotation&id=${bookingRequests}`,
       });
 
       return assetDetails;

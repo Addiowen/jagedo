@@ -21,7 +21,7 @@ export default function MilestonesTable() {
     name: 'milestonesTable',
   });
 
-  append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
+  // append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
 
   console.log('fields', fields);
 
