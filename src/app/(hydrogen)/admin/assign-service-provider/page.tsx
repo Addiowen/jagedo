@@ -5,6 +5,7 @@ import { metaObject } from '@/config/site.config';
 import apiRequest from '@/lib/apiService';
 import AssignProfessionalsTable from '@/app/shared/admin/dashboard/tables/assign-professionals';
 import { categories } from '@/data/product-categories';
+import AssignContractorsTable from '@/app/shared/admin/dashboard/tables/assign-contractors';
 
 export const metadata = {
   ...metaObject('Assign Service Providers'),
@@ -123,6 +124,9 @@ export default async function AddtoServiceProviders({
       {serviceProviderPath === 'fundi' && <FundisTable fundis={spList} />}
       {serviceProviderPath === 'professional' && (
         <AssignProfessionalsTable professionals={professionalList} />
+      )}
+      {serviceProviderPath === 'contractor' && (
+        <AssignContractorsTable contractors={contractorList} />
       )}
 
       <div className="mt-6">
