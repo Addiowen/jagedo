@@ -10,8 +10,10 @@ import { DUMMY_ID } from '@/config/constants';
 
 export default function ViewProfessionalQuotationComponent({
   quotationDetails,
+  quotationId
 }: {
   quotationDetails: any;
+  quotationId:string
 }) {
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('id');
@@ -28,7 +30,7 @@ export default function ViewProfessionalQuotationComponent({
   };
 
   const handleGenerateInvoiceBtn = () => {
-    router.push(`${routes.customers.details(DUMMY_ID)}?id=${transactionId}`); // Update this path with the actual URL you want to redirect to
+    router.push(`${routes.customers.details(DUMMY_ID)}?id=${transactionId}&messageId=${quotationId}`); // Update this path with the actual URL you want to redirect to
   };
 
   return (

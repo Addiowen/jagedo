@@ -34,10 +34,9 @@ export default function BillSummary(/*{ subTotal }: Props*/) {
   const { getValues, watch } = useFormContext();
   const [contingency, setContingency] = useState(0)
   // const [subTotal, setSubTotal] = useState(0)
-  const values = getValues()
+  const values = getValues();
+  console.log(values, 'values');
   let subTotal: any
-  const { bills } = useBills();
-  console.log("Summary bills: ", bills);
   let subTotalsTotal = 0;
   values?.bill.forEach((bill: BillType, index: number) => {
     const billSubTotal = bill.billTable.reduce((acc: number, item: BillTableType) => {

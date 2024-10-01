@@ -4,6 +4,7 @@ import CreateContractorQuotationComponent from '@/app/shared/service-provider/cr
 import apiRequest from '@/lib/apiService';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import RequestDetailsSmall from '@/app/shared/service-provider/details/request-details/request-details-small';
 
 export const metadata = {
   ...metaObject(),
@@ -61,7 +62,7 @@ export default async function RfqStandardOnePage(
   return (
     <>
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb} />
-
+      <RequestDetailsSmall requestDetails={transactionDetails} />
       <CreateContractorQuotationComponent userDetails={user} requestDetails={transactionDetails} />
     </>
   )

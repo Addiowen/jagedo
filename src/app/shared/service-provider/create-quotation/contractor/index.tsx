@@ -52,37 +52,25 @@ export default function CreateContractorQuotationComponent(
   const [modalState, setModalState] = useState(false);
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<CreateContractorQuotationType> = (data) => {
-    console.log(data)
-  };
-
-  const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
-
-  const onSubmit1 = async (data: any) => {
+  const onSubmit: SubmitHandler<CreateContractorQuotationType> = async (data) => {
     console.log(`${BASE_URL}/transactions`,);
     console.log(`${process.env.NEXT_PUBLIC_DOMAIN}/sendSPApproveNotification`);
     console.log('william');
     console.log(data, 'data');
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
-      senderId: userDetails.id, // Contractor/Professional Asset Identifier
+      senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
       receiverId: requestDetails.metadata.customerId, // Customer Asset Identifier
-      content: 'You have a new quotation request',
+      content: 'Quotation',
       // value: 1, // 0 - Transaction Creation, 1 - Transaction Quotation
       attachments: [],
       assignedTo: requestDetails.metadata.customerId,
       metadata: {
         status: 'quoted',
         approvalStatus: 'pending',
-        profileCreated: true,
-        firstTable: data.firstTable,
-        secondTable: data.secondTable,
-        thirdTable: data.thirdTable,
-        fourthTable: data.fourthTable,
+        bill: data.bill,
+        milestonesTable: data.milestonesTable,
         attachmentsTable: data.attachmentsTable,
-        grandTotal: data.grandTotal,
-        totalExpensesCost: data.totalExpensesCost,
-        totalProfessionalFees: data.totalProfessionalFees,
       },
     };
     console.log(updateData, 'updateData');
@@ -106,7 +94,11 @@ export default function CreateContractorQuotationComponent(
         quotations: [
         ...(requestDetails?.metadata?.quotations || []),
         quotationRes.data.id
-        ]
+        ],
+        contractors: [
+          ...(requestDetails?.metadata?.contractors || []),
+          quotationRes.data.id
+          ]
       }
       },
       {
@@ -116,7 +108,13 @@ export default function CreateContractorQuotationComponent(
       }
     );
     console.log(transactionRes, 'transactionRes');
+    
+  };
 
+  const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
+
+  const onSubmit1 = async (data: any) => {
+    console.log(data, 'data');
   }
 
 
@@ -124,7 +122,7 @@ export default function CreateContractorQuotationComponent(
     <>
       <CustomMultiStepComponent<CreateContractorQuotationType>
           validationSchema={createContractorQuotationSchema}
-          onSubmit={onSubmit}
+          onSubmit={onSubmit1}
           useFormProps={{
             mode: 'onChange',
             defaultValues: CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE,

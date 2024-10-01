@@ -21,11 +21,19 @@ export default function MilestonesTable() {
     name: 'milestonesTable',
   });
 
-  append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
+  // append({ milestone: '', percentageDisbursement: 0, milestoneActivity: '', amount: 0 });
 
   console.log('fields', fields);
+  console.log('getValues', getValues());
+  const bills = getValues().bill;
+  console.log('bills', bills);
 
-
+  bills.forEach((item: { billTable: any[]; subTotal: any; }) => {
+    const subtotal = item.billTable.reduce((acc, curr) => {
+      return acc + (curr.quantity * curr.rate);
+    }, 0);
+    item.subTotal = subtotal;
+  });
 
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
@@ -35,6 +43,29 @@ export default function MilestonesTable() {
     move(oldIndex, newIndex);
   }
 
+  return renderMilestonesTable(fields, register, handleChange, "milestonesTable", 1);
+}
+
+function TableHeaderCell({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        'font-semibold [&_input]:uppercase [&_input]:text-gray-500 dark:[&_input]:text-gray-400',
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+const renderMilestonesTable = (fields: any[], register: any , handleChange: (event: DragEndEvent) => void, table_name: string, num: number) => {
   return (
     <div className="relative mt-8 mb-8 px-2 pt-6 pb-10 border border-muted rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl bg-gray-0 dark:bg-gray-50">
       
@@ -105,23 +136,4 @@ export default function MilestonesTable() {
       </ul>
     </div>
   );
-}
-
-function TableHeaderCell({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className={cn(
-        'font-semibold [&_input]:uppercase [&_input]:text-gray-500 dark:[&_input]:text-gray-400',
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
-}
+};

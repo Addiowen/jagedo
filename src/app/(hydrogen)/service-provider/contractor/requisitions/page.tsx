@@ -77,7 +77,7 @@ export default async function RequisitionsPage() {
     try {
       const assetDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/transactions?id[]=${bookingRequests}`,
+        endpoint: `/transactions?status=assigned,assigned+quotation&id=${bookingRequests}`,
       });
 
       return assetDetails;

@@ -38,7 +38,7 @@ export default async function RFQEmergencyFundiPage(
             REQ0021
         </Title>
     
-        {/* <ProfessionalAvailability /> */}
+        
         <RequestDetails requestDetails={requestDetails}  />
     </>
   )
