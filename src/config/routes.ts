@@ -32,7 +32,7 @@ export const routes = {
     organization: '/admin/registers/customer/organization',
     fundi: '/admin/registers/fundi',
     professional: '/admin/registers/professionals',
-    contractor: '/admin/registers/contractor',
+    contractor: '/admin/registers/contractors',
     requisitions: '/admin/registers/requisitions',
     customerRequisitions: '/admin/registers/requisitions/customer',
     assignServiceProvider: '/admin/assign-service-provider',

@@ -200,6 +200,7 @@ export default function EditProfileContactDetails({
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
           profession: userDetails.metadata.profession,
+          contractor: userDetails.metadata.contractor,
           level,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,

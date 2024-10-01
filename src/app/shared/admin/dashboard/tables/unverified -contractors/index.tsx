@@ -21,7 +21,7 @@ const filterState = {
   status: '',
 };
 
-export default function AllProfessionalsTable({
+export default function UnverifiedContractorsTable({
   className,
   fundis,
   title,
