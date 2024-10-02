@@ -52,6 +52,7 @@ export default async function JobDetailsPage({
   return (
     <>
       <ActiveJobDetails
+        customerRequest={customerRequest}
         totalAmount={totalAmount}
         fundiDetails={fundiDetails}
         requestDetails={requestDetails}

@@ -15,7 +15,13 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContractorRequisitionsTable({ className, requestDetails }: { className?: string, requestDetails: any }) {
+export default function ContractorRequisitionsTable({
+  className,
+  requestDetails,
+}: {
+  className?: string;
+  requestDetails: any;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -37,6 +43,8 @@ export default function ContractorRequisitionsTable({ className, requestDetails 
         id: any;
         createdDate: any;
         metadata: {
+          contractor: string;
+          subCategory: string;
           category: string;
           packageType: string;
           county: string;
@@ -52,7 +60,10 @@ export default function ContractorRequisitionsTable({ className, requestDetails 
       id: requestDetails.id,
       date: requestDetails.createdDate, // Extract date from createdDate
       category: requestDetails.metadata.category || 'Contractor', // Use a default value
-      subCategory: requestDetails.metadata.skill || '', // Map 'packageType' to 'subCategory'
+      subCategory:
+        requestDetails.metadata.skill ||
+        requestDetails.metadata.contractor ||
+        '', // Map 'packageType' to 'subCategory'
       requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
       county: requestDetails.metadata.county || '', // Map 'county'
       subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
@@ -60,8 +71,6 @@ export default function ContractorRequisitionsTable({ className, requestDetails 
       requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
     })
   );
-  
-
 
   const {
     isLoading,

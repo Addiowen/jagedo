@@ -15,7 +15,13 @@ const filterState = {
   date: [null, null],
   status: '',
 };
-export default function ContractorQuotationsTable({ className, quotationData }: { className?: string, quotationData: any }) {
+export default function ContractorQuotationsTable({
+  className,
+  quotationData,
+}: {
+  className?: string;
+  quotationData: any;
+}) {
   const [pageSize, setPageSize] = useState(7);
 
   const onHeaderCellClick = (value: string) => ({
@@ -29,13 +35,13 @@ export default function ContractorQuotationsTable({ className, quotationData }: 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  
   const transformedRequests = quotationData.map(
     (
       requestDetails: {
         id: any;
         createdDate: any;
         metadata: {
+          contractor: string;
           category: string;
           packageType: string;
           county: string;
@@ -51,7 +57,10 @@ export default function ContractorQuotationsTable({ className, quotationData }: 
       id: requestDetails.id,
       date: requestDetails.createdDate, // Extract date from createdDate
       category: requestDetails.metadata.category || 'Contractor', // Use a default value
-      subCategory: requestDetails.metadata.profession || '', // Map 'packageType' to 'subCategory'
+      subCategory:
+        requestDetails.metadata.profession ||
+        requestDetails.metadata.contractor ||
+        '', // Map 'packageType' to 'subCategory'
       requestType: `${requestDetails.metadata.packageType}` || '', // Construct 'requestType'
       county: requestDetails.metadata.county || '', // Map 'county'
       subCounty: requestDetails.metadata.subCounty || '', // Map 'subCounty'
@@ -59,7 +68,6 @@ export default function ContractorQuotationsTable({ className, quotationData }: 
       requestTypeId: requestDetails.id, // No direct mapping, using id as requestTypeId
     })
   );
-  
 
   const {
     isLoading,
