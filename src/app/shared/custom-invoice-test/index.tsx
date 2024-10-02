@@ -37,6 +37,8 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({quotationDetails}) =
 
   const searchParams = useSearchParams();
   const transactionId = searchParams.get('id') as string;
+  const messageId = searchParams.get('messageId') as string;
+  const routeAfterPayment = messageId?`${routes.customers.active}?transactionId=${transactionId}`:`${routes.customers.requisitions}?transactionId=${transactionId}`
 
   const router = useRouter();
 
@@ -101,7 +103,7 @@ const InvoiceComponent: React.FC<InvoiceComponentProps> = ({quotationDetails}) =
 
   const requestType = requestDetails?.metadata.packageType;
   const managed = requestDetails?.metadata.managed;
-  const linkageFee = requestDetails?.metadata.amount;
+  const linkageFee = Number(requestDetails?.metadata.amount);
 
   // Retrieve the user's role from sessionStorage
   const userRole = session?.user.role; // Ensure this is set correctly elsewhere in your application
@@ -124,6 +126,12 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
 
   const paidRequest = {
     status: 'paid',
+    metadata: {
+      amount: linkageFee,
+    },
+  };
+  const professionalPaidRequest = {
+    status: 'active',
     metadata: {
       amount: linkageFee,
     },
@@ -198,24 +206,36 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
         `${process.env.NEXT_PUBLIC_DOMAIN}/stkpush`,
         {
           phoneNumber: `254${phoneNumber.slice(1)}`, // Convert to international format
-          amount: linkageFee,
+          amount: grandTotal,
           accountReference: transactionId,
         }
       );
 
       const { success, message, data } = mpesaResponse.data;
-
+      let res;
       if (success) {
         toast.success('Payment Successful');
-        const res = await axios.patch(
-          `${BASE_URL}/transactions/${transactionId}`,
-          paidRequest,
-          {
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-            },
-          }
-        );
+        if(messageId){
+          res = await axios.patch(
+            `${BASE_URL}/transactions/${transactionId}`,
+            professionalPaidRequest,
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+        } else {
+          res = await axios.patch(
+            `${BASE_URL}/transactions/${transactionId}`,
+            paidRequest,
+            {
+              headers: {
+                Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
+              },
+            }
+          );
+        }
 
         const transactionDetails = res.data;
         console.log(transactionDetails, 'transactionDetails');
@@ -225,7 +245,7 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
           router.refresh();
           setPaymentStatus('Paid');
           router.push(
-            `${routes.customers.requisitions}?transactionId=${transactionId}`
+            routeAfterPayment
           );
         }
       } else {
@@ -297,6 +317,12 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
   
     return `${day}${suffix(day)}-${month}-${year}`;
   };
+
+  const totalAmount: number = quotationExpenses.reduce((total:number, quotation: { amount: number }) => {
+    return total + quotation.amount;
+  }, 0);
+  
+  const grandTotal = linkageFee + totalAmount;
 
   return (
     <div className="p-6">
@@ -372,6 +398,8 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
         </div>
 
         {/* Table */}
+
+        
         <table className="mb-6 w-full border border-gray-300">
     <thead>
       <tr className="bg-gray-100">
@@ -394,8 +422,6 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
 
 }
       <tr>
-
-
       <td className="border border-gray-300 p-2">Linkage Fee</td>
           <td className="border border-gray-300 p-2 text-right">{linkageFee}</td>
           <td className="border border-gray-300 p-2 text-right">00</td>
@@ -415,7 +441,7 @@ const professionalFee = quotationDetails?.metadata?.thirdTable.professionalFees 
 
         {/* Summary */}
         <div className="mb-6 text-right">
-          <p>Total (KES): {linkageFee}</p>
+          <p>Total (KES): {grandTotal}</p>
           <p>VAT 0%: 00</p>
           <p className="font-bold">Total including VAT (KES): {linkageFee}</p>
         </div>
