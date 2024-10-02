@@ -5,6 +5,7 @@ import cn from '@/utils/class-names';
 import ActiveJobDetails from '.';
 import {
   fetchCustomerDetails,
+  fetchQuotation,
   fetchUserTransaction,
   getRequestDetails,
 } from '@/lib/transaction.helper';
@@ -29,6 +30,14 @@ export default async function JobDetailsPage({
 
   console.log(customerRequest, 'customerRequest');
 
+  const quotationId = customerRequest.metadata.quotations[0];
+
+  const quotationDetails = await fetchQuotation(quotationId);
+
+  console.log(quotationDetails, 'quotationDetails');
+
+  const totalAmount = quotationDetails.metadata.thirdTable.professionalFees;
+
   // Fetch customer details using takerId from the customerRequest
   const customerDetails = customerRequest
     ? await fetchCustomerDetails(customerRequest.takerId)
@@ -43,6 +52,7 @@ export default async function JobDetailsPage({
   return (
     <>
       <ActiveJobDetails
+        totalAmount={totalAmount}
         fundiDetails={fundiDetails}
         requestDetails={requestDetails}
         className={''}

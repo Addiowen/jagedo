@@ -43,10 +43,6 @@ const personalKeys = [
   'Gender',
   'Email Address',
   'Phone Number',
-  'County',
-  'Sub County',
-  'Estate',
-  'Approval Status',
 ];
 
 export default function EditAdminProfileContactDetails({
@@ -182,6 +178,8 @@ export default function EditAdminProfileContactDetails({
     }
   };
 
+  console.log(userDetails);
+
   const contractor = pathname.includes('contractor');
   const isAdmin = pathname.includes('admin');
   const isCustomer =
@@ -226,8 +224,6 @@ export default function EditAdminProfileContactDetails({
       <Tab>
         <Tab.List>
           <Tab.ListItem>Personal Details</Tab.ListItem>
-          <Tab.ListItem>Account Details</Tab.ListItem>
-          <Tab.ListItem>Uploads</Tab.ListItem>
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>

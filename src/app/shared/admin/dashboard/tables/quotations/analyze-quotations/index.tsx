@@ -310,9 +310,9 @@ export default function AnalyzeQuotationsTable({
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <div className="mx-auto max-w-lg rounded-lg bg-white p-8 text-center shadow-lg">
           <p className="text-1xl mb-6 text-gray-600">
-            "Are you sure you want to submit this quotation? Please review the
+            Are you sure you want to submit this quotation? Please review the
             details before proceeding. Once submitted, this quotation will be
-            sent to the customer for approval."
+            sent to the customer for approval.
           </p>
           <Button
             isLoading={loading}

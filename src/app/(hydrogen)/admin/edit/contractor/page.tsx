@@ -2,9 +2,6 @@ import { metaObject } from '@/config/site.config';
 import EditProfileContactDetails from '@/app/shared/service-provider/profile/edit-profile';
 import PageHeader from '@/app/shared/commons/page-header';
 import apiRequest from '@/lib/apiService';
-import EditAdminProfileContactDetails from '@/app/shared/admin/admin-profile/edit-profile';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
 
 export const metadata = {
   ...metaObject('Profile View'),
@@ -28,20 +25,11 @@ export default async function EditProfileContactDetailsPage({
 }: {
   searchParams: any;
 }) {
-  const session = await getServerSession(authOptions);
-
-  const userId = session?.user.id;
-
-  if (!userId) {
-    throw Error('No user Id found');
-  }
-
-  console.log(session, 'the session');
   const fetchUserDetails = async () => {
     try {
       const userDetails = await apiRequest({
         method: 'GET',
-        endpoint: `/users/${userId}`,
+        endpoint: `/users/${searchParams.id}`,
       });
       return userDetails;
     } catch (error) {
@@ -51,6 +39,7 @@ export default async function EditProfileContactDetailsPage({
   };
 
   const user = await fetchUserDetails();
+  console.log(user, 'userDetails');
 
   return (
     <>
@@ -58,8 +47,8 @@ export default async function EditProfileContactDetailsPage({
         title={pageHeader.title}
         breadcrumb={pageHeader.breadcrumb}
       ></PageHeader>
-      <EditAdminProfileContactDetails
-        editProfileId={userId}
+      <EditProfileContactDetails
+        editProfileId={searchParams.id}
         userDetails={user}
       />
     </>

@@ -27,7 +27,7 @@ import {
 } from '@/app/shared/custom-sign-up/fundi-fields/data';
 
 // import { useRouter } from 'next/navigation';
-import CategoriesTable from './categories-table';
+import CategoriesTable from '@/app/shared/service-provider/profile/create-profile/contractor/categories-table';
 import { useState } from 'react';
 import { counties } from '@/data/counties';
 import { routes } from '@/config/routes';
@@ -43,7 +43,7 @@ const Select = dynamic(() => import('rizzui').then((mod) => mod.Select), {
   ),
 });
 
-export default function CreateContractorProfileForm({
+export default function EditContractorProfileForm({
   userDetails,
 }: {
   userDetails?: any;
@@ -100,14 +100,14 @@ export default function CreateContractorProfileForm({
         email: data.email,
 
         metadata: {
-          approvalStatus: 'pending',
-          profileCreated: true,
           county: data.county,
           gender: data.gender,
+          companyName: data.companyName,
           subCounty: data.subCounty,
           estate: data.estate,
           phoneNo: data.phoneNo,
           phone: data.phoneNo,
+          companyNumber: data.companyNumber,
           registrationNumber: data.registrationNumber,
           categoriesTable: data.categoriesTable,
         }, // Add the pin from the form if applicable
@@ -129,21 +129,6 @@ export default function CreateContractorProfileForm({
       // Handle the response or redirect after successful update
       if (userDetailsRes) {
         console.log(userDetailsRes, 'user details');
-
-        const profileUpdateRes = await axios.post(
-          `${process.env.NEXT_PUBLIC_DOMAIN}/sendUserProfileUpdate`,
-          userDetailsRes.data,
-          {
-            headers: {
-              Authorization: process.env.NEXT_PUBLIC_SECRET_AUTH_TOKEN,
-            },
-          }
-        );
-
-        console.log(
-          'Second request - Profile update response:',
-          profileUpdateRes.data
-        );
 
         // Refresh the session data
 
@@ -207,6 +192,7 @@ export default function CreateContractorProfileForm({
                     error={errors.firstName?.message}
                     className="[&>label>span]:font-medium"
                   />
+
                   <Input
                     placeholder="Last Name"
                     label="Last Name"
@@ -219,24 +205,14 @@ export default function CreateContractorProfileForm({
 
                   <Input
                     type="email"
-                    placeholder=" Email Address"
-                    label=" Email Address"
+                    placeholder="Email Address"
+                    label="Email Address"
                     size="lg"
                     inputClassName="text-sm"
                     {...register('email')}
                     error={errors.email?.message}
                     className="[&>label>span]:font-medium"
                   />
-
-                  {/* <Input
-                    placeholder="Company Number"
-                    label="Company Number"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('companyNumber')}
-                    error={errors.companyNumber?.message}
-                    className="[&>label>span]:font-medium"
-                  /> */}
 
                   <Input
                     placeholder="Registration Number"
@@ -247,26 +223,6 @@ export default function CreateContractorProfileForm({
                     error={errors.registrationNumber?.message}
                     className="[&>label>span]:font-medium"
                   />
-
-                  {/* <Input
-                    placeholder="Contact Person First Name"
-                    label="Contact Person First Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('firstName')}
-                    error={errors.firstName?.message}
-                    className="[&>label>span]:font-medium"
-                  />
-
-                  <Input
-                    placeholder="Contact Person Last Name"
-                    label="Contact Person Last Name"
-                    size="lg"
-                    inputClassName="text-sm"
-                    {...register('lastName')}
-                    error={errors.lastName?.message}
-                    className="[&>label>span]:font-medium"
-                  /> */}
 
                   <Input
                     placeholder="Phone Number"

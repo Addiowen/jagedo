@@ -20,17 +20,6 @@ import Link from 'next/link';
 import { PiArrowDown, PiDownloadDuotone, PiPlusBold } from 'react-icons/pi';
 import ChunkedGrid from '../../custom-chunked-grid';
 
-const data = [
-  {
-    'Job No': '#A940312',
-  },
-  {
-    Location: 'Kome,Homabay',
-  },
-];
-
-const specData = [{}];
-
 export default function ReportComponent({
   className,
   requestDetails,

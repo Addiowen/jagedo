@@ -43,7 +43,6 @@ const ChunkedGrid: React.FC<Props> = ({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
-
   console.log('attachementsDetails', attachementsDetails);
   const uploadsData = attachementsDetails.Uploads;
 
@@ -63,6 +62,10 @@ const ChunkedGrid: React.FC<Props> = ({
   // console.log(dataArray)
 
   // Helper function to chunk the data into subarrays of a specified size
+
+  const filteredData = Object.entries(data).filter(
+    ([key]) => key !== 'AdminUploads'
+  );
   const chunkArray = (
     array: [string, string | string[]][],
     chunkSize: number
@@ -75,7 +78,7 @@ const ChunkedGrid: React.FC<Props> = ({
   };
 
   // Chunk data into subarrays of 4
-  const chunkedData = chunkArray(dataArray, dataChunkSize);
+  const chunkedData = chunkArray(filteredData, dataChunkSize);
 
   return (
     <div className="rounded-lg border border-gray-300 bg-gray-0 p-5 dark:bg-gray-50 sm:rounded-sm lg:rounded-xl lg:p-7 xl:rounded-2xl">

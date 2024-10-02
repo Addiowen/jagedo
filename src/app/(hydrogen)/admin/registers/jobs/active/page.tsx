@@ -31,8 +31,12 @@ export default async function ActiveJobs() {
         number: index + 1,
         id: item.id || '',
         date: item.createdDate || '',
-        category: 'Fundi',
-        subCategory: item.metadata?.skill || '',
+        category: item.metadata.category || '',
+        subCategory:
+          item.metadata?.skill ||
+          item.metadata?.profession ||
+          item.metadata?.contractor ||
+          '',
         requestType: `${item.metadata?.packageType}` || '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',

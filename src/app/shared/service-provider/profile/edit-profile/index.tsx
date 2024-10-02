@@ -139,11 +139,11 @@ export default function EditProfileContactDetails({
       if (pathname.includes('service-provider')) {
         if (pathname.includes('contractor')) {
           router.push(
-            `${routes.serviceProvider.contractor.profile}?profileId=${editProfileId}`
+            `${routes.serviceProvider.contractor.editContractorProfile}?profileId=${editProfileId}`
           );
         } else if (pathname.includes('professional')) {
           router.push(
-            `${routes.serviceProvider.professional.profile}?profileId=${editProfileId}`
+            `${routes.serviceProvider.professional.editProfessionalProfile}?profileId=${editProfileId}`
           );
         } else if (pathname.includes('fundi')) {
           router.push(
@@ -177,14 +177,14 @@ export default function EditProfileContactDetails({
     setIsApproving(true);
     try {
       let assetName = 'Fundi';
-      let assetCategoryId = localIds.FUNDI_CATEGORYID;
+      let assetCategoryId = ProdIds.CATEGORYID;
 
       if (pathname.includes('professional')) {
         assetName = 'Professional';
-        assetCategoryId = localIds.PROFESSIONAL_CATEGORYID;
+        assetCategoryId = ProdIds.CATEGORYID;
       } else if (pathname.includes('contractor')) {
         assetName = 'Contractor';
-        assetCategoryId = localIds.CONTRACTOR_CATEGORYID;
+        assetCategoryId = ProdIds.CATEGORYID;
       }
 
       const assetPayload = {
@@ -200,6 +200,7 @@ export default function EditProfileContactDetails({
           county: userDetails.metadata.county,
           skill: userDetails.metadata.skill,
           profession: userDetails.metadata.profession,
+          contractor: userDetails.metadata.contractor,
           level,
           lastName: userDetails.metadata.lastname,
           firstName: userDetails.metadata.firstname,

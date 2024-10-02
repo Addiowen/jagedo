@@ -1,3 +1,4 @@
+import ViewContractorQuotationComponent from '@/app/(hydrogen)/admin/quotations/view-quotation/contractor';
 import { requisitions } from '@/data/job-data';
 
 export const routes = {
@@ -31,7 +32,7 @@ export const routes = {
     organization: '/admin/registers/customer/organization',
     fundi: '/admin/registers/fundi',
     professional: '/admin/registers/professionals',
-    contractor: '/admin/registers/contractor',
+    contractor: '/admin/registers/contractors',
     requisitions: '/admin/registers/requisitions',
     customerRequisitions: '/admin/registers/requisitions/customer',
     assignServiceProvider: '/admin/assign-service-provider',
@@ -85,6 +86,7 @@ export const routes = {
     contractorQuotation: '/customers/contractor-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/rfq',
+    fundiViewDetails: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',
     downloadInvoice: '/customers/invoice-download',
     jobs: '/customers/jobs',
@@ -167,6 +169,8 @@ export const routes = {
     professional: {
       dashboard: '/service-provider/professional/dashboard',
       editProfile: '/service-provider/professional/edit-profile',
+      editProfessionalProfile: '/service-provider/professional/edit-profile',
+
       viewProfile: '/service-provider/professional/view-profile',
 
       // requisitions
@@ -202,7 +206,9 @@ export const routes = {
 
     contractor: {
       dashboard: '/service-provider/contractor/dashboard',
-
+      editContractorProfile: '/service-provider/contractor/edit-profile',
+      ViewContractorProfile:
+        '/service-provider/contractor/profile/view-profile',
       // requisitions
       requisitions: '/service-provider/contractor/requisitions',
       requisitionDetails: '/service-provider/contractor/requisitions/details',

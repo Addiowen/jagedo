@@ -134,29 +134,29 @@ export const BILL_VIEW_VALUE = [
 
 export const MILESTONES_TABLE_DEFAULT_VALUE = [
   {
-  milestone: 'A',
-  percentageDisbursement: 25,
-  milestoneActivity: 'First Draft',
-  amount: 0,
-},
-{
-  milestone: 'B',
-  percentageDisbursement: 25,
-  milestoneActivity: 'Second Draft',
-  amount: 0,
-},
-{
-  milestone: 'C',
-  percentageDisbursement: 25,
-  milestoneActivity: 'Third Draft',
-  amount: 0,
-},
-{
-  milestone: 'D',
-  percentageDisbursement: 25,
-  milestoneActivity: 'Final Draft',
-  amount: 0,
-},
+    milestone: 'A',
+    percentageDisbursement: 25,
+    milestoneActivity: 'First Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'B',
+    percentageDisbursement: 25,
+    milestoneActivity: 'Second Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'C',
+    percentageDisbursement: 25,
+    milestoneActivity: 'Third Draft',
+    amount: 0,
+  },
+  {
+    milestone: 'D',
+    percentageDisbursement: 25,
+    milestoneActivity: 'Final Draft',
+    amount: 0,
+  },
 ];
 
 export const MILESTONES_TABLE_DEFAULT_VALUES = {
@@ -222,7 +222,6 @@ export const MILESTONES_TABLE_DEFAULT_VALUES = {
   ],
 };
 
-
 export const MILESTONES_TABLE_DEFAULT_VALUE_THREE = [
   {
     milestone: 'A',
@@ -259,7 +258,7 @@ export const MILESTONES_TABLE_DEFAULT_VALUE_ONE = [
     percentageDisbursement: 50,
     milestoneActivity: 'Second Draft',
     amount: 0,
-  }
+  },
 ];
 
 export const MILESTONES_TABLE_DEFAULT_VALUE_FOUR = [
@@ -297,7 +296,7 @@ export const ATTACHMENTS_TABLE_DEFAULT_VALUE = [
 ];
 
 export const CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE = {
-  bill: Bill_TABLE_DEFAULT_VALUE,
+  bill: [],
   milestonesTable: [],
   milestonesTable2: [],
   milestonesTable3: [],

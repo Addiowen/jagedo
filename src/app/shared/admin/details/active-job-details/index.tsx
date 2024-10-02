@@ -34,23 +34,19 @@ import { useUrls } from '@/app/context/urlsContext';
 
 export default function ActiveJobDetailsCard({
   requestDetails,
+  totalAmount,
   statusValue,
 }: {
+  totalAmount: number;
   requestDetails: any;
   statusValue: string;
 }) {
   // const router = useRouter();
   const searchParams = useSearchParams();
-  const { urls, addUrl } = useUrls();
 
   const jobId = searchParams.get('id');
 
-  const storedUrls = sessionStorage.getItem('adminUploadedUrls');
-
   // Safely parse the value, ensuring it's treated as an array of strings
-  const adminUploadedUrls: string[] = storedUrls
-    ? (JSON.parse(storedUrls) as string[])
-    : [];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +54,8 @@ export default function ActiveJobDetailsCard({
     return url.substring(url.lastIndexOf('/') + 1);
   };
 
-  const uploadsData = requestDetails.Uploads;
+  const adminUploadedUrls = requestDetails?.AdminUploads || [];
+  const category = requestDetails.Category;
 
   const structuredAttachments = adminUploadedUrls.map((url: string) => ({
     name: getFileNameFromUrl(url),
@@ -81,7 +78,11 @@ export default function ActiveJobDetailsCard({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <ProgressBarActive statusValue={statusValue} />
+            <ProgressBarActive
+              totalAmount={totalAmount}
+              category={category}
+              statusValue={statusValue}
+            />
             <h4 className="mb-4">Add Attachments</h4>
             <AdminFileUpload />
 

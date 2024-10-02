@@ -18,31 +18,13 @@ export const metadata = {
 const fetchUserAssetDetails = async () => {
   try {
     const session = await getServerSession(authOptions);
-    console.log(session, 'professional session');
 
     if (!session || !session.user) {
+      // throw new Error('User not authenticated');
       toast.error('User not authenticated');
     }
 
     const assetId = session?.user?.metadata?.assetId;
-
-    if (!assetId) {
-      return (
-        <Alert variant="flat" color="warning">
-          <Text className="font-semibold">Unverified</Text>
-          <Text>
-            Verification pending! Please{' '}
-            <Link
-              className="text-blue-500 underline"
-              href={routes.serviceProvider.contractor.profile}
-            >
-              complete your profile
-            </Link>{' '}
-            to request approval.
-          </Text>
-        </Alert>
-      );
-    }
 
     const assetDetails = await apiRequest({
       method: 'GET',
@@ -69,12 +51,14 @@ export default async function RequisitionsPage() {
   const session = await getServerSession(authOptions);
 
   const approvalStatus = session?.user.metadata.approvalStatus;
+  console.log(approvalStatus, 'approvalStatus');
 
   const asset = await fetchUserAssetDetails();
 
   // Use optional chaining to safely access metadata
   const bookingRequests = asset?.metadata?.bookingRequests;
   console.log(bookingRequests, 'bookingRequests');
+
   if (approvalStatus === 'pending') {
     return (
       <Alert variant="flat" color="warning">
@@ -83,25 +67,6 @@ export default async function RequisitionsPage() {
       </Alert>
     );
   }
-  if (!asset || !asset.metadata) {
-    return (
-      <Alert variant="flat" color="warning">
-        <Text className="font-semibold">Unverified</Text>
-        <Text>
-          Verification pending! Please{' '}
-          <Link
-            className="text-blue-500 underline"
-            href={routes.serviceProvider.fundi.profile}
-          >
-            complete your profile
-          </Link>{' '}
-          to request approval.
-        </Text>
-      </Alert>
-    );
-  }
-
-  console.log(asset.metadata, 'metadata');
 
   const fetchRequestDetails = async () => {
     if (!bookingRequests) {
@@ -110,10 +75,6 @@ export default async function RequisitionsPage() {
     }
 
     try {
-      // const assetDetails = await apiRequest({
-      //   method: 'GET',
-      //   endpoint: `/transactions?status=assigned&id[]=${bookingRequests}`,
-      // });
       const assetDetails = await apiRequest({
         method: 'GET',
         endpoint: `/transactions?status=assigned,assigned+quotation&id=${bookingRequests}`,
@@ -129,6 +90,7 @@ export default async function RequisitionsPage() {
 
   const receivedRequests = await fetchRequestDetails();
   console.log(receivedRequests, 'received requests');
+
   return (
     <>
       {/* <Title as="h4" className="mb-3.5 font-semibold @2xl:mb-5 pb-5">
@@ -138,10 +100,11 @@ export default async function RequisitionsPage() {
       <div className="@container">
         <div className="grid grid-cols-1 gap-6 @4xl:grid-cols-2 @7xl:grid-cols-12 3xl:gap-8">
           <ContractorRequisitionsTable
-          requestDetails={receivedRequests}  className="relative @4xl:col-span-12  @7xl:col-span-8" />
+            requestDetails={receivedRequests}
+            className="relative @4xl:col-span-12  @7xl:col-span-8"
+          />
         </div>
       </div>
     </>
-  )
-  
+  );
 }
