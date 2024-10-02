@@ -13,93 +13,113 @@ import { routes } from '@/config/routes';
 import { useState } from 'react';
 import Timeline from '../../commons/timeline';
 
-const timelineData = [
-  {
-    title: 'Start',
-    text: '',
-    hightlightedText: '',
-    date: 'April 29, 2023',
-    time: '05:31 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Milestone 1',
-    text: 'Wall Escavations',
-    hightlightedText: '',
-    date: 'May 02, 2023',
-    time: '09:00 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-  {
-    title: 'Milestone 2',
-    text: 'Reinforcements',
-    hightlightedText: '',
-    date: 'May 02, 2023',
-    time: '11:00 am',
-    icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-    status: 'ongoing',
-  },
-
-  {
-    title: 'Stop',
-    text: '',
-    hightlightedText: '',
-    date: 'May 29, 2023',
-    time: '05:31 am',
-    icon: '',
-    status: '',
-  },
-];
-
 export default function ProgressBarActive({
   className,
+  category,
+  totalAmount,
   statusValue,
 }: {
+  totalAmount: number;
+  category?: string;
   className?: string;
   statusValue: string;
 }) {
   const [modalState, setModalState] = useState(false);
   const searchParams = useSearchParams();
 
-  const fundiTimelineData = [
-    {
-      title: 'Start',
-      text: '',
-      hightlightedText: '',
-      date: 'April 15, 2024',
-      time: '05:31 am',
-      icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
-      status: 'ongoing',
-    },
-    {
-      title: 'Stop',
-      text: '',
-      hightlightedText:
-        statusValue === 'approved' ||
-        statusValue === 'reviewed' ||
-        statusValue === 'partially reviewed'
-          ? 'Approved'
-          : statusValue === 'active'
-            ? 'Ongoing'
-            : 'Waiting Approval',
-      date: 'April 16, 2024',
-      time: '05:31 am',
-      icon: (
-        <PiCheckCircle
-          className={`h-6 w-6 ${
-            statusValue === 'approved' || statusValue === 'reviewed'
-              ? 'text-green'
-              : statusValue === 'active'
-                ? 'text-blue'
-                : 'text-orange'
-          }`}
-        />
-      ),
-      status: statusValue,
-    },
-  ];
+  let timelineData: any = [];
+  if (category === 'professional') {
+    const getTimelineData = (amount: number) => {
+      // Determine the number of milestones based on the amount
+      let milestones = 0;
+      if (amount < 1000000) {
+        milestones = 2;
+      } else if (amount >= 1000000 && amount <= 6000000) {
+        milestones = 3;
+      } else if (amount > 6000000) {
+        milestones = 4;
+      }
+
+      // Start with the initial data
+      const timelineData = [
+        {
+          title: 'Start',
+          text: '',
+          hightlightedText: '',
+          date: 'April 29, 2023',
+          time: '05:31 am',
+          icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+          status: 'ongoing',
+        },
+      ];
+
+      // Dynamically add the milestones
+      for (let i = 1; i <= milestones; i++) {
+        timelineData.push({
+          title: `Milestone ${i}`,
+          text: '',
+          hightlightedText: '',
+          date: `May 0${i + 1}, 2023`, // Adjust dates as per your logic
+          time: `${9 + i}:00 am`,
+          icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+          status: 'ongoing',
+        });
+      }
+
+      // Add the stop point
+      timelineData.push({
+        title: 'Stop',
+        text: '',
+        hightlightedText: '',
+        date: 'May 29, 2023',
+        time: '05:31 am',
+        icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+        status: 'ongoing',
+      });
+
+      return timelineData;
+    };
+
+    timelineData = getTimelineData(totalAmount);
+  } else if (category === 'fundi') {
+    timelineData = [
+      {
+        title: 'Start',
+        text: '',
+        hightlightedText: '',
+        date: 'April 15, 2024',
+        time: '05:31 am',
+        icon: <PiCheckCircle className="h-6 w-6 text-blue" />,
+        status: 'ongoing',
+      },
+      {
+        title: 'Stop',
+        text: '',
+        hightlightedText:
+          statusValue === 'approved' ||
+          statusValue === 'reviewed' ||
+          statusValue === 'partially reviewed'
+            ? 'Approved'
+            : statusValue === 'active'
+              ? 'Ongoing'
+              : 'Waiting Approval',
+        date: 'April 16, 2024',
+        time: '05:31 am',
+        icon: (
+          <PiCheckCircle
+            className={`h-6 w-6 ${
+              statusValue === 'approved' || statusValue === 'reviewed'
+                ? 'text-green'
+                : statusValue === 'active'
+                  ? 'text-blue'
+                  : 'text-orange'
+            }`}
+          />
+        ),
+        status: statusValue,
+      },
+    ];
+  }
 
   const jobId = searchParams.get('id');
 
@@ -129,7 +149,7 @@ export default function ProgressBarActive({
 
         <div className="-ml-20 mb-4 mt-12 flex flex-col rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl ">
           <div className="w-full max-w-screen-lg">
-            <Timeline data={fundiTimelineData} order="desc" />
+            <Timeline data={timelineData} order="desc" />
           </div>
 
           {/* <div className=''>     

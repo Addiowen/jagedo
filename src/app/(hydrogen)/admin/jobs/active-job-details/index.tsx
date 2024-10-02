@@ -17,6 +17,7 @@ type PageProps = {
   className: string;
   requestDetails: any;
   fundiDetails: any;
+  totalAmount: number;
   // other props as needed
 };
 
@@ -24,6 +25,7 @@ export default function ActiveJobDetails({
   className,
   requestDetails,
   fundiDetails,
+  totalAmount,
 }: PageProps) {
   const [modalState, setModalState] = useState(false);
   const [approvalModalState, setApprovalModalState] = useState(false);
@@ -34,7 +36,7 @@ export default function ActiveJobDetails({
   const jobId = getparams.get('id');
 
   console.log(requestDetails.Status);
-  console.log(requestDetails);
+  console.log(requestDetails, totalAmount);
 
   const handleCompleteMilestone = async () => {
     setLoading(true); // Show loader
@@ -157,6 +159,7 @@ export default function ActiveJobDetails({
         className={cn('xl:gap-15 grid grid-cols-1 lg:grid-cols-1', className)}
       >
         <ActiveJobDetailsCard
+          totalAmount={totalAmount}
           key={status} // Forces re-render when status changes
           statusValue={status}
           requestDetails={requestDetails}

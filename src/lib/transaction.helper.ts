@@ -15,6 +15,19 @@ export const fetchUserTransaction = async (requestId: string) => {
   }
 };
 
+export const fetchQuotation = async (quoteId: string) => {
+  try {
+    const userQuotation = await apiRequest({
+      method: 'GET',
+      endpoint: `/messages/${quoteId}`,
+    });
+    return userQuotation;
+  } catch (error) {
+    console.error('Failed to fetch quotation details:', error);
+    return null;
+  }
+};
+
 // Fetch customer details based on the takerId
 export const fetchCustomerDetails = async (takerId: string) => {
   try {
