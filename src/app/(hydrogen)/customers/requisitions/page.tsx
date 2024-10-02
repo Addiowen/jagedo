@@ -47,7 +47,7 @@ export default async function Requisitions() {
         id: item.id || '',
         date: item.createdDate || '',
         category: item.metadata.category,
-        subCategory: item.metadata?.skill || '',
+        subCategory: item.metadata?.skill || item.metadata?.professional || item.metadata?.contractor ||  '',
         requestType: `${item.metadata?.packageType}` || '',
         description: item.metadata?.description || '',
         location: item.metadata?.village || '',
