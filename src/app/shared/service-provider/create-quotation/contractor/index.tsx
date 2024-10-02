@@ -95,7 +95,7 @@ export default function CreateContractorQuotationComponent(
       }
     );
     console.log(transactionRes, 'transactionRes');
-    
+    router.push(routes.serviceProvider.contractor.quotations);
   };
 
   const handleRedirect = () => router.push(routes.serviceProvider.contractor.quotations)
@@ -116,7 +116,7 @@ export default function CreateContractorQuotationComponent(
     <>
       <CustomMultiStepComponent<CreateContractorQuotationType>
           validationSchema={createContractorQuotationSchema}
-          onSubmit={onSubmit1}
+          onSubmit={onSubmit}
           useFormProps={{
             mode: 'onChange',
             defaultValues: {

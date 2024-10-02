@@ -50,7 +50,7 @@ export default async function QuotationDetailsPage(
     
     const quotationDetails = await fetchQuotationDetails(session?.user?.metadata?.assetId, requestDetails?.id);
   
-    console.log(quotationDetails, 'quotationDetails');
+    console.log(quotationDetails.metadata, 'quotationDetails');
 
     
   return (

@@ -132,15 +132,7 @@ export default function ViewBill() {
                                                         value={`Bill No. ${index + 1} :`}
                                                     /> */}
                                                     <p className='px-4 mb-4 font-semibold text-lg'>Bill No. {secondHalfInitIndex} :</p>
-                                                    <p className='font-semibold text-lg'>{ field.billTableTitle }</p>
-                                                
-
-
-                                                    {/* <QuoteInput
-                                                        inputClassName="[&_input]:text-gray-700 font-semibold text-lg mb-4"
-                                                        placeholder="Enter title"
-                                                        {...register(`bill.${index}.billTableTitle`)}
-                                                    /> */}
+                                                    <p className='font-semibold text-lg'>{ field.billTableTitle }</p>                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -173,56 +165,8 @@ export default function ViewBill() {
                 </Tab.Panel>
             </Tab.Panels>
         </Tab>
-        {/* <Collapse
-            defaultOpen={false}
-            className={cn('py-5 md:py-7')}
-            header={({ open, toggle }) => (
-            <button
-                type="button"
-                onClick={toggle}
-                className="flex w-full cursor-pointer items-center justify-between text-left font-lexend text-xl font-semibold text-gray-700"
-            >
-                Bills
-                <PiCaretDownBold
-                className={cn(
-                    'h-5 w-5 -rotate-90 transform transition-transform duration-300 rtl:rotate-90',
-                    open && '-rotate-0 rtl:rotate-0'
-                )}
-                />
-            </button>
-            )}
-        > */}
         <div className='mt-4'></div>
         
-        {/* </Collapse> */}
-
-        {/* {quotationView? (
-            <div className='mt-4'>
-                <p className='text-xl font-semibold text-gray-700'>Bills</p>
-            {values?.bill.map((field: BillType, index: number) => {
-                return (
-                    <Fragment key={`bill-${index}`}>
-                        <div className='mt-4'>
-                            <div className="px-2 pt-6 pb-8 border border-muted rounded-lg sm:rounded-sm lg:rounded-xl xl:rounded-2xl bg-gray-0 dark:bg-gray-50">
-                                <div>
-                                    <div className="flex justify-between">
-                                        <div className="flex">
-                                            <p className='px-4 mb-4 font-semibold text-lg'>Bill No. {index + 1} :</p>
-                                            <p className='font-semibold text-lg'>{ field.billTableTitle }</p>                                       
-                                        </div>
-                                    </div>
-                                </div>
-    
-                            <ViewBillTable index={index} billTableValues={field.billTable} />
-                            </div>
-                        </div>
-                    </Fragment>
-                )
-            })}
-            </div>
-        ) : (
-        
-        )} */}
         
         </>
     )
