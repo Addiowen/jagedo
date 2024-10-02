@@ -177,14 +177,14 @@ export default function EditProfileContactDetails({
     setIsApproving(true);
     try {
       let assetName = 'Fundi';
-      let assetCategoryId = localIds.FUNDI_CATEGORYID;
+      let assetCategoryId = ProdIds.CATEGORYID;
 
       if (pathname.includes('professional')) {
         assetName = 'Professional';
-        assetCategoryId = localIds.PROFESSIONAL_CATEGORYID;
+        assetCategoryId = ProdIds.CATEGORYID;
       } else if (pathname.includes('contractor')) {
         assetName = 'Contractor';
-        assetCategoryId = localIds.CONTRACTOR_CATEGORYID;
+        assetCategoryId = ProdIds.CATEGORYID;
       }
 
       const assetPayload = {
