@@ -16,16 +16,14 @@ export default function ViewContractorQuotationComponent(
   { quotationDetails, quotationId }: { quotationDetails: any; quotationId: string }
 ) {
 
-  console.log(quotationDetails, 'quotationDetails');
+  
   const contractorQuotation = {
     bill: quotationDetails?.metadata.bill,
-    milestonesTable: quotationDetails?.metadata.milestones,
-    milestonesTable2: quotationDetails?.metadata.milestones,
-    milestonesTable3: quotationDetails?.metadata.milestones,
-    attachmentsTable: quotationDetails?.metadata.attachments,
+    milestonesTable: quotationDetails?.metadata.milestonesTable,
+    attachmentsTable: quotationDetails?.metadata.attachmentsTable,
     total: quotationDetails?.metadata.total,
   };
-
+  console.log(contractorQuotation, 'quotationDetails');
   const router = useRouter()
 
   // const pathname = usePathname()

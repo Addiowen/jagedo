@@ -107,7 +107,6 @@ export default function CreateContractorQuotationComponent({
       }
     );
     console.log(transactionRes, 'transactionRes');
-
     router.push(routes.serviceProvider.contractor.quotations);
   };
 
