@@ -3,23 +3,32 @@
 import { Button, Text } from 'rizzui';
 import { Fragment } from 'react';
 import cn from '@/utils/class-names';
-import { DragEndEvent } from '@dnd-kit/core';
-// import { createId } from '@paralleldrive/cuid2';
+import { DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
 import { QuoteInput } from '../quote-forms/quote-input';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import {
+  useFieldArray,
+  UseFieldArrayMove,
+  useFormContext,
+} from 'react-hook-form';
 import { SortableList } from '@/components/dnd-sortable/dnd-sortable-list';
-// import {
-//   PiPlusCircle,
-//   PiTrashBold,
-//   PiArrowsOutCardinalBold,
-// } from 'react-icons/pi';
 
 export default function MilestonesTable() {
   const { control, register, getValues } = useFormContext();
-  let { fields, move, append } = useFieldArray({
-    control: control,
+  const milestonesTable = useFieldArray({
+    control,
     name: 'milestonesTable',
   });
+
+  const milestonesTable2 = useFieldArray({
+    control,
+    name: 'milestonesTable2',
+  });
+
+  const milestonesTable3 = useFieldArray({
+    control,
+    name: 'milestonesTable3',
+  });
+
   const bills = getValues().bill;
 
   bills.forEach((item: { billTable: any[]; subTotal: any }) => {
@@ -28,6 +37,7 @@ export default function MilestonesTable() {
     }, 0);
     item.subTotal = subtotal;
   });
+
   const totalSum = bills.reduce((acc: any, item: { subTotal: any }) => {
     return acc + item.subTotal;
   }, 0);
@@ -35,72 +45,46 @@ export default function MilestonesTable() {
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
     if (!active || !over) return;
-    const oldIndex = fields.findIndex((item) => item.id === active.id);
-    const newIndex = fields.findIndex((item) => item.id === over.id);
+    const oldIndex = fields.findIndex(
+      (item: { id: UniqueIdentifier }) => item.id === active.id
+    );
+    const newIndex = fields.findIndex(
+      (item: { id: UniqueIdentifier }) => item.id === over.id
+    );
     move(oldIndex, newIndex);
   }
 
+  let fields: any[], move: UseFieldArrayMove;
+
   if (totalSum <= 1000) {
-    const newFieldArray = useFieldArray({
-      control: control,
-      name: 'milestonesTable',
-    });
-    fields = newFieldArray.fields;
-    fields = fields.map((field) => {
-      return {
-        ...field,
-        amount: Math.ceil(totalSum / 2),
-        percentageDisbursement: 33.3,
-      };
-    });
+    fields = milestonesTable.fields;
+    move = milestonesTable.move;
     return renderMilestonesTable(
       fields,
       register,
       handleChange,
       'milestonesTable',
-      Math.ceil(totalSum / 2)
+      1
     );
-  } else if (totalSum <= 6000) {
-    const newFieldArray = useFieldArray({
-      control: control,
-      name: 'milestonesTable2',
-    });
-
-    fields = newFieldArray.fields;
-    fields = fields.map((field) => {
-      return {
-        ...field,
-        amount: Math.ceil(totalSum / 3),
-        percentageDisbursement: 33.3,
-      };
-    });
+  } else if (totalSum > 1000000 && totalSum <= 6000) {
+    fields = milestonesTable2.fields;
+    move = milestonesTable2.move;
     return renderMilestonesTable(
       fields,
       register,
       handleChange,
       'milestonesTable2',
-      Math.ceil(totalSum / 3)
+      2
     );
   } else {
-    const newFieldArray = useFieldArray({
-      control: control,
-      name: 'milestonesTable3',
-    });
-
-    fields = newFieldArray.fields;
-    fields = fields.map((field) => {
-      return {
-        ...field,
-        amount: Math.ceil(totalSum / 4),
-      };
-    });
-    console.log(fields, 'fields');
+    fields = milestonesTable3.fields;
+    move = milestonesTable3.move;
     return renderMilestonesTable(
       fields,
       register,
       handleChange,
       'milestonesTable3',
-      Math.ceil(totalSum / 4)
+      3
     );
   }
 }
@@ -157,58 +141,55 @@ const renderMilestonesTable = (
           </p>
         </TableHeaderCell>
       </div>
+
       <ul>
         <SortableList items={fields} onChange={handleChange}>
-          {fields?.map((field, index) => {
-            return (
-              <Fragment key={`milestones-table-${index}`}>
-                <SortableList.Item id={field.id}>
-                  <div className="group grid min-h-10 grid-cols-12 gap-0 border-b border-muted dark:border-muted/20">
-                    <div className="col-span-2 py-2 pe-2 ps-4">
-                      <QuoteInput
-                        inputClassName="[&_input]:text-center"
-                        placeholder={field.milestone}
-                        {...register(`${table_name}.${index}.milestone`)}
-                      />
-                    </div>
-                    <div className="col-span-2 p-2 pb-4">
-                      <QuoteInput
-                        inputClassName="[&_input]:text-center"
-                        placeholder={field.percentageDisbursement}
-                        {...register(
-                          `${table_name}.${index}.percentageDisbursement`,
-                          {
-                            valueAsNumber: true,
-                          }
-                        )}
-                      />
-                    </div>
-
-                    <div className="col-span-6 p-2">
-                      <QuoteInput
-                        placeholder={field.milestoneActivity}
-                        inputClassName="[&_input]:text-center"
-                        {...register(
-                          `${table_name}.${index}.milestoneActivity`
-                        )}
-                      />
-                    </div>
-
-                    <div className="col-span-2 p-2">
-                      <QuoteInput
-                        type="number"
-                        placeholder="0"
-                        inputClassName="[&_input]:text-center"
-                        value={num}
-                        // {...register(`${table_name}.${index}.amount`)}
-                        disabled
-                      />
-                    </div>
+          {fields?.map((field, index) => (
+            <Fragment key={`milestones-table-${index}`}>
+              <SortableList.Item id={field.id}>
+                <div className="group grid min-h-10 grid-cols-12 gap-0 border-b border-muted dark:border-muted/20">
+                  <div className="col-span-2 py-2 pe-2 ps-4">
+                    <QuoteInput
+                      inputClassName="[&_input]:text-center"
+                      placeholder="A"
+                      {...register(`milestonesTable.${index}.milestone`)}
+                    />
                   </div>
-                </SortableList.Item>
-              </Fragment>
-            );
-          })}
+                  <div className="col-span-2 p-2 pb-4">
+                    <QuoteInput
+                      inputClassName="[&_input]:text-center"
+                      placeholder="50%"
+                      {...register(
+                        `milestonesTable.${index}.percentageDisbursement`,
+                        {
+                          valueAsNumber: true,
+                        }
+                      )}
+                    />
+                  </div>
+                  <div className="col-span-6 p-2">
+                    <QuoteInput
+                      placeholder="First Draft"
+                      inputClassName="[&_input]:text-center"
+                      {...register(
+                        `milestonesTable.${index}.milestoneActivity`
+                      )}
+                    />
+                  </div>
+                  <div className="col-span-2 p-2">
+                    <QuoteInput
+                      type="number"
+                      placeholder="0"
+                      inputClassName="[&_input]:text-center"
+                      {...register(`milestonesTable.${index}.amount`, {
+                        valueAsNumber: true,
+                      })}
+                    />
+                  </div>
+                </div>
+              </SortableList.Item>
+            </Fragment>
+          ))}
         </SortableList>
       </ul>
     </div>
