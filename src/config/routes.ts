@@ -85,6 +85,7 @@ export const routes = {
     contractorQuotation: '/customers/contractor-quotation',
     quotationReports: '/customers/quotations/quotation-reports',
     rfq: '/customers/rfq',
+    fundiViewDetails: '/customers/requisitions/rfqs/emergency',
     invoice: '/customers/invoice',
     downloadInvoice: '/customers/invoice-download',
     jobs: '/customers/jobs',

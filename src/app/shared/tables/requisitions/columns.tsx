@@ -11,6 +11,7 @@ import { PiCheckCircleBold, PiPlusCircle } from 'react-icons/pi';
 import { last } from 'lodash';
 import Link from 'next/link';
 import { routes } from '@/config/routes';
+import { categories } from '@/data/product-categories';
 
 const statusOptions = [
   { label: 'Pending Approval', value: 'Pending Approval' },
@@ -52,6 +53,8 @@ function getStatusBadge(status: string) {
       );
   }
 }
+
+
 
 export const getColumns = ({
   data,
@@ -155,9 +158,15 @@ export const getColumns = ({
     width: 100,
     render: (id: number, row: any) => (
       <div className="gap-3 pe-3">
-        <Link href={{ pathname: routes.customers.rfq, query: { id } }}>
-          <Text className="text-sm text-green-600">View</Text>
-        </Link>
+        <Link 
+        href={ 
+          row.category === 'fundi' 
+          ? { pathname: routes.customers.fundiViewDetails, query: { id: row.id } }
+          : { pathname: routes.customers.rfq, query: { id: row.id } }
+        }
+      >
+        <Text className="text-sm text-green-600">View</Text>
+      </Link>
         {/* {(requestTypeId === 0) ? (
           <Link href={routes.serviceProvider.fundi.rfqEmergency}>
             <Text className="text-sm text-green-600">View</Text>
