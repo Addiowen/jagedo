@@ -11,7 +11,7 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { usePathname, useRouter } from 'next/navigation';
 import FormFooter from '@/components/custom-form-footer';
 import Link from 'next/link';
-import { BillTableType, BillType, CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE, createContractorQuotationSchema, CreateContractorQuotationType } from '@/utils/create-contractor-quotation.schema';
+import { BillTableType, BillType, CREATE_CONTRACTOR_QUOTATION_DEFAULT_VALUE, createContractorQuotationSchema, CreateContractorQuotationType, MILESTONES_TABLE_DEFAULT_VALUE_ONE, MILESTONES_TABLE_DEFAULT_VALUE_THREE, MILESTONES_TABLE_DEFAULT_VALUES } from '@/utils/create-contractor-quotation.schema';
 import Bill from './bill';
 import BillSummary from './bill-summary';
 import MilestonesTable from './milestones-table';
@@ -37,6 +37,13 @@ export default function CreateContractorQuotationComponent(
   const router = useRouter()
 
   const onSubmit: SubmitHandler<CreateContractorQuotationType> = async (data) => {
+    const mergedMilestonesTable = [
+      ...data.milestonesTable,
+      ...data.milestonesTable2,
+      ...data.milestonesTable3,
+    ];
+    const filteredMilestonesTable = mergedMilestonesTable.filter((milestone) => milestone.amount > 0);
+    console.log(mergedMilestonesTable, 'mergedMilestonesTable');
     const updateData = {
       topicId: requestDetails.id, // Job/Transaction Id
       senderId: userDetails.metadata.assetId, // Contractor/Professional Asset Identifier
@@ -49,9 +56,7 @@ export default function CreateContractorQuotationComponent(
         status: 'quoted',
         approvalStatus: 'pending',
         bill: data.bill,
-        milestonesTable: data.milestonesTable,
-        milestonesTable2: data.milestonesTable2,
-        milestonesTable3: data.milestonesTable3,
+        milestonesTable: filteredMilestonesTable,
         attachmentsTable: data.attachmentsTable,
       },
     };
@@ -97,13 +102,21 @@ export default function CreateContractorQuotationComponent(
 
   const onSubmit1 = async (data: any) => {
     console.log(data, 'data');
+    const mergedMilestonesTable = [
+      ...data.milestonesTable,
+      ...data.milestonesTable2,
+      ...data.milestonesTable3,
+    ];
+    const filterdMilestonesTable = mergedMilestonesTable.filter((milestone) => milestone.amount > 0);
+    console.log(mergedMilestonesTable, 'mergedMilestonesTable');
+    console.log(filterdMilestonesTable, 'filterdMilestonesTable');
   }
 
   return (
     <>
       <CustomMultiStepComponent<CreateContractorQuotationType>
           validationSchema={createContractorQuotationSchema}
-          onSubmit={onSubmit}
+          onSubmit={onSubmit1}
           useFormProps={{
             mode: 'onChange',
             defaultValues: {
@@ -122,7 +135,9 @@ export default function CreateContractorQuotationComponent(
                   subTotal: 0,
                 },
               ],
-              milestonesTable: [],
+              milestonesTable: MILESTONES_TABLE_DEFAULT_VALUES.two,
+              milestonesTable2: MILESTONES_TABLE_DEFAULT_VALUES.three,
+              milestonesTable3: MILESTONES_TABLE_DEFAULT_VALUES.four,
               attachmentsTable: [],
             },
           }}

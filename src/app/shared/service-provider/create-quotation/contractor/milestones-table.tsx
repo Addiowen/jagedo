@@ -20,7 +20,6 @@ export default function MilestonesTable() {
     control: control,
     name: 'milestonesTable',
   });
-
   const bills = getValues().bill;
 
   bills.forEach((item: { billTable: any[]; subTotal: any; }) => {
@@ -32,6 +31,7 @@ export default function MilestonesTable() {
   const totalSum = bills.reduce((acc: any, item: { subTotal: any; }) => {
     return acc + item.subTotal;
   }, 0);
+
   function handleChange(event: DragEndEvent) {
     const { active, over } = event;
     if (!active || !over) return;
@@ -45,17 +45,30 @@ export default function MilestonesTable() {
       control: control,
       name: 'milestonesTable',
     });
-  
     fields = newFieldArray.fields;
-    return renderMilestonesTable(fields, register, handleChange, "milestonesTable", 1);
-  } else if (totalSum > 1000000 && totalSum <= 6000) {
+    fields = fields.map((field) => {
+      return {
+        ...field,
+        amount: Math.ceil(totalSum / 2),
+        percentageDisbursement: 33.3,
+      };
+    });
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable", Math.ceil(totalSum / 2));
+  } else if (totalSum <= 6000) {
     const newFieldArray = useFieldArray({
       control: control,
       name: 'milestonesTable2',
     });
   
     fields = newFieldArray.fields;
-    return renderMilestonesTable(fields, register, handleChange, "milestonesTable2", 2);
+    fields = fields.map((field) => {
+      return {
+        ...field,
+        amount: Math.ceil(totalSum / 3),
+        percentageDisbursement: 33.3,
+      };
+    });
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable2", Math.ceil(totalSum / 3));
   } else {
     const newFieldArray = useFieldArray({
       control: control,
@@ -63,7 +76,14 @@ export default function MilestonesTable() {
     });
   
     fields = newFieldArray.fields;
-    return renderMilestonesTable(fields, register, handleChange, "milestonesTable3", 3);
+    fields = fields.map((field) => {
+      return {
+        ...field,
+        amount: Math.ceil(totalSum / 4),
+      };
+    });
+    console.log(fields, 'fields');
+    return renderMilestonesTable(fields, register, handleChange, "milestonesTable3", Math.ceil(totalSum / 4));
   }
 }
 
@@ -116,15 +136,15 @@ const renderMilestonesTable = (fields: any[], register: any , handleChange: (eve
                     <div className="col-span-2 py-2 ps-4 pe-2">
                     <QuoteInput
                         inputClassName="[&_input]:text-center"
-                        placeholder="A"
-                        {...register(`milestonesTable.${index}.milestone`)}
+                        placeholder={field.milestone}
+                        {...register(`${table_name}.${index}.milestone`)}
                     />
                     </div>
                     <div className="col-span-2 p-2 pb-4">
                     <QuoteInput
                         inputClassName="[&_input]:text-center"
-                        placeholder="50%"
-                        {...register(`milestonesTable.${index}.percentageDisbursement`, {
+                        placeholder={field.percentageDisbursement}
+                        {...register(`${table_name}.${index}.percentageDisbursement`, {
                             valueAsNumber: true,
                         })}
                     />
@@ -132,9 +152,9 @@ const renderMilestonesTable = (fields: any[], register: any , handleChange: (eve
                     
                     <div className="col-span-6 p-2">
                     <QuoteInput
-                        placeholder="First Draft"
+                        placeholder={field.milestoneActivity}
                         inputClassName="[&_input]:text-center"
-                        {...register(`milestonesTable.${index}.milestoneActivity`)}
+                        {...register(`${table_name}.${index}.milestoneActivity`)}
                     />
                     </div>
 
@@ -143,9 +163,9 @@ const renderMilestonesTable = (fields: any[], register: any , handleChange: (eve
                         type="number"
                         placeholder="0"
                         inputClassName="[&_input]:text-center"
-                        {...register(`milestonesTable.${index}.amount`, {
-                            valueAsNumber: true,
-                        })}
+                        value={num}
+                        // {...register(`${table_name}.${index}.amount`)}
+                        disabled
                     />
                     </div>
                 </div>
